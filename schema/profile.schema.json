@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LLM Profile",
+  "description": "Accumulated characteristics of an LLM, built from observed routing decisions",
+  "type": "object",
+  "required": ["id", "name", "type", "interface", "strengths", "weaknesses", "best_for", "avoid_for"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Slug identifier (e.g., chatgpt-deep-research)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable display name"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["terminal", "webui"],
+      "description": "Terminal (agentic, file-access) or Web UI (conversational)"
+    },
+    "interface": {
+      "type": "string",
+      "enum": ["cli", "browser"],
+      "description": "How the user interacts with it"
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["trait", "confidence"],
+        "properties": {
+          "trait": { "type": "string", "description": "What this LLM is good at" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1, "description": "0-1 confidence based on observation count" },
+          "notes": { "type": "string" },
+          "observation_count": { "type": "integer", "description": "How many observations back this up" }
+        }
+      }
+    },
+    "weaknesses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["trait", "confidence"],
+        "properties": {
+          "trait": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "notes": { "type": "string" },
+          "observation_count": { "type": "integer" }
+        }
+      }
+    },
+    "best_for": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Task types this LLM excels at"
+    },
+    "avoid_for": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Task types where this LLM underperforms"
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "tier": { "type": "string", "enum": ["free", "paid", "subscription", "token-based"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "context_window": {
+      "type": "object",
+      "properties": {
+        "input_tokens": { "type": "integer" },
+        "notes": { "type": "string" }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "file_access": { "type": "boolean" },
+        "code_execution": { "type": "boolean" },
+        "web_search": { "type": "boolean" },
+        "image_input": { "type": "boolean" },
+        "image_generation": { "type": "boolean" },
+        "long_documents": { "type": "boolean" }
+      }
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

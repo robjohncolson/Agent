@@ -1,0 +1,20 @@
+{
+  "id": "codex",
+  "name": "OpenAI Codex CLI",
+  "type": "terminal",
+  "interface": "cli",
+  "strengths": [],
+  "weaknesses": [],
+  "best_for": [],
+  "avoid_for": [],
+  "cost": { "tier": "token-based", "notes": "" },
+  "capabilities": {
+    "file_access": true,
+    "code_execution": true,
+    "web_search": false,
+    "image_input": false,
+    "image_generation": false,
+    "long_documents": false
+  },
+  "updated_at": "2026-02-28T00:00:00Z"
+}

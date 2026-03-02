@@ -1,0 +1,20 @@
+{
+  "id": "chatgpt-deep-research",
+  "name": "ChatGPT Deep Research",
+  "type": "webui",
+  "interface": "browser",
+  "strengths": [],
+  "weaknesses": [],
+  "best_for": [],
+  "avoid_for": [],
+  "cost": { "tier": "subscription", "notes": "" },
+  "capabilities": {
+    "file_access": false,
+    "code_execution": true,
+    "web_search": true,
+    "image_input": true,
+    "image_generation": true,
+    "long_documents": false
+  },
+  "updated_at": "2026-02-28T00:00:00Z"
+}

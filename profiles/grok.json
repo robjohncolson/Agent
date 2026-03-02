@@ -1,0 +1,20 @@
+{
+  "id": "grok",
+  "name": "xAI Grok",
+  "type": "webui",
+  "interface": "browser",
+  "strengths": [],
+  "weaknesses": [],
+  "best_for": [],
+  "avoid_for": [],
+  "cost": { "tier": "subscription", "notes": "" },
+  "capabilities": {
+    "file_access": false,
+    "code_execution": false,
+    "web_search": true,
+    "image_input": true,
+    "image_generation": true,
+    "long_documents": false
+  },
+  "updated_at": "2026-02-28T00:00:00Z"
+}

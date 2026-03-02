@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Routing Observation",
+  "description": "A single observed routing decision — what was sent where and how it went",
+  "type": "object",
+  "required": ["id", "timestamp", "task_summary", "task_type", "routed_to", "routed_from"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Auto-incrementing observation ID"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "task_summary": {
+      "type": "string",
+      "description": "Brief description of what was being asked/done"
+    },
+    "task_type": {
+      "type": "string",
+      "description": "Category tag (e.g., code-review, research, brainstorm, debug, refactor, explain, compare)"
+    },
+    "routed_from": {
+      "type": "string",
+      "description": "Where the task originated (e.g., claude-code, user-manual, codex)"
+    },
+    "routed_to": {
+      "type": "string",
+      "description": "LLM slug the task was sent to"
+    },
+    "routing_reason": {
+      "type": "string",
+      "description": "Why this LLM was chosen — the user's stated rationale"
+    },
+    "context_given": {
+      "type": "string",
+      "description": "What context/artifacts were passed along (file contents, summaries, prior conversation)"
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "quality": {
+          "type": "string",
+          "enum": ["excellent", "good", "adequate", "poor", "failed"],
+          "description": "How well the LLM performed on this task"
+        },
+        "notes": { "type": "string" },
+        "followed_up_with": {
+          "type": "string",
+          "description": "If the result was then sent to another LLM, which one"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form tags for later filtering"
+    }
+  }
+}
