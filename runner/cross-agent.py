@@ -96,8 +96,12 @@ def _resolve_claude_on_windows(claude_bin: str) -> list[str]:
         return []
 
     cmd_dir = pathlib.Path(cmd_path).parent
-    package_dir = cmd_dir / "node_modules" / "@anthropic" / "claude-code"
-    if not package_dir.exists():
+    # Try both @anthropic-ai (actual npm package) and @anthropic (possible alt)
+    for pkg_name in ("@anthropic-ai", "@anthropic"):
+        package_dir = cmd_dir / "node_modules" / pkg_name / "claude-code"
+        if package_dir.exists():
+            break
+    else:
         return []
 
     candidates = [
@@ -287,6 +291,9 @@ def invoke_subagent(
             )
         else:
             command = cli_cmd + ["-p", assembled_prompt, "--output-format", "json"]
+            # CC refuses to start inside another CC session unless CLAUDECODE is unset
+            env = os.environ.copy()
+            env.pop("CLAUDECODE", None)
             process = subprocess.Popen(
                 command,
                 cwd=working_dir,
@@ -294,6 +301,7 @@ def invoke_subagent(
                 stderr=subprocess.PIPE,
                 text=True,
                 encoding="utf-8",
+                env=env,
             )
             stdout, stderr = process.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
