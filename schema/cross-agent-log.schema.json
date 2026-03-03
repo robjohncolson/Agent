@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schema/cross-agent-log.schema.json",
+  "title": "Cross-Agent Invocation Log",
+  "description": "Append-only record of cross-agent calls and aggregate counters.",
+  "type": "object",
+  "required": ["version", "calls", "summary"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version."
+    },
+    "calls": {
+      "type": "array",
+      "description": "Ordered list of cross-agent invocations.",
+      "items": {
+        "type": "object",
+        "required": [
+          "call_id",
+          "direction",
+          "task_type",
+          "prompt_summary",
+          "status",
+          "duration_seconds",
+          "timestamp",
+          "files_changed",
+          "depth"
+        ],
+        "properties": {
+          "call_id": {
+            "type": "string",
+            "description": "Identifier matching request and result payloads."
+          },
+          "direction": {
+            "type": "string",
+            "enum": ["cc-to-codex", "codex-to-cc"],
+            "description": "Direction of the call."
+          },
+          "task_type": {
+            "type": "string",
+            "enum": ["implement", "review", "investigate", "validate", "design-question"],
+            "description": "Category of delegated work."
+          },
+          "prompt_summary": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Truncated prompt summary."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["completed", "failed", "refused", "timeout"],
+            "description": "Outcome of this invocation."
+          },
+          "duration_seconds": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Wall-clock duration in seconds."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO8601 UTC start timestamp."
+          },
+          "files_changed": {
+            "type": "array",
+            "description": "Files modified by the subagent.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Recursion depth for this call."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Aggregate invocation counters.",
+      "required": [
+        "total_calls",
+        "cc_to_codex",
+        "codex_to_cc",
+        "completed",
+        "failed",
+        "refused",
+        "avg_duration_seconds"
+      ],
+      "properties": {
+        "total_calls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total invocation count."
+        },
+        "cc_to_codex": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of Claude Code to Codex calls."
+        },
+        "codex_to_cc": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of Codex to Claude Code calls."
+        },
+        "completed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of completed calls."
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of failed calls."
+        },
+        "refused": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of refused calls."
+        },
+        "avg_duration_seconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Running average duration in seconds."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

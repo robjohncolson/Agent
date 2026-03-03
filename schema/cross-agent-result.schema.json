@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schema/cross-agent-result.schema.json",
+  "title": "Cross-Agent Result",
+  "description": "Structured result payload written by a subagent after delegated work.",
+  "type": "object",
+  "required": ["protocol", "call_id", "status", "result", "execution"],
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "cross-agent/v1",
+      "description": "Protocol version identifier."
+    },
+    "call_id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{12}$",
+      "description": "Call identifier matching the request envelope."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "failed", "refused", "timeout"],
+      "description": "Outcome of the delegated execution."
+    },
+    "result": {
+      "type": "object",
+      "description": "Primary result payload.",
+      "required": [
+        "summary",
+        "files_changed",
+        "answer",
+        "confidence",
+        "follow_up_needed",
+        "notes"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "One-paragraph natural-language summary."
+        },
+        "files_changed": {
+          "type": "array",
+          "description": "List of modified file paths.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "answer": {
+          "type": "string",
+          "description": "Answer text for question or investigation tasks."
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Self-assessed confidence from 0.0 to 1.0."
+        },
+        "follow_up_needed": {
+          "type": "boolean",
+          "description": "Whether the caller should take further action."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional information for the caller."
+        }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "description": "Execution metadata for the delegated run.",
+      "required": ["duration_seconds", "tokens_used", "errors"],
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Wall-clock execution duration in seconds."
+        },
+        "tokens_used": {
+          "type": ["integer", "null"],
+          "description": "Token count if available, otherwise null."
+        },
+        "errors": {
+          "type": "array",
+          "description": "Error messages encountered during execution.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

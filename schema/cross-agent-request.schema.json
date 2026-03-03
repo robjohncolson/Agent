@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schema/cross-agent-request.schema.json",
+  "title": "Cross-Agent Request",
+  "description": "Combined envelope and task payload written before invoking a subagent.",
+  "type": "object",
+  "required": [
+    "protocol",
+    "direction",
+    "caller",
+    "call_id",
+    "depth",
+    "max_depth",
+    "timeout_seconds",
+    "working_dir",
+    "context",
+    "task"
+  ],
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "cross-agent/v1",
+      "description": "Protocol version identifier."
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["cc-to-codex", "codex-to-cc"],
+      "description": "Which agent calls which."
+    },
+    "caller": {
+      "type": "string",
+      "enum": ["claude-code", "codex"],
+      "description": "The invoking agent."
+    },
+    "call_id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{12}$",
+      "description": "12-character hex call identifier."
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current recursion depth."
+    },
+    "max_depth": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum allowed recursion depth."
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 600,
+      "description": "Subprocess timeout in seconds."
+    },
+    "working_dir": {
+      "type": "string",
+      "description": "Absolute path to the repository root."
+    },
+    "context": {
+      "type": "object",
+      "description": "Caller context for delegated work.",
+      "required": ["parent_task", "why_delegating", "files_relevant"],
+      "properties": {
+        "parent_task": {
+          "type": "string",
+          "description": "Short description of the caller's overall task."
+        },
+        "why_delegating": {
+          "type": "string",
+          "description": "Why this subtask is delegated to another agent."
+        },
+        "files_relevant": {
+          "type": "array",
+          "description": "File paths relevant to the delegated task.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "task": {
+      "type": "object",
+      "description": "Delegated task details.",
+      "required": ["task_type", "prompt", "constraints", "expected_output"],
+      "properties": {
+        "task_type": {
+          "type": "string",
+          "enum": ["implement", "review", "investigate", "validate", "design-question"],
+          "description": "Category of work to perform."
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Natural-language task description."
+        },
+        "constraints": {
+          "type": "object",
+          "description": "Execution constraints for the subagent.",
+          "required": ["owned_paths", "read_only", "no_git_commits", "max_files_changed"],
+          "properties": {
+            "owned_paths": {
+              "type": "array",
+              "description": "Glob patterns the subagent may modify; empty means unrestricted.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "read_only": {
+              "type": "boolean",
+              "description": "If true, subagent must not modify any files."
+            },
+            "no_git_commits": {
+              "type": "boolean",
+              "description": "If true, subagent must not run git commit."
+            },
+            "max_files_changed": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Upper bound on the number of changed files."
+            }
+          },
+          "additionalProperties": false
+        },
+        "expected_output": {
+          "type": "string",
+          "enum": ["code-changes", "analysis", "answer", "file-list"],
+          "description": "Expected result type."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
