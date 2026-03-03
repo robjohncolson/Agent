@@ -233,7 +233,8 @@ def _fallback_preamble(direction: str) -> str:
 
 
 def assemble_prompt(
-    direction: str, payload: dict, result_file: str, preamble_dir: str
+    direction: str, payload: dict, result_file: str, preamble_dir: str,
+    call_id: str = "", depth: int = 0, max_depth: int = 1,
 ) -> str:
     file_map = {
         "cc-to-codex": "codex-as-subagent.md",
@@ -249,7 +250,10 @@ def assemble_prompt(
         preamble_text = _fallback_preamble(direction)
 
     payload_json = json.dumps(payload, indent=2)
-    prompt = preamble_text.replace("{result_file_path}", to_forward_slashes(result_file))
+    prompt = preamble_text.replace("{call_id}", call_id)
+    prompt = prompt.replace("{depth}", str(depth))
+    prompt = prompt.replace("{max_depth}", str(max_depth))
+    prompt = prompt.replace("{result_file_path}", to_forward_slashes(result_file))
     prompt = prompt.replace("{task_payload}", payload_json)
     return prompt
 
@@ -828,6 +832,9 @@ def main() -> None:
             payload=payload,
             result_file=to_forward_slashes(result_path),
             preamble_dir=preamble_dir,
+            call_id=call_id,
+            depth=int(args.depth),
+            max_depth=int(args.max_depth),
         )
 
         if args.dry_run:
