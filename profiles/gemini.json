@@ -3,9 +3,34 @@
   "name": "Google Gemini 3.1 Pro",
   "type": "webui",
   "interface": "browser",
-  "strengths": [],
+  "strengths": [
+    {
+      "trait": "code-level UI/layout/aesthetic reasoning",
+      "confidence": 0.8,
+      "notes": "CONFIRMED across 2 projects with actual output review. Delivers working code snippets (R, JS, CSS), not just opinions. R/Shiny review included bslib theme config, ggplot2 theme functions, CSS Grid patterns, client-side JS for tab switching.",
+      "observation_count": 2
+    },
+    {
+      "trait": "audience-aware UX judgment",
+      "confidence": 0.5,
+      "notes": "Both reviews addressed educational audience (16-year-olds, Chromebooks). R review specifically addressed projector crispness (SVG), trackpad-friendly navigation (pill buttons), and 'educational feel'.",
+      "observation_count": 2
+    },
+    {
+      "trait": "goes beyond prompt with novel suggestions",
+      "confidence": 0.4,
+      "notes": "R review proposed features not asked for: plotly::ggplotly() hybrid for interactivity, thematic package for auto-theming, 'Show R Code' buttons, PDF export for lab reports, reactable over DT. These were practical and relevant, not noise.",
+      "observation_count": 1
+    },
+    {
+      "trait": "performance-aware UX recommendations",
+      "confidence": 0.3,
+      "notes": "Flagged that 30 server-side renders every 30 seconds would choke Railway. Recommended lazy rendering via req(input$nav), SVG over PNG, execOnResize=FALSE. Caught client-side tab switching latency (100-200ms server roundtrip) and proposed JS-based solution.",
+      "observation_count": 1
+    }
+  ],
   "weaknesses": [],
-  "best_for": [],
+  "best_for": ["ux-visual-review", "theming", "layout-design", "audience-ux-fit", "educational-ui", "framework-specific-ui-patterns"],
   "avoid_for": [],
   "cost": { "tier": "free", "notes": "" },
   "capabilities": {
@@ -16,5 +41,25 @@
     "image_generation": true,
     "long_documents": true
   },
-  "updated_at": "2026-02-28T00:00:00Z"
+  "web_ui_input": {
+    "file_upload": true,
+    "paste_text": true,
+    "url": "aistudio.google.com",
+    "staging_strategy": "file — write to staging dir, user drags into upload zone",
+    "notes": "User confirmed file upload works but Gemini is choosy about which files it accepts. DeepSeek handles uploads better. Long context window."
+  },
+  "output_characteristics": {
+    "format": "structured sections with code snippets and summary checklists",
+    "actionability": "very high — working code in every recommendation",
+    "length": "moderate (~1500 words)",
+    "goes_beyond_prompt": true,
+    "style": "practical engineer, not just critic"
+  },
+  "context_preferences": {
+    "needs_more_context": false,
+    "strategy": "visual-layer-only",
+    "prompt_length": "shortest of the 3 (~70 lines)"
+  },
+  "pattern_stability": "high — same role, same quality across HTML/CSS and R/Shiny",
+  "updated_at": "2026-02-28T18:10:00Z"
 }

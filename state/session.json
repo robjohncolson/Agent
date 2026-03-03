@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema/session-state.schema.json",
+  "state_version": 2,
+  "current_project": "grid-bot-v3",
+  "active_task": "Hooks integration complete. CC starts with routing context, auto-stages on dispatch, auto-checkpoints on compact, Codex reports progress. Ready for first instrumented session.",
+  "last_checkpoint_at": "2026-03-02T03:00:00Z",
+  "checkpoint_trigger": "manual",
+  "last_synced_observation_id": 42,
+  "continuation_prompt": "CONTINUATION_PROMPT.md",
+  "project_state_file": "state/project-grid-bot-v3.json",
+  "context_window_policy": {
+    "auto_checkpoint_at_percent": 80,
+    "hard_limit_percent": 90
+  }
+}

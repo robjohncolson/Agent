@@ -1,0 +1,84 @@
+{
+  "$schema": "../schema/project-state.schema.json",
+  "state_version": 1,
+  "project_name": "grid-bot-v3",
+  "status": "deployed",
+  "last_updated": "2026-03-01T21:00:00Z",
+  "commits": [
+    {
+      "label": "phase-00-infrastructure",
+      "hash": "9ee8e20",
+      "notes": "Infrastructure baseline (Docker, supervisord, SQLite writer, SIGTERM handling)."
+    },
+    {
+      "label": "phase-01-shell-navigation",
+      "hash": "0c7f92c",
+      "notes": "R/Shiny shell, theme, nav, staleness handling."
+    },
+    {
+      "label": "phases-02-to-10-units",
+      "hash": "5f63a83",
+      "notes": "Parallel batch merge for units 1-9."
+    },
+    {
+      "label": "phase-11-pipeline-plus-unit1-final",
+      "hash": "aa7a778",
+      "notes": "Pipeline module plus final unit1 integration."
+    },
+    {
+      "label": "phase-12-cutover",
+      "hash": "2ec89c0",
+      "notes": "Cutover complete; Python server stripped to pipeline API."
+    },
+    {
+      "label": "haskell-fix-name-shadowing",
+      "hash": "b723e27",
+      "notes": "Fixed close/closeCh name shadowing in Haskell state machine."
+    },
+    {
+      "label": "haskell-fix-rtsopts",
+      "hash": "40a8029",
+      "notes": "Added required GHC runtime options support flag."
+    }
+  ],
+  "deployment": {
+    "platform": "Railway",
+    "status": "3-process stack running; production follow-up pending",
+    "last_verified_at": "2026-03-01T13:00:00Z",
+    "services": [
+      {
+        "name": "python-bot",
+        "status": "running",
+        "notes": "Trading active; circuit breaker behavior confirmed."
+      },
+      {
+        "name": "r-shiny-dashboard",
+        "status": "running",
+        "notes": "Serving on port 8080."
+      },
+      {
+        "name": "haskell-state-machine",
+        "status": "running",
+        "notes": "Responding on port 8082; healthy flag requires activation cycle."
+      }
+    ]
+  },
+  "open_issues": [
+    {
+      "id": "kraken-account-funding",
+      "title": "Fund Kraken account for live trading continuity",
+      "status": "open",
+      "severity": "medium",
+      "notes": "Non-code blocker identified after deployment hardening.",
+      "source_observations": [36]
+    },
+    {
+      "id": "silent-override-health-endpoint",
+      "title": "Add explicit health/status endpoint to reduce silent override debugging",
+      "status": "in_progress",
+      "severity": "high",
+      "notes": "Recommended as highest-value additive refactor before larger architecture changes.",
+      "source_observations": [29]
+    }
+  ]
+}

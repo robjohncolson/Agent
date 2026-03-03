@@ -1,0 +1,139 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "hardening-batch-v2",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "suggest",
+  "verify_commands": [],
+  "evidence_observations": [14, 16, 17, 18, 35],
+  "contracts": [
+    {
+      "name": "pane-data-v1",
+      "producer_agent": "python-data-pipeline",
+      "consumer_agents": ["r-shiny-ui", "integration-wiring"],
+      "python": {
+        "agent": "python-data-pipeline",
+        "path": "stats/contracts.py",
+        "symbol": "PANE_DATA_V1",
+        "json_shape": {
+          "tick_id": "integer",
+          "timestamp_utc": "string(date-time)",
+          "symbol": "string",
+          "last_price": "number",
+          "position": {
+            "direction": "string",
+            "size": "number"
+          },
+          "stats": {
+            "window_n": "integer",
+            "effective_n": "number",
+            "independence_warning": "boolean"
+          }
+        }
+      },
+      "r": {
+        "agent": "r-shiny-ui",
+        "path": "shiny/R/contracts.R",
+        "symbol": "PANE_DATA_V1",
+        "json_shape": {
+          "tick_id": "integer",
+          "timestamp_utc": "string(date-time)",
+          "symbol": "string",
+          "last_price": "number",
+          "position": {
+            "direction": "string",
+            "size": "number"
+          },
+          "stats": {
+            "window_n": "integer",
+            "effective_n": "number",
+            "independence_warning": "boolean"
+          }
+        }
+      }
+    }
+  ],
+  "agents": [
+    {
+      "name": "python-data-pipeline",
+      "description": "Stats hardening + interpretation payload generation",
+      "prompt_file": "dispatch/prompts/codex-agents/python-data-pipeline.md",
+      "owned_paths": [
+        "stats/*.py",
+        "viz/types.py",
+        "viz/unit*.py",
+        "viz/overview.py"
+      ]
+    },
+    {
+      "name": "r-shiny-ui",
+      "description": "Shiny UI/auth/accessibility updates",
+      "prompt_file": "dispatch/prompts/codex-agents/r-shiny-ui.md",
+      "owned_paths": [
+        "shiny/app.R",
+        "shiny/R/*.R",
+        "shiny/www/custom.css"
+      ]
+    },
+    {
+      "name": "python-infrastructure",
+      "description": "Circuit breaker, SQLite maintenance, health endpoints",
+      "prompt_file": "dispatch/prompts/codex-agents/python-infrastructure.md",
+      "owned_paths": [
+        "infra/kraken_adapter.py",
+        "infra/sqlite_writer.py",
+        "infra/server.py"
+      ]
+    },
+    {
+      "name": "haskell-docker",
+      "description": "Haskell service + supervisor/docker wiring",
+      "prompt_file": "dispatch/prompts/codex-agents/haskell-docker.md",
+      "owned_paths": [
+        "haskell/**",
+        "Dockerfile",
+        "supervisord.conf",
+        "railway.toml"
+      ]
+    },
+    {
+      "name": "integration-wiring",
+      "description": "Integrate outputs from batch 1 services",
+      "prompt_file": "dispatch/prompts/codex-agents/integration-wiring.md",
+      "depends_on": [
+        "python-data-pipeline",
+        "r-shiny-ui",
+        "python-infrastructure",
+        "haskell-docker"
+      ],
+      "owned_paths": [
+        "infra/slot_engine.py",
+        "infra/server.py",
+        "shiny/R/render_pipeline.R",
+        "shiny/R/mod_editor.R"
+      ]
+    },
+    {
+      "name": "what-if-sandbox",
+      "description": "Optional per-unit parameter slider controls",
+      "prompt_file": "dispatch/prompts/codex-agents/what-if-sandbox.md",
+      "depends_on": [
+        "python-data-pipeline",
+        "r-shiny-ui",
+        "python-infrastructure",
+        "haskell-docker"
+      ],
+      "owned_paths": [
+        "shiny/R/mod_unit*.R",
+        "shiny/R/mod_controls.R",
+        "shiny/www/custom.css"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "CC merge pass",
+    "verify_commands": []
+  }
+}

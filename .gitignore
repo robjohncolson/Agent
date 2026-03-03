@@ -1,0 +1,12 @@
+staging/
+state/parallel-codex-logs/
+state/parallel-worktrees/
+state/parallel-runner-errors.log
+state/codex-logs/
+state/codex-runner-errors.log
+state/cross-agent/
+dispatch/generated-prompts/
+dispatch/file-manifests.generated.json
+dispatch/routing-plan.generated.json
+__pycache__/
+scripts/tmp*/

@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Parallel Batch State",
+  "description": "Runtime state for Phase 5 parallel Codex runner.",
+  "type": "object",
+  "required": [
+    "version",
+    "batch_name",
+    "status",
+    "target_branch",
+    "base_ref",
+    "dependency_batches",
+    "agents",
+    "merge",
+    "summary",
+    "updated_at"
+  ],
+  "properties": {
+    "version": {"type": "integer", "minimum": 1},
+    "batch_name": {"type": "string"},
+    "status": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "running",
+        "merging",
+        "awaiting-cc-merge",
+        "validated",
+        "completed",
+        "failed"
+      ]
+    },
+    "target_branch": {"type": "string"},
+    "base_ref": {"type": "string"},
+    "manifest_file": {"type": "string"},
+    "evidence_observations": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 1}
+    },
+    "dependency_batches": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {"type": "string"}
+      }
+    },
+    "current_batch": {
+      "type": ["object", "null"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 1},
+        "agents": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "started_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "completed_batches": {"type": "integer", "minimum": 0},
+    "last_error": {"type": ["object", "null"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "agents": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/agentState"}
+    },
+    "merge": {"$ref": "#/$defs/mergeState"},
+    "summary": {"$ref": "#/$defs/summary"}
+  },
+  "$defs": {
+    "verifyResult": {
+      "type": "object",
+      "required": ["command", "exit_code", "timestamp"],
+      "properties": {
+        "command": {"type": "string"},
+        "exit_code": {"type": "integer"},
+        "timestamp": {"type": "string", "format": "date-time"}
+      }
+    },
+    "agentState": {
+      "type": "object",
+      "required": [
+        "name",
+        "branch",
+        "status",
+        "depends_on",
+        "owned_paths",
+        "prompt_file",
+        "attempts"
+      ],
+      "properties": {
+        "name": {"type": "string"},
+        "branch": {"type": "string"},
+        "status": {
+          "type": "string",
+          "enum": ["pending", "running", "completed", "merged", "failed", "blocked"]
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "owned_paths": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "prompt_file": {"type": "string"},
+        "verify_commands": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "attempts": {"type": "integer", "minimum": 0},
+        "started_at": {"type": ["string", "null"], "format": "date-time"},
+        "finished_at": {"type": ["string", "null"], "format": "date-time"},
+        "commit": {"type": ["string", "null"]},
+        "worktree": {"type": ["string", "null"]},
+        "codex_log": {"type": ["string", "null"]},
+        "verify_results": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verifyResult"}
+        },
+        "blocked_by": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "error": {"type": ["object", "null"]}
+      }
+    },
+    "mergeState": {
+      "type": "object",
+      "required": ["status", "merged_agents", "verify_results"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pending", "running", "completed", "failed", "skipped"]
+        },
+        "branch": {"type": ["string", "null"]},
+        "started_at": {"type": ["string", "null"], "format": "date-time"},
+        "finished_at": {"type": ["string", "null"], "format": "date-time"},
+        "merged_agents": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "verify_results": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verifyResult"}
+        },
+        "commit": {"type": ["string", "null"]},
+        "error": {"type": ["object", "null"]}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total_agents",
+        "pending",
+        "running",
+        "completed",
+        "merged",
+        "failed",
+        "blocked",
+        "dependency_batches_total",
+        "dependency_batches_completed"
+      ],
+      "properties": {
+        "total_agents": {"type": "integer", "minimum": 0},
+        "pending": {"type": "integer", "minimum": 0},
+        "running": {"type": "integer", "minimum": 0},
+        "completed": {"type": "integer", "minimum": 0},
+        "merged": {"type": "integer", "minimum": 0},
+        "failed": {"type": "integer", "minimum": 0},
+        "blocked": {"type": "integer", "minimum": 0},
+        "dependency_batches_total": {"type": "integer", "minimum": 0},
+        "dependency_batches_completed": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

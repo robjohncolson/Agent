@@ -1,0 +1,106 @@
+{
+  "source_root": "C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3",
+  "shared_files": {
+    "description": "AP Stats framework files — shared across all specialists for educational context",
+    "source_root": "C:/Users/rober/Downloads/Projects/school/follow-alongs",
+    "files": [
+      "apstat_1_framework.md",
+      "apstat_2_framework.md",
+      "apstat_3_framework.md",
+      "apstat_4_framework.md",
+      "apstat_5_framework.md",
+      "apstat_6_framework.md",
+      "apstat_7_framework.md",
+      "apstat_8_framework.md",
+      "apstat_9_framework.md"
+    ]
+  },
+  "specialists": {
+    "gemini": {
+      "prompt_path": "prompts/gemini.md",
+      "create_r_txt_copies": true,
+      "description": "UI/UX — Shiny modules, CSS, theme, PaneData types (~4100 lines, 12 files)",
+      "files": [
+        "shiny/app.R",
+        "shiny/R/utils.R",
+        "shiny/R/theme.R",
+        "shiny/R/db.R",
+        "shiny/www/custom.css",
+        "shiny/www/nav.js",
+        "shiny/R/render_overview.R",
+        "shiny/R/render_unit1.R",
+        "shiny/R/render_unit6.R",
+        "shiny/R/render_pipeline.R",
+        "shiny/R/render_state_machine.R",
+        "viz/types.py"
+      ]
+    },
+    "chatgpt": {
+      "prompt_path": "prompts/chatgpt.md",
+      "create_r_txt_copies": false,
+      "description": "Systems architecture — state machine, pipeline, infra, Docker, Haskell (~3980 lines, 22 files)",
+      "files": [
+        "infra/main.py",
+        "infra/state_machine.py",
+        "infra/transition_table.py",
+        "infra/transition_table.json",
+        "infra/slot_engine.py",
+        "infra/bot_types.py",
+        "infra/server.py",
+        "infra/config.py",
+        "infra/pipeline_builder.py",
+        "infra/pipeline_service.py",
+        "infra/pipeline_store.py",
+        "infra/kraken_adapter.py",
+        "infra/sqlite_writer.py",
+        "infra/analytics.py",
+        "infra/intelligence_factory.py",
+        "Dockerfile",
+        "supervisord.conf",
+        "start-shiny.sh",
+        "boot.sh",
+        "railway.toml",
+        "pyproject.toml",
+        "haskell/StateMachine.hs",
+        "haskell/Runner.hs"
+      ]
+    },
+    "deepseek": {
+      "prompt_path": "prompts/deepseek.md",
+      "create_r_txt_copies": false,
+      "description": "Mathematical precision — all stats modules, all viz/unit builders, analytics (~5810 lines, 24 files)",
+      "files": [
+        "stats/types.py",
+        "stats/descriptives.py",
+        "stats/bivariate.py",
+        "stats/regression.py",
+        "stats/data_quality.py",
+        "stats/sampling.py",
+        "stats/mean_inference.py",
+        "stats/prop_inference.py",
+        "stats/probability.py",
+        "stats/categorical.py",
+        "viz/types.py",
+        "viz/unit1.py",
+        "viz/unit2.py",
+        "viz/unit3.py",
+        "viz/unit4.py",
+        "viz/unit5.py",
+        "viz/unit6.py",
+        "viz/unit7.py",
+        "viz/unit8.py",
+        "viz/unit9.py",
+        "viz/caveats.py",
+        "viz/distributions.py",
+        "infra/analytics.py",
+        "infra/pipeline_builder.py"
+      ]
+    },
+    "grok": {
+      "prompt_path": "prompts/grok.md",
+      "create_r_txt_copies": false,
+      "description": "TBD — 0 observations. Hypothesized: adversarial review, real-time sentiment. File list TBD after first task.",
+      "files": []
+    }
+  }
+}

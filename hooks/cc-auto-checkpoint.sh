@@ -2,7 +2,7 @@
 
 set -u
 
-AGENT_DIR="${CLAUDE_PROJECT_DIR:-C:/Users/rober/Downloads/Projects/Agent}"
+AGENT_DIR="${AGENT_REPO:-C:/Users/rober/Downloads/Projects/Agent}"
 SESSION_FILE="$AGENT_DIR/state/session.json"
 OBS_FILE="$AGENT_DIR/observations/log.json"
 

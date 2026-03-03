@@ -14,7 +14,28 @@
     "web_search": true,
     "image_input": true,
     "image_generation": true,
-    "long_documents": false
+    "long_documents": false,
+    "realtime_x_twitter": true
   },
-  "updated_at": "2026-02-28T00:00:00Z"
+  "web_ui_input": {
+    "file_upload": true,
+    "paste_text": true,
+    "url": "x.com/i/grok",
+    "staging_strategy": "file — supports uploads",
+    "notes": "User confirmed file upload works."
+  },
+  "hypothesized_niches": [
+    {
+      "niche": "real-time market sentiment via X/Twitter",
+      "status": "untested",
+      "notes": "User says 'maybe later' — relevant when trading bot work picks up, not needed for current educational/dashboard projects"
+    },
+    {
+      "niche": "adversarial/red-team review",
+      "status": "untested",
+      "notes": "Speculative — Grok's blunter style could complement the constructive reviews from Gemini/GPT/DeepSeek"
+    }
+  ],
+  "observation_count": 0,
+  "updated_at": "2026-02-28T17:45:00Z"
 }

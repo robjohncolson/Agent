@@ -1,1 +1,1024 @@
-[]
+[
+  {
+    "id": 1,
+    "timestamp": "2026-02-28T17:30:00Z",
+    "task_summary": "Deep systems architecture review of a trading visualization/dashboard app",
+    "task_type": "architecture-review",
+    "routed_from": "claude-code",
+    "routed_to": "chatgpt-deep-research",
+    "routing_reason": "GPT's strength is systems thinking.",
+    "context_given": "10 files.",
+    "outcome": { "quality": "good", "notes": "GPT recommendations incorporated into spec v2." },
+    "tags": ["systems-thinking", "architecture", "project:grid-bot-v3"]
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-02-28T17:25:00Z",
+    "task_summary": "Visual/aesthetic/UX review of trading dashboard",
+    "task_type": "ux-visual-review",
+    "routed_from": "claude-code",
+    "routed_to": "gemini",
+    "routing_reason": "Gemini's visual/aesthetic standpoint.",
+    "context_given": "5 files, visual-layer-only.",
+    "outcome": { "quality": "good", "notes": "Gemini recommendations incorporated." },
+    "tags": ["visual-aesthetic", "ux-review", "project:grid-bot-v3"]
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-02-28T17:35:00Z",
+    "task_summary": "Statistical precision review â€” formula verification vs AP Stats curriculum",
+    "task_type": "mathematical-correctness-review",
+    "routed_from": "claude-code",
+    "routed_to": "deepseek",
+    "routing_reason": "DeepSeek is good at precision mathematical concept analysis.",
+    "context_given": "11 files, all stats modules.",
+    "outcome": { "quality": "good", "notes": "DeepSeek corrections incorporated." },
+    "tags": ["mathematical-precision", "ap-stats-curriculum", "project:grid-bot-v3"]
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-02-28T17:40:00Z",
+    "task_summary": "Synthesis of all three reviews into visualization_spec_v2.md",
+    "task_type": "synthesis",
+    "routed_from": "claude-code",
+    "routed_to": "claude-code",
+    "outcome": { "quality": "excellent", "notes": "76 items, 15 decisions, all three integrated." },
+    "tags": ["synthesis", "completed", "project:grid-bot-v3"]
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-02-28T17:50:00Z",
+    "task_summary": "CC generates implementation prompt for Codex â€” 76 items, 12 phases",
+    "task_type": "implementation-prompt-authoring",
+    "routed_from": "claude-code",
+    "routed_to": "codex",
+    "outcome": { "quality": null, "notes": "Pending" },
+    "tags": ["implementation", "codex-as-executor", "project:grid-bot-v3"]
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-02-28T18:00:00Z",
+    "task_summary": "Visual/UX review of R/Shiny migration â€” bslib theming, ggplot2 aesthetics, Chromebook layout",
+    "task_type": "ux-visual-review",
+    "routed_from": "claude-code",
+    "routed_to": "gemini",
+    "routing_reason": "Same role as obs #2 â€” visual/aesthetic.",
+    "context_given": "R_MIGRATION_SPEC.md + attachments. Prompt ~70 lines.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Gemini delivered actionable, code-level R/Shiny recommendations. Went BEYOND visual critique into practical engineering: (1) hybrid plotly/ggplot2 strategy for interactivity, (2) thematic package for auto-CSS-to-ggplot2 inheritance, (3) client-side JS tab switching to avoid 100-200ms server roundtrip latency, (4) reactable over DT for dark-mode tables, (5) accordion+layout_sidebar for Pipeline stepper, (6) lazy rendering via req(input$nav), (7) SVG over PNG for projector crispness. Also proposed NEW educational features: 'Show R Code' buttons, raw summary(lm()) output for AP exam prep, PDF export for lab reports. Output was structured as a 6-section review with concrete code snippets throughout."
+    },
+    "output_characteristics": {
+      "format": "6 sections with tables, code snippets, and a summary checklist",
+      "actionability": "very high â€” every recommendation has working R code",
+      "went_beyond_prompt": true,
+      "novel_suggestions": ["plotly::ggplotly() hybrid", "thematic package", "client-side JS tab switching", "Show R Code feature", "PDF export", "reactable over DT"]
+    },
+    "tags": ["visual-aesthetic", "ux-review", "r-shiny", "bslib", "ggplot2", "project:r-migration", "pattern-confirmed", "completed"]
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-02-28T18:00:00Z",
+    "task_summary": "Systems architecture review of R/Shiny migration â€” Docker, Railway, SQLite IPC, process supervision",
+    "task_type": "architecture-review",
+    "routed_from": "claude-code",
+    "routed_to": "chatgpt-deep-research",
+    "routing_reason": "Same role as obs #1 â€” systems/architecture.",
+    "context_given": "R_MIGRATION_SPEC.md + attachments. Prompt ~140 lines.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "GPT delivered the most thorough review of the three. Deeply researched with citations. Caught a CRITICAL issue CC and others missed: Python 3.13 is not available in Ubuntu 22.04 LTS repos used by rocker/r-ver, so apt-get install python3.13 will fail. Structured as 7 major sections with explicit risk/failure-mode analysis for each. Key findings: (1) Docker Python/R version mismatch â€” 3 viable routes proposed, (2) shell-as-PID1 won't propagate SIGTERM â€” supervisor with stopasgroup needed, (3) SQLite two-writer contention â€” enforce single-writer (Python only), (4) mixed-tick reads without transaction fencing, (5) Railway port/volume/build-timeout constraints as hard design inputs, (6) feature-flagged dual-UI period for rollback safety, (7) cross-session caching for classroom scalability. Every section has concrete implementation-level recommendations, not just observations."
+    },
+    "output_characteristics": {
+      "format": "7 sections, each with Assessment â†’ Risks â†’ Recommendations â†’ Priority",
+      "actionability": "very high â€” supervisor config knobs, PRAGMA settings, code patterns all specified",
+      "research_depth": "deep â€” cited Railway docs, SQLite docs, Rocker docs, Docker best practices",
+      "caught_issues_others_missed": ["Python 3.13 not in Ubuntu 22.04 LTS", "SIGTERM vs KeyboardInterrupt mismatch", "mixed-tick reads without atomic fencing"],
+      "went_beyond_prompt": true,
+      "meta_finding": "new reliability coupling â€” bot and UI share container lifecycle, must decide which failures take down whole container vs self-heal"
+    },
+    "tags": ["systems-thinking", "architecture", "docker", "railway", "sqlite-ipc", "project:r-migration", "pattern-confirmed", "completed"]
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-02-28T18:00:00Z",
+    "task_summary": "Statistical accuracy review of R/Shiny migration â€” ggplot2 correctness, AP Stats conventions",
+    "task_type": "mathematical-correctness-review",
+    "routed_from": "claude-code",
+    "routed_to": "deepseek",
+    "routing_reason": "Same role as obs #3 â€” mathematical precision.",
+    "context_given": "R_MIGRATION_SPEC.md + attachments. Prompt ~175 lines.",
+    "cc_pre_identified_issue": "geom_smooth(se=TRUE) gives confidence band for mean, not prediction interval.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "DeepSeek delivered exactly what was expected â€” precision mathematical audit with severity classifications. Confirmed CC's pre-identified issue (confidence band vs prediction interval) and classified it as INCORRECT. Structured as 10 sections covering every chart type. Used a consistent table format: Finding | Severity | Correct Approach | AP Stats Reference. Caught 7 critical issues: (1) prediction band confusion â€” CONFIRMED CC's prediction, (2) horizontal CI number lines need coord_flip, (3) two-sided shading incomplete, (4) geom_dotplot misrepresents continuous data, (5) residual plot x-axis should be fitted values not original x, (6) mosaic plot not AP-standard (replace with segmented bar), (7) axis labels incomplete. Each fix has exact R code. Also validated that boxplot quartile method is CORRECT (Tukey's hinges match AP). Severity classifications: INCORRECT, MISLEADING, INCOMPLETE, ENHANCEMENT, CORRECT, OK, MINOR."
+    },
+    "output_characteristics": {
+      "format": "10 sections with severity-coded tables, each row has Finding | Severity | Correct Approach | AP Stats Reference",
+      "actionability": "very high â€” exact R code for every fix",
+      "severity_taxonomy": ["INCORRECT", "MISLEADING", "INCOMPLETE", "ENHANCEMENT", "CORRECT", "OK", "MINOR"],
+      "confirmed_cc_prediction": true,
+      "critical_issues_found": 7,
+      "validated_correct": ["boxplot quartile method", "p-value shading direction", "QQ plot implementation"]
+    },
+    "tags": ["mathematical-precision", "ggplot2", "ap-stats-curriculum", "project:r-migration", "pattern-confirmed", "completed"]
+  },
+  {
+    "id": 9,
+    "timestamp": "2026-02-28T18:10:00Z",
+    "task_summary": "Synthesis of all three R migration reviews into R_MIGRATION_SPEC_v2.md â€” 14 sections, 14 tradeoff decisions",
+    "task_type": "synthesis",
+    "routed_from": "claude-code",
+    "routed_to": "claude-code",
+    "routing_reason": "Same fan-in pattern as obs #4. Fresh CC session merges 3 review outputs.",
+    "context_given": "CLAUDE_R_SYNTHESIS_PROMPT.md (~120 lines) + 3 full review outputs pasted inline.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Synthesis completed successfully. All three reviewer inputs visibly integrated with clear attribution. Changes categorized by source: Architecture (GPT) â€” r2u:24.04 base, supervisord mandatory, SIGTERM handler, loopback-only internal API, Railway Volume required. Data Transport (GPT) â€” single-writer enforced, recompute tables removed (HTTP replaces), atomic tick fence, heartbeat staleness detection. Visual Design (Gemini) â€” thematic handles colors, reactable replaces DT, card_header titles, lazy rendering, SVG, selective plotly, client-side tab switching. Statistical Corrections (DeepSeek) â€” 3 CRITICAL fixes (prediction interval, residual plot x-axis, CI number lines), plus 8 additional corrections (shading, dot plot, mosaic, bin widths, CLT warnings, p-value annotations, stat_function resolution, two-tailed shading). 14 explicit tradeoff decisions documented where reviewers disagreed.",
+      "synthesis_quality_indicators": {
+        "all_critical_issues_addressed": true,
+        "reviewer_attribution_preserved": true,
+        "conflict_resolution_documented": true,
+        "tradeoff_decisions_count": 14
+      }
+    },
+    "tags": ["synthesis", "project:r-migration", "completed"]
+  },
+  {
+    "id": 10,
+    "timestamp": "2026-02-28T18:20:00Z",
+    "task_summary": "CC generates 13 per-phase Codex implementation prompts for R/Shiny migration â€” Phase 0 (infra) through Phase 12 (cutover)",
+    "task_type": "implementation-prompt-authoring",
+    "routed_from": "claude-code",
+    "routed_to": "codex",
+    "routing_reason": "Per-phase prompting strategy (evolved from monolithic). Each prompt is self-contained for one phase.",
+    "context_given": "R_MIGRATION_SPEC_v2.md as source of truth. 13 files in specs/codex/ directory.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "13 per-phase prompts generated. CC embedded all DeepSeek corrections directly into the relevant phase prompts (8 specific fixes mapped to their implementation phases). CC also self-reviewed and applied 4 'verification fixes' where it found gaps in its own prompts (e.g., added explicit code for computing fitted values, extracting CLT badge status, distinguishing CI vs PI bands). Key constraint: NO prompt touches viz/types.py or stats/* â€” Codex is scoped to R/Shiny rendering layer only."
+    },
+    "prompt_characteristics": {
+      "count": 13,
+      "strategy": "per-phase, self-contained",
+      "reviewer_corrections_propagated": {
+        "deepseek_fixes_embedded": 8,
+        "mapped_to_specific_phases": true,
+        "examples": [
+          "residual x-axis fix â†’ phases 3, 10",
+          "CI horizontal number line â†’ phases 7, 8",
+          "native distribution shading â†’ phases 7, 8, 9, 10",
+          "segmented bar (not mosaic) â†’ phase 9"
+        ]
+      },
+      "self_review_fixes": 4,
+      "scope_constraint": "Codex may NOT modify Python stats/viz layer â€” R/Shiny only",
+      "total_charts": "~33 across all phases",
+      "total_sub_panes": "~45 across all phases"
+    },
+    "tags": ["implementation", "codex-as-executor", "per-phase-prompts", "project:r-migration", "completed"]
+  },
+  {
+    "id": 11,
+    "timestamp": "2026-02-28T18:30:00Z",
+    "task_summary": "User describes ideal Codex phase runner automation: feed prompt â†’ codex executes â†’ commit â†’ push â†’ clear context â†’ next prompt â†’ keep CC aware of progress",
+    "task_type": "automation-requirement",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "routing_reason": "User identified this as the first automation target. Both tools are CLIs â€” no browser needed. Sequential phase execution with atomic commits, context isolation per phase, CC progress awareness, error handling, and resumability.",
+    "context_given": "13 per-phase prompts already exist in specs/codex/. User is manually running this loop for now.",
+    "outcome": { "quality": null, "notes": "Design requirement captured in design/automation-vision.md. Not yet implemented." },
+    "tags": ["automation-design", "codex-runner", "first-automation-target", "cc-awareness"]
+  },
+  {
+    "id": 12,
+    "timestamp": "2026-02-28T18:40:00Z",
+    "task_summary": "Codex executes Phase 0 (infrastructure) of R/Shiny migration â€” Dockerfile, supervisord, SQLite writer, SIGTERM handler, config, Railway config, Shiny placeholder",
+    "task_type": "implementation-execution",
+    "routed_from": "claude-code",
+    "routed_to": "codex",
+    "routing_reason": "Phase 0 prompt from specs/codex/phase-00-infrastructure.md. First Codex execution with outcome data.",
+    "context_given": "Per-phase prompt (phase-00-infrastructure.md). Codex has file access to grid-bot-v3 codebase.",
+    "outcome": {
+      "quality": "good",
+      "notes": "Codex completed Phase 0 successfully. Created/modified 7 files: Dockerfile (rocker/r2u:24.04 + Python 3.13 + R packages + supervisord), supervisord.conf (two programs with SIGTERM config), infra/sqlite_writer.py (init_db + write_tick atomic transactions + WAL + busy_timeout), infra/main.py (SIGTERM handler + shutdown cleanup + SQLite writes), infra/config.py (db_path + server_bind), railway.toml (dockerfile builder), shiny/app.R (placeholder).",
+      "validation": {
+        "pytest": "366 passed",
+        "sqlite_smoke_test": "passed â€” verified schema, JSON payloads, heartbeat, WAL mode, busy_timeout",
+        "docker_build": "NOT VERIFIED â€” Docker daemon unavailable on Windows",
+        "supervisord": "NOT VERIFIED â€” requires running container",
+        "sigterm_e2e": "NOT VERIFIED â€” requires running container"
+      },
+      "self_awareness": "Codex correctly identified what it COULD and COULD NOT verify, and provided explicit next steps for manual verification",
+      "followed_spec": true,
+      "made_architectural_decisions": false
+    },
+    "workflow_refinement": {
+      "actual_loop": "Codex executes â†’ CC reviews Codex output â†’ CC commits/pushes â†’ user feeds next prompt to Codex",
+      "cc_role_in_loop": "reviewer and committer â€” CC quality-checks Codex's work before it enters the repo"
+    },
+    "tags": ["implementation", "codex-execution", "phase-0", "first-outcome-data", "project:r-migration"]
+  },
+  {
+    "id": 13,
+    "timestamp": "2026-02-28T18:45:00Z",
+    "task_summary": "CC reviews Codex Phase 0 output, verifies tests (366 passed), provides detailed code review, commits 9ee8e20, pushes to master",
+    "task_type": "codex-review-and-commit",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "routing_reason": "CC acts as quality gate between Codex and the repo. Reviews code, runs tests, commits with descriptive message, pushes.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC reviewed all 7 files with specific positive callouts: (1) Dockerfile layer caching strategy (copy specific dirs first for pip, then COPY . /app), (2) supervisord matches spec exactly (stopwaitsecs=30 python, 10 shiny, stopasgroup/killasgroup), (3) sqlite_writer clean â€” _ensure_parent_dir called 'a nice touch', (4) main.py praised â€” shutdown_event.wait(timeout=poll_interval) replaces time.sleep() called 'elegant, allows immediate response to SIGTERM during sleep period', (5) dual-write pattern (SSE + SQLite) for coexistence. CC committed with descriptive message, pushed to master. Verdict: 'Everything looks solid.'",
+      "cc_review_depth": "file-by-file with specific technical observations",
+      "cc_noticed_codex_elegance": true,
+      "cc_found_issues": false,
+      "commit": "9ee8e20",
+      "files_changed": 7,
+      "insertions": 265
+    },
+    "tags": ["cc-review", "codex-approved", "commit", "push", "project:r-migration", "phase-0-complete"]
+  },
+  {
+    "id": 14,
+    "timestamp": "2026-02-28T18:50:00Z",
+    "task_summary": "CC analyzes dependency graph of its own Codex prompts and identifies parallelization: Phase 1 solo â†’ Phases 2-11 in parallel â†’ Phase 12 last",
+    "task_type": "execution-planning",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "User asked if phases can run in parallel. CC traced actual file dependencies across all 13 prompts and identified that each creates independent render_unitN.R files. Only conflict point is app.R wiring (placeholder line replacements â€” different lines, trivial merges).",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC identified the real dependency graph: Phase 0 â†’ Phase 1 (foundation) â†’ Phases 2-11 (parallelizable, each creates own file) â†’ Phase 12 (cutover, needs all done). Offered two grouping strategies: aggressive (all 10 in parallel) and conservative (Batch A: simple charts 2-5, Batch B: distribution curves 6-10, Pipeline 11 anytime). Key insight: each prompt is self-contained with patterns embedded inline, so Codex doesn't need to see prior unit code. Only merge conflict risk: app.R placeholder replacements (trivial) and shared utils.R helpers."
+    },
+    "parallelization_model": {
+      "sequential_only": ["phase-00", "phase-01", "phase-12"],
+      "parallelizable": ["phase-02", "phase-03", "phase-04", "phase-05", "phase-06", "phase-07", "phase-08", "phase-09", "phase-10", "phase-11"],
+      "merge_risk": "low â€” app.R has different placeholder lines per phase, trivial to merge",
+      "cc_recommendation": "Run Phase 1 solo, then all 2-11 in parallel, merge sequentially"
+    },
+    "automation_implication": "The phase runner design must support both sequential and parallel execution. Git branching strategy needed: each parallel Codex instance works on a separate branch, then merge sequentially into main.",
+    "tags": ["execution-planning", "parallelization", "dependency-analysis", "automation-design", "project:r-migration"]
+  },
+  {
+    "id": 15,
+    "timestamp": "2026-02-28T18:55:00Z",
+    "task_summary": "Codex completes Phase 1, CC reviews (clean), commits 0c7f92c, pushes. 7 files, 688 insertions.",
+    "task_type": "codex-review-and-commit",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Phase 1 (Shiny shell, theme, db reader, nav, staleness): app.R (reactivePoll 10s, placeholders, allowReconnect, cold-start graceful degradation), theme.R (hex8, layout-only gridbot_theme), db.R (tick fence pattern, staleness thresholds 60s/120s), utils.R (chart_to_ggplot generic translator, fromJSON with simplifyVector=FALSE), render_overview.R (moduleServer pattern, value_box), nav.js (keyboard 0-9, p), custom.css. CC review: 'The code is clean.' Found zero issues. 366 tests passed.",
+      "commit": "0c7f92c",
+      "files_changed": 7,
+      "insertions": 688,
+      "cc_issues_found": 0
+    },
+    "tags": ["cc-review", "codex-approved", "phase-1-complete", "project:r-migration"]
+  },
+  {
+    "id": 16,
+    "timestamp": "2026-02-28T19:00:00Z",
+    "task_summary": "User launches 10 parallel Codex instances (phases 2-11) in separate Windows Terminal admin tabs, each with -a never flag and full write permissions",
+    "task_type": "parallel-codex-launch",
+    "routed_from": "user",
+    "routed_to": "codex",
+    "routing_reason": "CC confirmed phases 2-11 are parallelizable. User opened 10 terminal tabs, navigated to grid-bot-v3, started codex with approval mode 'never', enabled full write permissions, pasting one phase prompt per tab.",
+    "outcome": { "quality": "good", "notes": "9/10 instances completed. Phase 11 (Pipeline) missing â€” no output. All 9 unit modules created successfully. app.R required CC merge." },
+    "execution_details": {
+      "codex_flags": "-a never",
+      "permissions": "full write",
+      "instances": 10,
+      "phases": ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11"],
+      "all_on_master": true,
+      "merge_strategy_tbd": "all working on same branch â€” will need careful merging or CC to handle conflicts"
+    },
+    "tags": ["parallel-execution", "10-codex-instances", "project:r-migration", "completed"]
+  },
+  {
+    "id": 17,
+    "timestamp": "2026-02-28T20:00:00Z",
+    "task_summary": "10 parallel Codex batch result: 9/10 phases complete, Pipeline missing, all modules functional, pytest 366 passed",
+    "task_type": "parallel-batch-outcome",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "outcome": {
+      "quality": "good",
+      "notes": "9 of 10 Codex instances produced working render_unitN.R modules. Phase 11 (Pipeline) produced no output â€” unclear if Codex stalled, errored, or never started. Each module creates its own file so no code conflicts on the R modules themselves. All instances ran pytest (366 passed). None could run R parse checks (Rscript not in Codex environment). Total output: ~5200 lines of R/Shiny code across 9 files."
+    },
+    "per_phase_results": [
+      {"phase": "02", "unit": 1, "status": "completed", "notes": "Asked question about concurrent app.R changes before finalizing"},
+      {"phase": "03", "unit": 2, "status": "completed", "notes": "Scatter+LSRL, residual fix (fitted values on x-axis), QQ plot, ggplotly hybrid"},
+      {"phase": "04", "unit": 3, "status": "completed", "notes": "Timeline presence, volume bars, staleness gauge, OHLCV reactable, 4 sub-panes"},
+      {"phase": "05", "unit": 4, "status": "completed", "notes": "EV breakdown, Binomial/Geometric PMF/CDF, probability distribution table"},
+      {"phase": "06", "unit": 5, "status": "completed", "notes": "SE curve, bootstrap histogram (Freedman-Diaconis bins), CLT badge, effective n"},
+      {"phase": "07", "unit": 6, "status": "completed", "notes": "Normal curve + native stat_function tail shading, CI number line (geom_errorbarh), fill-rate, two-prop comparison"},
+      {"phase": "08", "unit": 7, "status": "completed", "notes": "t-curve with dt shading n=500, single CI number line, stacked CI, df>30 annotation"},
+      {"phase": "09", "unit": 8, "status": "completed", "notes": "Chi-square curve, observed vs expected dodged bars, segmented bar (not mosaic â€” DeepSeek fix), contributions reactable"},
+      {"phase": "10", "unit": 9, "status": "completed-duplicate", "notes": "TWO separate outputs received. Both implemented CI/PI fix, residual x-axis fix, slope t-curve. Likely two instances both targeted Phase 10."},
+      {"phase": "11", "unit": "pipeline", "status": "missing", "notes": "No output received. render_pipeline.R does not exist."}
+    ],
+    "tags": ["parallel-batch-result", "9-of-10-success", "project:r-migration", "completed"]
+  },
+  {
+    "id": 18,
+    "timestamp": "2026-02-28T20:05:00Z",
+    "task_summary": "Parallel execution hazards observed: app.R last-writer-wins, API signature drift, duplicate Phase 10 output",
+    "task_type": "parallel-execution-hazard",
+    "routed_from": "agent-repo",
+    "routed_to": "agent-repo",
+    "outcome": {
+      "quality": null,
+      "notes": "Three distinct hazards from running 10 Codex instances on the same branch simultaneously."
+    },
+    "hazards": {
+      "last_writer_wins": {
+        "description": "All 10 instances modified app.R to wire their unit. Whichever instance wrote last 'won'. Result: units 1, 6, 7, 8, 9 were wired; units 2, 3, 4, 5 and Pipeline remained as placeholders despite their render files existing.",
+        "severity": "expected",
+        "mitigation": "CC rewrote app.R post-merge. Future automation should use per-branch execution + sequential merge."
+      },
+      "api_signature_drift": {
+        "description": "Units 1-4 used minimal module signature: (id, pane_data). Units 5-9 used full signature: (id, pane_data, heartbeat, has_first_tick, active_tab/is_active). No shared convention emerged because instances couldn't see each other's code.",
+        "severity": "moderate",
+        "mitigation": "CC's app.R rewrite matched each module's actual exported signature. Phase 12 (cutover) or future refactor could normalize.",
+        "root_cause": "Per-phase prompts specified the module API pattern but left room for interpretation. Earlier phases (simpler units) used simpler APIs; later phases (distribution/inference units) needed more context arguments."
+      },
+      "duplicate_phase": {
+        "description": "Phase 10 (Unit 9) produced TWO separate outputs from two different Codex instances. Both implemented the same fixes (CI/PI, residual x-axis, t-curve). Likely user error in tab assignment or one instance finished early and was re-fed.",
+        "severity": "low",
+        "mitigation": "CC used whichever was last on disk. No harm done since both implemented the same spec."
+      }
+    },
+    "automation_lessons": [
+      "Per-branch execution is non-negotiable for parallel Codex â€” all-on-master creates last-writer-wins on shared files",
+      "Module API signatures should be locked in the prompt (exact function signature, not just pattern)",
+      "Phase assignment must be tracked to prevent duplicate execution",
+      "A manifest/lock file could prevent two runners from claiming the same phase"
+    ],
+    "tags": ["parallel-hazards", "automation-design", "lessons-learned", "project:r-migration"]
+  },
+  {
+    "id": 19,
+    "timestamp": "2026-02-28T20:10:00Z",
+    "task_summary": "Codex Phase 2 instance detected concurrent file modifications and asked for user direction instead of blindly overwriting",
+    "task_type": "codex-behavior-observation",
+    "routed_from": "codex",
+    "routed_to": "agent-repo",
+    "outcome": {
+      "quality": null,
+      "notes": "The Phase 2 (Unit 1) Codex instance noticed that app.R already contained Unit 9 wiring (from a faster-finishing Phase 10 instance). Instead of silently overwriting, it paused and asked: 'Do you want me to keep those concurrent Unit 9 changes and only guarantee Unit 1 integration, or reset app.R strictly to Phase 2 scope?' This shows situational awareness â€” Codex detected unexpected state and escalated rather than proceeding blindly."
+    },
+    "codex_behavior": {
+      "detected_unexpected_state": true,
+      "escalated_to_user": true,
+      "did_not_overwrite_blindly": true,
+      "awareness_type": "noticed another instance's modifications in a shared file"
+    },
+    "profile_implication": "Codex has some ability to detect when its execution context has been altered by concurrent processes. This is a STRENGTH for parallel execution â€” it won't silently destroy another instance's work (at least when changes are obvious).",
+    "tags": ["codex-behavior", "situational-awareness", "parallel-safety", "project:r-migration"]
+  },
+  {
+    "id": 20,
+    "timestamp": "2026-02-28T20:15:00Z",
+    "task_summary": "CC merges all 9 Codex unit outputs: rewrites app.R with make_pane_reactive DRY helper, matches per-module signatures, commits 5f63a83",
+    "task_type": "cc-parallel-merge",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "routing_reason": "CC acts as merge layer after parallel Codex execution. Reads all module signatures, resolves app.R conflicts, normalizes wiring.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC identified the merge problem immediately ('This is the expected parallel conflict situation'). Built a signature table showing all 9 modules' UI/server function names and argument lists. Rewrote app.R from scratch: (1) created make_pane_reactive() factory to DRY 10 identical pane data reactive blocks into one helper, (2) wired all 9 units with their actual exported signatures (matching minimal vs full API), (3) kept Pipeline as placeholder, (4) removed dead placeholder outputs for units 2-5. Result: 10 files changed, 5468 insertions. Tests: 366 passed."
+    },
+    "cc_merge_technique": {
+      "approach": "full app.R rewrite (not incremental patching)",
+      "improvements_made": ["make_pane_reactive DRY helper", "signature-aware wiring", "ordered source/nav/server blocks"],
+      "files_changed": 10,
+      "insertions": 5468,
+      "commit": "5f63a83",
+      "tests": "366 passed"
+    },
+    "new_cc_role": "parallel-merge-resolver â€” CC can serve as the merge layer after fan-out parallel Codex execution. Reads actual module exports, resolves shared-file conflicts, applies DRY improvements during merge.",
+    "tags": ["cc-merge", "parallel-resolution", "app-rewrite", "DRY-improvement", "commit", "push", "project:r-migration"]
+  },
+  {
+    "id": 21,
+    "timestamp": "2026-02-28T20:30:00Z",
+    "task_summary": "Phase 2 Codex resolved: told to keep concurrent changes and only add Unit 1 wiring. Phase 11 (Pipeline) Codex completed â€” render_pipeline.R created with full HTTP recompute/history/pin flow",
+    "task_type": "codex-phase-completion",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "outcome": {
+      "quality": "good",
+      "notes": "Two outstanding Codex items resolved. Phase 2: User relayed CC's instruction to keep existing app.R and only add Unit 1 lines â€” Codex complied, render_unit1.R was already on disk from the parallel batch. Phase 11: Pipeline module completed with full implementation â€” pipeline_ui/pipeline_server, HTTP helpers (recompute with 429 handling, snapshot, history, pin/unpin), accordion stepper, per-node tool swap dropdowns, parameter sliders with debounce(300), tick history, hypothetical styling (dashed border, badge, muted nodes). Updated app.R and custom.css. pytest 366 passed."
+    },
+    "phase_11_details": {
+      "module": "render_pipeline.R",
+      "signature": "pipeline_ui(id) + pipeline_server(id, active_tab)",
+      "http_endpoints": ["/api/pipeline/recompute", "/api/pipeline/templates", "/api/pipeline/history", "/api/pipeline/pin", "/api/pipeline/unpin"],
+      "ui_components": ["accordion stepper", "tool swap dropdowns", "parameter sliders (debounced)", "tick history dropdown", "pin/unpin buttons", "hypothetical styling"],
+      "files_changed": ["render_pipeline.R (new)", "app.R (wiring)", "custom.css (pipeline styles)"],
+      "recompute_flow": "tool/slider change â†’ debounce 300ms â†’ POST overrides â†’ update snapshot â†’ 429 busy handling with 2s retry"
+    },
+    "cc_instruction_relay": "CC told user what to tell Phase 2 Codex: 'Keep existing app.R, only add your lines.' CC noted the only file that matters from Phase 2 is render_unit1.R. This confirms CC's awareness that app.R is throwaway during parallel execution â€” only module files matter.",
+    "tags": ["phase-2-resolved", "phase-11-complete", "pipeline", "codex-execution", "project:r-migration"]
+  },
+  {
+    "id": 22,
+    "timestamp": "2026-02-28T20:35:00Z",
+    "task_summary": "User identifies the fan-out/fan-in dispatch pattern as isomorphic to grid-bot trading slots and StarCraft Protoss probe harvesting",
+    "task_type": "pattern-recognition",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "outcome": {
+      "quality": null,
+      "notes": "User recognized the abstract dispatch pattern connecting three systems: (1) grid-bot-v2 trading slots â€” deploy capital to grid levels, slots fill independently, return profit to pool for rebalancing, (2) StarCraft Protoss probes â€” warp in from nexus, harvest minerals autonomously, return to nexus for resource allocation, (3) Codex parallel instances â€” CC dispatches phase prompts, Codex produces modules independently, CC evaluates and integrates at the hub. The common shape: fan-out to independent workers â†’ each produces autonomously â†’ fan-in to central hub for evaluation and integration. The hub (nexus/CC/pool) never does the harvesting â€” it dispatches and judges."
+    },
+    "pattern": {
+      "name": "dispatch-harvest-evaluate",
+      "aliases": ["fan-out/fan-in", "probe-harvest-nexus", "slot-fill-rebalance"],
+      "instances": [
+        {"domain": "crypto-trading", "project": "grid-bot-v2", "hub": "bot pool/engine", "workers": "grid slots at price levels", "product": "filled orders / profit", "eval": "rebalancing logic"},
+        {"domain": "rts-gaming", "reference": "StarCraft Protoss", "hub": "nexus", "workers": "probes", "product": "minerals/gas", "eval": "resource allocation to build queue"},
+        {"domain": "llm-orchestration", "project": "agent-repo", "hub": "claude-code", "workers": "codex instances", "product": "render_unitN.R modules", "eval": "CC review + merge + commit"}
+      ],
+      "invariants": [
+        "Hub dispatches but does not produce",
+        "Workers produce but do not evaluate",
+        "Workers are independent (no inter-worker communication)",
+        "All products return to hub for quality judgment",
+        "Hub integrates products into unified state (portfolio / build queue / app.R)"
+      ]
+    },
+    "design_implication": "This pattern should inform the automation runner design. The runner IS the nexus. It dispatches prompts (warps probes), monitors completion (watches harvest), and triggers CC evaluation (returns to nexus). The pattern is already proven in the user's own trading bot.",
+    "tags": ["pattern-recognition", "dispatch-harvest-evaluate", "fan-out-fan-in", "user-insight", "automation-design"]
+  },
+  {
+    "id": 23,
+    "timestamp": "2026-02-28T21:00:00Z",
+    "task_summary": "CC reviews Phase 2 + Phase 11 outputs, finds no issues, commits aa7a778 and pushes. Phases 0-11 complete. Phase 12 (cutover) is final.",
+    "task_type": "codex-review-and-commit",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC reviewed both modules with no issues found. Phase 2 (render_unit1.R, 599 lines): 5 charts, stats row, 2 reactable tables, stemplot, sub-panes, lazy rendering. Phase 11 (render_pipeline.R, 1170 lines â€” largest module): HTTP helpers with httr:: namespace-qualified calls (no library() needed), accordion stepper, tool swap dropdowns, debounced sliders, recompute flow with 429/retry, history, pin/unpin, hypothetical styling. CC noted placeholder_tab_ui is now dead code (Phase 12 cleanup). Tests: 331 passed + 35 errors in test_slot_engine.py (Windows tmp_path permission issue, not a regression â€” same 366 total as Codex reported). Committed aa7a778, pushed."
+    },
+    "cc_review_details": {
+      "phase_2_unit1": {"lines": 599, "charts": 5, "tables": 2, "issues_found": 0},
+      "phase_11_pipeline": {"lines": 1170, "http_endpoints": 5, "issues_found": 0, "notable": "httr:: namespace-qualified â€” no library() load needed"},
+      "app_r": "Phase 11 agent properly preserved existing merge while adding pipeline wiring",
+      "dead_code_noted": "placeholder_tab_ui is now dead code, deferred to Phase 12 cleanup",
+      "commit": "aa7a778",
+      "files_changed": 3,
+      "insertions": 1256
+    },
+    "test_environment_note": "Windows tmp_path permission issue causes 35 test_slot_engine errors. Not a regression â€” Codex runs on Linux where all 366 pass. CC correctly identified this as environment-specific.",
+    "tags": ["cc-review", "codex-approved", "phase-2-complete", "phase-11-complete", "commit", "push", "project:r-migration"]
+  },
+  {
+    "id": 24,
+    "timestamp": "2026-02-28T21:30:00Z",
+    "task_summary": "CC reviews Phase 12 (cutover) Codex output, commits 2ec89c0, pushes. All 13 phases complete. R/Shiny migration done.",
+    "task_type": "codex-review-and-commit",
+    "routed_from": "codex",
+    "routed_to": "claude-code",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Phase 12 cutover completed cleanly. Codex deleted dashboard.html (-1377 lines), stripped server.py to pipeline-only API (loopback 127.0.0.1:8081), removed broadcast calls from main.py, updated config defaults, updated railway.toml healthcheck, updated tests, cleaned viz/__init__.py docstring. Codex correctly identified a blocker: viz/distributions.py cannot be deleted because it's still imported by viz/unit6-9.py, and the spec constrained Codex from modifying those files. Codex offered two options â€” CC deferred the deletion. Tests: 361 (326 passed + 35 Windows tmp_path errors). 8 files changed, 28 insertions, 1377 deletions."
+    },
+    "phase_12_details": {
+      "deleted": ["dashboard.html"],
+      "stripped": ["infra/server.py (SSE/broadcast/state endpoints removed, pipeline-only)"],
+      "modified": ["infra/main.py", "infra/config.py", "railway.toml", "tests/test_server.py", "tests/test_config.py", "viz/__init__.py"],
+      "deferred": "viz/distributions.py â€” still imported by viz/unit6-9.py, removing requires editing restricted files",
+      "commit": "2ec89c0",
+      "files_changed": 8,
+      "deletions": 1377,
+      "insertions": 28
+    },
+    "codex_behavior": {
+      "identified_blocker": true,
+      "respected_scope_constraint": true,
+      "offered_options": true,
+      "notes": "Codex correctly refused to delete distributions.py because doing so would break imports in files it was told not to modify. Offered two paths and deferred to user. This is the RIGHT behavior â€” respecting scope constraints even when the prompt says 'delete distributions.py'."
+    },
+    "tags": ["cc-review", "codex-approved", "phase-12-complete", "cutover", "commit", "push", "project:r-migration"]
+  },
+  {
+    "id": 25,
+    "timestamp": "2026-02-28T21:35:00Z",
+    "task_summary": "MILESTONE: Full R/Shiny migration complete â€” 13 phases, 6 commits, ~7000 lines of R/Shiny code, multi-LLM orchestrated",
+    "task_type": "milestone",
+    "routed_from": "agent-repo",
+    "routed_to": "agent-repo",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "The grid-bot-v3 R/Shiny migration is the first complete end-to-end project executed through the multi-LLM routing pattern. Every step from spec through implementation was orchestrated by CC using the full roster."
+    },
+    "migration_summary": {
+      "commits": [
+        {"hash": "9e504cd", "phase": "â€”", "description": "13 per-phase Codex prompts"},
+        {"hash": "9ee8e20", "phase": "0", "description": "Infrastructure â€” Dockerfile, supervisord, SQLite writer, SIGTERM"},
+        {"hash": "0c7f92c", "phase": "1", "description": "Overview, theme, db reader, keyboard nav"},
+        {"hash": "5f63a83", "phase": "2-10", "description": "All 9 unit modules + merged app.R"},
+        {"hash": "aa7a778", "phase": "2+11", "description": "Unit 1 finalized + Pipeline mode"},
+        {"hash": "2ec89c0", "phase": "12", "description": "Cutover â€” delete dashboard.html, strip server"}
+      ],
+      "total_phases": 13,
+      "total_commits": 6,
+      "approximate_r_shiny_lines": 7000,
+      "approximate_deletions": 1377,
+      "modules_created": 10,
+      "tests_passing": "361 (326 + 35 Windows-specific errors)"
+    },
+    "llm_contributions": {
+      "claude_code": "Hub â€” wrote spec v1, dispatched 3 review prompts, synthesized spec v2, wrote 13 Codex prompts, reviewed all Codex output, merged parallel batch, committed/pushed all 6 commits",
+      "gemini": "Visual/UX review â€” bslib theming, ggplot2 aesthetics, plotly hybrid, reactable, client-side tab switching, educational features",
+      "chatgpt_deep_research": "Systems architecture review â€” Docker version mismatch, SIGTERM handling, SQLite writer contention, Railway constraints, feature flags",
+      "deepseek": "Statistical accuracy review â€” 7 critical issues, severity taxonomy, CI/PI band fix, residual x-axis fix, segmented bar, AP Stats alignment",
+      "codex": "Implementation executor â€” 13 phases, ~7000 lines of R/Shiny code, 10 render modules + infrastructure + cutover"
+    },
+    "workflow_pattern_confirmed": "dispatch-harvest-evaluate (fan-out/fan-in) â€” CC dispatches, workers produce, CC evaluates and integrates",
+    "deferred_items": ["viz/distributions.py deletion (blocked by import dependencies in restricted files)"],
+    "tags": ["milestone", "migration-complete", "all-13-phases", "multi-llm-orchestration", "project:r-migration"]
+  },
+  {
+    "id": 26,
+    "timestamp": "2026-03-01T04:20:00Z",
+    "task_summary": "Railway Docker build fails at step 10/14 â€” setuptools backend import error. CC diagnoses root cause and writes Codex fix prompt.",
+    "task_type": "deployment-failure-and-diagnosis",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "First Railway deployment attempt. Docker build progresses through steps 1-9 (base image, apt packages, Python 3.13 from deadsnakes PPA, venv, file copies) but fails at step 10 (pip install). Root cause: pyproject.toml specifies build-backend = 'setuptools.backends._legacy:_Backend' which requires setuptools >=77.0, but requires = ['setuptools>=75.0'] â€” pip installs 75.x which doesn't have that module. CC diagnosed this immediately from the traceback and wrote both a spec (DOCKER_FIX_SPEC.md) and a Codex prompt (specs/codex/docker-fix.md) with 4 targeted fixes."
+    },
+    "root_cause": {
+      "file": "pyproject.toml",
+      "issue": "build-backend = 'setuptools.backends._legacy:_Backend' requires setuptools >=77.0 but requires = ['setuptools>=75.0'] only guarantees 75.x",
+      "secondary": "pip 26.0.1 is stricter about build isolation than earlier versions"
+    },
+    "cc_fix_plan": {
+      "changes": [
+        {"file": "pyproject.toml", "fix": "build-backend = 'setuptools.build_meta' + requires >= 68.0"},
+        {"file": ".dockerignore", "fix": "New file â€” exclude .git, specs, tests"},
+        {"file": "Dockerfile", "fix": "Pin pip range pip>=24,<27 + add setuptools>=68"},
+        {"file": "supervisord.conf", "fix": "logfile=/dev/null + loglevel=error"}
+      ],
+      "routing": "CC diagnosed â†’ CC wrote spec + Codex prompt â†’ Codex will execute fix"
+    },
+    "gpt_prediction_vindicated": "GPT Deep Research (obs #7) flagged Docker/Railway build risks as a top concern: version mismatches, build-timeout constraints. This is exactly the class of issue GPT predicted.",
+    "tags": ["deployment", "docker-build-failure", "railway", "setuptools", "cc-diagnosis", "codex-fix", "gpt-prediction-confirmed", "project:r-migration"]
+  },
+  {
+    "id": 27,
+    "timestamp": "2026-03-01T08:00:00Z",
+    "task_summary": "CC debugs Railway deployment over multiple sessions â€” downloads R, Railway CLI, Docker locally. Root cause: Railway dashboard custom start command overriding Dockerfile CMD. Fix: railway.toml startCommand.",
+    "task_type": "deployment-debugging",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "Extended debugging session. CC needed to reproduce the environment locally â€” downloaded R, Railway CLI, and Docker to assist. No other LLM involved.",
+    "context_given": "Railway build logs, Docker config, supervisord config, railway.toml. CC had full file access to grid-bot-v3.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC diagnosed a config-precedence issue that was invisible in the codebase. Railway's dashboard-level custom start command (python -m infra.main) silently overrode the Dockerfile CMD, so supervisord and Shiny never started â€” only the Python bot ran as PID 1. Fix: added startCommand to railway.toml, which takes priority over dashboard settings per Railway's config-as-code rules. Dashboard now live at web-production-c44ec.up.railway.app, healthcheck passing, both processes running under supervisord."
+    },
+    "cc_capabilities_demonstrated": {
+      "tool_installation": "Downloaded R, Railway CLI, and Docker to Windows to reproduce the deployment environment locally",
+      "config_precedence_reasoning": "Identified that Railway's config hierarchy (railway.toml > dashboard settings > Dockerfile CMD) was the root cause â€” not a code bug",
+      "persistence": "Multiple sessions over several hours to isolate the issue",
+      "infrastructure_debugging": "Diagnosed process supervision, port binding, healthcheck, and container lifecycle issues"
+    },
+    "gpt_prediction_update": "GPT Deep Research (obs #7) predicted Docker/Railway deployment issues â€” partially vindicated. GPT flagged version mismatches and build constraints; actual root cause was config precedence (a different class of deployment issue). GPT's general prediction was correct (deployment WILL be tricky), but the specific failure mode was unpredicted.",
+    "deployment_status": {
+      "url": "https://web-production-c44ec.up.railway.app/",
+      "healthcheck": "passing",
+      "supervisord": "PID 1, managing python bot + R Shiny",
+      "python_bot": "running (EOrder:Insufficient funds â€” needs account funding)",
+      "shiny_dashboard": "running on port 8080, serving HTML framework"
+    },
+    "tags": ["deployment-debugging", "railway", "config-precedence", "cc-tool-installation", "infrastructure", "project:grid-bot-v3", "milestone-deployed"]
+  },
+  {
+    "id": 28,
+    "timestamp": "2026-03-01T09:00:00Z",
+    "task_summary": "CC fixes allowReconnect crash â€” Shiny version in Docker doesn't export it. Server function died on SockJS connect, UI rendered but all cards empty. Commit 9685b24.",
+    "task_type": "deployment-debugging",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "Continuation of deployment debugging. CC diagnosed from Railway logs.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "shiny::allowReconnect(TRUE) on line 92 crashed the server function immediately after SockJS connection. The Shiny version installed in Docker doesn't export allowReconnect. Symptoms: HTML rendered (UI function fine), SockJS connected, but server function died before any reactive outputs fired â€” all cards empty, no data, no spinner. CC also cleaned up two dead-code artifacts: SockJS monkey-patch (ran before SockJS loaded, was a no-op) and debug trace options. Commit 9685b24, pushed to master."
+    },
+    "bug_class": "silent-override-version-mismatch",
+    "meta_pattern": "Same class as obs #26 (setuptools version) and #27 (config precedence). The recurring theme: something silently overrides or fails due to version/config differences between dev environment and Docker container.",
+    "tags": ["deployment-debugging", "railway", "shiny-version-mismatch", "silent-failure", "project:grid-bot-v3"]
+  },
+  {
+    "id": 29,
+    "timestamp": "2026-03-01T09:15:00Z",
+    "task_summary": "CC provides architectural advisory â€” advises against Haskell rewrite, identifies 'silent override' meta-pattern across all deployment bugs, recommends health endpoint as highest-value refactor",
+    "task_type": "architectural-advisory",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "User asked strategic architecture questions. CC had full context from debugging sessions.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Two advisory exchanges. (1) Haskell question: CC correctly identified that all bugs have been infrastructure/config, not logic â€” Haskell's type system wouldn't have caught any of them. Practical concerns: third language, steep curve, slow GHC builds, heavy binaries, poor Kraken library support. Acknowledged where Haskell WOULD help (newtype wrappers for currency safety) but concluded Python+tests achieves same safety with less friction. (2) Refactor question: CC identified the meta-pattern ('something silently overrides something else') across all deployment bugs and recommended a health/status endpoint on the Python bot's internal API (8081) as highest-value refactor. Proposed specific JSON schema. Secondary recommendation: single-process architecture (drop supervisord+Shiny, serve dashboard directly from Python) but only if Shiny keeps causing deployment headaches."
+    },
+    "cc_advisory_characteristics": {
+      "pattern_recognition": "Identified meta-pattern across 4+ deployment bugs: silent overrides",
+      "strategic_restraint": "Advised AGAINST a rewrite (Haskell), recommended additive change (health endpoint)",
+      "tradeoff_analysis": "Acknowledged Haskell's theoretical advantages but weighed practical costs",
+      "incremental_approach": "Small additive fix first (health endpoint), bigger change only if pain continues (drop Shiny)",
+      "context_leverage": "Used accumulated debugging context to inform architectural recommendations"
+    },
+    "new_cc_role_data": "CC as architectural advisor â€” not just implementer/reviewer but strategic counselor. Draws on accumulated project context to give grounded recommendations. Resists scope creep (said no to Haskell).",
+    "tags": ["architectural-advisory", "strategic-analysis", "meta-pattern", "health-endpoint", "anti-rewrite", "project:grid-bot-v3"]
+  },
+  {
+    "id": 30,
+    "timestamp": "2026-03-01T10:00:00Z",
+    "task_summary": "CC creates SPECIALIST_PROMPTS.md with explicit file manifests per web UI LLM â€” Gemini (12 files/~4100 lines), ChatGPT (22 files/~3980 lines), DeepSeek (24 files/~5810 lines), plus 9 shared AP Stats frameworks",
+    "task_type": "routing-infrastructure",
+    "routed_from": "claude-code",
+    "routed_to": "agent-repo",
+    "routing_reason": "CC formalized the file-selection heuristic that was previously implicit. Each specialist gets only domain-relevant files.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC documented which files each web UI specialist needs attached. Gemini: Shiny modules, CSS, theme, PaneData types (visual layer). ChatGPT: state machine, pipeline, infra, Dockerfile, configs (systems layer). DeepSeek: all stats modules, all viz/unit builders, analytics (math layer). All three share the 9 AP Stats framework files for educational context. This codifies the routing knowledge that was previously in CC's head during prompt authoring."
+    },
+    "routing_pattern_evolution": {
+      "before": "CC selected files ad-hoc per dispatch, based on intuition about each specialist's domain",
+      "after": "Explicit file manifests documented â€” reusable across future review cycles without CC having to re-derive the selection",
+      "file_counts": {
+        "gemini": {"files": 12, "lines": 4100, "domain": "visual/UI"},
+        "chatgpt": {"files": 22, "lines": 3980, "domain": "systems/infra"},
+        "deepseek": {"files": 24, "lines": 5810, "domain": "math/stats"},
+        "shared": {"files": 9, "domain": "AP Stats frameworks"}
+      }
+    },
+    "tags": ["routing-infrastructure", "file-manifests", "specialist-prompts", "prompt-authoring", "project:grid-bot-v3"]
+  },
+  {
+    "id": 31,
+    "timestamp": "2026-03-01T10:05:00Z",
+    "task_summary": "User identifies manual copy-paste as the biggest friction point in the multi-LLM workflow â€” opening every R file individually, pasting into aistudio.google.com, extracting correct prompt sections",
+    "task_type": "workflow-friction-identification",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "routing_reason": "User narrating pain points in the human-in-the-loop dispatch process.",
+    "outcome": {
+      "quality": null,
+      "notes": "Design input for automation. The manual steps are: (1) open each file CC specifies in the manifest, (2) copy its contents, (3) paste into web UI attachment/text field (aistudio.google.com for Gemini, etc.), (4) find the correct prompt section in SPECIALIST_PROMPTS.md, (5) copy-paste that portion into the web UI text field. This is repeated per specialist, per review cycle."
+    },
+    "friction_analysis": {
+      "bottleneck": "human copy-paste between terminal (CC output) and browser (web UI LLMs)",
+      "steps_per_specialist": ["open N files", "copy each file's contents", "paste into web UI attachment field", "find correct prompt section", "paste prompt into web UI text field"],
+      "scale": "Gemini needs 12 files attached, DeepSeek needs 24 â€” that's 36+ copy-paste operations for one review cycle",
+      "user_proposed_solution": "Browser extension (Edge or Chrome) that can receive data from CC/Codex and fill in web UI text fields and attachment methods directly",
+      "alternative_approaches": [
+        "File-based staging: CC writes files to a shared directory, user drags into browser",
+        "Clipboard automation: CC copies to clipboard in sequence, user pastes",
+        "Browser extension: programmatic fill of web UI fields from CC data",
+        "API access: bypass web UI entirely (blocked for Gemini/ChatGPT/Grok â€” no API keys)"
+      ]
+    },
+    "automation_priority": "HIGH â€” this is the human bottleneck in the dispatch-harvest-evaluate pattern. The hub (CC) can prepare perfectly, but the human relay between CC and web UI specialists is slow and error-prone.",
+    "tags": ["workflow-friction", "copy-paste-bottleneck", "browser-extension-idea", "automation-design", "human-in-the-loop"]
+  },
+  {
+    "id": 32,
+    "timestamp": "2026-03-01T10:30:00Z",
+    "task_summary": "Web UI input capabilities documented per LLM â€” Gemini and ChatGPT support file upload, DeepSeek is paste-only, Grok unknown. CC staging strategy must bifurcate.",
+    "task_type": "routing-capability-mapping",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "routing_reason": "User confirmed from direct experience which web UIs accept file uploads vs paste-only. Critical for automation design.",
+    "outcome": {
+      "quality": null,
+      "notes": "Profiles updated with web_ui_input field. Two staging strategies identified: (1) file-stagers (Gemini, ChatGPT) â€” CC writes files to staging dir, user drags into upload zone, (2) paste-stagers (DeepSeek) â€” CC concatenates all files with delimiters into single clipboard-ready blob. Grok untested."
+    },
+    "capability_map": {
+      "gemini": {"file_upload": true, "paste": true, "strategy": "file"},
+      "chatgpt": {"file_upload": true, "paste": true, "strategy": "file"},
+      "deepseek": {"file_upload": false, "paste": true, "strategy": "paste-blob"},
+      "grok": {"file_upload": null, "paste": null, "strategy": "unknown"}
+    },
+    "automation_implication": "CC's dispatch preparation must branch on target LLM input type. For file-uploaders: write individual files to a staging directory. For paste-only: concatenate prompt + all file contents into a single text block with clear delimiters (```filename.ext markers). DeepSeek's paste-only + 24-file manifest (~5810 lines) + long_documents:false = potential context limit risk that needs testing.",
+    "open_questions": [
+      "ChatGPT long_documents:false â€” can it handle 22 files uploaded at once?",
+      "DeepSeek context limit â€” does ~6000 lines of pasted code fit?",
+      "Grok â€” file upload or paste only?",
+      "Do any UIs accept .R files specifically, or do they need .txt extension?"
+    ],
+    "tags": ["routing-capabilities", "web-ui-input", "file-upload-vs-paste", "staging-strategy", "automation-design"]
+  },
+  {
+    "id": 33,
+    "timestamp": "2026-03-01T10:45:00Z",
+    "task_summary": "CORRECTION â€” DeepSeek and Grok both support file uploads. DeepSeek handles uploads better than Gemini. Gemini is choosy about file types.",
+    "task_type": "capability-correction",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "outcome": {
+      "quality": null,
+      "notes": "Previous obs #32 was wrong about DeepSeek (paste-only) and incomplete about Grok (unknown). All four web UI LLMs support file upload. Gemini is the pickiest about which files it accepts. DeepSeek is surprisingly better at handling uploads than Gemini. Profiles corrected."
+    },
+    "corrected_capability_map": {
+      "gemini": {"file_upload": true, "notes": "choosy about file types"},
+      "chatgpt": {"file_upload": true},
+      "deepseek": {"file_upload": true, "notes": "handles uploads better than Gemini"},
+      "grok": {"file_upload": true}
+    },
+    "automation_implication": "Staging strategy simplifies â€” CC can use file-based staging for ALL four web UIs. No need for paste-blob fallback. The only per-LLM variation is Gemini's file-type pickiness (may need .txt extension or specific formats).",
+    "tags": ["capability-correction", "web-ui-input", "file-upload", "all-support-upload"]
+  },
+  {
+    "id": 34,
+    "timestamp": "2026-03-01T11:00:00Z",
+    "task_summary": "Third fan-out review cycle complete â€” Gemini (UI/UX), ChatGPT (Systems+Haskell), DeepSeek (Math/AP Stats). CC synthesizes into HARDENING_SPEC.md. Pattern confirmed 3/3.",
+    "task_type": "review-cycle-and-synthesis",
+    "routed_from": "claude-code",
+    "routed_to": "agent-repo",
+    "routing_reason": "Same 3-specialist fan-out pattern as cycles 1 and 2. Third confirmation.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC dispatched three specialist review prompts (using the documented file manifests from obs #30), collected all three reviews, and synthesized into docs/HARDENING_SPEC.md. This is the third successful execution of the same fan-out/synthesize pattern. New element: ChatGPT was asked to evaluate Haskell integration (Option B: compile-on-save as third process with JSON IPC) â€” extending GPT's systems-architecture role into language evaluation."
+    },
+    "specialist_contributions": {
+      "gemini_ui": {
+        "focus": "UI/UX and educational clarity",
+        "key_items": ["Nav grouping into 5 menus (AP Stats syllabus structure)", "Standard interpretation panel (Trading Context / AP Framework / Bot Action)", "Per-unit templates using SOCS/DOFS/PANIC/PHANTOMS/LINER", "Accessibility fixes (contrast, mobile tables, subtext over tooltips)", "'What If?' sandbox sliders using existing hypothetical recompute"],
+        "pattern_note": "Gemini continues to propose educational features beyond what was asked (interpretation panels, AP mnemonics)"
+      },
+      "chatgpt_systems": {
+        "focus": "Systems architecture and Haskell integration",
+        "key_items": ["Haskell SM as third process (compile-on-save, JSON IPC on localhost:8082)", "Railway Volume for persistence (SQLite + Haskell source + compiled binary)", "shinymanager authentication (flagged public dashboard as critical risk)", "Composite healthcheck, circuit breaker for Kraken, SQLite retention/maintenance"],
+        "pattern_note": "GPT caught a CRITICAL security issue â€” public dashboard can edit code without auth. Same pattern as obs #7 (catches issues others miss)."
+      },
+      "deepseek_math": {
+        "focus": "Mathematical soundness and AP Stats alignment",
+        "key_items": ["Independence caveat on every inferential unit (the elephant in the room)", "Newey-West SEs side-by-side with naive SEs", "Runs test alongside chi-square, ACF/PACF diagnostics, improved effective_n", "Full AP Stats interpretation templates for all 9 units with trading context"],
+        "pattern_note": "DeepSeek continues to find the foundational statistical issue â€” independence assumption violation is exactly the kind of thing only a math specialist catches."
+      }
+    },
+    "synthesis": {
+      "output": "docs/HARDENING_SPEC.md",
+      "structure": "4 phases, 20 items, prioritized by risk reduction",
+      "phase_order": ["auth first", "stats integrity", "Haskell integration", "polish"],
+      "cc_prioritization": "Security (auth) before correctness (stats) before new capability (Haskell) before aesthetics (polish) â€” sensible risk-reduction ordering"
+    },
+    "pattern_confirmation": {
+      "cycle": 3,
+      "same_roles": true,
+      "same_quality": true,
+      "new_element": "Haskell evaluation routed to ChatGPT (systems architecture includes language/runtime decisions)",
+      "routing_pattern_status": "CONFIRMED 3/3 â€” the fan-out to 3 specialists + CC synthesis is now a stable, repeatable workflow"
+    },
+    "tags": ["review-cycle-3", "fan-out-synthesis", "pattern-confirmed-3x", "hardening-spec", "haskell-integration", "project:grid-bot-v3"]
+  },
+  {
+    "id": 35,
+    "timestamp": "2026-03-01T12:00:00Z",
+    "task_summary": "CC plans second parallel Codex batch â€” 4 agents with zero file overlap, explicit data contracts between agents, 2-batch dependency graph. Lessons from batch 1 visibly applied.",
+    "task_type": "execution-planning",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "User asked CC to identify parallelizable implementation work and write Codex prompts. Same role as obs #14 (dependency analysis + prompt authoring).",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "CC mapped every spec item to its files, identified zero-overlap file ownership boundaries across 4 agents, and designed a 2-batch execution plan. Key evolution from batch 1: (1) explicit file ownership per agent (no shared-file conflicts), (2) locked data contract between Agent A (Python) and Agent B (R Shiny) â€” exact JSON shape specified in both Python and R, (3) batch 2 depends on merge of batch 1 (integration wiring needs all 4 agents' output)."
+    },
+    "parallel_plan": {
+      "batch_1": {
+        "agents": 4,
+        "all_parallel": true,
+        "file_conflicts": "zero â€” ownership boundaries explicitly mapped",
+        "agent_A": {"name": "Python Data Pipeline", "files": "stats/*.py, viz/types.py, viz/unit*.py, viz/overview.py", "items": "stats hardening, interpretation text, independence warnings"},
+        "agent_B": {"name": "R Shiny UI", "files": "shiny/app.R, shiny/R/*.R, shiny/www/custom.css", "items": "nav grouping, auth, interpretation panels, accessibility"},
+        "agent_C": {"name": "Python Infrastructure", "files": "infra/kraken_adapter.py, infra/sqlite_writer.py, infra/server.py", "items": "circuit breaker, SQLite maintenance, healthcheck"},
+        "agent_D": {"name": "Haskell + Docker", "files": "haskell/*, Dockerfile, supervisord.conf, railway.toml", "items": "Haskell SM service"}
+      },
+      "batch_2": {
+        "agents": "1-2",
+        "depends_on": "merge of all 4 batch 1 branches",
+        "agent_E": {"name": "Integration wiring", "items": "Haskell IPC into slot_engine, proxy endpoints, shinyAce editor"},
+        "agent_F": {"name": "What If? sandbox", "items": "per-unit parameter sliders", "optional": true}
+      }
+    },
+    "lessons_applied_from_batch_1": {
+      "file_ownership": "obs #18 hazard (last-writer-wins on app.R) â†’ now explicit zero-overlap file boundaries per agent",
+      "api_contract": "obs #18 hazard (API signature drift) â†’ now explicit JSON data contract between Agent A and B with exact field names and types in both Python and R",
+      "merge_strategy": "obs #20 (CC as merge layer) â†’ batch 2 explicitly depends on CC merging batch 1 first"
+    },
+    "new_pattern": "Inter-agent data contract â€” CC defines the exact data shape that one agent produces and another consumes, specified in BOTH languages. This prevents the API drift seen in batch 1 where parallel agents independently interpreted the API pattern.",
+    "tags": ["execution-planning", "parallelization", "second-parallel-batch", "lessons-applied", "data-contracts", "project:grid-bot-v3"]
+  },
+  {
+    "id": 36,
+    "timestamp": "2026-03-01T13:00:00Z",
+    "task_summary": "Hardening batch complete â€” all 3 processes running in production (Python bot, R Shiny, Haskell SM). CC fixed Haskell compilation issues live. Two commits pushed.",
+    "task_type": "implementation-and-deployment",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "CC handled Codex output review, Haskell debugging, and deployment verification in a single extended session.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "All 3 processes confirmed running in production: (1) Python bot trading with profit=$1.80 at tick 24, circuit breaker recovering properly, (2) R Shiny dashboard serving on port 8080, (3) Haskell state machine responding on :8082 with /status, /source, /step endpoints. CC fixed two Haskell issues: closeâ†’closeCh name shadowing (b723e27), missing -rtsopts GHC flag for RTS memory caps (40a8029). healthy:false is expected â€” requires compilation/activation cycle. Python bot has fallback SM implementation so Haskell is non-blocking."
+    },
+    "cc_haskell_capability": {
+      "fixed_name_shadowing": true,
+      "fixed_ghc_flags": true,
+      "notes": "CC debugged Haskell compilation issues directly â€” not just Python/R. This is the first Haskell-specific debugging data point for CC's profile."
+    },
+    "deployment_status": {
+      "python_bot": "running, trading, circuit breaker functional",
+      "r_shiny": "running, serving on :8080",
+      "haskell_sm": "running, responding on :8082, source loaded",
+      "remaining": "Kraken account needs funding (not a code issue)"
+    },
+    "tags": ["deployment", "three-process-stack", "haskell-debugging", "cc-fixes-haskell", "project:grid-bot-v3"]
+  },
+  {
+    "id": 37,
+    "timestamp": "2026-03-01T13:05:00Z",
+    "task_summary": "User identifies context-window management as a workflow friction point â€” must periodically tell CC to generate a continuation prompt before hitting 90% context",
+    "task_type": "workflow-friction-identification",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "routing_reason": "User narrating a recurring pain point in the CC workflow.",
+    "outcome": {
+      "quality": null,
+      "notes": "CC sessions have a finite context window. When it approaches 90%, the user must manually ask CC to write a CONTINUATION_PROMPT.md that captures current state, then start a fresh session and paste it in. This is a human-initiated context checkpoint. The friction: (1) user must notice context is getting full, (2) user must interrupt their flow to request the prompt, (3) new session loses all accumulated in-context reasoning â€” only what was explicitly serialized survives. This is the second major workflow friction identified (after copy-paste relay in obs #31)."
+    },
+    "friction_analysis": {
+      "trigger": "CC context window approaching 90%",
+      "manual_steps": ["user notices context getting full", "user asks CC to write continuation prompt", "CC serializes current state to CONTINUATION_PROMPT.md", "user starts new CC session", "user pastes continuation prompt", "new session rebuilds context from the prompt"],
+      "information_loss": "accumulated reasoning, nuance, and in-context state that wasn't explicitly captured",
+      "frequency": "every extended session â€” the hardening implementation likely required multiple context resets",
+      "potential_automation": [
+        "CC auto-detects 80% context and proactively writes checkpoint",
+        "Structured state files that CC reads on startup (not just a prose prompt)",
+        "Agent repo itself could serve as the persistent memory layer between sessions"
+      ]
+    },
+    "connection_to_agent_repo": "The Agent repo's CONTINUATION_PROMPT.md is literally this pattern â€” a serialized context checkpoint. The profiles and observations are a more structured version of the same idea. The Agent repo IS the persistent memory that survives context resets.",
+    "tags": ["workflow-friction", "context-window", "continuation-prompt", "session-management", "automation-design"]
+  },
+  {
+    "id": 38,
+    "timestamp": "2026-03-02T00:00:00Z",
+    "task_summary": "Phase 4 context persistence layer added to Agent repo with structured state files and startup reconstruction flow.",
+    "task_type": "memory-layer-implementation",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "routing_reason": "Direct response to workflow friction in obs #37: context continuity depended on manual continuation prompts only.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Added `state/session.json` for active project/task/checkpoint timestamp, `state/project-grid-bot-v3.json` for commits/deployment/open issues, and matching schemas. Updated `CLAUDE.md` startup instructions so CC reconstructs context from structured state first, then `CONTINUATION_PROMPT.md`. Added explicit auto-checkpoint policy at 80% context to refresh both structured and prose layers before 90%."
+    },
+    "evidence": {
+      "friction_source_observation": 37,
+      "continuation_mechanism": "CONTINUATION_PROMPT.md",
+      "new_structured_files": [
+        "state/session.json",
+        "state/project-grid-bot-v3.json"
+      ]
+    },
+    "tags": [
+      "phase-4",
+      "context-persistence",
+      "structured-state",
+      "startup-reconstruction",
+      "auto-checkpoint",
+      "continuation-prompt-complement"
+    ]
+  },
+  {
+    "id": 39,
+    "timestamp": "2026-03-02T00:30:00Z",
+    "task_summary": "Phase 7 defined as long-term browser extension effort: Edge/Chrome extension with native host, staging watcher, and tiered automation rollout.",
+    "task_type": "automation-roadmap-planning",
+    "routed_from": "user",
+    "routed_to": "agent-repo",
+    "routing_reason": "User proposed the next major dispatch automation phase to remove browser copy-paste friction after file staging.",
+    "outcome": {
+      "quality": null,
+      "notes": "Scope captured as a design target only. Core requirements: (1) browser extension + native messaging host, (2) watch staging directory for new bundles, (3) auto-fill text field and attachment zone, (4) three automation tiers from manual trigger to watch mode to full auto."
+    },
+    "phase_7_scope": {
+      "extension_targets": ["edge", "chrome"],
+      "native_messaging_host": true,
+      "staging_watch_path": "staging/",
+      "ui_actions": ["fill-text-field", "attach-staged-files"],
+      "tiers": ["manual-trigger", "watch-mode", "full-auto"]
+    },
+    "evidence": {
+      "source_observations": [31, 33],
+      "obs_31": "Copy-paste and file relay are the primary human bottleneck.",
+      "obs_33": "All target web UIs support file uploads."
+    },
+    "automation_priority": "LONG-TERM-HIGH - largest engineering effort after foundational staging workflow.",
+    "tags": [
+      "phase-7",
+      "browser-extension",
+      "native-messaging",
+      "staging-watch",
+      "automation-roadmap",
+      "human-bottleneck"
+    ]
+  },
+  {
+    "id": 40,
+    "timestamp": "2026-03-01T20:30:00Z",
+    "task_summary": "MILESTONE: All 7 automation phases implemented by Codex — file staging, inbound harvest, sequential runner, context persistence, parallel runner, routing intelligence, browser extension design. Dispatched in parallel while Agent-repo CC was still planning.",
+    "task_type": "milestone",
+    "routed_from": "user",
+    "routed_to": "codex",
+    "routing_reason": "User dispatched all 7 phases to Codex for implementation while Agent-repo CC session was still in plan mode. Phases 1, 3, 4 ran in parallel (no dependencies); phases 2, 5, 6 followed; phase 7 was design-only.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "All 7 phases implemented and validated. Phase 1: stage-dispatch.ps1 with per-specialist staging dirs, manifest-driven file copies, Gemini .R.txt mirrors. Phase 2: harvest-responses.ps1 with cycle archiving, diffs between cycles, template enforcement. Phase 3: codex-runner.sh with sequential execution, verification, progress tracking, resume on failure, optional CC gate. Phase 4: session.json + project-grid-bot-v3.json + schemas + CLAUDE.md startup instructions. Phase 5: parallel-codex-runner.py with branch-per-agent, file ownership enforcement, contract validation, dependency batching, CC merge pass. Phase 6: route-task.ps1 with confidence-weighted routing, auto-generated file manifests, prompt templates. Phase 7: design doc only (browser extension roadmap)."
+    },
+    "implementation_inventory": {
+      "scripts": ["scripts/stage-dispatch.ps1", "scripts/harvest-responses.ps1", "scripts/route-task.ps1"],
+      "runners": ["runner/codex-runner.sh", "runner/parallel-codex-runner.py"],
+      "state": ["state/session.json", "state/project-grid-bot-v3.json", "state/codex-progress.json", "state/parallel-batch.json"],
+      "schemas": ["schema/session-state.schema.json", "schema/project-state.schema.json", "schema/parallel-runner-manifest.schema.json", "schema/parallel-batch-state.schema.json"],
+      "dispatch": ["dispatch/file-manifests.json", "dispatch/routing-rules.json", "dispatch/prompt-templates.json", "dispatch/parallel-batch.manifest.json", "dispatch/README.md"],
+      "docs_updated": ["CLAUDE.md", "CONTINUATION_PROMPT.md", "design/automation-vision.md"]
+    },
+    "meta_observation": "The Agent-repo CC session was still in plan mode when the user dispatched all 7 implementation prompts to Codex in the grid-bot CC session. This is the dispatch-harvest-evaluate pattern applied recursively — the user used one CC session (grid-bot) to generate prompts while the other CC session (Agent) was doing strategic planning. The user IS the hub, orchestrating two CC sessions + Codex simultaneously.",
+    "codex_execution_pattern": {
+      "parallel_batch_1": ["Phase 1 (staging)", "Phase 3 (sequential runner)", "Phase 4 (context persistence)"],
+      "sequential_after": ["Phase 2 (harvest, depends on Phase 1)", "Phase 5 (parallel runner, depends on Phase 3)", "Phase 6 (routing intelligence, depends on Phase 1+4)"],
+      "design_only": ["Phase 7 (browser extension)"]
+    },
+    "tags": ["milestone", "automation-complete", "7-phases", "codex-implementation", "recursive-dispatch-pattern", "project:agent-repo"]
+  },
+  {
+    "id": 41,
+    "timestamp": "2026-03-01T22:00:00Z",
+    "task_summary": "CC designs hooks-integration-spec and 3 parallel Codex prompts to wire routing intelligence natively into CC hooks and Codex config — replacing static scripts with dynamic, event-driven automation",
+    "task_type": "spec-and-prompt-authoring",
+    "routed_from": "user",
+    "routed_to": "claude-code",
+    "routing_reason": "User identified that static PowerShell scripts aren't real automation. CC researched CC hooks (17 events) and Codex config (notify, AGENTS.md, skills), designed native integration.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "Spec at design/hooks-integration-spec.md. Three Codex prompts created: (A) CC hook scripts — SessionStart context injection, Stop auto-staging, PreCompact auto-checkpoint. (B) Codex notify script — updates progress tracking on agent-turn-complete. (C) Grid-bot AGENTS.md + skills — routing-aware project instructions for Codex. All 3 parallel with zero file overlap. CC wires hooks into settings.json after review (Agent D)."
+    },
+    "hooks_designed": {
+      "cc_session_start": "Injects routing profiles + project state into CC context on startup",
+      "cc_auto_stage": "Auto-runs stage-dispatch.ps1 when CC writes specialist prompts (async)",
+      "cc_auto_checkpoint": "Auto-saves state on PreCompact (before context compaction)",
+      "codex_notify": "Updates codex-progress.json on agent-turn-complete"
+    },
+    "codex_prompts": {
+      "agent_A": "dispatch/prompts/codex-agents/cc-hook-scripts.md",
+      "agent_B": "dispatch/prompts/codex-agents/codex-notify-script.md",
+      "agent_C": "dispatch/prompts/codex-agents/gridbot-agents-md.md"
+    },
+    "parallel_plan": {
+      "batch_1": ["Agent A (CC hooks)", "Agent B (Codex notify)", "Agent C (AGENTS.md + skills)"],
+      "batch_2": ["Agent D (CC wires into settings.json + config.toml — done by CC, not Codex)"]
+    },
+    "tags": ["hooks-integration", "spec-authoring", "codex-prompts", "native-automation", "project:agent-repo"]
+  },
+  {
+    "id": 42,
+    "timestamp": "2026-03-02T03:00:00Z",
+    "task_summary": "MILESTONE: Hooks integration complete — CC dispatched 3 parallel Codex agents via `codex exec`, all succeeded, CC wired hooks into settings.json and config.toml. First live CC→Codex→CC round-trip.",
+    "task_type": "milestone",
+    "routed_from": "claude-code",
+    "routed_to": "codex",
+    "routing_reason": "CC designed the spec, wrote the prompts, launched 3 Codex agents in parallel via `codex exec --full-auto`, reviewed all output, then wired the hooks itself (Agent D). Full dispatch-harvest-evaluate cycle executed from within CC.",
+    "outcome": {
+      "quality": "excellent",
+      "notes": "All 4 agents completed successfully. Agent A: 3 bash hook scripts (cc-session-start.sh 225 lines, cc-auto-stage.sh 76 lines, cc-auto-checkpoint.sh 53 lines). Agent B: codex-notify.py 356 lines with atomic writes, phase detection, edge case handling. Agent C: AGENTS.md + 2 skills in grid-bot-v3. Agent D (CC): wired routing hooks alongside existing earcon hooks in settings.json, added notify to config.toml. All hooks validated — SessionStart produces concise routing summary, auto-stage exits silently on non-dispatch, auto-checkpoint updates state, codex-notify tracks phase completions."
+    },
+    "execution_details": {
+      "parallel_agents": ["Agent A (CC hooks)", "Agent B (Codex notify)", "Agent C (AGENTS.md + skills)"],
+      "sequential_agent": "Agent D (CC wires settings — done by CC itself, not Codex)",
+      "dispatch_method": "codex exec --full-auto with prompt file piped via stdin",
+      "total_files_created": 7,
+      "total_lines_of_code": "~710 (bash + python + markdown)"
+    },
+    "wiring_summary": {
+      "settings_json": {
+        "SessionStart": "added cc-session-start.sh (routing context injection, 10s timeout)",
+        "Stop": "added cc-auto-stage.sh (async, 30s timeout)",
+        "PreCompact": "new event — cc-auto-checkpoint.sh (10s timeout)"
+      },
+      "config_toml": {
+        "notify": "python hooks/codex-notify.py"
+      },
+      "coexistence": "All routing hooks added alongside existing earcon hooks — zero conflicts"
+    },
+    "session_start_output": "Verified: 12-line routing summary injected on startup — roster with roles/confidence, project status, active task, last 3 observations, tool inventory",
+    "significance": "First time CC directly dispatched Codex agents and integrated the results — closing the dispatch-harvest-evaluate loop entirely within CC. No human relay needed for CC↔Codex work.",
+    "tags": ["milestone", "hooks-wired", "cc-dispatches-codex", "first-round-trip", "dispatch-harvest-evaluate", "settings-json", "config-toml", "project:agent-repo"]
+  }
+]

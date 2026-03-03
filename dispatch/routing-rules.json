@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "evidence": {
+    "profile_count": 6,
+    "profile_ids": [
+      "claude-code",
+      "codex",
+      "gemini",
+      "chatgpt-deep-research",
+      "deepseek",
+      "grok"
+    ],
+    "observation_ids": [30, 34],
+    "confirmed_review_cycles": 3,
+    "notes": [
+      "obs #30 codified specialist file manifests",
+      "obs #34 confirmed fan-out and synthesis pattern 3/3"
+    ]
+  },
+  "specialist_aliases": {
+    "chatgpt-deep-research": "chatgpt"
+  },
+  "dispatch_webui_order": [
+    "gemini",
+    "chatgpt",
+    "deepseek",
+    "grok"
+  ],
+  "dispatch_manifest_defaults": {
+    "gemini": {
+      "create_r_txt_copies": true
+    },
+    "chatgpt": {
+      "create_r_txt_copies": false
+    },
+    "deepseek": {
+      "create_r_txt_copies": false
+    },
+    "grok": {
+      "create_r_txt_copies": false
+    }
+  },
+  "global_exclude_globs": [
+    ".git/**",
+    "node_modules/**",
+    ".venv/**",
+    "venv/**",
+    "dist/**",
+    "build/**",
+    "out/**",
+    "coverage/**",
+    "staging/**",
+    "dispatch/generated-prompts/**",
+    "dispatch/file-manifests.generated.json",
+    "dispatch/routing-plan.generated.json",
+    "**/*.png",
+    "**/*.jpg",
+    "**/*.jpeg",
+    "**/*.gif",
+    "**/*.webp",
+    "**/*.pdf",
+    "**/*.zip",
+    "**/*.tar",
+    "**/*.gz",
+    "**/*.exe",
+    "**/*.dll",
+    "**/*.so",
+    "**/*.dylib",
+    "**/*.class"
+  ],
+  "task_mode_inference": {
+    "review": [
+      "review",
+      "evaluate",
+      "assessment",
+      "feedback",
+      "critique"
+    ],
+    "audit": [
+      "audit",
+      "verify",
+      "validation",
+      "correctness",
+      "security",
+      "compliance",
+      "risk"
+    ],
+    "brainstorm": [
+      "brainstorm",
+      "ideas",
+      "ideate",
+      "explore",
+      "options",
+      "what if"
+    ]
+  },
+  "specialist_manifest_defaults": {
+    "gemini": {
+      "include_globs": [
+        "shiny/**",
+        "ui/**",
+        "frontend/**",
+        "web/**",
+        "app/**",
+        "src/**/components/**",
+        "src/**/pages/**",
+        "src/**/styles/**",
+        "**/*.css",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.less",
+        "**/*theme*.*",
+        "**/*layout*.*",
+        "**/*view*.*",
+        "**/*.html",
+        "**/*.tsx",
+        "**/*.jsx",
+        "**/*.R"
+      ],
+      "exclude_globs": [
+        "tests/**"
+      ],
+      "max_files": 40
+    },
+    "chatgpt-deep-research": {
+      "include_globs": [
+        "infra/**",
+        "ops/**",
+        "deploy/**",
+        "docker/**",
+        "scripts/**",
+        "config/**",
+        "**/server*.*",
+        "**/pipeline*.*",
+        "**/state_machine*.*",
+        "**/slot_engine*.*",
+        "**/adapter*.*",
+        "Dockerfile",
+        "docker-compose*.yml",
+        "docker-compose*.yaml",
+        "supervisord.conf",
+        "railway.toml",
+        "**/*.toml",
+        "**/*.yml",
+        "**/*.yaml",
+        "**/*.conf",
+        "**/*.ini",
+        "**/*.py",
+        "**/*.sh",
+        "**/*.ps1"
+      ],
+      "max_files": 50
+    },
+    "deepseek": {
+      "include_globs": [
+        "stats/**",
+        "math/**",
+        "analytics/**",
+        "analysis/**",
+        "viz/**",
+        "models/**",
+        "**/*stat*.*",
+        "**/*prob*.*",
+        "**/*distribution*.*",
+        "**/*regression*.*",
+        "**/*hypothesis*.*",
+        "**/*confidence*.*",
+        "**/*residual*.*",
+        "**/*.R",
+        "**/*.py",
+        "**/*.ipynb"
+      ],
+      "max_files": 60
+    },
+    "grok": {
+      "include_globs": [
+        "docs/**",
+        "design/**",
+        "scripts/**",
+        "infra/**",
+        "**/*.md",
+        "**/*.py",
+        "**/*.R",
+        "**/*.yml",
+        "**/*.yaml",
+        "**/*.toml"
+      ],
+      "max_files": 30
+    },
+    "claude-code": {
+      "include_globs": [
+        "profiles/**",
+        "observations/**",
+        "dispatch/**",
+        "scripts/**",
+        "schema/**",
+        "state/**",
+        "design/**",
+        "CLAUDE.md",
+        "CONTINUATION_PROMPT.md"
+      ],
+      "max_files": 80
+    },
+    "codex": {
+      "include_globs": [
+        "src/**",
+        "app/**",
+        "infra/**",
+        "shiny/**",
+        "scripts/**",
+        "tests/**",
+        "specs/**",
+        "**/*.py",
+        "**/*.R",
+        "**/*.js",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.json",
+        "**/*.toml",
+        "**/*.yml",
+        "**/*.yaml"
+      ],
+      "max_files": 120
+    }
+  },
+  "task_types": {
+    "ux-visual-review": {
+      "keywords": [
+        "ux",
+        "ui",
+        "visual",
+        "aesthetic",
+        "design",
+        "layout",
+        "theme",
+        "styling",
+        "accessibility",
+        "dashboard"
+      ],
+      "default_mode": "review",
+      "shared_context_globs": [
+        "README*",
+        "docs/**/*ui*.md",
+        "docs/**/*ux*.md",
+        "design/**/*.md",
+        "specs/**/*.md"
+      ],
+      "specialist_fit": {
+        "gemini": 1.0,
+        "chatgpt-deep-research": 0.45,
+        "deepseek": 0.35,
+        "grok": 0.4,
+        "claude-code": 0.5,
+        "codex": 0.2
+      },
+      "specialist_manifest_overrides": {
+        "gemini": {
+          "include_globs": [
+            "**/*.css",
+            "**/*.scss",
+            "**/*.html",
+            "**/*theme*.*",
+            "**/*layout*.*"
+          ],
+          "max_files": 45
+        },
+        "chatgpt-deep-research": {
+          "max_files": 25
+        },
+        "deepseek": {
+          "max_files": 25
+        },
+        "grok": {
+          "max_files": 20
+        }
+      },
+      "prompt_focus_by_specialist": {
+        "gemini": "UI hierarchy, readability, motion, visual consistency, and audience-fit for instructional dashboards.",
+        "chatgpt-deep-research": "System-level UX tradeoffs, runtime implications, and deployment constraints that affect UX behavior.",
+        "deepseek": "Chart semantics that can mislead learners; statistical annotation correctness in visual outputs.",
+        "grok": "Adversarial UX critique and edge-case behavior users may hit in production."
+      }
+    },
+    "architecture-review": {
+      "keywords": [
+        "architecture",
+        "infrastructure",
+        "deployment",
+        "docker",
+        "railway",
+        "reliability",
+        "scalability",
+        "concurrency",
+        "ipc",
+        "state machine",
+        "failure mode",
+        "system design"
+      ],
+      "default_mode": "review",
+      "shared_context_globs": [
+        "README*",
+        "design/**/*.md",
+        "docs/**/*arch*.md",
+        "docs/**/*infra*.md",
+        "Dockerfile",
+        "railway.toml",
+        "supervisord.conf"
+      ],
+      "specialist_fit": {
+        "chatgpt-deep-research": 1.0,
+        "claude-code": 0.85,
+        "codex": 0.45,
+        "grok": 0.45,
+        "gemini": 0.3,
+        "deepseek": 0.25
+      },
+      "specialist_manifest_overrides": {
+        "chatgpt-deep-research": {
+          "include_globs": [
+            "infra/**",
+            "config/**",
+            "scripts/**",
+            "**/server*.*",
+            "**/pipeline*.*",
+            "**/main.py",
+            "**/*.toml",
+            "**/*.yml",
+            "**/*.yaml",
+            "**/*.conf"
+          ],
+          "max_files": 60
+        },
+        "gemini": {
+          "max_files": 20
+        },
+        "deepseek": {
+          "max_files": 20
+        },
+        "grok": {
+          "max_files": 25
+        }
+      },
+      "prompt_focus_by_specialist": {
+        "chatgpt-deep-research": "Failure modes, resilience design, lifecycle management, and deployment risk ranking.",
+        "gemini": "UX/performance interactions and user-visible architecture consequences.",
+        "deepseek": "Statistical pipeline integrity under architecture constraints.",
+        "grok": "Adversarial risk framing and operational blind spots."
+      }
+    },
+    "mathematical-correctness-review": {
+      "keywords": [
+        "math",
+        "mathematical",
+        "statistical",
+        "formula",
+        "probability",
+        "distribution",
+        "hypothesis",
+        "confidence interval",
+        "regression",
+        "p-value",
+        "ap stats"
+      ],
+      "default_mode": "audit",
+      "shared_context_globs": [
+        "README*",
+        "docs/**/*stats*.md",
+        "docs/**/*math*.md",
+        "specs/**/*.md"
+      ],
+      "specialist_fit": {
+        "deepseek": 1.0,
+        "chatgpt-deep-research": 0.5,
+        "claude-code": 0.6,
+        "gemini": 0.3,
+        "grok": 0.3,
+        "codex": 0.3
+      },
+      "specialist_manifest_overrides": {
+        "deepseek": {
+          "include_globs": [
+            "stats/**",
+            "viz/**",
+            "analytics/**",
+            "**/unit*.py",
+            "**/render_unit*.R",
+            "**/*distribution*.*",
+            "**/*confidence*.*",
+            "**/*regression*.*"
+          ],
+          "max_files": 70
+        },
+        "chatgpt-deep-research": {
+          "max_files": 30
+        },
+        "gemini": {
+          "max_files": 20
+        },
+        "grok": {
+          "max_files": 20
+        }
+      },
+      "prompt_focus_by_specialist": {
+        "deepseek": "Precision statistical correctness, AP Stats alignment, and severity-tagged defects.",
+        "chatgpt-deep-research": "Risk impact of statistical defects in production and educational contexts.",
+        "gemini": "Visual communication of statistical ideas and potential UX misinterpretation.",
+        "grok": "Contrarian checks for hidden assumptions and edge-case math failures."
+      }
+    },
+    "routing-infrastructure": {
+      "keywords": [
+        "routing",
+        "dispatch",
+        "specialist",
+        "manifest",
+        "profile",
+        "prompt template",
+        "orchestration",
+        "workflow",
+        "triage"
+      ],
+      "default_mode": "review",
+      "shared_context_globs": [
+        "profiles/**",
+        "observations/log.json",
+        "dispatch/**",
+        "scripts/**",
+        "schema/**",
+        "state/**",
+        "design/**/*.md",
+        "CLAUDE.md",
+        "CONTINUATION_PROMPT.md"
+      ],
+      "specialist_fit": {
+        "claude-code": 1.0,
+        "codex": 0.8,
+        "chatgpt-deep-research": 0.5,
+        "grok": 0.4,
+        "gemini": 0.3,
+        "deepseek": 0.3
+      },
+      "specialist_manifest_overrides": {
+        "gemini": {
+          "max_files": 15
+        },
+        "chatgpt-deep-research": {
+          "max_files": 25
+        },
+        "deepseek": {
+          "max_files": 20
+        },
+        "grok": {
+          "max_files": 20
+        }
+      },
+      "prompt_focus_by_specialist": {
+        "gemini": "Human-facing prompt clarity and usability of the dispatch experience.",
+        "chatgpt-deep-research": "Scoring model soundness, failure modes, and routing policy consistency.",
+        "deepseek": "Consistency and correctness of confidence calculations and scoring math.",
+        "grok": "Adversarial routing tests and blind spots in specialist selection."
+      }
+    },
+    "implementation-execution": {
+      "keywords": [
+        "implement",
+        "build",
+        "code",
+        "patch",
+        "refactor",
+        "phase",
+        "execution",
+        "commit",
+        "test",
+        "runner"
+      ],
+      "default_mode": "review",
+      "shared_context_globs": [
+        "README*",
+        "specs/**",
+        "design/**/*.md",
+        "scripts/**"
+      ],
+      "specialist_fit": {
+        "codex": 1.0,
+        "claude-code": 0.9,
+        "chatgpt-deep-research": 0.4,
+        "grok": 0.35,
+        "gemini": 0.25,
+        "deepseek": 0.25
+      },
+      "specialist_manifest_overrides": {
+        "gemini": {
+          "max_files": 15
+        },
+        "chatgpt-deep-research": {
+          "max_files": 25
+        },
+        "deepseek": {
+          "max_files": 20
+        },
+        "grok": {
+          "max_files": 20
+        }
+      },
+      "prompt_focus_by_specialist": {
+        "gemini": "UI-side implementation quality and clarity tradeoffs.",
+        "chatgpt-deep-research": "Implementation risk sequencing and infrastructure implications.",
+        "deepseek": "Numerical/statistical implementation correctness checks.",
+        "grok": "Aggressive edge-case testing ideas and stress scenarios."
+      }
+    },
+    "general-review": {
+      "keywords": [
+        "review",
+        "quality",
+        "analysis",
+        "feedback"
+      ],
+      "default_mode": "review",
+      "shared_context_globs": [
+        "README*",
+        "docs/**/*.md",
+        "design/**/*.md"
+      ],
+      "specialist_fit": {
+        "claude-code": 0.75,
+        "chatgpt-deep-research": 0.7,
+        "gemini": 0.55,
+        "deepseek": 0.55,
+        "grok": 0.45,
+        "codex": 0.35
+      },
+      "specialist_manifest_overrides": {
+        "gemini": {
+          "max_files": 20
+        },
+        "chatgpt-deep-research": {
+          "max_files": 30
+        },
+        "deepseek": {
+          "max_files": 25
+        },
+        "grok": {
+          "max_files": 20
+        }
+      },
+      "prompt_focus_by_specialist": {
+        "gemini": "Presentation and UX quality.",
+        "chatgpt-deep-research": "System reliability and architecture quality.",
+        "deepseek": "Correctness and logic integrity.",
+        "grok": "Adversarial and unconventional critique."
+      }
+    }
+  }
+}

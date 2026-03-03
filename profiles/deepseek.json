@@ -1,11 +1,30 @@
 {
   "id": "deepseek",
-  "name": "DeepSeek Chat",
+  "name": "DeepSeek R1",
   "type": "webui",
   "interface": "browser",
-  "strengths": [],
+  "strengths": [
+    {
+      "trait": "precision mathematical concept analysis",
+      "confidence": 0.85,
+      "notes": "CONFIRMED across 2 projects with actual output review. R migration review caught 7 critical issues in ggplot2 statistical rendering. Uses a severity taxonomy (INCORRECT/MISLEADING/INCOMPLETE/ENHANCEMENT/CORRECT/OK/MINOR) that makes triage easy. Confirmed CC's pre-identified prediction (geom_smooth confidence band issue). Also validates correct implementations (boxplot quartiles, QQ plots).",
+      "observation_count": 2
+    },
+    {
+      "trait": "pedagogical correctness verification",
+      "confidence": 0.7,
+      "notes": "Every finding cross-referenced to AP Stats curriculum. Table format includes 'AP Stats Reference' column. Caught mosaic plot (not AP-standard, replace with segmented bar), residual plot x-axis (should be fitted values per AP), dot plot misrepresentation for continuous data.",
+      "observation_count": 2
+    },
+    {
+      "trait": "severity classification system",
+      "confidence": 0.4,
+      "notes": "DeepSeek naturally uses structured severity ratings: INCORRECT (must fix), MISLEADING (produces wrong understanding), INCOMPLETE (missing required element), ENHANCEMENT (nice to have), CORRECT (validated), OK (acceptable), MINOR (low priority). This taxonomy is valuable for the synthesis step — CC can triage by severity.",
+      "observation_count": 1
+    }
+  ],
   "weaknesses": [],
-  "best_for": [],
+  "best_for": ["formula-verification", "mathematical-correctness", "ap-curriculum-alignment", "statistical-edge-cases", "pedagogical-review", "visualization-stat-accuracy", "chart-correctness-audit"],
   "avoid_for": [],
   "cost": { "tier": "free", "notes": "" },
   "capabilities": {
@@ -16,5 +35,25 @@
     "image_generation": false,
     "long_documents": false
   },
-  "updated_at": "2026-02-28T00:00:00Z"
+  "web_ui_input": {
+    "file_upload": true,
+    "paste_text": true,
+    "url": "chat.deepseek.com",
+    "staging_strategy": "file — supports uploads, handles them well",
+    "notes": "CORRECTED — user says DeepSeek handles file uploads and does a better job than Gemini. Previous 'paste only' was wrong."
+  },
+  "output_characteristics": {
+    "format": "numbered sections with severity-coded tables: Finding | Severity | Correct Approach | AP Stats Reference",
+    "actionability": "very high — exact code for every fix",
+    "length": "moderate (~3000 words)",
+    "validates_as_well_as_critiques": true,
+    "style": "meticulous auditor — systematic, every chart type covered, nothing skipped"
+  },
+  "context_preferences": {
+    "needs_more_context": true,
+    "strategy": "full-domain-code",
+    "prompt_length": "longest of the 3 (~175 lines)"
+  },
+  "pattern_stability": "high — same role, same quality across Python formulas and R/ggplot2 rendering",
+  "updated_at": "2026-02-28T18:10:00Z"
 }

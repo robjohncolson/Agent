@@ -1,11 +1,36 @@
 {
   "id": "chatgpt-deep-research",
-  "name": "ChatGPT Deep Research",
+  "name": "ChatGPT Deep Research (GPT 5.2)",
   "type": "webui",
   "interface": "browser",
-  "strengths": [],
+  "strengths": [
+    {
+      "trait": "systems thinking / architecture analysis",
+      "confidence": 0.8,
+      "notes": "CONFIRMED across 2 projects with actual output review. R migration review was the most thorough of the three — 7 major sections with Assessment → Risks → Recommendations → Priority structure. Caught issues others missed.",
+      "observation_count": 2
+    },
+    {
+      "trait": "catches critical issues others miss",
+      "confidence": 0.5,
+      "notes": "Found Python 3.13 not available in Ubuntu 22.04 LTS (rocker/r-ver base), which would have been a deployment dead-end. Also caught SIGTERM vs KeyboardInterrupt mismatch, mixed-tick reads without atomic fencing. Neither Gemini nor DeepSeek would have found these.",
+      "observation_count": 1
+    },
+    {
+      "trait": "deep research with citations",
+      "confidence": 0.5,
+      "notes": "R review cited Railway docs, SQLite docs, Rocker Project docs, Docker best practices. Not just opinions — researched claims with sources. This is unique among the three reviewers.",
+      "observation_count": 1
+    },
+    {
+      "trait": "meta-level architectural insights",
+      "confidence": 0.4,
+      "notes": "Identified the overarching concern that wasn't in the prompt: 'new reliability coupling — bot and UI share container lifecycle, must decide which failures take down whole container vs self-heal.' This is the kind of systems-level thinking that justifies the routing decision.",
+      "observation_count": 1
+    }
+  ],
   "weaknesses": [],
-  "best_for": [],
+  "best_for": ["architecture-review", "deployment-architecture", "failure-mode-analysis", "systems-design-critique", "infrastructure-risk-assessment", "concurrency-analysis"],
   "avoid_for": [],
   "cost": { "tier": "subscription", "notes": "" },
   "capabilities": {
@@ -16,5 +41,25 @@
     "image_generation": true,
     "long_documents": false
   },
-  "updated_at": "2026-02-28T00:00:00Z"
+  "web_ui_input": {
+    "file_upload": true,
+    "paste_text": true,
+    "url": "chatgpt.com",
+    "staging_strategy": "file — write to staging dir, user drags into upload zone (paperclip icon)",
+    "notes": "User confirmed file upload works. long_documents: false may limit total context — need to test limits with 22-file manifest."
+  },
+  "output_characteristics": {
+    "format": "multi-section, each with Assessment → Specific Risks → Concrete Recommendations → Priority",
+    "actionability": "very high — config knobs, PRAGMA settings, code patterns specified",
+    "length": "longest of the three (~4000 words)",
+    "research_depth": "deep — cites official docs and community reports",
+    "style": "thorough systems engineer — finds failure modes, proposes mitigations with priority levels"
+  },
+  "context_preferences": {
+    "needs_more_context": true,
+    "prompt_length": "medium (~140 lines)",
+    "notes": "Needs full system internals to reason about failure modes and architectural coupling"
+  },
+  "pattern_stability": "high — same role, same quality across app architecture and deployment infrastructure",
+  "updated_at": "2026-02-28T18:10:00Z"
 }

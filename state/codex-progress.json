@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "project": "test",
+  "status": "idle",
+  "current_phase": null,
+  "prompt_glob": "specs/codex/phase-*.md",
+  "verify_commands": [],
+  "cc_gate": false,
+  "updated_at": null,
+  "last_error": null,
+  "summary": {
+    "total": 0,
+    "completed": 0,
+    "failed": 0,
+    "running": 0,
+    "pending": 0
+  },
+  "phases": [
+    {
+      "index": 3,
+      "name": "Phase 3",
+      "id": "phase-3",
+      "status": "completed",
+      "completed_at": "2026-03-02T02:56:07Z",
+      "thread_id": "test-123",
+      "project": "grid-bot-v3"
+    }
+  ],
+  "untracked_completions": [
+    {
+      "completed_at": "2026-03-02T05:05:39Z",
+      "thread_id": "019cacee-c2d8-75f3-8d77-870d52bd052e",
+      "project": "split-circuit-breaker",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3\\state\\parallel-worktrees\\split-circuit-breaker",
+      "message_excerpt": "Implemented in [infra/kraken_adapter.py](C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/state/parallel-worktrees/split-circuit-breaker/infra/kraken_adapter.py): 1. Add..."
+    },
+    {
+      "completed_at": "2026-03-02T05:06:51Z",
+      "thread_id": "019cacf0-1688-7f12-8878-76efba221a44",
+      "project": "circuit-breaker-tests",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3\\state\\parallel-worktrees\\circuit-breaker-tests",
+      "message_excerpt": "Added the requested test coverage in [tests/test_kraken_adapter.py](C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/state/parallel-worktrees/circuit-breaker-tests/tests..."
+    },
+    {
+      "completed_at": "2026-03-02T05:14:49Z",
+      "thread_id": "019cacf6-f98d-7933-bae2-227dda509933",
+      "project": "split-circuit-breaker",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3\\state\\parallel-worktrees\\split-circuit-breaker",
+      "message_excerpt": "Implemented in [infra/kraken_adapter.py](C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/state/parallel-worktrees/split-circuit-breaker/infra/kraken_adapter.py). Key ch..."
+    },
+    {
+      "completed_at": "2026-03-02T05:15:39Z",
+      "thread_id": "019cacf8-7ab2-7432-bf2d-b7600c929b57",
+      "project": "circuit-breaker-tests",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3\\state\\parallel-worktrees\\circuit-breaker-tests",
+      "message_excerpt": "Implemented exactly in [tests/test_kraken_adapter.py:9](/C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/state/parallel-worktrees/circuit-breaker-tests/tests/test_krake..."
+    },
+    {
+      "completed_at": "2026-03-03T03:15:27Z",
+      "thread_id": "019cb1af-7d5e-78f2-a635-e790029797bd",
+      "project": "subagent-preambles",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent\\state\\parallel-worktrees\\subagent-preambles",
+      "message_excerpt": "Created both preamble templates with the exact variable placeholders and structure requested: - [cc-as-subagent.md](C:/Users/rober/Downloads/Projects/Agent/state/parallel-worktr..."
+    },
+    {
+      "completed_at": "2026-03-03T03:15:29Z",
+      "thread_id": "019cb1af-7d5e-7ba3-83f9-21441944f5c8",
+      "project": "cross-agent-schemas",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent\\state\\parallel-worktrees\\cross-agent-schemas",
+      "message_excerpt": "Created the three new schemas: - [cross-agent-request.schema.json](C:/Users/rober/Downloads/Projects/Agent/state/parallel-worktrees/cross-agent-schemas/schema/cross-agent-reques..."
+    },
+    {
+      "completed_at": "2026-03-03T03:18:23Z",
+      "thread_id": "019cb1af-7daf-7710-91e6-d530125911ff",
+      "project": "cross-agent-hooks",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent\\state\\parallel-worktrees\\cross-agent-hooks",
+      "message_excerpt": "Implemented new hook script: [hooks/cross-agent-log.py](C:/Users/rober/Downloads/Projects/Agent/state/parallel-worktrees/cross-agent-hooks/hooks/cross-agent-log.py) What\u2019s in it..."
+    },
+    {
+      "completed_at": "2026-03-03T03:22:13Z",
+      "thread_id": "019cb1af-7d99-7c70-922b-01903665b63b",
+      "project": "cross-agent-runner",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent\\state\\parallel-worktrees\\cross-agent-runner",
+      "message_excerpt": "Implemented [`runner/cross-agent.py`](C:\\Users\\rober\\Downloads\\Projects\\Agent\\state\\parallel-worktrees\\cross-agent-runner\\runner\\cross-agent.py) with the full spec: - All requir..."
+    },
+    {
+      "completed_at": "2026-03-03T03:37:20Z",
+      "thread_id": "019cb1bf-262f-79e1-bdcb-cedfd992f6de",
+      "project": "Agent",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent",
+      "message_excerpt": "Created both requested files: - [scripts/test-cross-agent.py](C:/Users/rober/Downloads/Projects/Agent/scripts/test-cross-agent.py) - [scripts/test-cross-agent.sh](C:/Users/rober..."
+    }
+  ],
+  "last_event_at": "2026-03-03T03:37:20Z"
+}

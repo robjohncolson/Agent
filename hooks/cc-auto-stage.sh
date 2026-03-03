@@ -2,7 +2,7 @@
 
 set -u
 
-AGENT_DIR="${CLAUDE_PROJECT_DIR:-C:/Users/rober/Downloads/Projects/Agent}"
+AGENT_DIR="${AGENT_REPO:-C:/Users/rober/Downloads/Projects/Agent}"
 STAGE_SCRIPT="$AGENT_DIR/scripts/stage-dispatch.ps1"
 
 payload="$(cat)"

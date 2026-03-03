@@ -1,0 +1,68 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "cross-agent-phase6",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "full-auto",
+  "verify_commands": [],
+  "evidence_observations": [],
+  "contracts": [],
+  "agents": [
+    {
+      "name": "cross-agent-runner",
+      "description": "Core Python runner for bidirectional CC<->Codex subagent invocations",
+      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-runner.md",
+      "owned_paths": [
+        "runner/cross-agent.py"
+      ]
+    },
+    {
+      "name": "cross-agent-schemas",
+      "description": "JSON schemas for cross-agent request, result, and log files",
+      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-schemas.md",
+      "owned_paths": [
+        "schema/cross-agent-request.schema.json",
+        "schema/cross-agent-result.schema.json",
+        "schema/cross-agent-log.schema.json"
+      ]
+    },
+    {
+      "name": "subagent-preambles",
+      "description": "Markdown preamble templates injected into subagent prompts",
+      "prompt_file": "dispatch/prompts/codex-agents/subagent-preambles.md",
+      "owned_paths": [
+        "dispatch/prompts/subagent-preambles/cc-as-subagent.md",
+        "dispatch/prompts/subagent-preambles/codex-as-subagent.md"
+      ]
+    },
+    {
+      "name": "cross-agent-hooks",
+      "description": "Python hook script for logging cross-agent calls to state",
+      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-hooks.md",
+      "owned_paths": [
+        "hooks/cross-agent-log.py"
+      ]
+    },
+    {
+      "name": "cross-agent-integration",
+      "description": "Test harness and smoke tests validating cross-agent pipeline end-to-end",
+      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-integration.md",
+      "depends_on": [
+        "cross-agent-runner",
+        "cross-agent-schemas",
+        "subagent-preambles",
+        "cross-agent-hooks"
+      ],
+      "owned_paths": [
+        "scripts/test-cross-agent.py",
+        "scripts/test-cross-agent.sh"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "Phase 6: cross-agent",
+    "verify_commands": []
+  }
+}

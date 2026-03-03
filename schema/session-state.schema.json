@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Session State",
+  "description": "Cross-session context checkpoint for the active Agent workspace session.",
+  "type": "object",
+  "required": [
+    "state_version",
+    "current_project",
+    "active_task",
+    "last_checkpoint_at"
+  ],
+  "properties": {
+    "state_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "current_project": {
+      "type": "string"
+    },
+    "active_task": {
+      "type": "string"
+    },
+    "last_checkpoint_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checkpoint_trigger": {
+      "type": "string",
+      "enum": ["manual", "auto-context-threshold", "startup-sync"]
+    },
+    "last_synced_observation_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "continuation_prompt": {
+      "type": "string",
+      "description": "Path to prose continuity file"
+    },
+    "project_state_file": {
+      "type": "string",
+      "description": "Path to the active project state file"
+    },
+    "context_window_policy": {
+      "type": "object",
+      "required": ["auto_checkpoint_at_percent", "hard_limit_percent"],
+      "properties": {
+        "auto_checkpoint_at_percent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "hard_limit_percent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      }
+    }
+  }
+}

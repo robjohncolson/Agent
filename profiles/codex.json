@@ -3,10 +3,60 @@
   "name": "OpenAI Codex CLI",
   "type": "terminal",
   "interface": "cli",
-  "strengths": [],
-  "weaknesses": [],
-  "best_for": [],
-  "avoid_for": [],
+  "strengths": [
+    {
+      "trait": "high-volume code implementation from prescriptive specs",
+      "confidence": 0.85,
+      "notes": "CONFIRMED across 2 projects: (1) R/Shiny migration — 13 phases, ~7000 lines, 9 parallel + 4 sequential. (2) Agent automation framework — 7 phases implementing PowerShell scripts, bash runner, Python parallel runner, JSON schemas, state files, routing intelligence. Codex is now proven across R, Python, Bash, PowerShell, and JSON schema — not just one language/framework. Confidence raised 0.8 → 0.85.",
+      "observation_count": 20
+    },
+    {
+      "trait": "self-validation and honest gap reporting",
+      "confidence": 0.5,
+      "notes": "All 10 instances ran pytest (366 passed). All honestly reported 'Rscript not available in this environment' rather than claiming R validation. Consistent self-awareness about verification boundaries.",
+      "observation_count": 10
+    },
+    {
+      "trait": "goes beyond spec with tasteful improvements",
+      "confidence": 0.4,
+      "notes": "Phase 0: shutdown_event.wait, _ensure_parent_dir, Dockerfile layer caching. Unit 2: ggplotly hybrid with static fallback. Unit 5: CLT-aware normal overlay (solid FAIL vs dashed WARN). All praised, not flagged as scope violations.",
+      "observation_count": 3
+    },
+    {
+      "trait": "concurrent modification detection",
+      "confidence": 0.3,
+      "notes": "Phase 2 instance detected that app.R had been modified by another instance (Unit 9 wiring present). Escalated to user rather than silently overwriting. Shows situational awareness in parallel execution contexts.",
+      "observation_count": 1
+    },
+    {
+      "trait": "respects scope constraints even when they conflict with task goals",
+      "confidence": 0.5,
+      "notes": "Phase 12 prompt said 'delete distributions.py' but Codex found it was imported by viz/unit6-9.py which it was constrained from modifying. Instead of deleting and breaking imports OR silently editing restricted files, Codex flagged the blocker and offered two options. Correct behavior — respects the constraint hierarchy.",
+      "observation_count": 1
+    }
+  ],
+  "weaknesses": [
+    {
+      "trait": "environment limitations on Windows",
+      "confidence": 0.5,
+      "notes": "Confirmed across all 10 parallel instances: Rscript not available, Docker daemon unavailable. Container/R-dependent validation always left unverified.",
+      "observation_count": 10
+    },
+    {
+      "trait": "API signature drift in parallel execution",
+      "confidence": 0.5,
+      "notes": "Without visibility into other instances, each Codex instance made independent API design choices. Units 1-4 used minimal (id, pane_data), units 5-9 used full (id, pane_data, heartbeat, has_first_tick, active_tab). Root cause: prompt left room for interpretation on module server arguments.",
+      "observation_count": 1
+    },
+    {
+      "trait": "shared file corruption in parallel",
+      "confidence": 0.7,
+      "notes": "All 10 instances modified app.R. Last writer wins — result was incomplete wiring (only 5 of 9 units connected). This is a fundamental hazard of parallel-on-same-branch execution, not a Codex-specific weakness, but must be designed around.",
+      "observation_count": 1
+    }
+  ],
+  "best_for": ["bulk-implementation", "phase-by-phase-coding", "spec-to-code", "infrastructure-setup", "parallel-module-generation", "multi-language-scaffolding", "automation-tooling"],
+  "avoid_for": ["architecture-decisions", "design-choices", "spec-authoring", "modifying-core-logic", "shared-file-merging"],
   "cost": { "tier": "token-based", "notes": "" },
   "capabilities": {
     "file_access": true,
@@ -16,5 +66,58 @@
     "image_generation": false,
     "long_documents": false
   },
-  "updated_at": "2026-02-28T00:00:00Z"
+  "prompt_requirements": {
+    "prescriptiveness": "extremely high",
+    "preferred_strategy": "per-phase (evolved from monolithic)",
+    "scope_constraints": "CC explicitly scopes what Codex may and may NOT touch.",
+    "parallelization": {
+      "supported": true,
+      "confirmed": true,
+      "reason": "each per-phase prompt is self-contained with all patterns embedded inline — Codex doesn't need to see prior unit code",
+      "dependency_graph": "Phase 0 → Phase 1 → Phases 2-11 (parallel) → Phase 12",
+      "merge_strategy": "REVISED: per-branch execution + CC merge layer. All-on-master creates last-writer-wins on shared files (app.R).",
+      "lessons": [
+        "Lock exact function signatures in prompts — no interpretation room",
+        "Use per-branch execution to prevent shared-file corruption",
+        "Track phase assignment to prevent duplicate execution",
+        "CC must serve as merge resolver after fan-out"
+      ]
+    }
+  },
+  "relationship_to_claude_code": {
+    "role": "executor",
+    "cc_reviews_output": true,
+    "cc_commits": true,
+    "cc_merges_parallel_output": true,
+    "notes": "Codex executes → CC reviews → CC merges (if parallel) → CC commits/pushes. CC is the quality gate AND the merge layer. Codex never commits directly."
+  },
+  "execution_results": {
+    "phases_completed": 13,
+    "phases_pending": 0,
+    "phases_total": 13,
+    "phase_results": [
+      {"phase": "phase-00-infrastructure", "quality": "excellent", "cc_issues_found": 0, "commit": "9ee8e20", "tests": "366 passed"},
+      {"phase": "phase-01-overview-navigation", "quality": "excellent", "cc_issues_found": 0, "commit": "0c7f92c", "tests": "366 passed", "files": 7, "insertions": 688},
+      {"phase": "phase-02-unit1", "quality": "good", "notes": "Asked question about concurrent app.R changes — showed situational awareness"},
+      {"phase": "phase-03-unit2", "quality": "good", "notes": "Scatter+LSRL, residual fix, QQ plot, ggplotly hybrid"},
+      {"phase": "phase-04-unit3", "quality": "good", "notes": "Timeline, volume bars, staleness gauge, OHLCV reactable"},
+      {"phase": "phase-05-unit4", "quality": "good", "notes": "EV, Binomial/Geometric PMF/CDF, probability table"},
+      {"phase": "phase-06-unit5", "quality": "good", "notes": "SE curve, bootstrap histogram, CLT badge, effective n"},
+      {"phase": "phase-07-unit6", "quality": "good", "notes": "Normal curve + native tail shading, CI number line, fill-rate, two-prop"},
+      {"phase": "phase-08-unit7", "quality": "good", "notes": "t-curve + dt shading, single CI, stacked CI, df>30 annotation"},
+      {"phase": "phase-09-unit8", "quality": "good", "notes": "Chi-square curve, obs vs expected, segmented bar, contributions reactable"},
+      {"phase": "phase-10-unit9", "quality": "good", "notes": "DUPLICATE — two instances produced output. CI/PI fix, residual x-axis fix, slope t-curve, QQ"},
+      {"phase": "phase-11-pipeline", "quality": "good", "cc_issues_found": 0, "commit": "aa7a778", "notes": "CC-reviewed and committed. 1170 lines — largest module. Full HTTP recompute/history/pin flow."},
+      {"phase": "phase-12-cutover", "quality": "good", "cc_issues_found": 0, "commit": "2ec89c0", "notes": "Cutover complete. Deleted dashboard.html, stripped server to pipeline API only, updated tests. Correctly identified distributions.py blocker and respected scope constraint."}
+    ],
+    "parallel_batch": {
+      "status": "completed",
+      "success_rate": "13/13 (9 parallel + 4 sequential)",
+      "commit": "5f63a83",
+      "total_insertions": 5468,
+      "tests": "366 passed",
+      "merge_by": "claude-code"
+    }
+  },
+  "updated_at": "2026-03-01T20:30:00Z"
 }

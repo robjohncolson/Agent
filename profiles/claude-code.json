@@ -3,9 +3,72 @@
   "name": "Anthropic Claude Code CLI",
   "type": "terminal",
   "interface": "cli",
-  "strengths": [],
+  "strengths": [
+    {
+      "trait": "context preparation / packaging agent for web UI LLMs",
+      "confidence": 0.8,
+      "notes": "CONFIRMED across 2 projects (6 dispatch prompts total). Tailors prompt length and file selection per target LLM. Pattern completely stable.",
+      "observation_count": 6
+    },
+    {
+      "trait": "deep codebase exploration before prompt authoring",
+      "confidence": 0.5,
+      "notes": "Reads actual code before writing prompts. Pre-identifies issues target LLMs will catch.",
+      "observation_count": 2
+    },
+    {
+      "trait": "multi-model synthesis / final judge",
+      "confidence": 0.8,
+      "notes": "CONFIRMED across 2 projects, both rated 'excellent'. R migration synthesis: integrated all 3 reviewer inputs with clear attribution, addressed all critical issues, resolved conflicts with 14 documented tradeoff decisions.",
+      "observation_count": 2
+    },
+    {
+      "trait": "implementation prompt authoring for Codex",
+      "confidence": 0.75,
+      "notes": "CONFIRMED — 13 per-phase prompts led to 11/13 successful Codex executions (9 parallel + 2 sequential). Prompts were self-contained enough for parallel execution. Key learning: must lock exact function signatures to prevent API drift across parallel instances.",
+      "observation_count": 3
+    },
+    {
+      "trait": "predictive understanding of reviewer models",
+      "confidence": 0.4,
+      "notes": "CC predicted DeepSeek would flag geom_smooth confidence band issue — DeepSeek confirmed. CC's internal model of reviewer capabilities is becoming accurate.",
+      "observation_count": 1
+    },
+    {
+      "trait": "parallel merge resolution",
+      "confidence": 0.7,
+      "notes": "NEW ROLE — confirmed in first parallel batch. CC received 9 Codex outputs, identified the merge problem immediately ('This is the expected parallel conflict situation'), built a module signature table, rewrote app.R from scratch with: (1) make_pane_reactive() DRY factory, (2) per-module signature-aware wiring, (3) ordered source/nav/server blocks. Applied improvements during merge (DRY pattern) that no individual Codex instance could have done. 5f63a83, 5468 insertions.",
+      "observation_count": 1
+    },
+    {
+      "trait": "infrastructure/deployment debugging",
+      "confidence": 0.75,
+      "notes": "Confirmed across 3 deployment bugs: (1) setuptools build-backend version mismatch (obs #26), (2) Railway config-precedence override (obs #27), (3) allowReconnect version mismatch in Docker Shiny (obs #28). CC downloaded R, Railway CLI, and Docker locally to reproduce. Identified meta-pattern: 'silent overrides' — version/config differences between dev and Docker that fail without clear error messages.",
+      "observation_count": 3
+    },
+    {
+      "trait": "architectural advisory / strategic restraint",
+      "confidence": 0.6,
+      "notes": "NEW — obs #29. User asked about Haskell rewrite. CC correctly advised against it (all bugs were infra, not logic — types wouldn't help). Recommended incremental health endpoint over rewrite. Drew on accumulated debugging context to give grounded recommendations. Shows ability to say 'no' to scope creep and recommend the smallest effective change.",
+      "observation_count": 1
+    },
+    {
+      "trait": "multi-language debugging (Python, R, Haskell)",
+      "confidence": 0.5,
+      "notes": "NEW — obs #36. CC fixed two Haskell-specific issues in production: name shadowing (close→closeCh) and missing GHC -rtsopts flag. First Haskell debugging data point. Combined with Python infra debugging and R Shiny version issues, CC has now debugged code across 3 languages in the same project.",
+      "observation_count": 1
+    }
+  ],
   "weaknesses": [],
-  "best_for": [],
+  "best_for": ["context-curation", "prompt-authoring", "multi-llm-dispatch-prep", "synthesis", "conflict-resolution", "spec-writing", "codex-prompt-generation", "parallel-merge-resolution", "infrastructure-debugging", "architectural-advisory"],
+  "routing_role": {
+    "is_hub": true,
+    "is_synthesizer": true,
+    "is_architect": true,
+    "is_codex_reviewer": true,
+    "is_parallel_merge_resolver": true,
+    "notes": "CC plays EIGHT roles: (1) dispatch — preps prompts for web UIs, (2) synthesizer — merges review outputs, (3) architect — makes all design decisions, (4) Codex director — writes implementation prompts, (5) Codex reviewer/committer — reviews Codex output before committing to repo, (6) parallel merge resolver — handles shared-file conflicts after fan-out Codex execution, (7) infrastructure debugger — installs tools locally, diagnoses deployment/config issues across Docker/Railway/supervisord, (8) architectural advisor — strategic counselor that draws on accumulated project context, resists scope creep, recommends smallest effective change. CC is the quality gate at every stage."
+  },
   "avoid_for": [],
   "cost": { "tier": "subscription", "notes": "Max plan" },
   "capabilities": {
@@ -16,5 +79,11 @@
     "image_generation": false,
     "long_documents": true
   },
-  "updated_at": "2026-02-28T00:00:00Z"
+  "codex_prompting_evolution": {
+    "v1": "monolithic — all 12 phases in one ~4000-word prompt",
+    "v2": "per-phase — separate prompt per implementation phase",
+    "v2_result": "CONFIRMED WORKING — 11/13 phases completed, 9 in parallel. Prompts were self-contained enough for concurrent execution.",
+    "v3_needed": "Lock exact function signatures in prompts. Add shared-file conflict prevention (per-branch strategy or explicit 'do not modify app.R' constraint)."
+  },
+  "updated_at": "2026-03-01T08:00:00Z"
 }
