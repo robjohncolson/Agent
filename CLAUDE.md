@@ -61,6 +61,39 @@ Before context gets too large (target at 80%, hard stop at 90%):
 - `gemini` - Google Gemini 3.1 Pro
 - `grok` - xAI Grok
 
+## Cross-Agent Delegation (Phase 6)
+
+CC and Codex can invoke each other as subagents mid-task via `runner/cross-agent.py`.
+
+**CC → Codex** (delegate implementation):
+```bash
+python runner/cross-agent.py \
+  --direction cc-to-codex \
+  --task-type implement \
+  --prompt "Your task description here" \
+  --working-dir "C:/Users/rober/Downloads/Projects/Agent" \
+  --owned-paths "path/to/file.py" \
+  --timeout 120
+```
+
+**Codex → CC** (ask a design question):
+```bash
+python runner/cross-agent.py \
+  --direction codex-to-cc \
+  --task-type design-question \
+  --prompt "Your question here" \
+  --working-dir "C:/Users/rober/Downloads/Projects/Agent" \
+  --timeout 60
+```
+
+**Task types**: `implement`, `review`, `investigate`, `validate`, `design-question`
+**Flags**: `--dry-run` (preview prompt, no tokens), `--read-only`, `--owned-paths`
+**Spec**: `design/cross-agent-spec.md`
+**Logs**: `state/cross-agent-log.json`
+
+When the user asks to delegate work to Codex, use the runner — don't ask the user to copy-paste.
+Max recursion depth is 1 (CC→Codex is fine, CC→Codex→CC is blocked).
+
 ## Conventions
 
 - All data is JSON

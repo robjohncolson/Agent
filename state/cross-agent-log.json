@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "calls": [
+    {
+      "call_id": "a7fede9e85dd",
+      "direction": "codex-to-cc",
+      "task_type": "design-question",
+      "prompt_summary": "In a Python project that processes JSON data from multiple LLM APIs, should the config be stored as ",
+      "status": "failed",
+      "duration_seconds": 1.005,
+      "timestamp": "2026-03-03T04:08:35Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "0c3485674955",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Write a Python function called reverse_string(s) that takes a string and returns it reversed. Write ",
+      "status": "completed",
+      "duration_seconds": 32.639,
+      "timestamp": "2026-03-03T04:09:04Z",
+      "files_changed": [
+        "utils/string_helpers.py"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "5ac81165a266",
+      "direction": "codex-to-cc",
+      "task_type": "design-question",
+      "prompt_summary": "In a Python project that processes JSON data from multiple LLM APIs, should the config be stored as ",
+      "status": "failed",
+      "duration_seconds": 0.979,
+      "timestamp": "2026-03-03T04:09:47Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "d4b7c34692b7",
+      "direction": "codex-to-cc",
+      "task_type": "design-question",
+      "prompt_summary": "In a Python project that processes JSON data from multiple LLM APIs, should the config be stored as ",
+      "status": "completed",
+      "duration_seconds": 105.349,
+      "timestamp": "2026-03-03T04:12:22Z",
+      "files_changed": [],
+      "depth": 0
+    }
+  ],
+  "summary": {
+    "total_calls": 4,
+    "cc_to_codex": 1,
+    "codex_to_cc": 3,
+    "completed": 2,
+    "failed": 2,
+    "refused": 0,
+    "avg_duration_seconds": 34.993
+  }
+}
