@@ -14,6 +14,7 @@
 
 import { execSync, spawn } from "node:child_process";
 import { existsSync } from "node:fs";
+import { createInterface } from "node:readline";
 
 // ── Script paths ─────────────────────────────────────────────────────────────
 const SCRIPTS = {
@@ -149,6 +150,61 @@ function detectFromTomorrow() {
   const lesson = parseInt(topicMatch[2], 10);
   console.log(`Detected: Unit ${unit}, Lesson ${lesson}\n`);
   return { unit, lesson };
+}
+
+/**
+ * Prompt the user interactively for input.
+ */
+function ask(question) {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim());
+    });
+  });
+}
+
+/**
+ * Interactive prompt for video file paths.
+ * Returns array of paths (possibly empty if user skips).
+ */
+async function promptForVideos(unit, lesson) {
+  console.log(`Find the AP Classroom video(s) for Topic ${unit}.${lesson}.`);
+  console.log(`Enter video file paths separated by spaces, or press Enter to skip.\n`);
+
+  const input = await ask("Video path(s): ");
+
+  if (!input) {
+    console.log("No videos provided — skipping video ingest.\n");
+    return [];
+  }
+
+  // Parse paths — handle quoted paths with spaces
+  const paths = [];
+  const re = /"([^"]+)"|(\S+)/g;
+  let m;
+  while ((m = re.exec(input)) !== null) {
+    paths.push(m[1] || m[2]);
+  }
+
+  // Validate paths exist
+  const valid = [];
+  for (const p of paths) {
+    if (existsSync(p)) {
+      valid.push(p);
+    } else {
+      console.log(`  Warning: "${p}" not found, skipping.`);
+    }
+  }
+
+  if (valid.length === 0) {
+    console.log("No valid video files found — skipping ingest.\n");
+  } else {
+    console.log(`\n${valid.length} video(s) ready for ingest.\n`);
+  }
+
+  return valid;
 }
 
 // ── Phase A: Video ingest ────────────────────────────────────────────────────
@@ -321,6 +377,11 @@ async function main() {
     const detected = detectFromTomorrow();
     unit = detected.unit;
     lesson = detected.lesson;
+
+    // If no videos were passed on the command line, prompt interactively
+    if (opts.videos.length === 0 && !opts.skipIngest) {
+      opts.videos = await promptForVideos(unit, lesson);
+    }
   }
 
   console.log(`\n========================================`);
