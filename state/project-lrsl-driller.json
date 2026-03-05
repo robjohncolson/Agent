@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema/project-state.schema.json",
+  "state_version": 1,
+  "project_name": "lrsl-driller",
+  "status": "running",
+  "last_updated": "2026-03-04T12:00:00Z",
+  "commits": [
+    {
+      "label": "fix-deep-link-progression",
+      "hash": "721a15d",
+      "notes": "Fix URL deep links bypass progression gating + fix 3 failing tests."
+    },
+    {
+      "label": "p2p-asset-delivery-merge",
+      "hash": "cb6bb6e",
+      "notes": "Merge branch main into feat/p2p-asset-delivery."
+    },
+    {
+      "label": "progression-floor",
+      "hash": "1618e7f",
+      "notes": "Implement progression floor for deep-link forward progression."
+    }
+  ],
+  "deployment": {
+    "platform": "Vercel + Railway",
+    "status": "v4.8.0 — 12 cartridges (AP Stats, Algebra 2, CS). Frontend on Vercel, backend on Railway.",
+    "services": [
+      {
+        "name": "vercel-frontend",
+        "status": "running",
+        "notes": "platform/app.html entry point"
+      },
+      {
+        "name": "railway-server",
+        "status": "running",
+        "notes": "Requires SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, GEMINI_API_KEY, GROQ_API_KEY"
+      }
+    ]
+  },
+  "open_issues": [
+    {
+      "id": "p2p-asset-delivery",
+      "title": "P2P asset delivery feature branch in progress",
+      "status": "in_progress",
+      "severity": "medium",
+      "notes": "Feature branch feat/p2p-asset-delivery partially merged."
+    }
+  ]
+}

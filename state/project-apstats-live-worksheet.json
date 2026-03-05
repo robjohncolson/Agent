@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/project-state.schema.json",
+  "state_version": 1,
+  "project_name": "apstats-live-worksheet",
+  "status": "running",
+  "last_updated": "2026-03-04T12:00:00Z",
+  "commits": [
+    {
+      "label": "week-23-frameworks-calendar",
+      "hash": "7ac6626",
+      "notes": "Added rest of frameworks and updated calendar for week 23."
+    },
+    {
+      "label": "u5-l8-worksheet",
+      "hash": "db84597",
+      "notes": "Add U5 L8 worksheet, grading prompts, and Blooket (Topic 5.8)."
+    },
+    {
+      "label": "week-22-calendar",
+      "hash": "64b7c2f",
+      "notes": "Week 22 calendar update."
+    }
+  ],
+  "deployment": {
+    "platform": "Railway",
+    "status": "Backend running; single-file HTML worksheets served statically or via Railway"
+  },
+  "open_issues": []
+}

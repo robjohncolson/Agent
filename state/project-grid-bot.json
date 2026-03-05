@@ -1,0 +1,54 @@
+{
+  "$schema": "../schema/project-state.schema.json",
+  "state_version": 1,
+  "project_name": "grid-bot",
+  "status": "running",
+  "last_updated": "2026-03-04T12:00:00Z",
+  "commits": [
+    {
+      "label": "skip-budget-check-orphans",
+      "hash": "9699f06",
+      "notes": "Skip budget check for capital-neutral orphan ops (drift/rebalance)."
+    },
+    {
+      "label": "multi-slot-trading",
+      "hash": "5a8f81f",
+      "notes": "Add multi-slot trading: multiplier creates N independent A/B state machines."
+    },
+    {
+      "label": "fix-rate-limiter",
+      "hash": "c107f5b",
+      "notes": "Fix rate limiter blocking startup: allow overdraft like old code."
+    }
+  ],
+  "deployment": {
+    "platform": "Railway",
+    "status": "3-process stack (Python bot, R Shiny dashboard, Haskell state machine). Same as grid-bot-v3 on home machine.",
+    "services": [
+      {
+        "name": "python-bot",
+        "status": "running",
+        "notes": "Trading with multi-slot support and circuit breaker."
+      },
+      {
+        "name": "r-shiny-dashboard",
+        "status": "running",
+        "notes": "Serving on port 8080."
+      },
+      {
+        "name": "haskell-state-machine",
+        "status": "running",
+        "notes": "Responding on port 8082."
+      }
+    ]
+  },
+  "open_issues": [
+    {
+      "id": "kraken-account-funding",
+      "title": "Fund Kraken account for live trading continuity",
+      "status": "open",
+      "severity": "medium",
+      "notes": "Carried over from home machine state."
+    }
+  ]
+}

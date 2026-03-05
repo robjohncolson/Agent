@@ -1020,5 +1020,99 @@
     "session_start_output": "Verified: 12-line routing summary injected on startup — roster with roles/confidence, project status, active task, last 3 observations, tool inventory",
     "significance": "First time CC directly dispatched Codex agents and integrated the results — closing the dispatch-harvest-evaluate loop entirely within CC. No human relay needed for CC↔Codex work.",
     "tags": ["milestone", "hooks-wired", "cc-dispatches-codex", "first-round-trip", "dispatch-harvest-evaluate", "settings-json", "config-toml", "project:agent-repo"]
+  },
+  {
+    "id": 43,
+    "timestamp": "2026-03-04T12:00:00Z",
+    "task_summary": "Work machine onboarding — Agent repo cloned to school machine, discovered 5 project repos",
+    "model_used": "claude-code",
+    "model_reason": "CC performed codebase discovery, created project state files, updated session and continuation prompt for new machine",
+    "task_type": "infrastructure",
+    "outcome": "success",
+    "quality_rating": "good",
+    "context_factors": {
+      "machine": "work-colsonr (Lynn Public Schools, Windows 11 Education)",
+      "previous_machine": "home (rober)",
+      "repos_discovered": ["apstats-live-worksheet", "curriculum-render", "lrsl-driller", "grid-bot", "cmd-line-tools"],
+      "state_files_created": 5,
+      "session_state_version_bump": "2 → 3 (added machine, known_projects registry)"
+    },
+    "significance": "First cross-machine migration of the Agent system. Session state now includes a known_projects registry so any CC session can discover all tracked repos. Work machine has the educational project cluster (worksheets, quiz, driller) plus grid-bot and CLI tools.",
+    "tags": ["milestone", "cross-machine", "onboarding", "state-schema-evolution", "project:agent-repo"]
+  },
+  {
+    "id": 44,
+    "timestamp": "2026-03-04T23:20:00Z",
+    "task_summary": "Full lesson prep cycle observed: Topic 6.4 (Setting Up a Test for a Population Proportion)",
+    "model_used": "claude-code",
+    "model_reason": "CC in Agent repo observed full workflow; two parallel CC sessions did the content generation in apstats-live-worksheet and lrsl-driller",
+    "task_type": "workflow-observation",
+    "outcome": "success",
+    "quality_rating": "excellent",
+    "context_factors": {
+      "lesson": "AP Statistics Topic 6.4",
+      "repos_touched": ["apstats-live-worksheet", "lrsl-driller", "curriculum-render"],
+      "models_used_in_pipeline": {
+        "gemini-3.1-pro": "Video transcription + slide description (4 prompts via AI Studio web UI)",
+        "claude-code-session-1": "Generate live worksheet HTML, grading prompts JS, Blooket CSV",
+        "claude-code-session-2": "Extend cartridge with 7 modes + 7 Manim animations, update generator/grading/manifest"
+      },
+      "total_artifacts_produced": {
+        "apstats-live-worksheet": "u6_lesson4_live.html (1276 lines), ai-grading-prompts-u6-l4.js (205 lines), u6_l4_blooket.csv (42 rows), 4 transcript/slides files",
+        "lrsl-driller": "7 Manim .py files (~1286 lines), manifest.json extended to 23 modes, generator.js (+352), grading-rules.js (+179), spec-topic-6.4.txt (649 lines)"
+      },
+      "total_lines_generated": "~4446 across both repos"
+    },
+    "observed_pipeline": {
+      "steps": [
+        {"step": 1, "action": "Check calendar HTML for tomorrow's topic", "tool": "browser", "friction": "low"},
+        {"step": 2, "action": "Screen-record AP Classroom videos, upload to Google Drive", "tool": "manual", "friction": "medium — pre-done"},
+        {"step": 3, "action": "Transcribe + describe slides via Gemini AI Studio", "tool": "gemini-3.1-pro (web UI)", "friction": "high — 4 manual prompts, copy-paste outputs", "automatable": true},
+        {"step": 4, "action": "Save 4 transcript/slide files to repo u6/ folder", "tool": "manual file save", "friction": "medium"},
+        {"step": 5, "action": "CC session in apstats-live-worksheet generates worksheet + grading + blooket", "tool": "claude-code", "friction": "low — one prompt, CC does the rest"},
+        {"step": 6, "action": "Upload Blooket CSV to blooket.com, copy URL", "tool": "browser", "friction": "medium — manual upload", "automatable": true},
+        {"step": 7, "action": "Commit + push apstats-live-worksheet for live worksheet URL", "tool": "git", "friction": "low"},
+        {"step": 8, "action": "CC session in lrsl-driller extends cartridge + generates Manim animations", "tool": "claude-code + Math-To-Manim skill", "friction": "low"},
+        {"step": 9, "action": "Upload rendered MP4 animations to Supabase bucket", "tool": "browser/supabase dashboard", "friction": "medium — manual upload", "automatable": true},
+        {"step": 10, "action": "Commit + push lrsl-driller", "tool": "git", "friction": "low"},
+        {"step": 11, "action": "Collect 4 URLs: worksheet, blooket, drills (deep-link), quiz (curriculum-render)", "tool": "manual", "friction": "medium — predictable pattern"},
+        {"step": 12, "action": "Paste all 4 URLs into Schoology as links", "tool": "browser", "friction": "medium — repetitive", "automatable": true}
+      ],
+      "total_steps": 12,
+      "parallel_work": "Steps 5-6 (apstats generation + blooket upload) overlap with step 8 (lrsl-driller generation). User multitasks across browser tabs and CLI sessions.",
+      "time_estimate": "~45-60 minutes wall clock"
+    },
+    "automation_opportunities": [
+      {
+        "id": "video-ingest-api",
+        "description": "Replace 4 manual Gemini AI Studio prompts with video-ingest.mjs script (already built)",
+        "friction_eliminated": "step 3 — 4 copy-paste cycles",
+        "status": "script-ready",
+        "priority": "high"
+      },
+      {
+        "id": "supabase-upload",
+        "description": "Script MP4 upload to Supabase storage bucket via CLI/API",
+        "friction_eliminated": "step 9 — manual dashboard upload",
+        "status": "not-started",
+        "priority": "medium"
+      },
+      {
+        "id": "schoology-link-assembly",
+        "description": "Generate all 4 Schoology URLs from unit+lesson number. URLs are predictable: worksheet, blooket (need upload API), drills deep-link, quiz.",
+        "friction_eliminated": "steps 11-12 — collecting and pasting URLs",
+        "status": "not-started",
+        "priority": "medium"
+      },
+      {
+        "id": "blooket-upload-api",
+        "description": "Automate CSV upload to Blooket if API exists",
+        "friction_eliminated": "step 6 — manual upload",
+        "status": "needs-research",
+        "priority": "low"
+      }
+    ],
+    "routing_insight": "Gemini 3.1 Pro is the only model used for video understanding (multimodal). Claude Code handles all text generation (worksheets, cartridges, grading). The two models have zero overlap in this pipeline — clean specialization.",
+    "tags": ["workflow-observation", "full-cycle", "lesson-prep", "three-repo-pipeline", "gemini-video", "claude-code-generation", "automation-opportunities", "project:apstats-live-worksheet", "project:lrsl-driller", "project:curriculum-render"]
   }
 ]

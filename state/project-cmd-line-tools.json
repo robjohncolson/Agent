@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/project-state.schema.json",
+  "state_version": 1,
+  "project_name": "cmd-line-tools",
+  "status": "running",
+  "last_updated": "2026-03-04T12:00:00Z",
+  "commits": [
+    {
+      "label": "enhance-management",
+      "hash": "ba8b924",
+      "notes": "Enhance cmd-line-tools management and directory processing."
+    },
+    {
+      "label": "closing-toolbox",
+      "hash": "d47e2e7",
+      "notes": "Closing up the toolbox for the night."
+    },
+    {
+      "label": "clipboard-output",
+      "hash": "b6ca84a",
+      "notes": "Put the output path into clipboard."
+    }
+  ],
+  "deployment": {
+    "platform": "local",
+    "status": "CLI utilities collection — batch files, Python scripts for AP lesson processing and git workflows"
+  },
+  "open_issues": []
+}

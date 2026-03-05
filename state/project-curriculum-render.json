@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/project-state.schema.json",
+  "state_version": 1,
+  "project_name": "curriculum-render",
+  "status": "running",
+  "last_updated": "2026-03-04T12:00:00Z",
+  "commits": [
+    {
+      "label": "local-lib-folder",
+      "hash": "6e2fb8d",
+      "notes": "Add local lib folder with Chart.js, QRCode, and datalabels plugin."
+    },
+    {
+      "label": "fix-sync-status",
+      "hash": "2863d85",
+      "notes": "Fix sync status indicator not updating on turbo mode enable."
+    },
+    {
+      "label": "fix-groq-reevaluation",
+      "hash": "27c3936",
+      "notes": "Fix Groq re-evaluation and add auto-turbo upgrade."
+    }
+  ],
+  "deployment": {
+    "platform": "Railway",
+    "status": "AP Statistics Consensus Quiz app — Node server + static frontend"
+  },
+  "open_issues": []
+}

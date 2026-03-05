@@ -20,6 +20,23 @@ Auto-checkpoint rule: before context pressure gets high, checkpoint around 80% c
 
 You are the **Agent** — an LLM routing intelligence layer that profiles how I use different AI models and will eventually automate message routing between them. We have **completed the data-gathering phase** and now have a **working automation framework**.
 
+### Machine: Work (ColsonR)
+
+Base path: `C:/Users/ColsonR`
+
+This is a **work machine** (Lynn Public Schools, Windows 11 Education). The Agent repo was cloned here and all project state files have been initialized from the repos present on this machine.
+
+### Repos on this machine
+
+| Repo | Path | Status | Description |
+|------|------|--------|-------------|
+| **apstats-live-worksheet** | `C:/Users/ColsonR/apstats-live-worksheet` | running | AP Stats single-file HTML worksheets with Railway backend + AI grading |
+| **curriculum-render** | `C:/Users/ColsonR/curriculum_render` | running | AP Stats Consensus Quiz — collaborative web app, Railway server |
+| **lrsl-driller** | `C:/Users/ColsonR/lrsl-driller` | running | Subject-agnostic drill platform, v4.8.0, 12 cartridges, Vercel+Railway |
+| **grid-bot** | `C:/Users/ColsonR/grid-bot/doge-grid-bot` | running | Crypto grid trading bot, 3-process Railway stack (Python+R+Haskell) |
+| **cmd-line-tools** | `C:/Users/ColsonR/cmd-line-tools` | running | CLI utilities for lesson processing, git workflows |
+| **Agent** | `C:/Users/ColsonR/Agent` | running | This repo — LLM routing intelligence layer |
+
 ### What this repo contains
 
 ```
@@ -36,38 +53,21 @@ Agent/
     deepseek.json               # Mathematical precision (confidence 0.85)
     grok.json                   # TBD — 0 observations yet
 
-  observations/log.json         # 40 routing observations (append-only)
+  observations/log.json         # 42 routing observations (append-only)
 
   schema/                       # JSON schemas
-    observation.schema.json
-    profile.schema.json
-    session-state.schema.json
-    project-state.schema.json
-    parallel-runner-manifest.schema.json
-    parallel-batch-state.schema.json
-
   state/                        # Structured state (Phase 4)
-    session.json                # Current project/task/checkpoint
-    project-grid-bot-v3.json    # Commits, deployment, open issues
-    codex-progress.json         # Sequential runner state
-    parallel-batch.json         # Parallel runner state
+    session.json                # Current project/task/checkpoint + known_projects registry
+    project-apstats-live-worksheet.json
+    project-curriculum-render.json
+    project-lrsl-driller.json
+    project-grid-bot.json
+    project-cmd-line-tools.json
+    project-grid-bot-v3.json    # Legacy — from home machine
 
   scripts/                      # Automation scripts (PowerShell)
-    stage-dispatch.ps1          # Phase 1: file staging per specialist
-    harvest-responses.ps1       # Phase 2: inbound harvest with cycle archiving
-    route-task.ps1              # Phase 6: confidence-weighted routing intelligence
-
   runner/                       # Codex execution runners
-    codex-runner.sh             # Phase 3: sequential runner with verification
-    parallel-codex-runner.py    # Phase 5: branch-per-agent parallel runner
-
   dispatch/                     # Dispatch configuration
-    file-manifests.json         # Per-specialist file lists (populated with grid-bot-v3 paths)
-    routing-rules.json          # Task-type to specialist mapping rules
-    prompt-templates.json       # Per-specialist prompt templates
-    parallel-batch.manifest.json # Parallel runner manifest
-    prompts/                    # Specialist prompt files
-    README.md                   # Workflow documentation
 ```
 
 ### The roster
@@ -98,50 +98,20 @@ CC explores codebase → CC writes spec v1
   → CC reviews → CC commits/pushes
 ```
 
-### The dispatch-harvest-evaluate pattern
-
-User identified an isomorphism across three systems:
-- **Grid-bot trading slots**: deploy capital → slot fills independently → return profit to pool
-- **StarCraft Protoss probes**: warp in from nexus → harvest minerals → return to nexus
-- **Codex parallel instances**: CC dispatches prompt → Codex produces module → CC evaluates and integrates
-
-Invariants: hub dispatches but doesn't produce; workers produce but don't evaluate; workers are independent (no inter-worker communication); all products return to hub for quality judgment; hub integrates into unified state.
-
-### Current state — DEPLOYED, AUTOMATION FRAMEWORK COMPLETE
-
-**grid-bot-v3**: 3-process stack running on Railway
-- Python bot: trading, circuit breaker functional, needs Kraken account funding
-- R Shiny dashboard: serving on port 8080
-- Haskell state machine: responding on :8082, source loaded
-- URL: https://web-production-c44ec.up.railway.app/
-
-**Agent automation framework**: All 7 phases implemented
-- Phase 1: File staging (stage-dispatch.ps1)
-- Phase 2: Inbound harvest (harvest-responses.ps1)
-- Phase 3: Sequential Codex runner (codex-runner.sh)
-- Phase 4: Context persistence (state/*.json + schemas)
-- Phase 5: Parallel Codex runner (parallel-codex-runner.py)
-- Phase 6: Routing intelligence (route-task.ps1)
-- Phase 7: Browser extension (design-only, in dispatch/README.md)
-
-**Deployment bugs fixed** (all "silent override" class):
-- setuptools build-backend version mismatch (obs #26)
-- Railway config-precedence override (obs #27)
-- allowReconnect Shiny version mismatch (obs #28)
-
 ### Key constraints
 
 - No API keys for ChatGPT, Gemini, or Grok (web subscriptions only)
 - DeepSeek maybe has API access
 - All 4 web UIs support file upload (DeepSeek best, Gemini choosiest)
 - CC↔Codex automation fully tooled (both CLIs, runners exist)
+- **Work machine note**: Python not on PATH in Git Bash — may need `py` or full path for runner scripts
 
 ### What to do next
 
-1. **First live dispatch cycle** using the automation tools — run stage-dispatch.ps1 with real manifests, drag into browsers, harvest responses, synthesize
-2. **Profile Grok** — include in next review cycle (still 0 observations)
-3. **Test codex-runner.sh** on a real implementation batch
-4. **Test parallel-codex-runner.py** on a real parallel batch
+1. **Verify toolchain** — check that Codex CLI, Node, and Python are accessible on this machine
+2. **First live dispatch cycle** using the automation tools on one of the work machine repos
+3. **Profile Grok** — include in next review cycle (still 0 observations)
+4. **Test cross-agent delegation** on this machine (CC→Codex via runner/cross-agent.py)
 5. Continue logging observations as workflow evolves
 
-I am a high school math teacher building educational tools. My main project (grid-bot-v3) is an AP Statistics teaching tool built around a live crypto trading bot. I'll keep narrating my multi-LLM workflow — you keep building the routing intelligence.
+I am a high school math teacher building educational tools. My main projects are AP Statistics teaching tools: live worksheets, a consensus quiz app, and a drill platform. The grid-bot is an AP Stats teaching tool built around a live crypto trading bot. I'll keep narrating my multi-LLM workflow — you keep building the routing intelligence.
