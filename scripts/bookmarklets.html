@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Studio Bookmarklets — AP Stats Lesson Prep</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a0a0c0;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .instructions-box {
+      background: #16213e;
+      border: 1px solid #0f3460;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .instructions-box h2 {
+      font-size: 1.2rem;
+      color: #53a8ff;
+      margin-bottom: 0.75rem;
+    }
+
+    .instructions-box ol {
+      padding-left: 1.5rem;
+      line-height: 1.8;
+      color: #c0c0d8;
+    }
+
+    .instructions-box ol li {
+      margin-bottom: 0.3rem;
+    }
+
+    .bookmarklet-card {
+      background: #16213e;
+      border: 1px solid #0f3460;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      transition: border-color 0.2s;
+    }
+
+    .bookmarklet-card:hover {
+      border-color: #53a8ff;
+    }
+
+    .bookmarklet-card h3 {
+      font-size: 1rem;
+      color: #a0a0c0;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .bookmarklet-link {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: grab;
+      transition: transform 0.15s, box-shadow 0.15s;
+      user-select: none;
+    }
+
+    .bookmarklet-link:active {
+      cursor: grabbing;
+    }
+
+    .bookmarklet-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    .link-transcribe {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: #ffffff;
+    }
+
+    .link-slides {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      color: #ffffff;
+    }
+
+    .link-save {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: #ffffff;
+    }
+
+    .card-description {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: #8888aa;
+      line-height: 1.5;
+    }
+
+    .prompt-preview {
+      background: #0d1b2a;
+      border: 1px solid #1b2838;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin-top: 0.75rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.8rem;
+      color: #7faacc;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #0f3460;
+      text-align: center;
+      color: #555577;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .footer strong {
+      color: #7faacc;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #0f3460;
+      color: #53a8ff;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Studio Bookmarklets</h1>
+    <p class="subtitle">AP Stats Lesson Prep</p>
+
+    <div class="instructions-box">
+      <h2>How to install</h2>
+      <ol>
+        <li>Make sure your bookmarks bar is visible (Ctrl+Shift+B in Chrome/Edge).</li>
+        <li><strong>Drag</strong> each colored button below onto your bookmarks bar.</li>
+        <li>Navigate to AI Studio, upload a lecture video, then click the bookmarklet.</li>
+        <li>The prompt is auto-filled. Click <strong>Send</strong> when ready.</li>
+      </ol>
+    </div>
+
+    <!-- Bookmarklet 1: Transcribe -->
+    <div class="bookmarklet-card">
+      <h3>Step 1 &mdash; Fill the transcription prompt <span class="badge">drag to bookmarks bar</span></h3>
+
+      <a class="bookmarklet-link link-transcribe" id="bm-transcribe">&#x1F4DD; Transcribe</a>
+
+      <p class="card-description">Fills the AI Studio prompt box with a timestamped transcription request.</p>
+      <div class="prompt-preview">Transcribe this video with timestamps. Format each segment as:
+
+**[MM:SS]** &lt;transcribed text&gt;
+
+Include all spoken content. Be thorough and accurate.</div>
+    </div>
+
+    <!-- Bookmarklet 2: Slides -->
+    <div class="bookmarklet-card">
+      <h3>Step 2 &mdash; Fill the slide-description prompt <span class="badge">drag to bookmarks bar</span></h3>
+
+      <a class="bookmarklet-link link-slides" id="bm-slides">&#x1F5BC; Slides</a>
+
+      <p class="card-description">Fills the prompt with a detailed slide-by-slide visual description request.</p>
+      <div class="prompt-preview">Describe each slide or visual change in this video with timestamps. Format as:
+
+**[MM:SS]** &mdash; **Slide title or topic**
+&lt;Description of what's shown: text, formulas, graphs, diagrams, examples, key definitions&gt;
+
+Be thorough &mdash; capture all text on each slide, any formulas, graph labels, and visual details that a student would need to follow along.</div>
+    </div>
+
+    <!-- Bookmarklet 3: Save Output -->
+    <div class="bookmarklet-card">
+      <h3>Step 3 &mdash; Save the model response to a file <span class="badge">drag to bookmarks bar</span></h3>
+
+      <a class="bookmarklet-link link-save" id="bm-save">&#x1F4BE; Save Output</a>
+
+      <p class="card-description">Extracts the last model response and downloads it as a text file. You will be prompted for a filename.</p>
+    </div>
+
+    <div class="footer">
+      <p>Works on <strong>any browser</strong> &mdash; no extensions needed, cannot be blocked by admin.</p>
+      <p>Bookmarklets run in the page context. They are standard browser functionality, not third-party code.</p>
+      <p style="margin-top: 0.75rem; color: #444466;">Agent &middot; AI Studio Bookmarklets &middot; 2026-03-05</p>
+    </div>
+  </div>
+
+  <script>
+    // Build bookmarklet hrefs via JavaScript to avoid HTML entity encoding issues.
+    // The browser will store the href correctly when dragged to the bookmarks bar.
+
+    var transcribePrompt = 'Transcribe this video with timestamps. Format each segment as:\\n\\n**[MM:SS]** <transcribed text>\\n\\nInclude all spoken content. Be thorough and accurate.';
+
+    var transcribeCode = "javascript:void(function(){" +
+      "var t='" + transcribePrompt + "';" +
+      "var el=document.querySelector('.ql-editor')" +
+      "||document.querySelector('[contenteditable=\"true\"]')" +
+      "||document.querySelector('textarea');" +
+      "if(!el){alert('Could not find input field');return;}" +
+      "if(el.tagName==='TEXTAREA'){" +
+      "var ns=Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype,'value').set;" +
+      "ns.call(el,t);" +
+      "el.dispatchEvent(new Event('input',{bubbles:true}));" +
+      "}else{" +
+      "el.focus();" +
+      "el.innerHTML='<p>'+t.replace(/\\n/g,'</p><p>')+'</p>';" +
+      "el.dispatchEvent(new Event('input',{bubbles:true}));" +
+      "}" +
+      "alert('Prompt filled! Click Send when ready.');" +
+      "}())";
+
+    document.getElementById('bm-transcribe').href = transcribeCode;
+
+    var slidesPrompt = 'Describe each slide or visual change in this video with timestamps. Format as:\\n\\n**[MM:SS]** \\u2014 **Slide title or topic**\\n<Description of what\\u2019s shown: text, formulas, graphs, diagrams, examples, key definitions>\\n\\nBe thorough \\u2014 capture all text on each slide, any formulas, graph labels, and visual details that a student would need to follow along.';
+
+    var slidesCode = "javascript:void(function(){" +
+      "var t='" + slidesPrompt + "';" +
+      "var el=document.querySelector('.ql-editor')" +
+      "||document.querySelector('[contenteditable=\"true\"]')" +
+      "||document.querySelector('textarea');" +
+      "if(!el){alert('Could not find input field');return;}" +
+      "if(el.tagName==='TEXTAREA'){" +
+      "var ns=Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype,'value').set;" +
+      "ns.call(el,t);" +
+      "el.dispatchEvent(new Event('input',{bubbles:true}));" +
+      "}else{" +
+      "el.focus();" +
+      "el.innerHTML='<p>'+t.replace(/\\n/g,'</p><p>')+'</p>';" +
+      "el.dispatchEvent(new Event('input',{bubbles:true}));" +
+      "}" +
+      "alert('Prompt filled! Click Send when ready.');" +
+      "}())";
+
+    document.getElementById('bm-slides').href = slidesCode;
+
+    var saveCode = "javascript:void(function(){" +
+      "var containers=document.querySelectorAll('.model-response,.response-container,[data-test-id=\"response\"],.turn-content,.conversation-turn');" +
+      "var text='';" +
+      "if(containers.length>0){text=containers[containers.length-1].innerText;}" +
+      "else{var all=document.querySelectorAll('div,section,article');" +
+      "for(var i=all.length-1;i>=0;i--){" +
+      "if(all[i].innerText.length>200&&all[i].children.length<50){text=all[i].innerText;break;}" +
+      "}}" +
+      "if(!text){alert('Could not find response text');return;}" +
+      "var filename=prompt('Save as:','apstat_6-5-1_transcription.txt');" +
+      "if(!filename)return;" +
+      "var blob=new Blob([text],{type:'text/plain'});" +
+      "var a=document.createElement('a');" +
+      "a.href=URL.createObjectURL(blob);" +
+      "a.download=filename;" +
+      "a.click();" +
+      "URL.revokeObjectURL(a.href);" +
+      "}())";
+
+    document.getElementById('bm-save').href = saveCode;
+  </script>
+</body>
+</html>

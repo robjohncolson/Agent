@@ -2,20 +2,25 @@
 /**
  * aistudio-ingest.mjs — Automate Google AI Studio video transcription via Playwright
  *
- * Uses a real browser with persistent login so the user's Google session is available.
- * Submits videos (from Google Drive IDs or local files) to AI Studio and extracts
- * transcription + slide description responses.
+ * Connects to an already-running browser via Chrome DevTools Protocol (CDP) so the
+ * user's Google session is available. Falls back to launching a new persistent
+ * context if --launch is passed.
  *
- * Usage:
+ * Usage (preferred — CDP, connect to existing browser):
  *   node scripts/aistudio-ingest.mjs --unit 6 --lesson 5 \
  *     --drive-ids "1JE4_U3BNx90g66fasqu1yRNgslGkpwaI" "1_C9FAHoG_78nqXAcBh-REYx7a79zC7Cl"
  *
  *   node scripts/aistudio-ingest.mjs --unit 6 --lesson 5 \
  *     --files "./u6/videos/6-5-1.mp4" "./u6/videos/6-5-2.mp4"
  *
- *   node scripts/aistudio-ingest.mjs --unit 6 --lesson 5 --drive-ids "abc123" --dry-run
+ * Usage (fallback — launch new browser):
+ *   node scripts/aistudio-ingest.mjs --launch --unit 6 --lesson 5 --drive-ids "abc123"
+ *
+ * Start Edge with remote debugging:
+ *   scripts/start-edge-debug.cmd
  *
  * Prerequisites:
+ *   npm install playwright
  *   npx playwright install chromium
  */
 
@@ -29,6 +34,7 @@ let chromium;
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const AI_STUDIO_URL = "https://aistudio.google.com/prompts/new_chat";
+const CDP_URL = "http://127.0.0.1:9222";
 const USER_DATA_DIR = "C:/Users/ColsonR/.playwright-profile";
 const OUTPUT_BASE = "C:/Users/ColsonR/apstats-live-worksheet";
 
@@ -61,6 +67,8 @@ function parseArgs(argv) {
   const files = [];
   let dryRun = false;
   let model = "Gemini 2.5 Pro";
+  let useCDP = true;   // CDP is the default connection mode
+  let launch = false;   // --launch falls back to launching a new browser
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -87,6 +95,12 @@ function parseArgs(argv) {
       dryRun = true;
     } else if (arg === "--model") {
       model = args[++i];
+    } else if (arg === "--cdp") {
+      useCDP = true;
+      launch = false;
+    } else if (arg === "--launch") {
+      launch = true;
+      useCDP = false;
     }
   }
 
@@ -99,7 +113,9 @@ function parseArgs(argv) {
         "  --drive-ids       Space-separated Google Drive file IDs\n" +
         "  --files           Space-separated local video file paths\n" +
         "  --model           AI Studio model name (default: \"Gemini 2.5 Pro\")\n" +
-        "  --dry-run         Open browser but don't submit prompts\n"
+        "  --dry-run         Open browser but don't submit prompts\n" +
+        "  --cdp             Connect via CDP to an already-running browser (default)\n" +
+        "  --launch          Launch a new persistent browser instead of CDP\n"
     );
     process.exit(1);
   }
@@ -109,7 +125,7 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, files, dryRun, model };
+  return { unit, lesson, driveIds, files, dryRun, model, useCDP, launch };
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -829,6 +845,75 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
   }
 }
 
+/**
+ * Try to connect to an already-running browser via Chrome DevTools Protocol.
+ * Returns { browser, context, page, connectedViaCDP: true } or null.
+ */
+async function connectViaCDP() {
+  try {
+    const response = await fetch(`${CDP_URL}/json/version`);
+    if (response.ok) {
+      const info = await response.json();
+      console.log(`CDP: Found browser — ${info.Browser || "unknown"}`);
+      const browser = await chromium.connectOverCDP(CDP_URL);
+      const contexts = browser.contexts();
+      if (contexts.length === 0) {
+        console.log("CDP: No browser contexts found.");
+        return null;
+      }
+      const context = contexts[0];
+      const pages = context.pages();
+      // Prefer a tab already on AI Studio, otherwise use the first page
+      let page = pages.find(p => p.url().includes("aistudio.google.com")) || pages[0];
+      if (!page) {
+        page = await context.newPage();
+      }
+      console.log(`CDP: Connected. Using page: ${page.url()}`);
+      return { browser, context, page, connectedViaCDP: true };
+    }
+  } catch {
+    // No debuggable browser running — that's fine
+  }
+  return null;
+}
+
+/**
+ * Launch a new persistent browser context (fallback mode via --launch).
+ * Returns { browser: null, context, page, connectedViaCDP: false }.
+ */
+async function launchNewBrowser() {
+  console.log("Launching new browser (--launch mode)...");
+  let context;
+  try {
+    context = await chromium.launchPersistentContext(USER_DATA_DIR, {
+      headless: false,
+      viewport: { width: 1400, height: 900 },
+      args: [
+        "--disable-blink-features=AutomationControlled",
+        "--no-sandbox",
+        "--disable-gpu",
+      ],
+      ignoreDefaultArgs: ["--enable-automation"],
+    });
+  } catch (launchErr) {
+    console.error("Browser launch failed:", launchErr.message);
+    console.error("Retrying with --disable-software-rasterizer...");
+    context = await chromium.launchPersistentContext(USER_DATA_DIR, {
+      headless: false,
+      viewport: { width: 1400, height: 900 },
+      args: [
+        "--disable-blink-features=AutomationControlled",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-software-rasterizer",
+      ],
+      ignoreDefaultArgs: ["--enable-automation"],
+    });
+  }
+  const page = context.pages()[0] || await context.newPage();
+  return { browser: null, context, page, connectedViaCDP: false };
+}
+
 async function main() {
   const opts = parseArgs(process.argv);
 
@@ -849,7 +934,7 @@ async function main() {
   console.log(`Drive IDs: ${opts.driveIds.length > 0 ? opts.driveIds.join(", ") : "(none)"}`);
   console.log(`Local files: ${opts.files.length > 0 ? opts.files.join(", ") : "(none)"}`);
   console.log(`Dry run: ${opts.dryRun}`);
-  console.log(`User data dir: ${USER_DATA_DIR}`);
+  console.log(`Connection mode: ${opts.launch ? "launch (persistent context)" : "CDP (connect to running browser)"}`);
   console.log();
 
   // Ensure output directory exists
@@ -857,19 +942,34 @@ async function main() {
   fs.mkdirSync(outDir, { recursive: true });
   console.log(`Output directory: ${outDir}`);
 
-  // Launch browser with persistent context
-  console.log("Launching browser...");
-  const context = await chromium.launchPersistentContext(USER_DATA_DIR, {
-    headless: false,
-    viewport: { width: 1400, height: 900 },
-    args: [
-      "--disable-blink-features=AutomationControlled",
-      "--no-sandbox",
-    ],
-    ignoreDefaultArgs: ["--enable-automation"],
-  });
+  // ── Connect or launch the browser ─────────────────────────────────────────
+  let browser = null;   // non-null only for CDP connections
+  let context;
+  let page;
+  let connectedViaCDP = false;
 
-  const page = context.pages()[0] || await context.newPage();
+  if (opts.launch) {
+    // Explicit --launch: skip CDP, launch a new persistent context
+    ({ context, page, connectedViaCDP } = await launchNewBrowser());
+  } else {
+    // Default: try CDP connection first
+    console.log(`Attempting CDP connection at ${CDP_URL} ...`);
+    const cdpResult = await connectViaCDP();
+
+    if (cdpResult) {
+      ({ browser, context, page, connectedViaCDP } = cdpResult);
+    } else {
+      // CDP failed — print instructions and exit
+      console.error("\nNo browser with remote debugging found.");
+      console.error("Start Edge with debugging enabled:\n");
+      console.error('  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" --remote-debugging-port=9222\n');
+      console.error("Or run the helper script:\n");
+      console.error("  scripts\\start-edge-debug.cmd\n");
+      console.error("Then navigate to https://aistudio.google.com and run this script again.");
+      console.error("\nAlternatively, pass --launch to start a new browser with a Playwright profile.");
+      process.exit(1);
+    }
+  }
 
   // Build the list of videos to process
   const videos = [];
@@ -900,28 +1000,38 @@ async function main() {
   } catch (err) {
     console.error(`\nFatal error: ${err.message}`);
     console.error(err.stack);
-    console.log("\nThe browser will remain open for manual intervention.");
-    console.log("Press Enter to close the browser and exit.");
-    await waitForUserInput();
+    if (!connectedViaCDP) {
+      console.log("\nThe browser will remain open for manual intervention.");
+      console.log("Press Enter to close the browser and exit.");
+      await waitForUserInput();
+    }
   }
 
-  // Keep the browser open briefly so the user can review
-  if (!opts.dryRun) {
-    console.log("\nBrowser will remain open for 10 seconds for review...");
-    console.log("Press Enter to close immediately, or wait.");
-    const closePromise = new Promise((resolve) => {
-      const timer = setTimeout(resolve, 10_000);
-      process.stdin.once("data", () => {
-        clearTimeout(timer);
-        resolve();
+  // ── Cleanup ───────────────────────────────────────────────────────────────
+  if (connectedViaCDP) {
+    // CDP mode: disconnect without closing the user's browser
+    console.log("\nDisconnecting from browser (CDP). Your browser remains open.");
+    if (browser) {
+      await browser.close();  // close() on a CDP browser just disconnects
+    }
+  } else {
+    // Launch mode: give the user a moment then close
+    if (!opts.dryRun) {
+      console.log("\nBrowser will remain open for 10 seconds for review...");
+      console.log("Press Enter to close immediately, or wait.");
+      const closePromise = new Promise((resolve) => {
+        const timer = setTimeout(resolve, 10_000);
+        process.stdin.once("data", () => {
+          clearTimeout(timer);
+          resolve();
+        });
+        process.stdin.resume();
       });
-      process.stdin.resume();
-    });
-    await closePromise;
+      await closePromise;
+    }
+    await context.close();
+    console.log("Browser closed. Goodbye.");
   }
-
-  await context.close();
-  console.log("Browser closed. Goodbye.");
 }
 
 main().catch((err) => {
