@@ -61,6 +61,7 @@ function parseArgs(argv) {
   let quizUrl = null;
   let blooketUrl = null;
   let autoUrls = false;
+  let only = null;
   let courseId = DEFAULT_COURSE_ID;
   let dryRun = false;
 
@@ -81,6 +82,8 @@ function parseArgs(argv) {
       blooketUrl = args[++i];
     } else if (arg === "--auto-urls") {
       autoUrls = true;
+    } else if (arg === "--only") {
+      only = args[++i];
     } else if (arg === "--course") {
       courseId = args[++i];
     } else if (arg === "--dry-run") {
@@ -99,13 +102,14 @@ function parseArgs(argv) {
         "  --quiz            Quiz URL\n" +
         "  --blooket         Blooket URL\n" +
         "  --auto-urls       Auto-generate worksheet/drills/quiz URLs, prompt for blooket\n" +
+        "  --only            Post only this link type (worksheet, drills, quiz, blooket)\n" +
         "  --course          Course ID (default: 7945275782)\n" +
         "  --dry-run         Show what would be posted without actually posting\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, courseId, dryRun };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -273,7 +277,7 @@ async function main() {
   const titles = buildLinkTitles(unit, lesson);
 
   // Build the list of links to post
-  const links = [];
+  let links = [];
 
   if (autoUrls) {
     // Auto-generate worksheet, drills, quiz URLs
@@ -360,6 +364,14 @@ async function main() {
 
     if (links.length === 0) {
       console.error("Error: No URLs provided. Use --worksheet, --drills, --quiz, --blooket, or --auto-urls.");
+      process.exit(1);
+    }
+  }
+
+  if (autoUrls && opts.only) {
+    links = links.filter((link) => link.key === opts.only);
+    if (links.length === 0) {
+      console.error(`Error: --only "${opts.only}" but no matching link was generated.`);
       process.exit(1);
     }
   }
