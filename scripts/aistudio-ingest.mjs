@@ -3,20 +3,19 @@
  * aistudio-ingest.mjs — Automate Google AI Studio video transcription via Playwright
  *
  * Connects to an already-running browser via Chrome DevTools Protocol (CDP) so the
- * user's Google session is available. Falls back to launching a new persistent
- * context if --launch is passed.
+ * user's Google session is available. CDP is the only supported connection mode
+ * (required on this school machine).
  *
- * Usage (preferred — CDP, connect to existing browser):
+ * Default model: Gemini 3.1 Pro (zero API quota — web UI only).
+ *
+ * Usage:
  *   node scripts/aistudio-ingest.mjs --unit 6 --lesson 5 \
  *     --drive-ids "1JE4_U3BNx90g66fasqu1yRNgslGkpwaI" "1_C9FAHoG_78nqXAcBh-REYx7a79zC7Cl"
  *
  *   node scripts/aistudio-ingest.mjs --unit 6 --lesson 5 \
  *     --files "./u6/videos/6-5-1.mp4" "./u6/videos/6-5-2.mp4"
  *
- * Usage (fallback — launch new browser):
- *   node scripts/aistudio-ingest.mjs --launch --unit 6 --lesson 5 --drive-ids "abc123"
- *
- * Start Edge with remote debugging:
+ * Start Edge with remote debugging first:
  *   scripts/start-edge-debug.cmd
  *
  * Prerequisites:
@@ -35,11 +34,9 @@ let chromium;
 
 const AI_STUDIO_URL = "https://aistudio.google.com/prompts/new_chat";
 const CDP_URL = "http://127.0.0.1:9222";
-const USER_DATA_DIR = "C:/Users/ColsonR/.playwright-profile";
 const OUTPUT_BASE = "C:/Users/ColsonR/apstats-live-worksheet";
 
 const RESPONSE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes max per response
-const RESPONSE_STABLE_MS = 5000;             // text must be stable for 5s
 const POLL_INTERVAL_MS = 2000;               // check every 2s
 
 const PROMPTS = {
@@ -66,9 +63,7 @@ function parseArgs(argv) {
   const driveIds = [];
   const files = [];
   let dryRun = false;
-  let model = "Gemini 2.5 Pro";
-  let useCDP = true;   // CDP is the default connection mode
-  let launch = false;   // --launch falls back to launching a new browser
+  let model = "Gemini 3.1 Pro";
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -95,12 +90,6 @@ function parseArgs(argv) {
       dryRun = true;
     } else if (arg === "--model") {
       model = args[++i];
-    } else if (arg === "--cdp") {
-      useCDP = true;
-      launch = false;
-    } else if (arg === "--launch") {
-      launch = true;
-      useCDP = false;
     }
   }
 
@@ -112,10 +101,10 @@ function parseArgs(argv) {
         "  -l, --lesson      Lesson number (required)\n" +
         "  --drive-ids       Space-separated Google Drive file IDs\n" +
         "  --files           Space-separated local video file paths\n" +
-        "  --model           AI Studio model name (default: \"Gemini 2.5 Pro\")\n" +
-        "  --dry-run         Open browser but don't submit prompts\n" +
-        "  --cdp             Connect via CDP to an already-running browser (default)\n" +
-        "  --launch          Launch a new persistent browser instead of CDP\n"
+        "  --model           AI Studio model name (default: \"Gemini 3.1 Pro\")\n" +
+        "  --dry-run         Open browser but don't submit prompts\n\n" +
+        "Connects via CDP to an already-running browser (start with scripts/start-edge-debug.cmd).\n" +
+        "Default model is Gemini 3.1 Pro (zero API quota, web UI only).\n"
     );
     process.exit(1);
   }
@@ -125,7 +114,7 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, files, dryRun, model, useCDP, launch };
+  return { unit, lesson, driveIds, files, dryRun, model };
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -141,45 +130,103 @@ function outputPath(unit, lesson, videoNum, suffix) {
  *
  * Strategy:
  *   1. Wait for a model response container to appear.
- *   2. Poll the text content length until it stabilizes (no change for RESPONSE_STABLE_MS).
+ *   2. Poll the text content length until a substantial response appears (>500 chars).
  *   3. Also check for the reappearance of the send button / disappearance of stop button.
  *   4. Hard timeout at RESPONSE_TIMEOUT_MS.
  */
-async function waitForResponse(page) {
+async function waitForResponse(page, turnCountBefore = 0) {
   console.log("    Waiting for response to complete...");
 
   const deadline = Date.now() + RESPONSE_TIMEOUT_MS;
 
-  // Wait for any model response content to appear (try several selectors)
-  const responseSelectors = [
-    ".response-container",
-    ".model-response",
-    '[data-test-id="response"]',
-    "ms-chat-turn-container .turn-content",
-    ".chat-turn-container .turn-content",
-    ".markdown-content",
-    'div[class*="response"]',
-    'div[class*="model-turn"]',
-    'div[class*="assistant"]',
-  ];
+  // Step 1: Wait for a MODEL response turn to appear
+  // User turns contain "User" text, model turns contain "Model" text
+  console.log(`    Watching for model response turn...`);
 
+  // Track the total text length in the chat before submission
+  const chatTextBefore = await page.evaluate(() => {
+    const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
+    let total = 0;
+    for (const turn of turns) total += turn.innerText.length;
+    return total;
+  }).catch(() => 0);
+
+  let responseReady = false;
+  const turnDeadline = Date.now() + 300000; // 5 min
+  const startTime = Date.now();
+
+  while (Date.now() < turnDeadline) {
+    // Check if model is still generating (Stop button visible)
+    const status = await page.evaluate(() => {
+      const btn = document.querySelector("button.ctrl-enter-submits");
+      const isGenerating = btn && btn.innerText.includes("Stop");
+
+      // Find the longest turn (model response is typically >500 chars)
+      const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
+      let maxLen = 0;
+      for (const turn of turns) {
+        const len = turn.innerText.length;
+        if (len > maxLen) maxLen = len;
+      }
+
+      return { isGenerating, maxTurnLen: maxLen, turnCount: turns.length };
+    }).catch(() => ({ isGenerating: false, maxTurnLen: 0, turnCount: 0 }));
+
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+
+    // Response is ready when: not generating AND there's a substantial turn (>500 chars)
+    if (!status.isGenerating && status.maxTurnLen > 500) {
+      process.stdout.write("\n");
+      console.log(`    Model response complete. (${status.maxTurnLen} chars, ${elapsed}s)`);
+      responseReady = true;
+      break;
+    }
+
+    if (status.isGenerating) {
+      process.stdout.write(`\r    Gemini is generating... ${elapsed}s (${status.maxTurnLen} chars so far)`);
+    } else if (status.maxTurnLen < 500) {
+      process.stdout.write(`\r    Waiting for substantial response... ${elapsed}s`);
+    }
+
+    await page.waitForTimeout(POLL_INTERVAL_MS);
+  }
+
+  if (!responseReady) {
+    process.stdout.write("\n");
+    console.log("    WARNING: Response may not be complete. Check the browser.");
+    console.log("    Press Enter when the response is ready...");
+    await waitForUserInput();
+  }
+
+  // Step 2: Find the turn with the most content (the model's response)
   let responseEl = null;
-  const selectorDeadline = Date.now() + 60_000; // 60s to find the response container
+  const selectorDeadline = Date.now() + 30_000;
 
   while (!responseEl && Date.now() < selectorDeadline) {
-    for (const sel of responseSelectors) {
-      try {
-        const els = await page.$$(sel);
-        if (els.length > 0) {
-          // Take the last one (most recent response)
-          responseEl = els[els.length - 1];
-          console.log(`    Found response element: ${sel}`);
-          break;
+    try {
+      const turnHandle = await page.evaluateHandle(() => {
+        const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
+        let bestTurn = null;
+        let bestLen = 0;
+        for (const turn of turns) {
+          const len = turn.innerText.length;
+          if (len > bestLen) {
+            bestLen = len;
+            bestTurn = turn;
+          }
         }
-      } catch {
-        // selector not found, try next
+        return bestTurn;
+      });
+
+      if (turnHandle && await turnHandle.evaluate(el => el !== null).catch(() => false)) {
+        responseEl = turnHandle.asElement();
+        const len = await responseEl.evaluate(el => el.innerText.length);
+        console.log(`    Found response turn (${len} chars).`);
       }
+    } catch {
+      // retry
     }
+
     if (!responseEl) {
       await page.waitForTimeout(POLL_INTERVAL_MS);
     }
@@ -190,128 +237,35 @@ async function waitForResponse(page) {
     console.log("    Falling back to waiting for send button to reappear...");
   }
 
-  // Now poll until the response text stabilizes
-  let lastText = "";
-  let lastChangeTime = Date.now();
-
-  while (Date.now() < deadline) {
-    await page.waitForTimeout(POLL_INTERVAL_MS);
-
-    // Check if the send/submit button is enabled again (indicates generation complete)
-    const sendButtonReady = await page.evaluate(() => {
-      // Look for the run/send button that is not disabled
-      const buttons = document.querySelectorAll('button[aria-label="Run"], button[aria-label="Send"], button[data-test-id="send-button"]');
-      for (const btn of buttons) {
-        if (!btn.disabled && btn.offsetParent !== null) return true;
-      }
-      // Also check if stop button is gone
-      const stopBtn = document.querySelector('button[aria-label="Stop"], button[data-test-id="stop-button"]');
-      if (!stopBtn || stopBtn.offsetParent === null) return true;
-      return false;
-    });
-
-    // Get current response text
-    let currentText = "";
-    if (responseEl) {
-      try {
-        currentText = await responseEl.innerText();
-      } catch {
-        // Element might have been replaced; try to re-find it
-        for (const sel of responseSelectors) {
-          try {
-            const els = await page.$$(sel);
-            if (els.length > 0) {
-              responseEl = els[els.length - 1];
-              currentText = await responseEl.innerText();
-              break;
-            }
-          } catch {
-            // continue
-          }
-        }
-      }
-    }
-
-    if (currentText !== lastText) {
-      lastText = currentText;
-      lastChangeTime = Date.now();
-      const lines = currentText.split("\n").length;
-      process.stdout.write(`\r    Streaming... ${lines} lines received`);
-    }
-
-    // Consider done if: text has stabilized AND (send button is ready OR we've waited long enough)
-    const stableFor = Date.now() - lastChangeTime;
-    if (currentText.length > 0 && stableFor >= RESPONSE_STABLE_MS && sendButtonReady) {
-      process.stdout.write("\n");
-      console.log("    Response complete.");
-      return currentText;
-    }
-
-    // Also accept if text is stable for a very long time even without button signal
-    if (currentText.length > 0 && stableFor >= RESPONSE_STABLE_MS * 3) {
-      process.stdout.write("\n");
-      console.log("    Response appears complete (stable text, no button signal).");
-      return currentText;
-    }
-  }
-
-  process.stdout.write("\n");
-  console.log("    WARNING: Response timed out. Extracting whatever text is available.");
-  return lastText || "";
-}
-
-/**
- * Extract the response text from the page. Tries multiple strategies.
- */
-async function extractResponseText(page) {
-  // Strategy 1: find model response turns and take the last one
-  const strategies = [
-    // AI Studio model turns
-    async () => {
-      const turns = await page.$$('div[class*="model-turn"], div[class*="response"], .model-response');
-      if (turns.length > 0) {
-        return await turns[turns.length - 1].innerText();
-      }
-      return null;
-    },
-    // Markdown content blocks
-    async () => {
-      const blocks = await page.$$(".markdown-content, .rendered-markdown");
-      if (blocks.length > 0) {
-        return await blocks[blocks.length - 1].innerText();
-      }
-      return null;
-    },
-    // Chat turn containers — take every other one (model turns)
-    async () => {
-      const turns = await page.$$(".chat-turn, .turn-content, ms-chat-turn-container");
-      if (turns.length >= 2) {
-        // Last turn should be the model response
-        return await turns[turns.length - 1].innerText();
-      }
-      return null;
-    },
-    // Fallback: grab all text from the main content area
-    async () => {
-      const main = await page.$("main, .chat-container, .conversation");
-      if (main) {
-        return await main.innerText();
-      }
-      return null;
-    },
-  ];
-
-  for (const strategy of strategies) {
+  // Response is already confirmed complete by Step 1. Extract the text now.
+  if (responseEl) {
     try {
-      const text = await strategy();
-      if (text && text.trim().length > 50) {
-        return text.trim();
-      }
-    } catch {
-      // try next strategy
+      const text = await responseEl.innerText();
+      const lines = text.split("\n").length;
+      console.log(`    Extracted ${lines} lines, ${text.length} chars.`);
+      return text;
+    } catch (e) {
+      console.log(`    Error extracting from turn element: ${e.message}`);
     }
   }
 
+  // Fallback: extract via evaluate
+  const fallbackText = await page.evaluate(() => {
+    const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
+    let best = "";
+    for (const turn of turns) {
+      if (turn.innerText.length > best.length) best = turn.innerText;
+    }
+    return best;
+  }).catch(() => "");
+
+  if (fallbackText.length > 50) {
+    const lines = fallbackText.split("\n").length;
+    console.log(`    Extracted via fallback: ${lines} lines, ${fallbackText.length} chars.`);
+    return fallbackText;
+  }
+
+  console.log("    WARNING: Could not extract response text.");
   return "";
 }
 
@@ -349,207 +303,286 @@ async function typeAndSubmit(page, promptText) {
     throw new Error("Could not find prompt input element. AI Studio UI may have changed.");
   }
 
-  // Click to focus and type the prompt
+  // Click to focus the textarea
   await inputEl.click();
   await page.waitForTimeout(500);
 
-  // Use fill for textarea, or type for contenteditable
-  const tagName = await inputEl.evaluate((el) => el.tagName.toLowerCase());
-  if (tagName === "textarea" || tagName === "input") {
+  // Type the prompt using keyboard (triggers Angular change detection properly)
+  // Use clipboard paste for speed — typing char by char is too slow
+  await page.evaluate(async (text) => {
+    await navigator.clipboard.writeText(text);
+  }, promptText).catch(() => {});
+
+  // Paste via Ctrl+V
+  await page.keyboard.down("Control");
+  await page.keyboard.press("v");
+  await page.keyboard.up("Control");
+  await page.waitForTimeout(1000);
+
+  // Verify the prompt was entered
+  const enteredText = await inputEl.evaluate(el => el.value || el.innerText).catch(() => "");
+  if (enteredText.length < 20) {
+    // Clipboard paste didn't work — try fill() as fallback
+    console.log("    Clipboard paste didn't work, trying fill()...");
     await inputEl.fill(promptText);
-  } else {
-    // contenteditable — type character by character is too slow, use clipboard
-    await page.evaluate((text) => {
-      const el = document.querySelector('div[contenteditable="true"], div[role="textbox"]');
-      if (el) {
-        el.innerText = text;
-        el.dispatchEvent(new Event("input", { bubbles: true }));
-      }
-    }, promptText);
+    await page.waitForTimeout(500);
   }
 
-  await page.waitForTimeout(500);
+  console.log(`    Prompt entered (${enteredText.length} chars). Submitting with Ctrl+Enter...`);
 
-  // Click the send/run button
-  const sendSelectors = [
-    'button[aria-label="Run"]',
-    'button[aria-label="Send"]',
-    'button[aria-label="Send message"]',
-    'button[data-test-id="send-button"]',
-    'button[class*="send"]',
-    'button[class*="run"]',
-    'button[class*="submit"]',
-  ];
-
-  let submitted = false;
-  for (const sel of sendSelectors) {
-    try {
-      const btn = await page.$(sel);
-      if (btn && await btn.isEnabled()) {
-        await btn.click();
-        console.log(`    Clicked submit button: ${sel}`);
-        submitted = true;
-        break;
-      }
-    } catch {
-      // try next
-    }
-  }
-
-  if (!submitted) {
-    // Fallback: try Enter key
-    console.log("    No submit button found, trying Enter key...");
-    await inputEl.press("Enter");
-  }
+  // Submit using Ctrl+Enter — the keyboard shortcut shown on AI Studio's Run button
+  await page.keyboard.down("Control");
+  await page.keyboard.press("Enter");
+  await page.keyboard.up("Control");
 
   await page.waitForTimeout(1000);
 }
 
 /**
- * Attach a file from Google Drive using its file ID.
+ * Wait for media (video) to finish processing after attachment.
+ * AI Studio shows a processing state while uploading/analyzing the video.
+ * The Run button is not clickable until processing is complete.
+ */
+async function waitForMediaReady(page) {
+  const maxWait = 180000; // 3 minutes — videos can take a while
+  const pollInterval = 2000;
+  const startTime = Date.now();
+
+  while (Date.now() - startTime < maxWait) {
+    const status = await page.evaluate(() => {
+      // Check for any loading/processing indicators
+      const spinners = document.querySelectorAll(
+        '[class*="spinner"], [class*="loading"], [class*="progress"], ' +
+        '[class*="processing"], [class*="uploading"], mat-spinner, ' +
+        'mat-progress-bar, mat-progress-spinner, [role="progressbar"]'
+      );
+      let hasSpinner = false;
+      for (const s of spinners) {
+        if (s.offsetParent !== null && s.offsetWidth > 0) {
+          hasSpinner = true;
+          break;
+        }
+      }
+
+      // Check the Run/Add button state (button text changes: "Add" when empty, "Run" with prompt)
+      const allBtns = document.querySelectorAll('button');
+      let runBtnEnabled = false;
+      for (const btn of allBtns) {
+        if (btn.classList.contains('ctrl-enter-submits')) {
+          runBtnEnabled = !btn.disabled && btn.getAttribute('aria-disabled') !== 'true';
+          break;
+        }
+      }
+
+      // Check for media chip/thumbnail that indicates processing complete
+      const mediaChips = document.querySelectorAll(
+        '[class*="media-chip"], [class*="file-chip"], [class*="video-preview"], ' +
+        '[class*="attachment"], [class*="thumb"]'
+      );
+      let hasMediaChip = mediaChips.length > 0;
+
+      return { hasSpinner, runBtnEnabled, hasMediaChip };
+    });
+
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+
+    // Require at least 10 seconds of wait — video processing takes time
+    if (!status.hasSpinner && status.runBtnEnabled && elapsed >= 10) {
+      console.log(`    Video ready! (${elapsed}s)`);
+      return;
+    }
+
+    if (status.hasSpinner) {
+      process.stdout.write(`\r    Processing video... ${elapsed}s`);
+    } else if (!status.runBtnEnabled) {
+      process.stdout.write(`\r    Waiting for Run button to enable... ${elapsed}s`);
+    }
+
+    await page.waitForTimeout(pollInterval);
+  }
+
+  process.stdout.write("\n");
+  console.log("    WARNING: Media processing timed out. Attempting to continue anyway...");
+}
+
+/**
+ * Attach a file from Google Drive using the native Drive picker in AI Studio.
  *
- * This navigates the Drive picker UI within AI Studio. If the picker approach
- * fails, it falls back to constructing the file URL and pasting it.
+ * Strategy:
+ * 1. Click the paperclip/attach button
+ * 2. Click "Google Drive" option
+ * 3. Wait for the user to pick their file in the Drive picker
+ * 4. Detect that a file attachment appeared in the UI
+ * 5. Continue automatically
  */
 async function attachDriveFile(page, driveId) {
   console.log(`    Attaching Drive file: ${driveId}`);
 
-  // Look for the attachment / add file button
+  // Take a snapshot of current page content to detect when attachment appears
+  const getAttachmentCount = async () => {
+    const count = await page.evaluate(() => {
+      // Look for attachment indicators in AI Studio UI
+      const selectors = [
+        '[class*="attachment"]',
+        '[class*="file-chip"]',
+        '[class*="media-chip"]',
+        '[class*="uploaded"]',
+        '[data-file]',
+        '[class*="file-preview"]',
+        '[class*="video-preview"]',
+        'img[class*="thumb"]',
+        '[class*="chip"]',
+      ];
+      let total = 0;
+      for (const sel of selectors) {
+        total += document.querySelectorAll(sel).length;
+      }
+      return total;
+    }).catch(() => 0);
+    return count;
+  };
+
+  const beforeCount = await getAttachmentCount();
+
+  // Step 1: Click the paperclip / attach button
   const attachSelectors = [
-    'button[aria-label="Add file"]',
-    'button[aria-label="Insert media"]',
-    'button[aria-label="Upload"]',
-    'button[aria-label="Attach"]',
-    'button[class*="upload"]',
-    'button[class*="attach"]',
-    'button[class*="media"]',
-    // Material icon buttons with attachment icons
-    'button:has(mat-icon)',
+    'button[aria-label*="Add"]',
+    'button[aria-label*="file"]',
+    'button[aria-label*="Upload"]',
+    'button[aria-label*="Attach"]',
+    'button[aria-label*="Insert"]',
+    'button[aria-label*="media"]',
+    'button[mattooltip*="file"]',
+    'button[mattooltip*="media"]',
   ];
 
-  let attachBtn = null;
+  let clicked = false;
   for (const sel of attachSelectors) {
     try {
-      const btns = await page.$$(sel);
-      for (const btn of btns) {
-        const text = await btn.innerText().catch(() => "");
-        const label = await btn.getAttribute("aria-label").catch(() => "");
-        if (
-          text.toLowerCase().includes("add") ||
-          text.toLowerCase().includes("upload") ||
-          text.toLowerCase().includes("file") ||
-          text.toLowerCase().includes("media") ||
-          text.toLowerCase().includes("insert") ||
-          text.toLowerCase().includes("+") ||
-          label?.toLowerCase().includes("add") ||
-          label?.toLowerCase().includes("file") ||
-          label?.toLowerCase().includes("media") ||
-          label?.toLowerCase().includes("insert")
-        ) {
-          attachBtn = btn;
-          break;
-        }
+      const btn = await page.$(sel);
+      if (btn) {
+        await btn.click();
+        console.log(`    Clicked attach button.`);
+        clicked = true;
+        await page.waitForTimeout(1500);
+        break;
       }
-      if (attachBtn) break;
-    } catch {
-      // try next
-    }
+    } catch { /* try next */ }
   }
 
-  if (!attachBtn) {
-    // Try a broader search for buttons near the input
+  if (!clicked) {
+    // Broad search for any button with attachment-related icons/text
     const allButtons = await page.$$("button");
     for (const btn of allButtons) {
       try {
-        const text = (await btn.innerText()).toLowerCase();
         const label = (await btn.getAttribute("aria-label") || "").toLowerCase();
-        if (
-          text.includes("add file") ||
-          text.includes("upload") ||
-          text.includes("insert") ||
-          label.includes("add file") ||
-          label.includes("upload") ||
-          label.includes("insert media")
-        ) {
-          attachBtn = btn;
-          console.log(`    Found attach button with text: "${text}" / label: "${label}"`);
+        const tooltip = (await btn.getAttribute("mattooltip") || "").toLowerCase();
+        const text = (await btn.innerText() || "").toLowerCase();
+        if (label.includes("add") || label.includes("file") || label.includes("upload") ||
+            label.includes("attach") || label.includes("insert") || label.includes("media") ||
+            tooltip.includes("file") || tooltip.includes("media") || tooltip.includes("add") ||
+            text === "+" || text.includes("add file")) {
+          await btn.click();
+          console.log(`    Clicked attach button (broad match).`);
+          clicked = true;
+          await page.waitForTimeout(1500);
           break;
         }
-      } catch {
-        // continue
-      }
+      } catch { /* continue */ }
     }
   }
 
-  if (attachBtn) {
-    await attachBtn.click();
-    await page.waitForTimeout(2000);
+  // Step 2: Click "Google Drive" option in the menu that appears
+  if (clicked) {
+    const driveSelectors = [
+      'text="Google Drive"',
+      'button:has-text("Google Drive")',
+      '[aria-label*="Google Drive"]',
+      'a:has-text("Google Drive")',
+      'div:has-text("Google Drive")',
+      'li:has-text("Google Drive")',
+      'span:has-text("Google Drive")',
+      'mat-option:has-text("Drive")',
+    ];
 
-    // Look for Google Drive option in the menu/dialog that appears
-    const driveOption = await page.$(
-      'text="Google Drive", button:has-text("Google Drive"), [aria-label*="Drive"], a:has-text("Google Drive"), div:has-text("Google Drive")'
-    ).catch(() => null);
-
-    if (driveOption) {
-      await driveOption.click();
-      await page.waitForTimeout(3000);
-
-      // The Drive picker opens — we need to search for the file by ID
-      // Try typing the file ID into the picker search
-      const pickerSearch = await page.$('input[type="text"], input[aria-label*="Search"]').catch(() => null);
-      if (pickerSearch) {
-        await pickerSearch.fill(driveId);
-        await page.waitForTimeout(2000);
-        // Click the first result
-        const firstResult = await page.$('.picker-item, .drive-item, tr[data-id]').catch(() => null);
-        if (firstResult) {
-          await firstResult.click();
-          await page.waitForTimeout(1000);
-          // Click Select / Open
-          const selectBtn = await page.$('button:has-text("Select"), button:has-text("Open"), button:has-text("Insert")').catch(() => null);
-          if (selectBtn) {
-            await selectBtn.click();
-            await page.waitForTimeout(2000);
-            console.log("    Drive file attached via picker.");
-            return true;
-          }
+    let driveClicked = false;
+    for (const sel of driveSelectors) {
+      try {
+        const el = await page.$(sel);
+        if (el) {
+          await el.click();
+          console.log(`    Clicked "Google Drive" option.`);
+          driveClicked = true;
+          await page.waitForTimeout(2000);
+          break;
         }
+      } catch { /* try next */ }
+    }
+
+    if (!driveClicked) {
+      // The menu might use different text — try clicking anything with "drive" in it
+      const menuItems = await page.$$("button, a, li, div[role='menuitem'], mat-option, span[role='menuitem']");
+      for (const item of menuItems) {
+        try {
+          const text = (await item.innerText() || "").toLowerCase();
+          if (text.includes("drive") && text.length < 30) {
+            await item.click();
+            console.log(`    Clicked Drive option: "${text}"`);
+            driveClicked = true;
+            await page.waitForTimeout(2000);
+            break;
+          }
+        } catch { /* continue */ }
       }
     }
   }
 
-  // Fallback approach: try to use the URL-based insertion
-  // Some AI Studio versions support pasting a Drive link directly
-  const driveUrl = `https://drive.google.com/file/d/${driveId}/view`;
-  console.log(`    Picker approach inconclusive. Trying URL-based attachment...`);
-  console.log(`    Drive URL: ${driveUrl}`);
+  // Step 3: The Drive picker is now open. Ask user to pick the file.
+  console.log("");
+  console.log(`    >> Pick the video in the Drive picker that just opened.`);
+  console.log(`    >> Drive ID: ${driveId}`);
+  console.log(`    >> Waiting for attachment to appear...`);
 
-  // Try to find a URL input or paste the link into the chat
-  const urlInput = await page.$('input[placeholder*="URL"], input[placeholder*="url"], input[type="url"]').catch(() => null);
-  if (urlInput) {
-    await urlInput.fill(driveUrl);
-    await page.waitForTimeout(1000);
-    const confirmBtn = await page.$('button:has-text("Add"), button:has-text("Insert"), button:has-text("OK")').catch(() => null);
-    if (confirmBtn) {
-      await confirmBtn.click();
-      await page.waitForTimeout(2000);
-      console.log("    Drive file attached via URL input.");
-      return true;
+  // Step 4: Poll for attachment to appear in the UI (auto-detect, no Enter needed)
+  const maxWait = 120000; // 2 minutes
+  const pollInterval = 1500;
+  const startTime = Date.now();
+  let attached = false;
+
+  while (Date.now() - startTime < maxWait) {
+    await page.waitForTimeout(pollInterval);
+
+    const afterCount = await getAttachmentCount();
+    if (afterCount > beforeCount) {
+      console.log(`    File attached! (detected new attachment element)`);
+      attached = true;
+      break;
+    }
+
+    // Also check if the page content changed to include a video/file indicator
+    const hasFile = await page.evaluate(() => {
+      const body = document.body.innerText.toLowerCase();
+      return body.includes(".mp4") || body.includes(".webm") || body.includes(".mov") ||
+             body.includes("video attached") || body.includes("file attached") ||
+             body.includes("processing") || body.includes("uploading");
+    }).catch(() => false);
+
+    if (hasFile) {
+      console.log(`    File detected in page content!`);
+      attached = true;
+      break;
     }
   }
 
-  // Last resort: alert the user
-  console.log("");
-  console.log("    ==========================================");
-  console.log("    MANUAL STEP NEEDED: Attach the video file");
-  console.log(`    Drive ID: ${driveId}`);
-  console.log(`    Drive URL: ${driveUrl}`);
-  console.log("    ==========================================");
-  console.log("    Please attach the file manually in the browser,");
-  console.log("    then press Enter in this terminal to continue.");
-  console.log("");
+  if (!attached) {
+    // Timeout — ask user to confirm
+    console.log(`    Could not auto-detect attachment. Did you pick the file?`);
+    console.log(`    Press Enter to continue anyway.`);
+    await waitForUserInput();
+  }
 
-  await waitForUserInput();
+  // Give AI Studio a moment to process the attachment
+  await page.waitForTimeout(3000);
   return true;
 }
 
@@ -780,27 +813,60 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
   console.log(`${label}: ${isDriveId ? `Drive ID ${videoIdentifier}` : videoIdentifier}`);
   console.log("=".repeat(60));
 
-  for (const [promptKey, promptText] of Object.entries(PROMPTS)) {
+  const promptEntries = Object.entries(PROMPTS);
+  let isFirstPrompt = true;
+  let needsNewChat = false;
+
+  // Check if all outputs for this video already exist (skip entirely)
+  const allDone = promptEntries.every(([key]) => {
+    const f = outputPath(unit, lesson, videoNum, key);
+    return fs.existsSync(f) && fs.statSync(f).size > 500;
+  });
+  if (allDone) {
+    console.log(`\n  All outputs for ${label} already exist. Skipping entirely.`);
+    return;
+  }
+
+  // If first prompt was already done but second wasn't, we need a fresh chat for the second
+  const firstDone = fs.existsSync(outputPath(unit, lesson, videoNum, promptEntries[0][0]))
+    && fs.statSync(outputPath(unit, lesson, videoNum, promptEntries[0][0])).size > 500;
+  if (firstDone) {
+    needsNewChat = true;
+  }
+
+  for (const [promptKey, promptText] of promptEntries) {
     const suffix = promptKey; // "transcription" or "slides"
     const outFile = outputPath(unit, lesson, videoNum, suffix);
 
     console.log(`\n  --- ${label} / ${promptKey} ---`);
 
-    // Navigate to new chat
-    await navigateToNewChat(page);
-
-    // Select model
-    await selectModel(page, opts.model);
-
-    // Attach the video
-    if (isDriveId) {
-      await attachDriveFile(page, videoIdentifier);
-    } else {
-      await attachLocalFile(page, videoIdentifier);
+    // Resume logic: skip if output file already exists with substantial content
+    if (fs.existsSync(outFile) && fs.statSync(outFile).size > 500) {
+      console.log(`    SKIPPING — already have ${fs.statSync(outFile).size} bytes in ${path.basename(outFile)}`);
+      continue;
     }
 
-    // Wait a moment for the attachment to register
-    await page.waitForTimeout(2000);
+    if (isFirstPrompt || needsNewChat) {
+      // Need a new chat: either first prompt, or resuming mid-video
+      await navigateToNewChat(page);
+      await selectModel(page, opts.model);
+
+      if (isDriveId) {
+        await attachDriveFile(page, videoIdentifier);
+      } else {
+        await attachLocalFile(page, videoIdentifier);
+      }
+
+      // Wait for media to finish processing before submitting
+      console.log("    Waiting for video to finish processing...");
+      await waitForMediaReady(page);
+      isFirstPrompt = false;
+      needsNewChat = false;
+    } else {
+      // Subsequent prompts: stay in same chat, video is already loaded
+      console.log("    Continuing in same chat (video already attached)...");
+      await page.waitForTimeout(1000);
+    }
 
     if (dryRun) {
       console.log("    [DRY RUN] Would submit prompt:");
@@ -809,27 +875,23 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
       continue;
     }
 
+    // Count existing turns BEFORE submitting so we can detect the NEW response
+    const turnCountBefore = await page.evaluate(() => {
+      return document.querySelectorAll("ms-chat-turn, .chat-turn").length;
+    }).catch(() => 0);
+
     // Type and submit the prompt
     console.log("    Submitting prompt...");
     await typeAndSubmit(page, promptText);
 
-    // Wait for the response
-    let responseText = await waitForResponse(page);
-
-    // If waitForResponse returned text directly, use it; otherwise extract
-    if (!responseText || responseText.length < 50) {
-      console.log("    Attempting secondary text extraction...");
-      responseText = await extractResponseText(page);
-    }
+    // Wait for the response — pass turn count so it waits for a NEW turn
+    let responseText = await waitForResponse(page, turnCountBefore);
 
     if (!responseText || responseText.length < 50) {
       console.log("    WARNING: Response text appears too short or empty.");
       console.log("    The browser is still open — you can manually copy the response.");
       console.log("    Press Enter to continue to the next prompt...");
       await waitForUserInput();
-
-      // One more attempt
-      responseText = await extractResponseText(page);
     }
 
     // Save the response
@@ -847,7 +909,7 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
 
 /**
  * Try to connect to an already-running browser via Chrome DevTools Protocol.
- * Returns { browser, context, page, connectedViaCDP: true } or null.
+ * Returns { browser, context, page } or null.
  */
 async function connectViaCDP() {
   try {
@@ -869,49 +931,12 @@ async function connectViaCDP() {
         page = await context.newPage();
       }
       console.log(`CDP: Connected. Using page: ${page.url()}`);
-      return { browser, context, page, connectedViaCDP: true };
+      return { browser, context, page };
     }
   } catch {
     // No debuggable browser running — that's fine
   }
   return null;
-}
-
-/**
- * Launch a new persistent browser context (fallback mode via --launch).
- * Returns { browser: null, context, page, connectedViaCDP: false }.
- */
-async function launchNewBrowser() {
-  console.log("Launching new browser (--launch mode)...");
-  let context;
-  try {
-    context = await chromium.launchPersistentContext(USER_DATA_DIR, {
-      headless: false,
-      viewport: { width: 1400, height: 900 },
-      args: [
-        "--disable-blink-features=AutomationControlled",
-        "--no-sandbox",
-        "--disable-gpu",
-      ],
-      ignoreDefaultArgs: ["--enable-automation"],
-    });
-  } catch (launchErr) {
-    console.error("Browser launch failed:", launchErr.message);
-    console.error("Retrying with --disable-software-rasterizer...");
-    context = await chromium.launchPersistentContext(USER_DATA_DIR, {
-      headless: false,
-      viewport: { width: 1400, height: 900 },
-      args: [
-        "--disable-blink-features=AutomationControlled",
-        "--no-sandbox",
-        "--disable-gpu",
-        "--disable-software-rasterizer",
-      ],
-      ignoreDefaultArgs: ["--enable-automation"],
-    });
-  }
-  const page = context.pages()[0] || await context.newPage();
-  return { browser: null, context, page, connectedViaCDP: false };
 }
 
 async function main() {
@@ -928,13 +953,12 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("\nAI Studio Video Ingest — Playwright Automation");
+  console.log("\nAI Studio Video Ingest — Playwright Automation (CDP)");
   console.log(`Unit: ${opts.unit}  Lesson: ${opts.lesson}`);
   console.log(`Model: ${opts.model}`);
   console.log(`Drive IDs: ${opts.driveIds.length > 0 ? opts.driveIds.join(", ") : "(none)"}`);
   console.log(`Local files: ${opts.files.length > 0 ? opts.files.join(", ") : "(none)"}`);
   console.log(`Dry run: ${opts.dryRun}`);
-  console.log(`Connection mode: ${opts.launch ? "launch (persistent context)" : "CDP (connect to running browser)"}`);
   console.log();
 
   // Ensure output directory exists
@@ -942,34 +966,21 @@ async function main() {
   fs.mkdirSync(outDir, { recursive: true });
   console.log(`Output directory: ${outDir}`);
 
-  // ── Connect or launch the browser ─────────────────────────────────────────
-  let browser = null;   // non-null only for CDP connections
-  let context;
-  let page;
-  let connectedViaCDP = false;
+  // ── Connect to the browser via CDP ──────────────────────────────────────
+  console.log(`Attempting CDP connection at ${CDP_URL} ...`);
+  const cdpResult = await connectViaCDP();
 
-  if (opts.launch) {
-    // Explicit --launch: skip CDP, launch a new persistent context
-    ({ context, page, connectedViaCDP } = await launchNewBrowser());
-  } else {
-    // Default: try CDP connection first
-    console.log(`Attempting CDP connection at ${CDP_URL} ...`);
-    const cdpResult = await connectViaCDP();
-
-    if (cdpResult) {
-      ({ browser, context, page, connectedViaCDP } = cdpResult);
-    } else {
-      // CDP failed — print instructions and exit
-      console.error("\nNo browser with remote debugging found.");
-      console.error("Start Edge with debugging enabled:\n");
-      console.error('  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" --remote-debugging-port=9222\n');
-      console.error("Or run the helper script:\n");
-      console.error("  scripts\\start-edge-debug.cmd\n");
-      console.error("Then navigate to https://aistudio.google.com and run this script again.");
-      console.error("\nAlternatively, pass --launch to start a new browser with a Playwright profile.");
-      process.exit(1);
-    }
+  if (!cdpResult) {
+    console.error("\nNo browser with remote debugging found.");
+    console.error("Start Edge with debugging enabled:\n");
+    console.error('  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" --remote-debugging-port=9222\n');
+    console.error("Or run the helper script:\n");
+    console.error("  scripts\\start-edge-debug.cmd\n");
+    console.error("Then navigate to https://aistudio.google.com and run this script again.");
+    process.exit(1);
   }
+
+  const { browser, context, page } = cdpResult;
 
   // Build the list of videos to process
   const videos = [];
@@ -1000,37 +1011,13 @@ async function main() {
   } catch (err) {
     console.error(`\nFatal error: ${err.message}`);
     console.error(err.stack);
-    if (!connectedViaCDP) {
-      console.log("\nThe browser will remain open for manual intervention.");
-      console.log("Press Enter to close the browser and exit.");
-      await waitForUserInput();
-    }
   }
 
   // ── Cleanup ───────────────────────────────────────────────────────────────
-  if (connectedViaCDP) {
-    // CDP mode: disconnect without closing the user's browser
-    console.log("\nDisconnecting from browser (CDP). Your browser remains open.");
-    if (browser) {
-      await browser.close();  // close() on a CDP browser just disconnects
-    }
-  } else {
-    // Launch mode: give the user a moment then close
-    if (!opts.dryRun) {
-      console.log("\nBrowser will remain open for 10 seconds for review...");
-      console.log("Press Enter to close immediately, or wait.");
-      const closePromise = new Promise((resolve) => {
-        const timer = setTimeout(resolve, 10_000);
-        process.stdin.once("data", () => {
-          clearTimeout(timer);
-          resolve();
-        });
-        process.stdin.resume();
-      });
-      await closePromise;
-    }
-    await context.close();
-    console.log("Browser closed. Goodbye.");
+  // CDP mode: disconnect without closing the user's browser
+  console.log("\nDisconnecting from browser (CDP). Your browser remains open.");
+  if (browser) {
+    await browser.close();  // close() on a CDP browser just disconnects
   }
 }
 
