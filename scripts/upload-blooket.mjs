@@ -22,8 +22,9 @@
  *   npm install playwright
  */
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
+import { join } from "node:path";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
@@ -33,6 +34,7 @@ let chromium;
 // ── Config ──────────────────────────────────────────────────────────────────
 
 const CSV_BASE_DIR = "C:/Users/ColsonR/apstats-live-worksheet";
+const UPLOAD_LOG_PATH = join(import.meta.dirname, "../state/blooket-uploads.json");
 
 // ── Arg parsing ─────────────────────────────────────────────────────────────
 
@@ -232,6 +234,24 @@ function copyToClipboard(text) {
   }
 }
 
+function saveUploadRecord({ unit, lesson, title, url, csvPath }) {
+  const uploads = existsSync(UPLOAD_LOG_PATH)
+    ? JSON.parse(readFileSync(UPLOAD_LOG_PATH, "utf8"))
+    : [];
+
+  uploads.push({
+    unit,
+    lesson,
+    title,
+    url,
+    csvPath,
+    createdAt: new Date().toISOString(),
+  });
+
+  writeFileSync(UPLOAD_LOG_PATH, JSON.stringify(uploads, null, 2));
+  console.log("Saved upload record to state/blooket-uploads.json");
+}
+
 // ── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -288,6 +308,18 @@ async function main() {
     const copied = copyToClipboard(blooketUrl);
     if (copied) {
       console.log("  (Copied to clipboard)");
+    }
+
+    try {
+      saveUploadRecord({
+        unit: opts.unit,
+        lesson: opts.lesson,
+        title: opts.title,
+        url: blooketUrl,
+        csvPath: opts.file,
+      });
+    } catch (err) {
+      console.warn(`WARNING: Failed to save upload record: ${err.message}`);
     }
   } catch (err) {
     console.error("\nFAILED:", err.message);
