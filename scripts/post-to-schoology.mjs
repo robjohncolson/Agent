@@ -334,15 +334,44 @@ async function main() {
       if (existing) existing.url = opts.quizUrl;
     }
 
-    // Blooket: use explicit URL or prompt
+    // Blooket: use explicit URL, or auto-upload CSV, or prompt
     if (opts.blooketUrl) {
       links.push({ key: "blooket", url: opts.blooketUrl, title: titles.blooket });
     } else {
-      const blooketInput = await promptUser("Enter Blooket URL (or press Enter to skip): ");
-      if (blooketInput) {
-        links.push({ key: "blooket", url: blooketInput, title: titles.blooket });
+      // Try auto-uploading the Blooket CSV via upload-blooket.mjs
+      const csvPath = join("C:/Users/ColsonR/apstats-live-worksheet", `u${unit}_l${lesson}_blooket.csv`);
+      const uploadScript = "C:/Users/ColsonR/Agent/scripts/upload-blooket.mjs";
+      let autoUrl = null;
+
+      try {
+        const { existsSync } = await import("node:fs");
+        const { execSync } = await import("node:child_process");
+        if (existsSync(csvPath) && existsSync(uploadScript)) {
+          console.log(`  Auto-uploading Blooket CSV: ${csvPath}`);
+          const output = execSync(
+            `node "${uploadScript}" --unit ${unit} --lesson ${lesson}`,
+            { encoding: "utf-8", timeout: 60000 }
+          );
+          // Extract URL from output (looks for https://dashboard.blooket.com/set/...)
+          const urlMatch = output.match(/https:\/\/dashboard\.blooket\.com\/set\/[a-z0-9]+/i);
+          if (urlMatch) {
+            autoUrl = urlMatch[0];
+            console.log(`  Blooket URL: ${autoUrl}`);
+          }
+        }
+      } catch (e) {
+        console.log(`  Blooket auto-upload failed: ${e.message}`);
+      }
+
+      if (autoUrl) {
+        links.push({ key: "blooket", url: autoUrl, title: titles.blooket });
       } else {
-        console.log("  Skipping Blooket (no URL provided).");
+        const blooketInput = await promptUser("Enter Blooket URL (or press Enter to skip): ");
+        if (blooketInput) {
+          links.push({ key: "blooket", url: blooketInput, title: titles.blooket });
+        } else {
+          console.log("  Skipping Blooket (no URL provided).");
+        }
       }
     }
   } else {
