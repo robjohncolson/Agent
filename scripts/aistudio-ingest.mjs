@@ -157,34 +157,38 @@ async function waitForResponse(page, turnCountBefore = 0) {
 
   while (Date.now() < turnDeadline) {
     // Check if model is still generating (Stop button visible)
-    const status = await page.evaluate(() => {
+    const status = await page.evaluate((prevCount) => {
       const btn = document.querySelector("button.ctrl-enter-submits");
       const isGenerating = btn && btn.innerText.includes("Stop");
 
-      // Find the longest turn (model response is typically >500 chars)
       const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
-      let maxLen = 0;
-      for (const turn of turns) {
-        const len = turn.innerText.length;
-        if (len > maxLen) maxLen = len;
+      const totalTurns = turns.length;
+
+      // Get the LAST turn's length (the most recent response)
+      let lastTurnLen = 0;
+      if (turns.length > 0) {
+        lastTurnLen = turns[turns.length - 1].innerText.length;
       }
 
-      return { isGenerating, maxTurnLen: maxLen, turnCount: turns.length };
-    }).catch(() => ({ isGenerating: false, maxTurnLen: 0, turnCount: 0 }));
+      return { isGenerating, lastTurnLen, totalTurns };
+    }, turnCountBefore).catch(() => ({ isGenerating: false, lastTurnLen: 0, totalTurns: 0 }));
 
     const elapsed = Math.round((Date.now() - startTime) / 1000);
 
-    // Response is ready when: not generating AND there's a substantial turn (>500 chars)
-    if (!status.isGenerating && status.maxTurnLen > 500) {
+    // Response is ready when: not generating AND the last turn has substantial content
+    // AND there are more turns than before (a new response appeared)
+    if (!status.isGenerating && status.lastTurnLen > 500 && status.totalTurns > turnCountBefore) {
       process.stdout.write("\n");
-      console.log(`    Model response complete. (${status.maxTurnLen} chars, ${elapsed}s)`);
+      console.log(`    Model response complete. (${status.lastTurnLen} chars, ${elapsed}s)`);
       responseReady = true;
       break;
     }
 
     if (status.isGenerating) {
-      process.stdout.write(`\r    Gemini is generating... ${elapsed}s (${status.maxTurnLen} chars so far)`);
-    } else if (status.maxTurnLen < 500) {
+      process.stdout.write(`\r    Gemini is generating... ${elapsed}s (${status.lastTurnLen} chars so far)`);
+    } else if (status.totalTurns <= turnCountBefore) {
+      process.stdout.write(`\r    Waiting for new response turn... ${elapsed}s`);
+    } else if (status.lastTurnLen < 500) {
       process.stdout.write(`\r    Waiting for substantial response... ${elapsed}s`);
     }
 
@@ -198,7 +202,7 @@ async function waitForResponse(page, turnCountBefore = 0) {
     await waitForUserInput();
   }
 
-  // Step 2: Find the turn with the most content (the model's response)
+  // Step 2: Find the LAST turn (the most recent model response)
   let responseEl = null;
   const selectorDeadline = Date.now() + 30_000;
 
@@ -206,11 +210,14 @@ async function waitForResponse(page, turnCountBefore = 0) {
     try {
       const turnHandle = await page.evaluateHandle(() => {
         const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
+        // Return the last turn — the most recent response
         let bestTurn = null;
         let bestLen = 0;
-        for (const turn of turns) {
-          const len = turn.innerText.length;
-          if (len > bestLen) {
+        // Take the last turn that has substantial content
+        for (let i = turns.length - 1; i >= 0; i--) {
+          const len = turns[i].innerText.length;
+          if (len > 100) {
+            bestTurn = turns[i];
             bestLen = len;
             bestTurn = turn;
           }
