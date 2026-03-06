@@ -1,6 +1,6 @@
 {
   "drive_folder_url": "https://drive.google.com/drive/folders/1CaUkDTvcfWr4TmDaG0cxOzIesUNlsIIV",
-  "last_indexed": "2026-03-06T04:38:28.880Z",
+  "last_indexed": "2026-03-06T04:47:42.320Z",
   "videos": [
     {
       "file_id": "1Y0qapTVLcbLj02JjkzA11uEEWFYPe7Cr",
@@ -633,6 +633,558 @@
       "filename": "apstat_6-11-3.mp4",
       "topic": "6.11",
       "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1wEbNmDM4KBUWvvoRoQIgIYKYWxG3x6Cv",
+      "filename": "apstat_1-1-1.mp4",
+      "topic": "1.1",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1cJ3a5DSlZ0w3vta901HVyADfQ-qKVQcD",
+      "filename": "apstat_1-2.mp4",
+      "topic": "1.2",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1F9_jLryrjHyXUN21eZmNHrTIGATBhhDw",
+      "filename": "apstat_1-3-1.mp4",
+      "topic": "1.3",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1vo3zsZu4wZAAkf-fPTuCmKXudgs0Gnl4",
+      "filename": "apstat_1-4-1.mp4",
+      "topic": "1.4",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1Hp7GWdTzjPQNvcAnnrrt_QYXV27gCEHh",
+      "filename": "apstat_1-4-2.mp4",
+      "topic": "1.4",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1jlopxNducZRaqXtU9c2NvXxq_tGK90ue",
+      "filename": "apstat_1-5-1.mp4",
+      "topic": "1.5",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1oWGqzk4meQ6HuXE-mTDHMStp-qOGDUZJ",
+      "filename": "apstat_1-6-1.mp4",
+      "topic": "1.6",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1JpzXso3aZ8P8MXQ8b8f1kpjlq_ciaQCK",
+      "filename": "apstat_1-7-1.mp4",
+      "topic": "1.7",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1_LYoOie55jPT2tM-o3spuiqbVxga9VPv",
+      "filename": "apstat_1-7-2.mp4",
+      "topic": "1.7",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1sKc6XpjX5RUjGv5wbjUl7R1QEYLXG6W8",
+      "filename": "apstat_1-8.mp4",
+      "topic": "1.8",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1zUev1tHzgJLMi337FjuxY49siAJJf_w8",
+      "filename": "apstat_1-9.mp4",
+      "topic": "1.9",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1vTOitP631CGaZJMJjE6VVw53kiOa0zGv",
+      "filename": "apstat_1-10-1.mp4",
+      "topic": "1.10",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1UF7VafU4agY3JcxHnp61EEjpOv959wZ8",
+      "filename": "apstat_1-10-2.mp4",
+      "topic": "1.10",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1aYbhplXukoDHOpWYCNG5OOTGVYZOcyCV",
+      "filename": "apstat_1-10-3.mp4",
+      "topic": "1.10",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1epQNhpTqA0qMv8ceTpH5IagjDDUlOPC0",
+      "filename": "2-1.mp4",
+      "topic": "2.1",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "170yFl1LoVYwYZ8a6coNhfQkfkFiHD1gg",
+      "filename": "2-2.mp4",
+      "topic": "2.2",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1IZIAXWtHsQfr1o7GZIJ2nnYXaQZt6Xyh",
+      "filename": "2-3.mp4",
+      "topic": "2.3",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1RCEtVGX87UjgbneQqQKc5rNYhAQb4jPS",
+      "filename": "2-4-1.mp4",
+      "topic": "2.4",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1ZpPac1ofe4Bot2yrLgwLPvSHdMUHvK4J",
+      "filename": "2-4-2.mp4",
+      "topic": "2.4",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1UnF2HFBgzzgj7M7_SIxhzJxrWiQQ7Itm",
+      "filename": "2-5-1.mp4",
+      "topic": "2.5",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1DRCmH8ENSMJwf75yG-M_hPnUWcF2uww4",
+      "filename": "apstat_7-1.mp4",
+      "topic": "7.1",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1QOnc8wCvA10U9AvoAfl9ksdmnzC7rIi1",
+      "filename": "apstat_7-2-1.mp4",
+      "topic": "7.2",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1CaDaKiUhi3e954ZcpVYUEVpWZdKgNi0o",
+      "filename": "apstat_7-2-2.mp4",
+      "topic": "7.2",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1eQUfrAiMrRCz1GpDzzQJ4ueBD3IQiD6z",
+      "filename": "apstat_7-2-3.mp4",
+      "topic": "7.2",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "12f3_LWkXq3ezMJwDaFfGlxobizRKvj1I",
+      "filename": "apstat_7-3-1.mp4",
+      "topic": "7.3",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1ie_ChlondI_Y1tiTlEum5OZAGovX5R2u",
+      "filename": "apstat_7-3-2.mp4",
+      "topic": "7.3",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1VP_COxmeIU2S0jC24EgYgAnRqnsJz9B6",
+      "filename": "apstat_7-3-3.mp4",
+      "topic": "7.3",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1ugAdsbFI9jyFAClJPphWtmva2DWNron2",
+      "filename": "apstat_7-4-1.mp4",
+      "topic": "7.4",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1093Dkx-RAxtiFVsWnnZ22rS1E6Tkhau6",
+      "filename": "apstat_7-4-2.mp4",
+      "topic": "7.4",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1h5r9eDoSwjLJye7PeHcz68AI5p-RDFeR",
+      "filename": "apstat_7-5-1.mp4",
+      "topic": "7.5",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "14CEJsy6KqSjm-kPilGkdhzSidogpeRf6",
+      "filename": "apstat_7-5-2.mp4",
+      "topic": "7.5",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "13htsG5jUJZbwNCi9gAr1DEglECxHE-j5",
+      "filename": "apstat_7-5-3.mp4",
+      "topic": "7.5",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1fIwr8VpJ1OfuMxmweLAYOL88CLUVpzvF",
+      "filename": "apstat_7-6-1.mp4",
+      "topic": "7.6",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1dju4ZGQzNLFdFbR5oCoz4e9bzQHapIVk",
+      "filename": "apstat_7-6-2.mp4",
+      "topic": "7.6",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1bkfmDJMIaDxbg2XTAnRfdpamFMSCFfM-",
+      "filename": "apstat_7-7-1.mp4",
+      "topic": "7.7",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1njeWzbSUOPWw0fZHWoYBU7uca9RbduBU",
+      "filename": "apstat_7-7-2.mp4",
+      "topic": "7.7",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1uLGTaehZ2mRh5el69Zu88SnsWfwiKwRR",
+      "filename": "apstat_7-8-1.mp4",
+      "topic": "7.8",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1PAx6MB_d4DDsF5KHYAbxjOf7VUP0_-E5",
+      "filename": "apstat_7-8-2.mp4",
+      "topic": "7.8",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1329C4d76DZoxl1yQQql_T9SAeoHedObV",
+      "filename": "apstat_7-9-1.mp4",
+      "topic": "7.9",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1bJ-id40s9xbnD2UZp9bzfBAKxUwtOT2q",
+      "filename": "apstat_7-9-2.mp4",
+      "topic": "7.9",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1BWoDK2CpQFkIjMsZtzrHb3VjiaJCQlw-",
+      "filename": "apstat_7-9-3.mp4",
+      "topic": "7.9",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "19SaxraKugKUY6Q1xjbanPY81njG45xBH",
+      "filename": "apstat_7-10-1.mp4",
+      "topic": "7.10",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1LiE45fJPP_XMvutGZzVtr3QfNicJedMi",
+      "filename": "apstat_7-10-2.mp4",
+      "topic": "7.10",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1kw-NYDqOcOUP8zvAsSuzIfuQ9KXow99C",
+      "filename": "apstat_8-1.mp4",
+      "topic": "8.1",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1Aup8w5fYTy69zWogOdtsXCO6kl6UNCCT",
+      "filename": "apstat_8-2-1.mp4",
+      "topic": "8.2",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1Y7lopnXRCIbckoMM9csk8h1uCixX3LKd",
+      "filename": "apstat_8-2-2.mp4",
+      "topic": "8.2",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1FMDpI5aNP3UoB4YppkX3ba7llfvfhLba",
+      "filename": "apstat_8-2-3.mp4",
+      "topic": "8.2",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1NemHYSwgnig3l3FUeyDYcDdt80aIYfd4",
+      "filename": "apstats 8-3-1.mp4",
+      "topic": "8.3",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1A3t8-9QW7ubguCrQdApGKf4GkZWb1qBi",
+      "filename": "apstats 8-3-2.mp4",
+      "topic": "8.3",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1tqgSvs4IHjltdUWtH7WmyqbPWGCMMoXb",
+      "filename": "apstats 8-3-3.mp4",
+      "topic": "8.3",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "16dgP2zYBVUN2qzFlGRXKZ5aqErJv8FyQ",
+      "filename": "apstat 8-4.mp4",
+      "topic": "8.4",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1YHP2ipcZ5Vj35OVgZBYwExUjfU-yB2q1",
+      "filename": "apstat 8-5-1.mp4",
+      "topic": "8.5",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1mDfMU3wJoLUEQY44eNr1d-XnwXl6aRlt",
+      "filename": "apstat 8-5-2.mp4",
+      "topic": "8.5",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1DS_LxyMAABbjaN3VrMjBcDXy0PwbDaP3",
+      "filename": "apstat_8-6-1.mp4",
+      "topic": "8.6",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1hm-K8vBzjXcx7hTdU2E8-0bIDhdUgiq_",
+      "filename": "apstat_8-6-2.mp4",
+      "topic": "8.6",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1v9ENpspNX7MSsuE50ZXoQyizuGOJ35sp",
+      "filename": "apstat_8-6-3.mp4",
+      "topic": "8.6",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "175SWda7WXUWkt1EbLLDOwKWD-4Gn8llx",
+      "filename": "apstat_8-7-1.mp4",
+      "topic": "8.7",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1aMPs1uK5H7dvYoVaGh2TQLkdJGBAjoPd",
+      "filename": "apstats_9-1.mp4",
+      "topic": "9.1",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "18e3wAS58P1SW1ok8tv3mtFPhmM3pCRwN",
+      "filename": "apstat_9-2-1.mp4",
+      "topic": "9.2",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1LLyG6B71f0kAoo6QHxQPb1JGQ4hVwkKq",
+      "filename": "apstat_9-2-2.mp4",
+      "topic": "9.2",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1UkOJyY-qEovCHQANK5jtZhzNNpa4iHbK",
+      "filename": "apstat_9-2-3.mp4",
+      "topic": "9.2",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1yWqjcF-IyHImRwTBV3cEIt13u0infZzI",
+      "filename": "apstat_9-3-1.mp4",
+      "topic": "9.3",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT",
+      "filename": "apstat 9-3-2.mp4",
+      "topic": "9.3",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g",
+      "filename": "apstat 9-4-1.mp4",
+      "topic": "9.4",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M",
+      "filename": "apstat 9-4-2.mp4",
+      "topic": "9.4",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY",
+      "filename": "apstat 9-5-1.mp4",
+      "topic": "9.5",
+      "video_number": 1,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1vct7foAM_sxXzRy4rviUox0DkQMm7Yf-",
+      "filename": "apstat 9-5-2.mp4",
+      "topic": "9.5",
+      "video_number": 2,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz",
+      "filename": "apstat 9-5-3.mp4",
+      "topic": "9.5",
+      "video_number": 3,
+      "identified_by": "filename_pattern",
+      "last_modified": null
+    },
+    {
+      "file_id": "1FcZcPYSLBXLkfBkpkyTfAWQ6tR_WxZ6o",
+      "filename": "apstat 9-6-1.mp4",
+      "topic": "9.6",
+      "video_number": 1,
       "identified_by": "filename_pattern",
       "last_modified": null
     }
