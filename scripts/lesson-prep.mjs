@@ -246,7 +246,7 @@ function launchCodexSession(label, prompt, workingDir) {
 
     const proc = spawn(
       "codex",
-      ["--full-auto", "--prompt", prompt],
+      ["--full-auto", prompt],
       {
         stdio: "inherit",
         shell: true,
@@ -578,8 +578,8 @@ async function main() {
     results.autoDetected = true;
   }
 
-  // Step 0.5: Drive video lookup (if --auto and no --drive-ids provided and not skipping ingest)
-  if (opts.auto && opts.driveIds.length === 0 && !opts.skipIngest) {
+  // Step 0.5: Drive video lookup (whenever no --drive-ids provided and not skipping ingest)
+  if (opts.driveIds.length === 0 && !opts.skipIngest) {
     const ids = await step05_driveVideoLookup(unit, lesson, opts);
     if (ids.length > 0) {
       opts.driveIds.push(...ids);
