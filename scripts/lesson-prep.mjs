@@ -249,7 +249,7 @@ function launchCodexSession(label, prompt, workingDir) {
       ["--full-auto", prompt],
       {
         stdio: "inherit",
-        shell: true,
+        shell: false,
         cwd: workingDir,
       }
     );
