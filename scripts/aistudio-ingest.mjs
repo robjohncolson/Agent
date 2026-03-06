@@ -25,6 +25,7 @@
 
 import fs from "fs";
 import path from "path";
+import { connectCDP } from "./lib/cdp-connect.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -33,7 +34,6 @@ let chromium;
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const AI_STUDIO_URL = "https://aistudio.google.com/prompts/new_chat";
-const CDP_URL = "http://127.0.0.1:9222";
 const OUTPUT_BASE = "C:/Users/ColsonR/apstats-live-worksheet";
 
 const RESPONSE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes max per response
@@ -907,37 +907,6 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
   }
 }
 
-/**
- * Try to connect to an already-running browser via Chrome DevTools Protocol.
- * Returns { browser, context, page } or null.
- */
-async function connectViaCDP() {
-  try {
-    const response = await fetch(`${CDP_URL}/json/version`);
-    if (response.ok) {
-      const info = await response.json();
-      console.log(`CDP: Found browser — ${info.Browser || "unknown"}`);
-      const browser = await chromium.connectOverCDP(CDP_URL);
-      const contexts = browser.contexts();
-      if (contexts.length === 0) {
-        console.log("CDP: No browser contexts found.");
-        return null;
-      }
-      const context = contexts[0];
-      const pages = context.pages();
-      // Prefer a tab already on AI Studio, otherwise use the first page
-      let page = pages.find(p => p.url().includes("aistudio.google.com")) || pages[0];
-      if (!page) {
-        page = await context.newPage();
-      }
-      console.log(`CDP: Connected. Using page: ${page.url()}`);
-      return { browser, context, page };
-    }
-  } catch {
-    // No debuggable browser running — that's fine
-  }
-  return null;
-}
 
 async function main() {
   const opts = parseArgs(process.argv);
@@ -967,20 +936,8 @@ async function main() {
   console.log(`Output directory: ${outDir}`);
 
   // ── Connect to the browser via CDP ──────────────────────────────────────
-  console.log(`Attempting CDP connection at ${CDP_URL} ...`);
-  const cdpResult = await connectViaCDP();
-
-  if (!cdpResult) {
-    console.error("\nNo browser with remote debugging found.");
-    console.error("Start Edge with debugging enabled:\n");
-    console.error('  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" --remote-debugging-port=9222\n');
-    console.error("Or run the helper script:\n");
-    console.error("  scripts\\start-edge-debug.cmd\n");
-    console.error("Then navigate to https://aistudio.google.com and run this script again.");
-    process.exit(1);
-  }
-
-  const { browser, context, page } = cdpResult;
+  console.log(`Attempting CDP connection...`);
+  const { browser, page } = await connectCDP(chromium, { preferUrl: "aistudio.google.com" });
 
   // Build the list of videos to process
   const videos = [];

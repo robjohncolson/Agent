@@ -29,14 +29,13 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { createInterface } from "node:readline";
+import { connectCDP } from "./lib/cdp-connect.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
 let chromium;
 
 // ── Config ──────────────────────────────────────────────────────────────────
-
-const CDP_URL = "http://127.0.0.1:9222";
 
 const CONFIG = {
   baseUrl: "https://lynnschools.schoology.com",
@@ -255,36 +254,6 @@ async function postLink(page, url, title, courseId) {
   await page.waitForTimeout(3000); // wait for save and page update
 }
 
-// ── CDP connection ──────────────────────────────────────────────────────────
-
-async function connectViaCDP() {
-  try {
-    const response = await fetch(`${CDP_URL}/json/version`);
-    if (response.ok) {
-      const info = await response.json();
-      console.log(`CDP: Found browser — ${info.Browser || "unknown"}`);
-      const browser = await chromium.connectOverCDP(CDP_URL);
-      const contexts = browser.contexts();
-      if (contexts.length === 0) {
-        console.log("CDP: No browser contexts found.");
-        return null;
-      }
-      const context = contexts[0];
-      const pages = context.pages();
-      // Prefer a tab already on Schoology, otherwise use the first page
-      let page = pages.find(p => p.url().includes("schoology.com")) || pages[0];
-      if (!page) {
-        page = await context.newPage();
-      }
-      console.log(`CDP: Connected. Using page: ${page.url()}`);
-      return { browser, context, page };
-    }
-  } catch {
-    // No debuggable browser running
-  }
-  return null;
-}
-
 // ── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -412,20 +381,8 @@ async function main() {
   }
 
   // Connect to browser via CDP
-  console.log(`Connecting to browser via CDP at ${CDP_URL}...`);
-  const cdpResult = await connectViaCDP();
-
-  if (!cdpResult) {
-    console.error("\nNo browser with remote debugging found.");
-    console.error("Start Edge with debugging enabled:\n");
-    console.error('  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" --remote-debugging-port=9222\n');
-    console.error("Or run the helper script:\n");
-    console.error("  scripts\\start-edge-debug.cmd\n");
-    console.error("Then navigate to Schoology and run this script again.");
-    process.exit(1);
-  }
-
-  const { browser, page } = cdpResult;
+  console.log(`Connecting to browser via CDP...`);
+  const { browser, page } = await connectCDP(chromium, { preferUrl: "schoology.com" });
 
   // Post each link
   let successCount = 0;
