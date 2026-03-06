@@ -496,7 +496,9 @@ async function attachDriveFile(page, driveId) {
 
   // Step 3: Find and interact with the Drive picker iframe
   let pickerAutomated = false;
-  const searchName = filename ? filename.replace(/\.mp4$/i, "").replace(/^Copy of /i, "") : null;
+  // Use the full filename for exact matching — stripping only "Copy of" prefix
+  // Keep the .mp4 extension to make the search more specific and avoid fuzzy mismatches
+  const searchName = filename ? filename.replace(/^Copy of (Copy of )?/i, "") : null;
 
   if (searchName) {
     console.log(`    Searching picker for: "${searchName}"`);
@@ -536,7 +538,20 @@ async function attachDriveFile(page, driveId) {
           for (const sel of resultSelectors) {
             const results = await frame.$$(sel);
             if (results.length > 0) {
-              await results[0].click();
+              // Verify the first result matches our expected filename
+              let bestResult = results[0];
+              const expectedBase = searchName.replace(/\.mp4$/i, "");
+
+              for (const r of results) {
+                const rText = (await r.innerText().catch(() => "")).toLowerCase();
+                if (rText.includes(expectedBase.toLowerCase())) {
+                  bestResult = r;
+                  console.log(`    Verified match: "${rText.substring(0, 60)}"`);
+                  break;
+                }
+              }
+
+              await bestResult.click();
               console.log(`    Selected file in picker.`);
               await frame.waitForTimeout(1000);
 
@@ -554,7 +569,7 @@ async function attachDriveFile(page, driveId) {
 
               if (!pickerAutomated) {
                 // Try double-click on the result
-                await results[0].dblclick();
+                await bestResult.dblclick();
                 console.log(`    Double-clicked to select.`);
                 pickerAutomated = true;
               }
