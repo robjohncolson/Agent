@@ -406,183 +406,135 @@ async function waitForMediaReady(page) {
 }
 
 /**
- * Attach a file from Google Drive using the native Drive picker in AI Studio.
- *
- * Strategy:
- * 1. Click the paperclip/attach button
- * 2. Click "Google Drive" option
- * 3. Wait for the user to pick their file in the Drive picker
- * 4. Detect that a file attachment appeared in the UI
- * 5. Continue automatically
+ * Download a Drive file via the browser's authenticated session,
+ * then attach it as a local file upload (bypasses Drive picker entirely).
  */
 async function attachDriveFile(page, driveId) {
   console.log(`    Attaching Drive file: ${driveId}`);
 
-  // Take a snapshot of current page content to detect when attachment appears
-  const getAttachmentCount = async () => {
-    const count = await page.evaluate(() => {
-      // Look for attachment indicators in AI Studio UI
-      const selectors = [
-        '[class*="attachment"]',
-        '[class*="file-chip"]',
-        '[class*="media-chip"]',
-        '[class*="uploaded"]',
-        '[data-file]',
-        '[class*="file-preview"]',
-        '[class*="video-preview"]',
-        'img[class*="thumb"]',
-        '[class*="chip"]',
-      ];
-      let total = 0;
-      for (const sel of selectors) {
-        total += document.querySelectorAll(sel).length;
-      }
-      return total;
-    }).catch(() => 0);
-    return count;
-  };
+  // Step 1: Download the file using in-browser fetch (browser is authenticated)
+  const tempDir = path.join(OUTPUT_BASE, "u_temp_downloads");
+  fs.mkdirSync(tempDir, { recursive: true });
+  const tempPath = path.join(tempDir, `drive_${driveId}.mp4`);
 
-  const beforeCount = await getAttachmentCount();
+  // Skip download if already cached
+  if (fs.existsSync(tempPath) && fs.statSync(tempPath).size > 50000) {
+    const sizeMB = (fs.statSync(tempPath).size / 1024 / 1024).toFixed(1);
+    console.log(`    Using cached download (${sizeMB} MB)`);
+  } else {
+    console.log(`    Downloading from Drive via browser session...`);
 
-  // Step 1: Click the paperclip / attach button
-  const attachSelectors = [
-    'button[aria-label*="Add"]',
-    'button[aria-label*="file"]',
-    'button[aria-label*="Upload"]',
-    'button[aria-label*="Attach"]',
-    'button[aria-label*="Insert"]',
-    'button[aria-label*="media"]',
-    'button[mattooltip*="file"]',
-    'button[mattooltip*="media"]',
-  ];
+    // Open a new tab to download — keeps AI Studio tab untouched
+    const dlPage = await page.context().newPage();
 
-  let clicked = false;
-  for (const sel of attachSelectors) {
     try {
-      const btn = await page.$(sel);
-      if (btn) {
-        await btn.click();
-        console.log(`    Clicked attach button.`);
-        clicked = true;
-        await page.waitForTimeout(1500);
-        break;
+      // Set up download handling via CDP
+      const client = await dlPage.context().newCDPSession(dlPage);
+      await client.send("Browser.setDownloadBehavior", {
+        behavior: "allow",
+        downloadPath: tempDir,
+        eventsEnabled: true,
+      });
+
+      // Navigate to the Drive download URL
+      const dlUrl = `https://drive.google.com/uc?export=download&id=${driveId}&confirm=t`;
+      await dlPage.goto(dlUrl, { waitUntil: "domcontentloaded", timeout: 30000 }).catch(() => {});
+      await dlPage.waitForTimeout(3000);
+
+      // Check if there's a confirmation button (large file warning)
+      const confirmBtn = await dlPage.$('a[id="uc-download-link"], form#download-form input[type="submit"], a:has-text("Download anyway")').catch(() => null);
+      if (confirmBtn) {
+        console.log(`    Clicking download confirmation...`);
+        await confirmBtn.click();
+        await dlPage.waitForTimeout(5000);
       }
-    } catch { /* try next */ }
-  }
 
-  if (!clicked) {
-    // Broad search for any button with attachment-related icons/text
-    const allButtons = await page.$$("button");
-    for (const btn of allButtons) {
-      try {
-        const label = (await btn.getAttribute("aria-label") || "").toLowerCase();
-        const tooltip = (await btn.getAttribute("mattooltip") || "").toLowerCase();
-        const text = (await btn.innerText() || "").toLowerCase();
-        if (label.includes("add") || label.includes("file") || label.includes("upload") ||
-            label.includes("attach") || label.includes("insert") || label.includes("media") ||
-            tooltip.includes("file") || tooltip.includes("media") || tooltip.includes("add") ||
-            text === "+" || text.includes("add file")) {
-          await btn.click();
-          console.log(`    Clicked attach button (broad match).`);
-          clicked = true;
-          await page.waitForTimeout(1500);
-          break;
-        }
-      } catch { /* continue */ }
-    }
-  }
+      // Wait for download to complete (check file size stabilizes)
+      const maxDownloadWait = 180000; // 3 min for large videos
+      const dlStart = Date.now();
+      let lastSize = 0;
+      let stableCount = 0;
 
-  // Step 2: Click "Google Drive" option in the menu that appears
-  if (clicked) {
-    const driveSelectors = [
-      'text="Google Drive"',
-      'button:has-text("Google Drive")',
-      '[aria-label*="Google Drive"]',
-      'a:has-text("Google Drive")',
-      'div:has-text("Google Drive")',
-      'li:has-text("Google Drive")',
-      'span:has-text("Google Drive")',
-      'mat-option:has-text("Drive")',
-    ];
+      while (Date.now() - dlStart < maxDownloadWait) {
+        await dlPage.waitForTimeout(2000);
 
-    let driveClicked = false;
-    for (const sel of driveSelectors) {
-      try {
-        const el = await page.$(sel);
-        if (el) {
-          await el.click();
-          console.log(`    Clicked "Google Drive" option.`);
-          driveClicked = true;
-          await page.waitForTimeout(2000);
-          break;
-        }
-      } catch { /* try next */ }
-    }
+        // Find the downloaded file — might have a different name
+        const files = fs.readdirSync(tempDir)
+          .filter(f => !f.endsWith(".crdownload") && !f.endsWith(".tmp"))
+          .map(f => ({ name: f, path: path.join(tempDir, f), size: fs.statSync(path.join(tempDir, f)).size, mtime: fs.statSync(path.join(tempDir, f)).mtimeMs }))
+          .sort((a, b) => b.mtime - a.mtime);
 
-    if (!driveClicked) {
-      // The menu might use different text — try clicking anything with "drive" in it
-      const menuItems = await page.$$("button, a, li, div[role='menuitem'], mat-option, span[role='menuitem']");
-      for (const item of menuItems) {
-        try {
-          const text = (await item.innerText() || "").toLowerCase();
-          if (text.includes("drive") && text.length < 30) {
-            await item.click();
-            console.log(`    Clicked Drive option: "${text}"`);
-            driveClicked = true;
-            await page.waitForTimeout(2000);
-            break;
+        if (files.length > 0 && files[0].size > 50000) {
+          if (files[0].size === lastSize) {
+            stableCount++;
+            if (stableCount >= 2) {
+              // Rename to our canonical name
+              if (files[0].path !== tempPath) {
+                fs.renameSync(files[0].path, tempPath);
+              }
+              const sizeMB = (files[0].size / 1024 / 1024).toFixed(1);
+              console.log(`    Downloaded: ${sizeMB} MB`);
+              break;
+            }
+          } else {
+            stableCount = 0;
+            const sizeMB = (files[0].size / 1024 / 1024).toFixed(1);
+            const elapsed = Math.round((Date.now() - dlStart) / 1000);
+            process.stdout.write(`\r    Downloading... ${sizeMB} MB (${elapsed}s)`);
           }
-        } catch { /* continue */ }
+          lastSize = files[0].size;
+        }
+      }
+      process.stdout.write("\n");
+    } catch (e) {
+      console.log(`    Download error: ${e.message}`);
+    } finally {
+      await dlPage.close().catch(() => {});
+    }
+
+    // Fallback: try in-browser fetch if CDP download didn't work
+    if (!fs.existsSync(tempPath) || fs.statSync(tempPath).size < 50000) {
+      console.log(`    Trying in-browser fetch fallback...`);
+      try {
+        const result = await page.evaluate(async (fileId) => {
+          const resp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+            credentials: "include",
+          });
+          if (!resp.ok) return { error: `HTTP ${resp.status}` };
+          const blob = await resp.blob();
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve({ data: reader.result, size: blob.size });
+            reader.readAsDataURL(blob);
+          });
+        }, driveId);
+
+        if (result.data && result.size > 50000) {
+          const base64Data = result.data.split(",")[1];
+          fs.writeFileSync(tempPath, Buffer.from(base64Data, "base64"));
+          const sizeMB = (result.size / 1024 / 1024).toFixed(1);
+          console.log(`    Downloaded via fetch: ${sizeMB} MB`);
+        } else if (result.error) {
+          console.log(`    Fetch failed: ${result.error}`);
+        }
+      } catch (e) {
+        console.log(`    Fetch failed: ${e.message}`);
       }
     }
   }
 
-  // Step 3: The Drive picker is now open. Ask user to pick the file.
-  console.log("");
-  console.log(`    >> Pick the video in the Drive picker that just opened.`);
-  console.log(`    >> Drive ID: ${driveId}`);
-  console.log(`    >> Waiting for attachment to appear...`);
-
-  // Step 4: Poll for attachment to appear in the UI (auto-detect, no Enter needed)
-  const maxWait = 120000; // 2 minutes
-  const pollInterval = 1500;
-  const startTime = Date.now();
-  let attached = false;
-
-  while (Date.now() - startTime < maxWait) {
-    await page.waitForTimeout(pollInterval);
-
-    const afterCount = await getAttachmentCount();
-    if (afterCount > beforeCount) {
-      console.log(`    File attached! (detected new attachment element)`);
-      attached = true;
-      break;
-    }
-
-    // Also check if the page content changed to include a video/file indicator
-    const hasFile = await page.evaluate(() => {
-      const body = document.body.innerText.toLowerCase();
-      return body.includes(".mp4") || body.includes(".webm") || body.includes(".mov") ||
-             body.includes("video attached") || body.includes("file attached") ||
-             body.includes("processing") || body.includes("uploading");
-    }).catch(() => false);
-
-    if (hasFile) {
-      console.log(`    File detected in page content!`);
-      attached = true;
-      break;
-    }
+  // Step 2: Attach via local file upload
+  if (fs.existsSync(tempPath) && fs.statSync(tempPath).size > 50000) {
+    console.log(`    Uploading to AI Studio...`);
+    return await attachLocalFile(page, tempPath);
   }
 
-  if (!attached) {
-    // Timeout — ask user to confirm
-    console.log(`    Could not auto-detect attachment. Did you pick the file?`);
-    console.log(`    Press Enter to continue anyway.`);
-    await waitForUserInput();
-  }
-
-  // Give AI Studio a moment to process the attachment
-  await page.waitForTimeout(3000);
+  // Step 3: Fallback — open Drive picker manually
+  console.log(`    Auto-download failed. Falling back to Drive picker...`);
+  console.log(`    Please attach the file manually in AI Studio.`);
+  console.log(`    Drive ID: ${driveId}`);
+  console.log(`    Press Enter when attached.`);
+  await waitForUserInput();
   return true;
 }
 
