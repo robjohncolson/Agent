@@ -758,6 +758,69 @@ function validateDrillsTask(unit, lesson) {
   return { ok: true };
 }
 
+function validateAnimationNames(unit, lesson) {
+  const cartridgeName = findCartridgePath(unit);
+  if (!cartridgeName) return { ok: true, fixes: 0 };
+
+  const cartridgeDir = path.join(WORKING_DIRS.driller, "cartridges", cartridgeName);
+  const manifestPath = path.join(cartridgeDir, "manifest.json");
+  if (!existsSync(manifestPath)) return { ok: true, fixes: 0 };
+
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+  const animationsDir = path.join(WORKING_DIRS.driller, "animations");
+  const lessonPattern = `${unit}.${lesson}`;
+  const prefix = `apstat_${unit}${lesson}_`;
+  const errors = [];
+  let fixes = 0;
+
+  for (const mode of manifest.modes || []) {
+    if (!mode.name?.includes(lessonPattern) || !mode.animation) continue;
+
+    const expectedMp4 = path.basename(mode.animation);
+    const expectedClass = expectedMp4.replace(".mp4", "");
+
+    if (!existsSync(animationsDir)) {
+      errors.push(`animations/ dir missing -- cannot verify "${expectedMp4}"`);
+      continue;
+    }
+
+    const pyFiles = readdirSync(animationsDir)
+      .filter((f) => f.startsWith(prefix) && f.endsWith(".py"));
+
+    let found = false;
+    let actualClass = null;
+
+    for (const pyFile of pyFiles) {
+      const content = readFileSync(path.join(animationsDir, pyFile), "utf8");
+      if (content.includes(`class ${expectedClass}(`)) {
+        found = true;
+        break;
+      }
+      const classMatch = content.match(/class\s+(\w+)\s*\(\s*Scene\s*\)/);
+      if (classMatch) actualClass = classMatch[1];
+    }
+
+    if (!found && actualClass) {
+      console.log(`    Auto-fix: manifest "${expectedMp4}" -> "${actualClass}.mp4" (matched from .py)`);
+      mode.animation = `assets/${actualClass}.mp4`;
+      fixes++;
+    } else if (!found) {
+      errors.push(`Manifest expects "${expectedMp4}" but no .py file defines class ${expectedClass}`);
+    }
+  }
+
+  if (fixes > 0) {
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n", "utf-8");
+    console.log(`    Patched manifest.json with ${fixes} animation name fix(es)`);
+  }
+
+  if (errors.length > 0) {
+    return { ok: false, fixes, errors };
+  }
+
+  return { ok: true, fixes };
+}
+
 function validateTaskResult(taskKey, unit, lesson, result) {
   if (!result.success) {
     return result;
@@ -772,16 +835,28 @@ function validateTaskResult(taskKey, unit, lesson, result) {
         ? validateBlooketTask(unit, lesson)
         : validateDrillsTask(unit, lesson);
 
-  if (validation.ok) {
-    return result;
+  if (!validation.ok) {
+    console.error(`  ${result.label} validation failed: ${validation.error}`);
+    return {
+      ...result,
+      success: false,
+      error: validation.error,
+    };
   }
 
-  console.error(`  ${result.label} validation failed: ${validation.error}`);
-  return {
-    ...result,
-    success: false,
-    error: validation.error,
-  };
+  // Layer 2: cross-check animation names after drills validation passes
+  if (taskKey === "drills") {
+    const animCheck = validateAnimationNames(unit, lesson);
+    if (!animCheck.ok) {
+      const msg = animCheck.errors.join("; ");
+      console.warn(`  Animation name warnings: ${msg}`);
+    }
+    if (animCheck.fixes > 0) {
+      console.log(`  Animation names: ${animCheck.fixes} auto-fixed in manifest`);
+    }
+  }
+
+  return result;
 }
 
 async function step2_contentGeneration(unit, lesson) {

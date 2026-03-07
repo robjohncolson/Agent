@@ -358,6 +358,21 @@ For EACH new mode, create a Manim animation file at:
 where \`\${mode_slug}\` is a descriptive name derived from the mode (e.g., for mode
 "l15-identify-error-type", use \`identify_error_type\`).
 
+### CRITICAL NAMING RULE
+
+The manifest "animation" field and the Manim Scene class name MUST be identical.
+Manim renders {ClassName}.mp4; the manifest must reference "assets/{ClassName}.mp4".
+If they differ, the animation will not load in production.
+
+Example:
+  .py file:   animations/apstat_68_check_conditions.py
+  Scene class: class CheckConditions(Scene):
+  manifest:    "animation": "assets/CheckConditions.mp4"
+                                    ^^^^^^^^^^^^^^^ must equal class name
+
+When you create a mode with "animation": "assets/Foo.mp4", the .py file MUST define
+exactly \`class Foo(Scene):\` -- not a renamed or abbreviated version.
+
 ### Animation pattern
 
 Here is an example animation from a previous lesson:
@@ -459,6 +474,21 @@ ${animationExample ? `
 
 For EACH new mode, create a Manim animation file at:
   animations/apstat_${unit}${lesson}_{mode_slug}.py
+
+### CRITICAL NAMING RULE
+
+The manifest "animation" field and the Manim Scene class name MUST be identical.
+Manim renders {ClassName}.mp4; the manifest must reference "assets/{ClassName}.mp4".
+If they differ, the animation will not load in production.
+
+Example:
+  .py file:   animations/apstat_68_check_conditions.py
+  Scene class: class CheckConditions(Scene):
+  manifest:    "animation": "assets/CheckConditions.mp4"
+                                    ^^^^^^^^^^^^^^^ must equal class name
+
+When you create a mode with "animation": "assets/Foo.mp4", the .py file MUST define
+exactly \`class Foo(Scene):\` -- not a renamed or abbreviated version.
 
 ### Animation pattern
 
