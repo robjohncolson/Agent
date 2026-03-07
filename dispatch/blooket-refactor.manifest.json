@@ -1,0 +1,74 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "blooket-cdp-refactor",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "suggest",
+  "verify_commands": [],
+  "agents": [
+    {
+      "name": "blooket-shared-helpers",
+      "description": "Create scripts/lib/blooket-helpers.mjs with 4 shared CDP utilities",
+      "prompt_file": "dispatch/prompts/codex-agents/blooket-shared-helpers.md",
+      "owned_paths": [
+        "scripts/lib/blooket-helpers.mjs"
+      ]
+    },
+    {
+      "name": "blooket-url-logging",
+      "description": "Add upload history logging to upload-blooket.mjs + state file",
+      "prompt_file": "dispatch/prompts/codex-agents/blooket-url-logging.md",
+      "owned_paths": [
+        "scripts/upload-blooket.mjs",
+        "state/blooket-uploads.json"
+      ]
+    },
+    {
+      "name": "blooket-cleanup-probes",
+      "description": "Delete 7 one-off probe scripts",
+      "prompt_file": "dispatch/prompts/codex-agents/blooket-cleanup-probes.md",
+      "owned_paths": [
+        "scripts/probe-blooket.mjs",
+        "scripts/probe-blooket-create.mjs",
+        "scripts/probe-blooket-csv.mjs",
+        "scripts/probe-blooket-csv2.mjs",
+        "scripts/probe-blooket-api.mjs",
+        "scripts/probe-blooket-delete.mjs",
+        "scripts/probe-blooket-mysets.mjs"
+      ],
+      "allow_no_changes": true
+    },
+    {
+      "name": "schoology-only-flag",
+      "description": "Add --only flag to post-to-schoology.mjs",
+      "prompt_file": "dispatch/prompts/codex-agents/schoology-only-flag.md",
+      "owned_paths": [
+        "scripts/post-to-schoology.mjs"
+      ]
+    },
+    {
+      "name": "blooket-harden-delete",
+      "description": "Refactor delete-blooket-sets.mjs to use shared helpers",
+      "prompt_file": "dispatch/prompts/codex-agents/blooket-harden-delete.md",
+      "depends_on": ["blooket-shared-helpers"],
+      "owned_paths": [
+        "scripts/delete-blooket-sets.mjs"
+      ]
+    },
+    {
+      "name": "blooket-harden-find",
+      "description": "Fix title scraping + use shared helpers in find-blooket-set.mjs",
+      "prompt_file": "dispatch/prompts/codex-agents/blooket-harden-find.md",
+      "depends_on": ["blooket-shared-helpers"],
+      "owned_paths": [
+        "scripts/find-blooket-set.mjs"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "blooket-refactor",
+    "verify_commands": []
+  }
+}

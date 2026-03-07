@@ -3,13 +3,14 @@
 // Usage: node scripts/render-animations.mjs --unit 6 --lesson 5
 // Optional: --quality l (low/480p, default), --quality m (medium/720p), --quality h (high/1080p)
 
-import { readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { join, basename } from "node:path";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const PYTHON = "C:/Users/ColsonR/AppData/Local/Programs/Python/Python312/python.exe";
 const FFMPEG_DIR = "C:/Users/ColsonR/ffmpeg/bin";
+const MIKTEX_DIR = "C:/Program Files/MiKTeX/miktex/bin/x64";
 const DEFAULT_REPO = "C:/Users/ColsonR/lrsl-driller";
 
 const QUALITY_MAP = {
@@ -76,6 +77,42 @@ function findAnimationFiles(repo, unit, lesson) {
 }
 
 // ── Render a single file ─────────────────────────────────────────────────────
+// Pre-render lint for likely LaTeX-dependent constructs
+function lintAnimationFile(filepath) {
+  const contents = readFileSync(filepath, "utf-8");
+  const lines = contents.split(/\r?\n/);
+  const warnings = [];
+  const rules = [
+    {
+      pattern: /\bMathTex\s*\(/,
+      message: "MathTex() usage - consider Text() with Unicode",
+    },
+    {
+      pattern: /\bTex\s*\(/,
+      message: "Tex() usage - consider Text() with Unicode",
+    },
+    {
+      pattern: /NumberLine\(.*include_numbers\s*=\s*True/,
+      message: "NumberLine(include_numbers=True) usage - labels may require LaTeX",
+    },
+    {
+      pattern: /numbers_to_include/,
+      message: "numbers_to_include usage - axis number rendering may require LaTeX",
+    },
+  ];
+
+  for (const [index, line] of lines.entries()) {
+    for (const rule of rules) {
+      if (rule.pattern.test(line)) {
+        warnings.push(`line ${index + 1}: ${rule.message}`);
+      }
+    }
+  }
+
+  return warnings;
+}
+
+// Render a single file
 function renderFile(filepath, qualityFlag, repo, env) {
   return new Promise((resolve) => {
     const proc = spawn(
@@ -163,18 +200,24 @@ async function main() {
 
   console.log(`Found ${pyFiles.length} animation file(s):\n`);
 
-  // Set up environment with ffmpeg on PATH
+  // Set up environment with ffmpeg and MiKTeX on PATH
   const env = { ...process.env };
   const pathSep = process.platform === "win32" ? ";" : ":";
-  env.PATH = FFMPEG_DIR + pathSep + (env.PATH || "");
+  env.PATH = FFMPEG_DIR + pathSep + MIKTEX_DIR + pathSep + (env.PATH || "");
 
-  // Render each file sequentially
+  // Render files sequentially to avoid TeX cache lock conflicts on Windows
+  // (parallel renders for different lessons fight over media/Tex/ — see spec item #7)
   let successCount = 0;
   let failCount = 0;
 
   for (const pyFile of pyFiles) {
     const name = basename(pyFile);
     console.log(`Rendering ${name} ...`);
+
+    const warnings = lintAnimationFile(pyFile);
+    for (const warning of warnings) {
+      console.warn(`  ⚠ ${warning}`);
+    }
 
     const result = await renderFile(pyFile, qualityInfo.flag, repo, env);
 

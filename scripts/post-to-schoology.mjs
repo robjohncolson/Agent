@@ -26,7 +26,7 @@
  *   npm install playwright
  */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
@@ -64,6 +64,11 @@ function parseArgs(argv) {
   let only = null;
   let courseId = DEFAULT_COURSE_ID;
   let dryRun = false;
+  let createFolder = null;
+  let folderDesc = null;
+  let withVideos = false;
+  let calendarLink = null;
+  let calendarTitle = null;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -88,6 +93,16 @@ function parseArgs(argv) {
       courseId = args[++i];
     } else if (arg === "--dry-run") {
       dryRun = true;
+    } else if (arg === "--create-folder") {
+      createFolder = args[++i];
+    } else if (arg === "--folder-desc") {
+      folderDesc = args[++i].replace(/\\n/g, '\n');
+    } else if (arg === "--with-videos") {
+      withVideos = true;
+    } else if (arg === "--calendar-link") {
+      calendarLink = args[++i];
+    } else if (arg === "--calendar-title") {
+      calendarTitle = args[++i];
     }
   }
 
@@ -104,12 +119,17 @@ function parseArgs(argv) {
         "  --auto-urls       Auto-generate worksheet/drills/quiz URLs, prompt for blooket\n" +
         "  --only            Post only this link type (worksheet, drills, quiz, blooket)\n" +
         "  --course          Course ID (default: 7945275782)\n" +
-        "  --dry-run         Show what would be posted without actually posting\n"
+        "  --dry-run         Show what would be posted without actually posting\n" +
+        "  --create-folder   Create a Schoology folder with this title, post links inside it\n" +
+        "  --folder-desc     Description text for the folder\n" +
+        "  --with-videos     Include AP Classroom video links from curriculum_render/data/units.js\n" +
+        "  --calendar-link   URL for calendar link (posted at top level, outside folder)\n" +
+        "  --calendar-title  Title for the calendar link\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -210,14 +230,171 @@ function buildLinkTitles(unit, lesson) {
   };
 }
 
+// ── Video links from units.js ───────────────────────────────────────────────
+
+const UNITS_JS_PATH = "C:/Users/ColsonR/curriculum_render/data/units.js";
+
+/**
+ * Load AP Classroom video URLs for a given unit.lesson from units.js.
+ * Returns array of { url, title } objects.
+ */
+function loadVideoLinks(unit, lesson) {
+  if (!existsSync(UNITS_JS_PATH)) {
+    console.warn(`  WARNING: ${UNITS_JS_PATH} not found. Skipping video links.`);
+    return [];
+  }
+
+  const content = readFileSync(UNITS_JS_PATH, "utf-8");
+  const lessonId = `${unit}-${lesson}`;
+
+  // Find the lesson block by its id
+  const idIndex = content.indexOf(`id: "${lessonId}"`);
+  if (idIndex === -1) {
+    console.warn(`  WARNING: Lesson ${lessonId} not found in units.js. Skipping video links.`);
+    return [];
+  }
+
+  // Extract the description
+  const afterId = content.substring(idIndex, idIndex + 500);
+  const descMatch = afterId.match(/description:\s*"([^"]+)"/);
+  const description = descMatch ? descMatch[1] : "";
+
+  // Find the videos array for this lesson (before the next lesson block)
+  const nextIdIndex = content.indexOf(`id: "`, idIndex + 10);
+  const lessonBlock = nextIdIndex !== -1
+    ? content.substring(idIndex, nextIdIndex)
+    : content.substring(idIndex, idIndex + 1000);
+
+  const urls = [];
+  const urlRegex = /url:\s*"(https:\/\/apclassroom\.collegeboard\.org\/[^"]+)"/g;
+  let m;
+  while ((m = urlRegex.exec(lessonBlock)) !== null) {
+    urls.push(m[1]);
+  }
+
+  return urls.map((url, i) => ({
+    key: `video${i + 1}`,
+    url,
+    title: urls.length === 1
+      ? `Topic ${unit}.${lesson} — AP Classroom Video`
+      : `Topic ${unit}.${lesson} — AP Classroom Video ${i + 1}`,
+  }));
+}
+
+// ── Folder creation ─────────────────────────────────────────────────────────
+
+/**
+ * Create a folder on the Schoology materials page.
+ * Selectors discovered via probe-schoology-folder.mjs — update if Schoology changes.
+ */
+async function createFolder(page, title, description, materialsUrl) {
+  console.log(`  Creating folder: "${title}"`);
+
+  await page.goto(materialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await page.waitForTimeout(2000);
+
+  // Click "Add Materials" dropdown
+  console.log(`    Clicking "Add Materials"...`);
+  await page.click('span:has-text("Add Materials")');
+  await page.waitForTimeout(1000);
+
+  // Click "Add Folder"
+  console.log(`    Clicking "Add Folder"...`);
+  await page.click('a:has-text("Add Folder")');
+  await page.waitForTimeout(3000);
+
+  // Fill title — confirmed selector: #edit-title (input[name="title"])
+  console.log(`    Filling title: "${title}"...`);
+  const titleField = await page.$('#edit-title');
+  if (!titleField) {
+    throw new Error(
+      'Could not find folder title field (#edit-title). Run: node scripts/probe-schoology-folder.mjs'
+    );
+  }
+  await titleField.click({ clickCount: 3 });
+  await titleField.fill(title);
+
+  // Fill description — it's a TinyMCE iframe (#edit-description_ifr)
+  if (description) {
+    console.log(`    Filling description (TinyMCE iframe)...`);
+    const descIframe = await page.$('#edit-description_ifr');
+    if (descIframe) {
+      const frame = await descIframe.contentFrame();
+      if (frame) {
+        const body = await frame.$('body');
+        if (body) {
+          await body.click();
+          // Type line by line, pressing Enter for newlines
+          const lines = description.split('\n');
+          for (let i = 0; i < lines.length; i++) {
+            if (i > 0) await page.keyboard.press('Enter');
+            await page.keyboard.type(lines[i]);
+          }
+        } else {
+          console.warn(`    WARNING: Could not find body inside TinyMCE iframe.`);
+        }
+      } else {
+        console.warn(`    WARNING: Could not access TinyMCE iframe content frame.`);
+      }
+    } else {
+      console.warn(`    WARNING: Could not find description iframe (#edit-description_ifr). Folder created without description.`);
+    }
+  }
+
+  // Click Create — confirmed selector: #edit-submit (value="Create")
+  console.log(`    Clicking "Create"...`);
+  const submitBtn = await page.$('#edit-submit');
+  if (!submitBtn) {
+    throw new Error(
+      'Could not find Create button (#edit-submit). Run: node scripts/probe-schoology-folder.mjs'
+    );
+  }
+  await submitBtn.click();
+  await page.waitForTimeout(3000);
+
+  console.log(`  Folder "${title}" created.`);
+}
+
+/**
+ * Extract the folder ID for a just-created folder from the materials page DOM.
+ * Folder rows are `tr[id^="f-"]` with the numeric ID after the prefix.
+ * Returns the folder materials URL: materialsUrl + "?f={folderId}"
+ */
+async function extractFolderUrl(page, folderTitle, materialsUrl) {
+  console.log(`  Extracting folder ID for: "${folderTitle}"...`);
+
+  // Reload materials page to see the new folder row
+  await page.goto(materialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await page.waitForTimeout(2000);
+
+  // Each folder row is a <tr id="f-{numericId}"> containing the folder title
+  const folderRows = await page.$$('tr[id^="f-"]');
+  for (const row of folderRows) {
+    const titleEl = await row.$('div.folder-title');
+    if (!titleEl) continue;
+    const text = await titleEl.innerText().catch(() => "");
+    if (text.trim() === folderTitle) {
+      const rowId = await row.getAttribute('id'); // e.g. "f-986313435"
+      const folderId = rowId.replace('f-', '');
+      const folderUrl = `${materialsUrl}?f=${folderId}`;
+      console.log(`  Found folder ID: ${folderId}`);
+      console.log(`  Folder URL: ${folderUrl}`);
+      return folderUrl;
+    }
+  }
+
+  throw new Error(
+    `Could not find folder "${folderTitle}" in DOM (no matching tr[id^="f-"]). ` +
+    `The folder may not have been created successfully.`
+  );
+}
+
 // ── Post one link to Schoology ──────────────────────────────────────────────
 
-async function postLink(page, url, title, courseId) {
-  const materialsUrl = `${CONFIG.baseUrl}/course/${courseId}/materials`;
-
-  // Navigate to materials page
+async function postLink(page, url, title, materialsPageUrl) {
+  // Navigate to the specified materials page (root or folder)
   console.log(`    Navigating to materials page...`);
-  await page.goto(materialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await page.goto(materialsPageUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
   await page.waitForTimeout(2000);
 
   // Click "Add Materials"
@@ -275,6 +452,7 @@ async function main() {
 
   const { unit, lesson, courseId, dryRun, autoUrls } = opts;
   const titles = buildLinkTitles(unit, lesson);
+  const rootMaterialsUrl = `${CONFIG.baseUrl}/course/${courseId}/materials`;
 
   // Build the list of links to post
   let links = [];
@@ -368,6 +546,15 @@ async function main() {
     }
   }
 
+  // Add video links if requested
+  if (opts.withVideos) {
+    const videoLinks = loadVideoLinks(unit, lesson);
+    if (videoLinks.length > 0) {
+      console.log(`  Found ${videoLinks.length} AP Classroom video(s) for ${unit}.${lesson}`);
+      links.push(...videoLinks);
+    }
+  }
+
   if (autoUrls && opts.only) {
     links = links.filter((link) => link.key === opts.only);
     if (links.length === 0) {
@@ -380,6 +567,13 @@ async function main() {
   console.log(`\nSchoology Link Poster — Unit ${unit}, Lesson ${lesson}`);
   console.log(`Course ID: ${courseId}`);
   console.log(`Dry run: ${dryRun}`);
+  if (opts.createFolder) {
+    console.log(`Create folder: "${opts.createFolder}"`);
+    if (opts.folderDesc) console.log(`  Description: ${opts.folderDesc.substring(0, 80)}...`);
+  }
+  if (opts.calendarLink) {
+    console.log(`Calendar link (top level): ${opts.calendarLink}`);
+  }
   console.log(`\nLinks to post (${links.length}):`);
   for (const link of links) {
     console.log(`  [${link.key}] "${link.title}"`);
@@ -396,17 +590,33 @@ async function main() {
   console.log(`Connecting to browser via CDP...`);
   const { browser, page } = await connectCDP(chromium, { preferUrl: "schoology.com" });
 
-  // Post each link
   let successCount = 0;
   let failCount = 0;
 
+  // Determine the materials page URL (root, or folder if creating one)
+  let materialsUrl = rootMaterialsUrl;
+
+  // Create folder if requested
+  if (opts.createFolder) {
+    try {
+      await createFolder(page, opts.createFolder, opts.folderDesc, rootMaterialsUrl);
+      // Extract folder ID from DOM and build the scoped URL (?f=ID)
+      materialsUrl = await extractFolderUrl(page, opts.createFolder, rootMaterialsUrl);
+    } catch (err) {
+      console.error(`  FOLDER CREATION FAILED: ${err.message}`);
+      console.error("  Falling back to posting links at top level.");
+      failCount++;
+    }
+  }
+
+  // Post each link (inside folder if we navigated into one, else at top level)
   for (let i = 0; i < links.length; i++) {
     const link = links[i];
-    console.log(`\n[${ i + 1}/${links.length}] Posting: ${link.title}`);
+    console.log(`\n[${i + 1}/${links.length}] Posting: ${link.title}`);
     console.log(`  URL: ${link.url}`);
 
     try {
-      await postLink(page, link.url, link.title, courseId);
+      await postLink(page, link.url, link.title, materialsUrl);
       console.log(`  SUCCESS: "${link.title}" posted.`);
       successCount++;
     } catch (err) {
@@ -418,6 +628,44 @@ async function main() {
     if (i < links.length - 1) {
       console.log("  Waiting 3 seconds before next post...");
       await page.waitForTimeout(3000);
+    }
+  }
+
+  // Post calendar link at top level (outside folder) — skip if already exists
+  if (opts.calendarLink) {
+    const calTitle = opts.calendarTitle || "Weekly Calendar";
+    console.log(`\nChecking for existing calendar link: "${calTitle}"...`);
+
+    // Navigate to root materials and check for a link with matching title
+    await page.goto(rootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.waitForTimeout(2000);
+
+    const alreadyExists = await page.evaluate((title) => {
+      // Material links appear as anchors inside material rows
+      const links = document.querySelectorAll('.material-row a, .item-title a, a.sExtlink-processed, td.item-title a');
+      for (const a of links) {
+        if (a.textContent.trim() === title) return true;
+      }
+      // Also check plain text content in material rows
+      const rows = document.querySelectorAll('.material-row, tr[id^="s-"]');
+      for (const row of rows) {
+        if (row.textContent.includes(title)) return true;
+      }
+      return false;
+    }, calTitle);
+
+    if (alreadyExists) {
+      console.log(`  SKIPPED: "${calTitle}" already exists on the materials page.`);
+    } else {
+      console.log(`  Posting calendar link at top level: "${calTitle}"`);
+      try {
+        await postLink(page, opts.calendarLink, calTitle, rootMaterialsUrl);
+        console.log(`  SUCCESS: Calendar link posted.`);
+        successCount++;
+      } catch (err) {
+        console.error(`  FAILED: ${err.message}`);
+        failCount++;
+      }
     }
   }
 

@@ -310,6 +310,15 @@ async function typeAndSubmit(page, promptText) {
     throw new Error("Could not find prompt input element. AI Studio UI may have changed.");
   }
 
+  // Dismiss any CDK overlay backdrops that intercept pointer events
+  // (Angular Material overlays from dropdowns/menus that didn't close)
+  await page.evaluate(() => {
+    document.querySelectorAll('.cdk-overlay-backdrop').forEach(el => el.remove());
+  });
+  // Also press Escape in case an overlay needs keyboard dismissal
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+
   // Click to focus the textarea
   await inputEl.click();
   await page.waitForTimeout(500);
