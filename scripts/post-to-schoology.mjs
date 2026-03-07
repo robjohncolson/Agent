@@ -30,6 +30,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
+import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -144,7 +145,7 @@ function findFirstDrillMode(unit, lesson) {
   }
 
   const manifestPath = join(
-    "C:/Users/ColsonR/lrsl-driller/cartridges",
+    CARTRIDGES_DIR,
     cartridgeId,
     "manifest.json"
   );
@@ -232,7 +233,6 @@ function buildLinkTitles(unit, lesson) {
 
 // ── Video links from units.js ───────────────────────────────────────────────
 
-const UNITS_JS_PATH = "C:/Users/ColsonR/curriculum_render/data/units.js";
 
 /**
  * Load AP Classroom video URLs for a given unit.lesson from units.js.
@@ -490,8 +490,8 @@ async function main() {
       links.push({ key: "blooket", url: opts.blooketUrl, title: titles.blooket });
     } else {
       // Try auto-uploading the Blooket CSV via upload-blooket.mjs
-      const csvPath = join("C:/Users/ColsonR/apstats-live-worksheet", `u${unit}_l${lesson}_blooket.csv`);
-      const uploadScript = "C:/Users/ColsonR/Agent/scripts/upload-blooket.mjs";
+      const csvPath = join(WORKSHEET_REPO, `u${unit}_l${lesson}_blooket.csv`);
+      const uploadScript = SCRIPTS.uploadBlooket;
       let autoUrl = null;
 
       try {

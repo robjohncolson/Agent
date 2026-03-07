@@ -12,8 +12,7 @@
 
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-
-const CALENDAR_DIR = "C:/Users/ColsonR/apstats-live-worksheet";
+import { CALENDAR_DIR } from "./lib/paths.mjs";
 
 // ── Date handling ──────────────────────────────────────────────────
 

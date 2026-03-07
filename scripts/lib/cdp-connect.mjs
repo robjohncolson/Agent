@@ -11,11 +11,10 @@
 
 import { spawn } from "node:child_process";
 import net from "node:net";
+import { EDGE_PATH, EDGE_DEBUG_PROFILE } from "./paths.mjs";
 
 const CDP_PORT = 9222;
 const CDP_URL = `http://127.0.0.1:${CDP_PORT}`;
-const EDGE_PATH = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
-const USER_DATA_DIR = "C:\\Users\\ColsonR\\.edge-debug-profile";
 const LAUNCH_WAIT_SECONDS = 10;
 
 /**
@@ -71,7 +70,7 @@ export async function connectCDP(chromium, { preferUrl = null } = {}) {
         EDGE_PATH,
         [
           `--remote-debugging-port=${CDP_PORT}`,
-          `--user-data-dir=${USER_DATA_DIR}`,
+          `--user-data-dir=${EDGE_DEBUG_PROFILE}`,
         ],
         { detached: true, stdio: "ignore" }
       );

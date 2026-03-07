@@ -5,6 +5,7 @@
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { CARTRIDGES_DIR } from "./lib/paths.mjs";
 
 // ── Cartridge mapping ──────────────────────────────────────────────────────────
 const CARTRIDGE_MAP = {
@@ -47,7 +48,7 @@ function findFirstDrillMode(unit, lesson) {
   }
 
   const manifestPath = join(
-    "C:/Users/ColsonR/lrsl-driller/cartridges",
+    CARTRIDGES_DIR,
     cartridgeId,
     "manifest.json"
   );

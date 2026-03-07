@@ -1,7 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
-
-const WORKSHEET_ROOT = "C:/Users/ColsonR/apstats-live-worksheet";
+import { WORKSHEET_REPO as WORKSHEET_ROOT } from "./paths.mjs";
 
 function escapeRegExp(value) {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

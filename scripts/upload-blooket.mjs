@@ -26,6 +26,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 import { connectCDP } from "./lib/cdp-connect.mjs";
+import { CSV_BASE_DIR } from "./lib/paths.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -33,7 +34,6 @@ let chromium;
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
-const CSV_BASE_DIR = "C:/Users/ColsonR/apstats-live-worksheet";
 const UPLOAD_LOG_PATH = join(import.meta.dirname, "../state/blooket-uploads.json");
 
 // ── Arg parsing ─────────────────────────────────────────────────────────────

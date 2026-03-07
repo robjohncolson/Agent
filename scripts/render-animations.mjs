@@ -6,12 +6,10 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { join, basename } from "node:path";
+import { PYTHON, FFMPEG_DIR, MIKTEX_DIR, DRILLER_REPO } from "./lib/paths.mjs";
 
 // ── Constants ────────────────────────────────────────────────────────────────
-const PYTHON = "C:/Users/ColsonR/AppData/Local/Programs/Python/Python312/python.exe";
-const FFMPEG_DIR = "C:/Users/ColsonR/ffmpeg/bin";
-const MIKTEX_DIR = "C:/Program Files/MiKTeX/miktex/bin/x64";
-const DEFAULT_REPO = "C:/Users/ColsonR/lrsl-driller";
+const DEFAULT_REPO = DRILLER_REPO;
 
 const QUALITY_MAP = {
   l: { flag: "-ql", label: "480p15" },

@@ -26,6 +26,7 @@
 import fs from "fs";
 import path from "path";
 import { connectCDP } from "./lib/cdp-connect.mjs";
+import { WORKSHEET_REPO, DRIVE_VIDEO_INDEX_PATH } from "./lib/paths.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -34,7 +35,7 @@ let chromium;
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const AI_STUDIO_URL = "https://aistudio.google.com/prompts/new_chat";
-const OUTPUT_BASE = "C:/Users/ColsonR/apstats-live-worksheet";
+const OUTPUT_BASE = WORKSHEET_REPO;
 
 const RESPONSE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes max per response
 const POLL_INTERVAL_MS = 2000;               // check every 2s
@@ -427,7 +428,7 @@ async function waitForMediaReady(page) {
  * Look up the filename for a Drive ID from the video index.
  */
 function getFilenameForDriveId(driveId) {
-  const indexPath = "C:/Users/ColsonR/Agent/config/drive-video-index.json";
+  const indexPath = DRIVE_VIDEO_INDEX_PATH;
   try {
     if (fs.existsSync(indexPath)) {
       const index = JSON.parse(fs.readFileSync(indexPath, "utf-8"));

@@ -38,25 +38,16 @@ import {
   buildWorksheetPrompt,
   readVideoContext,
 } from "./lib/build-codex-prompts.mjs";
+import {
+  SCRIPTS,
+  WORKING_DIRS,
+  DRIVE_VIDEO_INDEX_PATH,
+  CALENDAR_DIR,
+  WORKSHEET_REPO,
+  DOWNSTREAM_REPOS,
+} from "./lib/paths.mjs";
 
-// ── Script paths ─────────────────────────────────────────────────────────────
-const SCRIPTS = {
-  whatsTomorrow: "C:/Users/ColsonR/Agent/scripts/whats-tomorrow.mjs",
-  aistudioIngest: "C:/Users/ColsonR/Agent/scripts/aistudio-ingest.mjs",
-  renderAnimations: "C:/Users/ColsonR/Agent/scripts/render-animations.mjs",
-  uploadAnimations: "C:/Users/ColsonR/lrsl-driller/scripts/upload-animations.mjs",
-  uploadBlooket: "C:/Users/ColsonR/Agent/scripts/upload-blooket.mjs",
-  postSchoology: "C:/Users/ColsonR/Agent/scripts/post-to-schoology.mjs",
-  indexDriveVideos: "C:/Users/ColsonR/Agent/scripts/index-drive-videos.mjs",
-  lessonUrls: "C:/Users/ColsonR/Agent/scripts/lesson-urls.mjs",
-};
 
-const WORKING_DIRS = {
-  worksheet: "C:/Users/ColsonR/apstats-live-worksheet",
-  driller: "C:/Users/ColsonR/lrsl-driller",
-};
-
-const DRIVE_VIDEO_INDEX_PATH = "C:/Users/ColsonR/Agent/config/drive-video-index.json";
 
 // ── Arg parsing ──────────────────────────────────────────────────────────────
 
@@ -138,7 +129,7 @@ function parseArgs(argv) {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-const CALENDAR_DIR = "C:/Users/ColsonR/apstats-live-worksheet";
+
 const CALENDAR_BASE_URL = "https://robjohncolson.github.io/apstats-live-worksheet";
 
 /**
@@ -1205,27 +1196,7 @@ function step7_lessonUrls(unit, lesson) {
 function commitAndPushRepos(unit, lesson, autoPush) {
   console.log("=== Step 8: Commit and push downstream repos ===\n");
 
-  const repos = [
-    {
-      name: "apstats-live-worksheet",
-      path: "C:/Users/ColsonR/apstats-live-worksheet",
-      patterns: [
-        "u*_lesson*_live.html",
-        "u*_l*_blooket.csv",
-        "ai-grading-prompts-*.js",
-      ],
-    },
-    {
-      name: "lrsl-driller",
-      path: "C:/Users/ColsonR/lrsl-driller",
-      patterns: [
-        "animations/apstat_*.py",
-        "cartridges/*/manifest.json",
-        "cartridges/*/generator.js",
-        "cartridges/*/grading-rules.js",
-      ],
-    },
-  ];
+  const repos = DOWNSTREAM_REPOS;
 
   const repoResults = [];
 

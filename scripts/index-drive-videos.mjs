@@ -36,8 +36,9 @@ let chromium;
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
+import { CONFIG_DIR } from "./lib/paths.mjs";
+
 const CDP_URL = "http://127.0.0.1:9222";
-const CONFIG_DIR = "C:/Users/ColsonR/Agent/config";
 const INDEX_PATH = path.join(CONFIG_DIR, "drive-video-index.json");
 
 // Video file extensions to match

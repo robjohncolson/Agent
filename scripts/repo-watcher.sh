@@ -5,7 +5,9 @@
 REPO_PATH="$1"
 SLUG="$2"
 INTERVAL="${3:-15}"
-LOG_DIR="C:/Users/ColsonR/Agent/state/watch"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+AGENT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+LOG_DIR="$AGENT_ROOT/state/watch"
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/${SLUG}.log"
 
