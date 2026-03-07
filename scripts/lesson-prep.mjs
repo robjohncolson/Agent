@@ -34,6 +34,7 @@ import path from "node:path";
 import {
   buildBlooketPrompt,
   buildDrillsPrompt,
+  buildNewCartridgePrompt,
   buildWorksheetPrompt,
   readVideoContext,
 } from "./lib/build-codex-prompts.mjs";
@@ -449,27 +450,97 @@ function takeCsvRows(csvText, rowCount) {
   return rows.join("\n").trim();
 }
 
-function buildManifestExcerpt() {
-  const manifestPath = path.join(
-    WORKING_DIRS.driller,
-    "cartridges",
-    "apstats-u6-inference-prop",
-    "manifest.json"
+function findCartridgePath(unit) {
+  const cartridgesDir = path.join(WORKING_DIRS.driller, "cartridges");
+  if (!existsSync(cartridgesDir)) {
+    return null;
+  }
+  const entries = readdirSync(cartridgesDir);
+  const match = entries.find(
+    (e) =>
+      e.startsWith(`apstats-u${unit}`) &&
+      statSync(path.join(cartridgesDir, e)).isDirectory()
   );
+  return match || null;
+}
+
+function extractLastCaseBlock(fileContent) {
+  const casePattern = /case\s+["']l\d+-[^"']+["']\s*:\s*\{[\s\S]*?\n\s*\}/g;
+  const matches = [...fileContent.matchAll(casePattern)];
+  if (matches.length > 0) {
+    return matches[matches.length - 1][0];
+  }
+  const lines = fileContent.split("\n");
+  return lines.slice(-150).join("\n");
+}
+
+function buildManifestExcerpt(unit) {
+  const cartridgeName = findCartridgePath(unit);
+  if (!cartridgeName) {
+    return null;
+  }
+
+  const cartridgeDir = path.join(WORKING_DIRS.driller, "cartridges", cartridgeName);
+  const manifestPath = path.join(cartridgeDir, "manifest.json");
   const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
   const lastModes = Array.isArray(manifest.modes) ? manifest.modes.slice(-2) : [];
   const lastMode = lastModes[lastModes.length - 1] || {};
 
+  // Extract generator excerpt
+  let generatorExcerpt = "";
+  const generatorFilePath = path.join(cartridgeDir, "generator.js");
+  if (existsSync(generatorFilePath)) {
+    generatorExcerpt = extractLastCaseBlock(readFileSync(generatorFilePath, "utf-8"));
+  }
+
+  // Extract grading-rules excerpt
+  let gradingRulesExcerpt = "";
+  const gradingRulesFilePath = path.join(cartridgeDir, "grading-rules.js");
+  if (existsSync(gradingRulesFilePath)) {
+    gradingRulesExcerpt = extractLastCaseBlock(readFileSync(gradingRulesFilePath, "utf-8"));
+  }
+
+  // Find animation example
+  let animationExample = "";
+  const animDir = path.join(WORKING_DIRS.driller, "animations");
+  if (existsSync(animDir)) {
+    const animFiles = readdirSync(animDir)
+      .filter((f) => f.startsWith(`apstat_${unit}`) && f.endsWith(".py"))
+      .sort()
+      .reverse();
+    if (animFiles.length > 0) {
+      const content = readFileSync(path.join(animDir, animFiles[0]), "utf-8");
+      const lines = content.split("\n");
+      animationExample = lines.slice(0, 80).join("\n");
+    }
+  }
+
   return {
-    manifestPath: "cartridges/apstats-u6-inference-prop/manifest.json",
-    generatorPath: "cartridges/apstats-u6-inference-prop/generator.js",
-    gradingRulesPath: "cartridges/apstats-u6-inference-prop/grading-rules.js",
+    cartridgeName,
+    manifestPath: `cartridges/${cartridgeName}/manifest.json`,
+    generatorPath: `cartridges/${cartridgeName}/generator.js`,
+    gradingRulesPath: `cartridges/${cartridgeName}/grading-rules.js`,
     metaName: manifest.meta?.name || "",
     metaDescription: manifest.meta?.description || "",
     lastModeId: lastMode.id || "(none)",
     lastModeName: lastMode.name || "(none)",
     lastModesJson: JSON.stringify(lastModes, null, 2),
+    generatorExcerpt,
+    gradingRulesExcerpt,
+    animationExample,
   };
+}
+
+function buildTemplateExcerpt() {
+  const templateDir = path.join(WORKING_DIRS.driller, "cartridges", "_template");
+  const result = {};
+  for (const filename of ["manifest.json", "generator.js", "grading-rules.js"]) {
+    const filePath = path.join(templateDir, filename);
+    if (existsSync(filePath)) {
+      result[filename] = readFileSync(filePath, "utf-8");
+    }
+  }
+  return result;
 }
 
 function writeTempPromptFile(label, prompt, workingDir) {
@@ -657,10 +728,16 @@ function validateBlooketTask(unit, lesson) {
 }
 
 function validateDrillsTask(unit, lesson) {
+  const cartridgeName = findCartridgePath(unit);
+  if (!cartridgeName) {
+    const error = "No cartridge directory found for unit " + unit;
+    console.log(`    Validation: ${error}`);
+    return { ok: false, error };
+  }
   const manifestPath = path.join(
     WORKING_DIRS.driller,
     "cartridges",
-    "apstats-u6-inference-prop",
+    cartridgeName,
     "manifest.json"
   );
   if (!existsSync(manifestPath)) {
@@ -742,7 +819,7 @@ async function step2_contentGeneration(unit, lesson) {
       unit,
       lesson
     );
-    const manifestExcerpt = buildManifestExcerpt();
+    const manifestExcerpt = buildManifestExcerpt(unit);
 
     console.log(`  Topic ${unit}.${lesson}: ${videoContext.topicTitle}`);
     console.log(
@@ -766,7 +843,27 @@ async function step2_contentGeneration(unit, lesson) {
       name: blooketPattern.name,
       content: takeCsvRows(blooketPattern.content, 10),
     });
-    drillsPrompt = buildDrillsPrompt(unit, lesson, videoContext, manifestExcerpt);
+
+    if (manifestExcerpt) {
+      console.log(`  Cartridge found: ${manifestExcerpt.cartridgeName} (extending)`);
+      drillsPrompt = buildDrillsPrompt(unit, lesson, videoContext, manifestExcerpt);
+    } else {
+      console.log(`  No cartridge for unit ${unit} — will create new cartridge`);
+      const templateExcerpt = buildTemplateExcerpt();
+      let animationExample = "";
+      const animDir = path.join(WORKING_DIRS.driller, "animations");
+      if (existsSync(animDir)) {
+        const animFiles = readdirSync(animDir)
+          .filter((f) => f.startsWith("apstat_") && f.endsWith(".py"))
+          .sort()
+          .reverse();
+        if (animFiles.length > 0) {
+          const content = readFileSync(path.join(animDir, animFiles[0]), "utf-8");
+          animationExample = content.split("\n").slice(0, 80).join("\n");
+        }
+      }
+      drillsPrompt = buildNewCartridgePrompt(unit, lesson, videoContext, templateExcerpt, animationExample);
+    }
   } catch (e) {
     console.error(`  Step 2 setup failed: ${e.message}`);
     console.log();
