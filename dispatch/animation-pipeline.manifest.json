@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "animation-pipeline-improvements",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "full-auto",
+  "verify_commands": [],
+  "agents": [
+    {
+      "name": "render-improvements",
+      "description": "Add MiKTeX PATH, MathTex lint check, and sequential render docs to render-animations.mjs",
+      "prompt_file": "dispatch/prompts/codex-agents/render-improvements.md",
+      "owned_paths": [
+        "scripts/render-animations.mjs"
+      ]
+    },
+    {
+      "name": "lesson-prep-pipeline",
+      "description": "Wire Steps 3-4 with output parsing, add incremental render test, add Step 8 commit/push",
+      "prompt_file": "dispatch/prompts/codex-agents/lesson-prep-pipeline.md",
+      "owned_paths": [
+        "scripts/lesson-prep.mjs"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "anim-pipeline",
+    "verify_commands": []
+  }
+}

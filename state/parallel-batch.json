@@ -1,182 +1,86 @@
 {
   "$schema": "../schema/parallel-batch-state.schema.json",
   "version": 1,
-  "batch_name": "cross-agent-phase6",
-  "status": "failed",
+  "batch_name": "animation-pipeline-improvements",
+  "status": "completed",
   "target_branch": "master",
   "base_ref": "master",
-  "manifest_file": "dispatch/cross-agent.manifest.json",
+  "manifest_file": "dispatch/animation-pipeline.manifest.json",
   "evidence_observations": [],
   "dependency_batches": [
     [
-      "cross-agent-runner",
-      "cross-agent-schemas",
-      "subagent-preambles",
-      "cross-agent-hooks"
-    ],
-    [
-      "cross-agent-integration"
+      "render-improvements",
+      "lesson-prep-pipeline"
     ]
   ],
-  "current_batch": {
-    "index": 1,
-    "agents": [
-      "cross-agent-runner",
-      "cross-agent-schemas",
-      "subagent-preambles",
-      "cross-agent-hooks"
-    ],
-    "started_at": "2026-03-03T03:13:11Z"
-  },
-  "completed_batches": 0,
-  "last_error": {
-    "stage": "dependency-batch",
-    "message": "Batch 1 failed: cross-agent-hooks, cross-agent-runner",
-    "timestamp": "2026-03-03T03:22:13Z"
-  },
-  "updated_at": "2026-03-03T03:22:13Z",
+  "current_batch": null,
+  "completed_batches": 1,
+  "last_error": null,
+  "updated_at": "2026-03-07T00:18:18Z",
   "agents": [
     {
-      "name": "cross-agent-runner",
-      "branch": "codex/cross-agent-runner",
-      "status": "failed",
+      "name": "render-improvements",
+      "branch": "codex/render-improvements",
+      "status": "merged",
       "depends_on": [],
       "owned_paths": [
-        "runner/cross-agent.py"
+        "scripts/render-animations.mjs"
       ],
-      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-runner.md",
+      "prompt_file": "dispatch/prompts/codex-agents/render-improvements.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-03T03:13:11Z",
-      "finished_at": "2026-03-03T03:22:13Z",
-      "commit": null,
-      "worktree": "state/parallel-worktrees/cross-agent-runner",
-      "codex_log": "state/parallel-codex-logs/cross-agent-runner-20260303T031311Z.log",
-      "verify_results": [],
-      "blocked_by": [],
-      "error": {
-        "message": "Ownership enforcement failed for cross-agent-runner. Files outside owned_paths were modified.",
-        "timestamp": "2026-03-03T03:22:13Z"
-      }
-    },
-    {
-      "name": "cross-agent-schemas",
-      "branch": "codex/cross-agent-schemas",
-      "status": "completed",
-      "depends_on": [],
-      "owned_paths": [
-        "schema/cross-agent-request.schema.json",
-        "schema/cross-agent-result.schema.json",
-        "schema/cross-agent-log.schema.json"
-      ],
-      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-schemas.md",
-      "verify_commands": [],
-      "attempts": 1,
-      "started_at": "2026-03-03T03:13:11Z",
-      "finished_at": "2026-03-03T03:15:30Z",
-      "commit": "7d52e92700a3df76b74be71a845fe8c8a897785c",
-      "worktree": "state/parallel-worktrees/cross-agent-schemas",
-      "codex_log": "state/parallel-codex-logs/cross-agent-schemas-20260303T031311Z.log",
+      "started_at": "2026-03-07T00:08:01Z",
+      "finished_at": "2026-03-07T00:18:17Z",
+      "commit": "8cce62082c0d3830f10a11bbf551f07b7bb4e26d",
+      "worktree": "state/parallel-worktrees/render-improvements",
+      "codex_log": "state/parallel-codex-logs/render-improvements-20260307T000801Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": null
     },
     {
-      "name": "subagent-preambles",
-      "branch": "codex/subagent-preambles",
-      "status": "completed",
+      "name": "lesson-prep-pipeline",
+      "branch": "codex/lesson-prep-pipeline",
+      "status": "merged",
       "depends_on": [],
       "owned_paths": [
-        "dispatch/prompts/subagent-preambles/cc-as-subagent.md",
-        "dispatch/prompts/subagent-preambles/codex-as-subagent.md"
+        "scripts/lesson-prep.mjs"
       ],
-      "prompt_file": "dispatch/prompts/codex-agents/subagent-preambles.md",
+      "prompt_file": "dispatch/prompts/codex-agents/lesson-prep-pipeline.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-03T03:13:11Z",
-      "finished_at": "2026-03-03T03:15:27Z",
-      "commit": "1b68334e8d0864b3f9eadf565713b6d4272cfa80",
-      "worktree": "state/parallel-worktrees/subagent-preambles",
-      "codex_log": "state/parallel-codex-logs/subagent-preambles-20260303T031311Z.log",
+      "started_at": "2026-03-07T00:08:01Z",
+      "finished_at": "2026-03-07T00:18:18Z",
+      "commit": "c9979d68243b2c020efd8f2edaafe21749d8ee59",
+      "worktree": "state/parallel-worktrees/lesson-prep-pipeline",
+      "codex_log": "state/parallel-codex-logs/lesson-prep-pipeline-20260307T000801Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": null
-    },
-    {
-      "name": "cross-agent-hooks",
-      "branch": "codex/cross-agent-hooks",
-      "status": "failed",
-      "depends_on": [],
-      "owned_paths": [
-        "hooks/cross-agent-log.py"
-      ],
-      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-hooks.md",
-      "verify_commands": [],
-      "attempts": 1,
-      "started_at": "2026-03-03T03:13:11Z",
-      "finished_at": "2026-03-03T03:18:23Z",
-      "commit": null,
-      "worktree": "state/parallel-worktrees/cross-agent-hooks",
-      "codex_log": "state/parallel-codex-logs/cross-agent-hooks-20260303T031311Z.log",
-      "verify_results": [],
-      "blocked_by": [],
-      "error": {
-        "message": "Ownership enforcement failed for cross-agent-hooks. Files outside owned_paths were modified.",
-        "timestamp": "2026-03-03T03:18:23Z"
-      }
-    },
-    {
-      "name": "cross-agent-integration",
-      "branch": "codex/cross-agent-integration",
-      "status": "blocked",
-      "depends_on": [
-        "cross-agent-runner",
-        "cross-agent-schemas",
-        "subagent-preambles",
-        "cross-agent-hooks"
-      ],
-      "owned_paths": [
-        "scripts/test-cross-agent.py",
-        "scripts/test-cross-agent.sh"
-      ],
-      "prompt_file": "dispatch/prompts/codex-agents/cross-agent-integration.md",
-      "verify_commands": [],
-      "attempts": 0,
-      "started_at": null,
-      "finished_at": "2026-03-03T03:22:13Z",
-      "commit": null,
-      "worktree": null,
-      "codex_log": null,
-      "verify_results": [],
-      "blocked_by": [
-        "cross-agent-hooks",
-        "cross-agent-runner"
-      ],
-      "error": {
-        "message": "Blocked by failed dependency: cross-agent-hooks, cross-agent-runner",
-        "timestamp": "2026-03-03T03:22:13Z"
-      }
     }
   ],
   "merge": {
-    "status": "pending",
-    "branch": null,
-    "started_at": null,
-    "finished_at": null,
-    "merged_agents": [],
+    "status": "completed",
+    "branch": "cc-merge/animation-pipeline-improvements-20260307T001816Z",
+    "started_at": "2026-03-07T00:18:17Z",
+    "finished_at": "2026-03-07T00:18:18Z",
+    "merged_agents": [
+      "render-improvements",
+      "lesson-prep-pipeline"
+    ],
     "verify_results": [],
-    "commit": null,
+    "commit": "a92dc9d9dc4d5a34079c12a61086adccd5a7345e",
     "error": null
   },
   "summary": {
-    "total_agents": 5,
+    "total_agents": 2,
     "pending": 0,
     "running": 0,
-    "completed": 2,
-    "merged": 0,
-    "failed": 2,
-    "blocked": 1,
-    "dependency_batches_total": 2,
-    "dependency_batches_completed": 0
+    "completed": 0,
+    "merged": 2,
+    "failed": 0,
+    "blocked": 0,
+    "dependency_batches_total": 1,
+    "dependency_batches_completed": 1
   }
 }
