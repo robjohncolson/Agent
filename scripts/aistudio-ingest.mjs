@@ -38,6 +38,8 @@ const OUTPUT_BASE = "C:/Users/ColsonR/apstats-live-worksheet";
 
 const RESPONSE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes max per response
 const POLL_INTERVAL_MS = 2000;               // check every 2s
+const MAX_RATE_LIMIT_RETRIES = 3;
+const RATE_LIMIT_BACKOFF_MS = [60_000, 120_000, 300_000]; // 1m, 2m, 5m
 
 const PROMPTS = {
   transcription: `Transcribe this video with timestamps. Format each segment as:
@@ -779,6 +781,43 @@ function waitForUserInput() {
 }
 
 /**
+ * Check if a Gemini response indicates a rate limit error.
+ * Returns true if the response text or page contains rate limit indicators.
+ */
+function isRateLimited(responseText) {
+  if (!responseText) return false;
+  const lower = responseText.toLowerCase();
+  const patterns = [
+    "rate limit",
+    "quota exceeded",
+    "too many requests",
+    "try again later",
+    "resource exhausted",
+    "rate_limit_exceeded",
+    "429",
+    "overloaded",
+    "capacity",
+    "temporarily unavailable",
+  ];
+  return patterns.some((p) => lower.includes(p));
+}
+
+async function checkPageForRateLimit(page) {
+  try {
+    return await page.evaluate(() => {
+      const body = document.body.innerText.toLowerCase();
+      return body.includes("rate limit") ||
+        body.includes("quota exceeded") ||
+        body.includes("too many requests") ||
+        body.includes("resource exhausted") ||
+        body.includes("temporarily unavailable");
+    });
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Navigate to a new AI Studio chat.
  */
 async function navigateToNewChat(page) {
@@ -945,17 +984,56 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
       continue;
     }
 
-    // Count existing turns BEFORE submitting so we can detect the NEW response
-    const turnCountBefore = await page.evaluate(() => {
-      return document.querySelectorAll("ms-chat-turn, .chat-turn").length;
-    }).catch(() => 0);
+    // Retry loop for rate limit handling
+    let responseText = "";
+    let attempt = 0;
 
-    // Type and submit the prompt
-    console.log("    Submitting prompt...");
-    await typeAndSubmit(page, promptText);
+    while (attempt <= MAX_RATE_LIMIT_RETRIES) {
+      // Count existing turns BEFORE submitting so we can detect the NEW response
+      const turnCountBefore = await page.evaluate(() => {
+        return document.querySelectorAll("ms-chat-turn, .chat-turn").length;
+      }).catch(() => 0);
 
-    // Wait for the response — pass turn count so it waits for a NEW turn
-    let responseText = await waitForResponse(page, turnCountBefore);
+      // Type and submit the prompt
+      console.log(`    Submitting prompt${attempt > 0 ? ` (retry ${attempt}/${MAX_RATE_LIMIT_RETRIES})` : ""}...`);
+      await typeAndSubmit(page, promptText);
+
+      // Wait for the response — pass turn count so it waits for a NEW turn
+      responseText = await waitForResponse(page, turnCountBefore);
+
+      // Check for rate limit in response text or page
+      const rateLimited = isRateLimited(responseText) || await checkPageForRateLimit(page);
+
+      if (rateLimited && attempt < MAX_RATE_LIMIT_RETRIES) {
+        const backoff = RATE_LIMIT_BACKOFF_MS[attempt] || RATE_LIMIT_BACKOFF_MS[RATE_LIMIT_BACKOFF_MS.length - 1];
+        const backoffSec = Math.round(backoff / 1000);
+        console.log(`    RATE LIMITED — waiting ${backoffSec}s before retry...`);
+        await page.waitForTimeout(backoff);
+
+        // Navigate to a fresh chat and reattach the video
+        await navigateToNewChat(page);
+        await selectModel(page, opts.model);
+        if (isDriveId) {
+          await attachDriveFile(page, videoIdentifier);
+        } else {
+          await attachLocalFile(page, videoIdentifier);
+        }
+        console.log("    Waiting for video to finish processing...");
+        await waitForMediaReady(page);
+
+        attempt++;
+        continue;
+      }
+
+      if (rateLimited) {
+        console.log(`    RATE LIMITED — exhausted ${MAX_RATE_LIMIT_RETRIES} retries.`);
+      } else if (attempt > 0) {
+        // Retry succeeded — next prompt needs a new chat since we navigated away
+        needsNewChat = true;
+      }
+
+      break;
+    }
 
     if (!responseText || responseText.length < 50) {
       console.log("    WARNING: Response text appears too short or empty.");
@@ -965,11 +1043,14 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
     }
 
     // Save the response
-    if (responseText && responseText.trim().length > 0) {
+    if (responseText && responseText.trim().length > 0 && !isRateLimited(responseText)) {
       const header = `# ${label} — ${promptKey === "transcription" ? "Transcript" : "Slide Descriptions"}\n# Unit ${unit}, Lesson ${lesson}\n\n`;
       fs.writeFileSync(outFile, header + responseText.trim() + "\n");
       console.log(`    Saved: ${outFile}`);
       console.log(`    Length: ${responseText.trim().length} characters`);
+    } else if (isRateLimited(responseText)) {
+      console.log(`    ERROR: Rate limit not resolved for ${promptKey}. Skipping save.`);
+      console.log(`    Expected output file: ${outFile}`);
     } else {
       console.log(`    ERROR: No response text captured for ${promptKey}.`);
       console.log(`    Expected output file: ${outFile}`);
