@@ -1,0 +1,33 @@
+{
+  "6.10": {
+    "unit": 6,
+    "lesson": 10,
+    "topic": "Topic 6.10",
+    "date": null,
+    "period": "B",
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson10_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-hypotheses-610",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=9",
+      "blooket": "https://dashboard.blooket.com/set/69ad1cce0d5874349dbbf688",
+      "schoologyFolder": null,
+      "videos": [
+        "1dIRMyHdePpkx7pCJFcAkRHIPj2Q8RtqG",
+        "1SDYELDZa9kcJldq_qf1DsOOMhrjzfkio"
+      ]
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "skipped",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-08T01:00:00Z",
+      "lastUpdated": "2026-03-08T07:48:15.159Z"
+    }
+  }
+}

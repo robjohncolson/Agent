@@ -73,6 +73,7 @@ function parseArgs(argv) {
   let skipSchoology = false;
   let targetDate = null;
   let noFolder = false;
+  let force = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -84,6 +85,8 @@ function parseArgs(argv) {
       targetDate = args[++i]; // YYYY-MM-DD
     } else if (arg === "--no-folder") {
       noFolder = true;
+    } else if (arg === "--force") {
+      force = true;
     } else if (arg === "--skip-ingest") {
       skipIngest = true;
     } else if (arg === "--skip-render") {
@@ -127,12 +130,31 @@ function parseArgs(argv) {
         "  --skip-blooket      Skip Step 5 (Blooket upload)\n" +
         "  --skip-schoology    Skip Step 6 (Schoology posting)\n" +
         "  --date YYYY-MM-DD   Target date for calendar lookup and folder creation\n" +
-        "  --no-folder         Skip Schoology folder creation (post links at top level)"
+        "  --no-folder         Skip Schoology folder creation (post links at top level)\n" +
+        "  --force             Re-run all steps even if registry shows them as done"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder };
+  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force };
+}
+
+// ── Resume helpers ───────────────────────────────────────────────────────────
+
+/**
+ * Check if a pipeline step can be skipped because the registry shows it as
+ * "done" and (optionally) the output artifact exists on disk.
+ *
+ * Returns { skip: true, reason: "..." } or { skip: false }.
+ */
+function canResume(registryEntry, stepKey, artifactPath, force) {
+  if (force) return { skip: false };
+  if (!registryEntry) return { skip: false };
+  const status = registryEntry.status?.[stepKey];
+  if (status !== "done" && status !== "skipped") return { skip: false };
+  if (artifactPath && !existsSync(artifactPath)) return { skip: false };
+  const label = status === "skipped" ? "previously skipped" : "already done";
+  return { skip: true, reason: label };
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -1519,26 +1541,40 @@ async function main() {
   console.log(`  Lesson Prep Pipeline v3 -- Unit ${unit}, Lesson ${lesson}`);
   console.log(`========================================\n`);
 
-  if (existingEntry) {
-    console.log(`Registry: Found existing entry for ${unit}.${lesson}`);
+  if (existingEntry && !opts.force) {
     const status = existingEntry.status || {};
-    // Show what's already done
-    for (const [step, state] of Object.entries(status)) {
-      if (state === "done") console.log(`  ${step}: already done`);
+    const doneSteps = Object.entries(status).filter(([, s]) => s === "done" || s === "skipped");
+    if (doneSteps.length > 0) {
+      console.log(`Registry: Resuming — ${doneSteps.length} step(s) already completed for ${unit}.${lesson}`);
+      for (const [step, state] of doneSteps) {
+        console.log(`  ${step}: ${state}`);
+      }
+      console.log("  (use --force to re-run all steps)\n");
     }
-    console.log();
+  } else if (opts.force && existingEntry) {
+    console.log("Registry: --force specified, will re-run all steps.\n");
   }
 
+  // ── Resume-aware artifact paths ───────────────────────────────────────────
+  const worksheetPath = path.join(WORKING_DIRS.worksheet, `u${unit}_lesson${lesson}_live.html`);
+  const gradingPath = path.join(WORKING_DIRS.worksheet, `ai-grading-prompts-u${unit}-l${lesson}.js`);
+  const blooketCsvPath = path.join(WORKING_DIRS.worksheet, `u${unit}_l${lesson}_blooket.csv`);
+
   // Step 1: Video ingest via CDP
+  const step1Resume = canResume(existingEntry, "ingest", null, opts.force);
   let step1ok = false;
-  const ranStep1 = !opts.skipIngest && opts.driveIds.length > 0;
+  let ranStep1 = false;
   if (opts.skipIngest) {
     console.log("=== Step 1: Video ingest skipped (--skip-ingest) ===\n");
-    step1ok = true; // explicitly skipped = treat as passed for gating
+    step1ok = true;
+  } else if (step1Resume.skip) {
+    console.log(`=== Step 1: Video ingest — ${step1Resume.reason} (registry) ===\n`);
+    step1ok = true;
   } else if (opts.driveIds.length === 0) {
     console.log("=== Step 1: No Drive IDs provided, skipping ingest ===\n");
     step1ok = true;
   } else {
+    ranStep1 = true;
     step1ok = step1_videoIngest(unit, lesson, opts.driveIds);
   }
 
@@ -1555,24 +1591,40 @@ async function main() {
   }
 
   // Step 2: Parallel content generation
-  results.codexResults = await step2_contentGeneration(unit, lesson);
-  const step2StatusByLabel = {
-    "Worksheet + Grading": "worksheet",
-    "Blooket CSV": "blooketCsv",
-    "Drills Cartridge": "drills",
-    "Cartridge + Animations": "drills",
-  };
-  for (const taskResult of results.codexResults || []) {
-    const stepKey = step2StatusByLabel[taskResult.label];
-    if (!stepKey) continue;
-    updateStatus(unit, lesson, stepKey, taskResult.success ? "done" : "failed");
+  const step2WorksheetResume = canResume(existingEntry, "worksheet", worksheetPath, opts.force);
+  const step2BlooketResume = canResume(existingEntry, "blooketCsv", blooketCsvPath, opts.force);
+  const step2DrillsResume = canResume(existingEntry, "drills", null, opts.force);
+  const allStep2Done = step2WorksheetResume.skip && step2BlooketResume.skip && step2DrillsResume.skip;
+
+  if (allStep2Done) {
+    console.log("=== Step 2: Content generation — all tasks already done (registry) ===");
+    console.log(`  Worksheet: ${step2WorksheetResume.reason}`);
+    console.log(`  Blooket CSV: ${step2BlooketResume.reason}`);
+    console.log(`  Drills: ${step2DrillsResume.reason}\n`);
+    results.codexResults = [
+      { label: "Worksheet + Grading", success: true, skipped: true },
+      { label: "Blooket CSV", success: true, skipped: true },
+      { label: "Drills Cartridge", success: true, skipped: true },
+    ];
+  } else {
+    results.codexResults = await step2_contentGeneration(unit, lesson);
+    const step2StatusByLabel = {
+      "Worksheet + Grading": "worksheet",
+      "Blooket CSV": "blooketCsv",
+      "Drills Cartridge": "drills",
+      "Cartridge + Animations": "drills",
+    };
+    for (const taskResult of results.codexResults || []) {
+      const stepKey = step2StatusByLabel[taskResult.label];
+      if (!stepKey) continue;
+      updateStatus(unit, lesson, stepKey, taskResult.success ? "done" : "failed");
+    }
   }
   const step2ok = results.codexResults && results.codexResults.some(r => r.success);
 
   if (!step2ok) {
     console.error("*** Step 2 failed — no content was generated. ***");
     console.error("*** Fix the issue above and re-run. ***\n");
-    // Still generate URLs and summary even if content gen failed
     step7_lessonUrls(unit, lesson);
     step9_summary(unit, lesson, results);
     console.log("Pipeline aborted after Step 2.");
@@ -1580,25 +1632,33 @@ async function main() {
   }
 
   // Step 3: Render animations
+  const step3Resume = canResume(existingEntry, "animations", null, opts.force);
   if (opts.skipRender) {
     console.log("=== Step 3: Rendering skipped (--skip-render) ===\n");
+  } else if (step3Resume.skip) {
+    console.log(`=== Step 3: Animations — ${step3Resume.reason} (registry) ===\n`);
   } else {
     results.renderResult = step3_renderAnimations(unit, lesson);
-    // Non-blocking: animations are optional, continue regardless
   }
 
-  // Step 4: Upload animations
+  // Step 4: Upload animations (no separate registry key — tied to step 3)
   if (opts.skipUpload) {
     console.log("=== Step 4: Upload skipped (--skip-upload) ===\n");
+  } else if (step3Resume.skip) {
+    console.log(`=== Step 4: Animation upload — ${step3Resume.reason} (registry) ===\n`);
   } else {
     results.uploadResult = step4_uploadAnimations(unit, lesson);
-    // Non-blocking: animation upload is optional
   }
 
   // Step 5: Upload Blooket
-  let blooketUrl = null;
+  const step5Resume = canResume(existingEntry, "blooketUpload", null, opts.force);
+  let blooketUrl = existingEntry?.urls?.blooket || null;
   if (opts.skipBlooket) {
     console.log("=== Step 5: Blooket upload skipped (--skip-blooket) ===\n");
+  } else if (step5Resume.skip && blooketUrl) {
+    console.log(`=== Step 5: Blooket upload — ${step5Resume.reason} (registry) ===`);
+    console.log(`  URL: ${blooketUrl}\n`);
+    results.blooketUrl = blooketUrl;
   } else {
     blooketUrl = step5_uploadBlooket(unit, lesson);
     results.blooketUrl = blooketUrl;
@@ -1608,12 +1668,14 @@ async function main() {
     } else {
       updateStatus(unit, lesson, "blooketUpload", "failed");
     }
-    // Non-blocking: Schoology can still post other links without Blooket
   }
 
   // Step 6: Post to Schoology
+  const step6Resume = canResume(existingEntry, "schoology", null, opts.force);
   if (opts.skipSchoology) {
     console.log("=== Step 6: Schoology posting skipped (--skip-schoology) ===\n");
+  } else if (step6Resume.skip) {
+    console.log(`=== Step 6: Schoology posting — ${step6Resume.reason} (registry) ===\n`);
   } else {
     const schoologyOk = step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
     updateStatus(unit, lesson, "schoology", schoologyOk ? "done" : "failed");
