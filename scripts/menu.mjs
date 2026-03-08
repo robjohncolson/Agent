@@ -1,18 +1,11 @@
 #!/usr/bin/env node
-import { loadRegistry, getLesson } from "./lib/lesson-registry.mjs";
+import { loadRegistry, getLesson, getSchoologyLinks } from "./lib/lesson-registry.mjs";
 import { SCRIPTS, AGENT_ROOT } from "./lib/paths.mjs";
 import { execSync } from "node:child_process";
 import prompts from "prompts";
 import { scanCalendars } from "./lib/scan-calendars.mjs";
-
-// ── ANSI helpers ────────────────────────────────────────────────────────────
-const BOLD  = "\x1b[1m";
-const DIM   = "\x1b[2m";
-const GREEN = "\x1b[32m";
-const YELLOW = "\x1b[33m";
-const RED   = "\x1b[31m";
-const CYAN  = "\x1b[36m";
-const RESET = "\x1b[0m";
+import chalk from "chalk";
+import { formatStatus, formatLinkStatus, dashboardTable, progressBar } from "./lib/tui.mjs";
 
 // ── Skip options ────────────────────────────────────────────────────────────
 const SKIP_OPTIONS = [
@@ -51,18 +44,6 @@ function getPreselected(unit, lesson) {
 
 function buildSkipArgs(selected) {
   return selected.map((v) => v).join(" ");
-}
-
-function formatStatus(val) {
-  switch (val) {
-    case "done":    return `${GREEN}✓ done${RESET}`;
-    case "skipped": return `${GREEN}✓ skipped${RESET}`;
-    case "scraped": return `${GREEN}✓ scraped${RESET}`;
-    case "failed":  return `${RED}✗ failed${RESET}`;
-    case "running": return `${YELLOW}⟳ running${RESET}`;
-    case "pending": return `${YELLOW}○ pending${RESET}`;
-    default:        return `${DIM}○ ${val || "pending"}${RESET}`;
-  }
 }
 
 function formatLessonSummary(key, entry) {
@@ -128,8 +109,8 @@ async function prepNextUndeveloped() {
     return;
   }
 
-  console.log(`\n${BOLD}Undeveloped Lessons (Period B)${RESET}`);
-  console.log(`${DIM}${"─".repeat(30)}${RESET}`);
+  console.log(`\n${chalk.bold("Undeveloped Lessons (Period B)")}`);
+  console.log(chalk.dim("─".repeat(30)));
 
   const choices = undeveloped.map((item) => {
     const icon = item.doneCount === 0 ? "○" : "◐";
@@ -138,11 +119,11 @@ async function prepNextUndeveloped() {
     const title = item.title.length > 40 ? item.title.slice(0, 37) + "..." : item.title;
     const tag = `[${item.label}]`;
     return {
-      title: `${YELLOW}${icon}${RESET} ${datePad} ${ul}  — ${title.padEnd(42)} ${tag}`,
+      title: `${chalk.yellow(icon)} ${datePad} ${ul}  — ${title.padEnd(42)} ${tag}`,
       value: `${item.unit}:${item.lesson}`,
     };
   });
-  choices.push({ title: `${DIM}Back${RESET}`, value: "__back__" });
+  choices.push({ title: chalk.dim("Back"), value: "__back__" });
 
   const { selected } = await prompts({
     type: "select", name: "selected",
@@ -156,7 +137,7 @@ async function prepNextUndeveloped() {
 
   const entry = getLesson(unit, lesson);
   if (entry) {
-    console.log(`\n${DIM}Current status for ${unit}.${lesson}:${RESET}`);
+    console.log(`\n${chalk.dim(`Current status for ${unit}.${lesson}:`)}`);
     for (const s of STATUS_KEYS) {
       console.log(`  ${s.padEnd(16)} ${formatStatus(entry.status?.[s])}`);
     }
@@ -166,12 +147,12 @@ async function prepNextUndeveloped() {
   const skips = await showSkipToggles(unit, lesson);
   const skipStr = buildSkipArgs(skips);
   const cmd = `node scripts/lesson-prep.mjs --unit ${unit} --lesson ${lesson}${skipStr ? " " + skipStr : ""}`;
-  console.log(`\n${DIM}> ${cmd}${RESET}\n`);
+  console.log(chalk.dim(`\n> ${cmd}\n`));
   runScript(cmd);
 }
 
 async function prepTomorrow() {
-  console.log(`\n${BOLD}Detecting tomorrow's lesson...${RESET}\n`);
+  console.log(`\n${chalk.bold("Detecting tomorrow's lesson...")}\n`);
   let stdout;
   try {
     stdout = execSync(`node "${SCRIPTS.whatsTomorrow}"`, {
@@ -185,18 +166,18 @@ async function prepTomorrow() {
   const match = stdout.match(/Topic:\s+(\d+)\.(\d+)/);
   if (!match) {
     console.log("Could not auto-detect tomorrow's lesson.");
-    console.log(`${DIM}Output was:${RESET}\n${stdout}`);
+    console.log(`${chalk.dim("Output was:")}\n${stdout}`);
     return;
   }
 
   const unit = parseInt(match[1], 10);
   const lesson = parseInt(match[2], 10);
-  console.log(`Detected: ${CYAN}Unit ${unit}, Lesson ${lesson}${RESET}\n`);
+  console.log(`Detected: ${chalk.cyan(`Unit ${unit}, Lesson ${lesson}`)}\n`);
 
   const entry = getLesson(unit, lesson);
   if (entry) {
     const steps = ["ingest", "worksheet", "drills", "blooketCsv", "blooketUpload", "animations", "schoology"];
-    console.log(`${DIM}Current status:${RESET}`);
+    console.log(chalk.dim("Current status:"));
     for (const s of steps) {
       console.log(`  ${s.padEnd(16)} ${formatStatus(entry.status?.[s])}`);
     }
@@ -206,7 +187,7 @@ async function prepTomorrow() {
   const skips = await showSkipToggles(unit, lesson);
   const skipStr = buildSkipArgs(skips);
   const cmd = `node scripts/lesson-prep.mjs --auto${skipStr ? " " + skipStr : ""}`;
-  console.log(`\n${DIM}> ${cmd}${RESET}\n`);
+  console.log(chalk.dim(`\n> ${cmd}\n`));
   runScript(cmd);
 }
 
@@ -217,7 +198,7 @@ async function prepSpecific() {
   const entry = getLesson(unit, lesson);
   if (entry) {
     const steps = ["ingest", "worksheet", "drills", "blooketCsv", "blooketUpload", "animations", "schoology"];
-    console.log(`\n${DIM}Current status for ${unit}.${lesson}:${RESET}`);
+    console.log(`\n${chalk.dim(`Current status for ${unit}.${lesson}:`)}`);
     for (const s of steps) {
       console.log(`  ${s.padEnd(16)} ${formatStatus(entry.status?.[s])}`);
     }
@@ -227,7 +208,7 @@ async function prepSpecific() {
   const skips = await showSkipToggles(unit, lesson);
   const skipStr = buildSkipArgs(skips);
   const cmd = `node scripts/lesson-prep.mjs --unit ${unit} --lesson ${lesson}${skipStr ? " " + skipStr : ""}`;
-  console.log(`\n${DIM}> ${cmd}${RESET}\n`);
+  console.log(chalk.dim(`\n> ${cmd}\n`));
   runScript(cmd);
 }
 
@@ -243,7 +224,7 @@ async function viewStatus() {
     title: formatLessonSummary(k, registry[k]),
     value: k,
   }));
-  choices.push({ title: `${DIM}Back${RESET}`, value: "__back__" });
+  choices.push({ title: chalk.dim("Back"), value: "__back__" });
 
   const { selected } = await prompts({
     type: "select", name: "selected",
@@ -256,22 +237,54 @@ async function viewStatus() {
   const entry = registry[selected];
   const topic = entry.topic || "(no topic)";
   const header = `Lesson ${selected} — ${topic}`;
-  console.log(`\n${BOLD}${header}${RESET}`);
-  console.log(`${DIM}${"─".repeat(header.length)}${RESET}`);
+  console.log(`\n${chalk.bold(header)}`);
+  console.log(chalk.dim("─".repeat(header.length)));
 
   const steps = ["ingest", "worksheet", "drills", "blooketCsv", "blooketUpload", "animations", "schoology"];
   for (const s of steps) {
     console.log(`  ${s.padEnd(16)} ${formatStatus(entry.status?.[s])}`);
   }
 
+  // Show per-link Schoology detail
+  const scLinks = getSchoologyLinks(entry.unit, entry.lesson);
+  if (scLinks) {
+    console.log(`\n${chalk.bold("Schoology Links:")}`);
+    for (const [linkKey, linkEntry] of Object.entries(scLinks)) {
+      console.log(`  ${linkKey.padEnd(16)} ${formatLinkStatus(linkEntry)}`);
+    }
+  }
+
   const urls = entry.urls || {};
   const urlKeys = Object.keys(urls).filter((k) => urls[k]);
   if (urlKeys.length > 0) {
-    console.log(`\n${BOLD}URLs:${RESET}`);
+    console.log(`\n${chalk.bold("URLs:")}`);
     for (const k of urlKeys) {
-      console.log(`  ${k.padEnd(18)} ${CYAN}${urls[k]}${RESET}`);
+      console.log(`  ${k.padEnd(18)} ${chalk.cyan(urls[k])}`);
     }
   }
+  console.log();
+}
+
+async function showDashboard() {
+  const registry = loadRegistry();
+  const keys = Object.keys(registry);
+  if (keys.length === 0) {
+    console.log("\nNo lessons in registry.\n");
+    return;
+  }
+
+  const STATUS_STEPS = ["ingest", "worksheet", "drills", "blooketCsv", "blooketUpload", "animations", "schoology"];
+  const entries = keys.map((k) => {
+    const e = registry[k];
+    const doneCount = STATUS_STEPS.filter((s) => {
+      const v = e.status?.[s];
+      return v === "done" || v === "skipped" || v === "scraped";
+    }).length;
+    return { key: k, topic: e.topic, doneCount, totalSteps: STATUS_STEPS.length };
+  });
+
+  console.log(`\n${chalk.bold("Lesson Dashboard")}`);
+  console.log(dashboardTable(entries));
   console.log();
 }
 
@@ -279,19 +292,34 @@ async function getLessonUrls() {
   const { unit, lesson } = await promptUnitLesson();
   if (unit == null || lesson == null) return;
   const cmd = `node "${SCRIPTS.lessonUrls}" --unit ${unit} --lesson ${lesson}`;
-  console.log(`\n${DIM}> ${cmd}${RESET}\n`);
+  console.log(chalk.dim(`\n> ${cmd}\n`));
   runScript(cmd);
 }
 
 async function runPreflight() {
-  console.log(`\n${BOLD}Running preflight checks...${RESET}\n`);
+  console.log(`\n${chalk.bold("Running preflight checks...")}\n`);
   runScript("node scripts/preflight.mjs");
+}
+
+async function healSchoologyLinks() {
+  const { unit, lesson } = await promptUnitLesson();
+  if (unit == null || lesson == null) return;
+
+  const entry = getLesson(unit, lesson);
+  if (!entry) {
+    console.log(chalk.yellow(`\nNo registry entry for ${unit}.${lesson}. Run the pipeline first.\n`));
+    return;
+  }
+
+  const cmd = `node scripts/post-to-schoology.mjs --unit ${unit} --lesson ${lesson} --auto-urls --heal --no-prompt`;
+  console.log(chalk.dim(`\n> ${cmd}\n`));
+  runScript(cmd);
 }
 
 async function utilityTools() {
   while (true) {
-    console.log(`\n${BOLD}Utility Tools${RESET}`);
-    console.log(`${DIM}─────────────${RESET}`);
+    console.log(`\n${chalk.bold("Utility Tools")}`);
+    console.log(chalk.dim("─────────────"));
 
     const { action } = await prompts({
       type: "select", name: "action",
@@ -301,7 +329,7 @@ async function utilityTools() {
         { title: "Scrape Schoology URLs",        value: "scrape" },
         { title: "Upload Blooket set (manual)",  value: "blooket" },
         { title: "Post to Schoology (manual)",   value: "schoology" },
-        { title: `${DIM}Back${RESET}`,           value: "__back__" },
+        { title: chalk.dim("Back"),              value: "__back__" },
       ],
     }, { onCancel });
 
@@ -327,8 +355,8 @@ async function utilityTools() {
 
 async function main() {
   while (true) {
-    console.log(`\n${BOLD}Lesson-Prep Pipeline${RESET}`);
-    console.log(`${DIM}─────────────────────${RESET}`);
+    console.log(`\n${chalk.bold("Lesson-Prep Pipeline")}`);
+    console.log(chalk.dim("─────────────────────"));
 
     const { action } = await prompts({
       type: "select", name: "action",
@@ -341,7 +369,9 @@ async function main() {
         { title: "Get lesson URLs",                   value: "urls" },
         { title: "Run preflight check",               value: "preflight" },
         { title: "Utility tools",                     value: "utils" },
-        { title: `${RED}Quit${RESET}`,                value: "quit" },
+        { title: "Dashboard",                         value: "dashboard" },
+        { title: "Heal Schoology links",              value: "heal" },
+        { title: chalk.red("Quit"),                   value: "quit" },
       ],
     }, { onCancel });
 
@@ -357,6 +387,8 @@ async function main() {
       case "urls":      await getLessonUrls(); break;
       case "preflight": await runPreflight(); break;
       case "utils":     await utilityTools(); break;
+      case "dashboard": await showDashboard(); break;
+      case "heal":      await healSchoologyLinks(); break;
     }
   }
 }
