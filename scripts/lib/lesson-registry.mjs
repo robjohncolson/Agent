@@ -293,6 +293,30 @@ export function updateStatus(unit, lesson, stepKey, statusValue) {
   });
 }
 
+export function updateSchoologyLink(unit, lesson, linkKey, statusObj) {
+  if (typeof linkKey !== "string" || !linkKey.trim()) {
+    throw new Error(`Invalid linkKey: "${linkKey}". Must be a non-empty string.`);
+  }
+
+  if (!isPlainObject(statusObj)) {
+    throw new Error(`statusObj must be a plain object. Received: ${typeof statusObj}`);
+  }
+
+  return upsertLesson(unit, lesson, {
+    schoologyLinks: {
+      [linkKey]: statusObj,
+    },
+  });
+}
+
+export function getSchoologyLinks(unit, lesson) {
+  const entry = getLesson(unit, lesson);
+  if (!entry || !isPlainObject(entry.schoologyLinks)) {
+    return null;
+  }
+  return entry.schoologyLinks;
+}
+
 export function computeUrls(unit, lesson) {
   const unitNum = toPositiveInt(unit, "unit");
   const lessonNum = toPositiveInt(lesson, "lesson");
