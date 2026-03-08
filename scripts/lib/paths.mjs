@@ -23,6 +23,7 @@ const MACHINES = {
     curriculumRepo: "C:/Users/ColsonR/curriculum_render",
     python:         "C:/Users/ColsonR/AppData/Local/Programs/Python/Python312/python.exe",
     ffmpegDir:      "C:/Users/ColsonR/ffmpeg/bin",
+    miktexDir:      "C:/Program Files/MiKTeX/miktex/bin/x64",
     edgeProfile:    "C:\\Users\\ColsonR\\.edge-debug-profile",
   },
   rober: {
@@ -31,6 +32,7 @@ const MACHINES = {
     curriculumRepo: "C:/Users/rober/Downloads/Projects/school/curriculum_render",
     python:         null,
     ffmpegDir:      null,
+    miktexDir:      "C:/Users/rober/scoop/apps/miktex/current/texmfs/install/miktex/bin/x64",
     edgeProfile:    "C:\\Users\\rober\\.edge-debug-profile",
   },
 };
@@ -86,7 +88,7 @@ export const UNITS_JS_PATH  = join(CURRICULUM_REPO, "data", "units.js");
 // ── Tool executables ─────────────────────────────────────────────────────────
 export const PYTHON     = resolveExecutable(machine.python, "python");
 export const FFMPEG_DIR = resolveToolDir(machine.ffmpegDir, "ffmpeg");
-export const MIKTEX_DIR = "C:/Program Files/MiKTeX/miktex/bin/x64";
+export const MIKTEX_DIR = resolveToolDir(machine.miktexDir, "pdflatex");
 
 // ── Edge browser ─────────────────────────────────────────────────────────────
 export const EDGE_PATH          = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";

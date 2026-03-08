@@ -106,6 +106,25 @@ function printUsage() {
   );
 }
 
+// ── Modal dismissal ─────────────────────────────────────────────────────────
+
+async function dismissModals(page) {
+  const count = await page.evaluate(() => {
+    let n = 0;
+    // Hide modals so they don't intercept pointer events, but keep DOM intact
+    document.querySelectorAll('div[class*="_modal_"]').forEach((m) => {
+      m.style.display = "none";
+      n++;
+    });
+    document.querySelectorAll('div[class*="_overlay_"], div[class*="_backdrop_"]').forEach((m) => {
+      m.style.display = "none";
+      n++;
+    });
+    return n;
+  });
+  if (count > 0) console.log(`  Hidden ${count} modal/overlay element(s).`);
+}
+
 // ── Upload flow ─────────────────────────────────────────────────────────────
 
 async function uploadBlooket(page, csvPath, title) {
@@ -139,6 +158,9 @@ async function uploadBlooket(page, csvPath, title) {
   });
   await page.waitForTimeout(3000);
 
+  // Dismiss any modal overlays (Blooket promo/tips/error dialogs)
+  await dismissModals(page);
+
   // Step 2: Upload CSV
   console.log("\n[Step 2] Uploading CSV...");
   const editUrl = page.url();
@@ -153,26 +175,39 @@ async function uploadBlooket(page, csvPath, title) {
   }
   console.log(`  Set ID: ${setId}`);
 
-  // Find the CSV file input and upload
-  const fileInput = await page.$('input[type="file"][accept=".csv"]');
+  // Click "Spreadsheet Import" button (Blooket renamed from "CSV Upload")
+  console.log('  Clicking "Spreadsheet Import"...');
+  const importBtn = await page.$('div:has-text("Spreadsheet Import")');
+  if (!importBtn) {
+    throw new Error('Could not find "Spreadsheet Import" button on the edit page.');
+  }
+  await importBtn.click();
+  await page.waitForTimeout(2000);
+
+  // Now look for the file input in the import dialog
+  let fileInput = await page.$('input[type="file"]');
   if (!fileInput) {
-    throw new Error(
-      'Could not find CSV file input (input[type="file"][accept=".csv"]). ' +
-        "The page may not have loaded the CSV import panel."
-    );
+    await page.waitForSelector('input[type="file"]', { timeout: 10000 });
+    fileInput = await page.$('input[type="file"]');
+  }
+  if (!fileInput) {
+    throw new Error('Could not find file input after clicking Spreadsheet Import.');
   }
 
   console.log(`  Setting file: ${csvPath}`);
   await fileInput.setInputFiles(csvPath);
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(3000);
 
-  // Click "Upload CSV" button if present
-  const uploadBtn = await page.$('div:has-text("Upload CSV")');
-  if (uploadBtn) {
-    console.log('  Clicking "Upload CSV" button...');
-    await uploadBtn.click();
+  // Click any "Import" or "Upload" confirmation button in the dialog
+  const confirmBtn = await page.$('div:has-text("Import"), button:has-text("Import"), div:has-text("Upload"), button:has-text("Upload")');
+  if (confirmBtn) {
+    console.log('  Clicking import confirmation...');
+    await confirmBtn.click();
     await page.waitForTimeout(3000);
   }
+
+  // Dismiss any modal that appeared after import
+  await dismissModals(page);
 
   // Wait for questions to appear
   console.log("  Waiting for questions to load...");
@@ -200,6 +235,10 @@ async function uploadBlooket(page, csvPath, title) {
 
   // Step 3: Save
   console.log("\n[Step 3] Saving set...");
+
+  // Force-remove any modal overlays blocking the save
+  await dismissModals(page);
+
   // Try the specific save button class first, then fall back to text match
   const saveBtn =
     (await page.$('div[class*="saveButton"]:has-text("Save Set")')) ||

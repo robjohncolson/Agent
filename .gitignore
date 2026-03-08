@@ -9,4 +9,5 @@ dispatch/generated-prompts/
 dispatch/file-manifests.generated.json
 dispatch/routing-plan.generated.json
 __pycache__/
+node_modules/
 scripts/tmp*/

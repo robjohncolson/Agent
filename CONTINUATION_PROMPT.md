@@ -8,61 +8,86 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 You are the **Agent** — an LLM routing intelligence layer that also houses the **lesson prep automation pipeline** for AP Statistics teaching. The pipeline automates the full workflow from calendar lookup to Schoology posting.
 
-### Machine: Work (ColsonR)
+### Machines
 
-Base path: `C:/Users/ColsonR` — Lynn Public Schools, Windows 11 Education.
+| Machine | Username | Base path | Notes |
+|---------|----------|-----------|-------|
+| School | ColsonR | `C:/Users/ColsonR` | Lynn Public Schools, Windows 11 Education |
+| Home | rober | `C:/Users/rober/Downloads/Projects/school/` | Personal, Windows + MSYS2 |
 
-### What just happened (2026-03-06)
+Path resolution is handled by `scripts/lib/paths.mjs` — auto-detects machine via `os.userInfo().username`.
 
-We completed a **full end-to-end pipeline run** for Tuesday 3/10/26 (Topic 6.7 — Potential Errors: Type I & II). Everything succeeded:
+### What just happened (2026-03-08)
 
-1. **Video ingest** (Step 1) — 2 videos processed through AI Studio/Gemini via CDP. Fixed a CDK overlay bug in `aistudio-ingest.mjs` that was blocking textarea clicks (solution: remove `.cdk-overlay-backdrop` elements + press Escape before clicking).
+**Session on home machine (rober).** Completed two major efforts:
 
-2. **Content generation** (Step 2) — **Major refactor completed.** Replaced broken Codex CLI subprocess spawning with self-contained prompt files piped via stdin. New architecture: `scripts/lib/build-codex-prompts.mjs` builds 3 detailed prompts (worksheet, Blooket, drills) with inline video context + pattern files. Runs 3 parallel Codex tasks with output validation. See `design/step2-content-gen-spec.md` for the full spec.
+#### 1. Machine-aware path configuration (committed + pushed)
 
-3. **Blooket upload** (Step 5) — CSV auto-uploaded via CDP, URL captured: `https://dashboard.blooket.com/set/69ab32e0d721c5ea7bb4c56e`
+Eliminated 33 hardcoded `C:/Users/ColsonR/` paths across 11 scripts. Created `scripts/lib/paths.mjs` which auto-detects the machine and exports all paths. All scripts now import from `paths.mjs`. Commit `90f4203`.
 
-4. **Schoology posting** (Step 6) — Folder "Tuesday 3/10/26" created, **all 6 links posted INSIDE the folder** (fixed the folder scoping bug by extracting folder ID from `tr[id^="f-"]` and navigating to `?f={folderId}`). Calendar link posted at top level with duplicate detection.
+Also installed MiKTeX via scoop and made `MIKTEX_DIR` machine-aware (was hardcoded to school path).
 
-5. **Pipeline gating** — Steps now abort on failure instead of blindly continuing. Step 1 failure blocks Step 2; Step 2 failure blocks Steps 3-6.
+#### 2. Lesson 6.10 pipeline run (committed + pushed to downstream repos)
 
-### Bugs fixed this session
-- **CDK overlay in AI Studio** — `aistudio-ingest.mjs:313` removes overlay backdrops before clicking textarea
-- **Folder scoping** — `post-to-schoology.mjs` `extractFolderUrl()` replaces broken `navigateIntoFolder()`, uses `?f={id}` URL
-- **Codex spawning** — rewrote Step 2 entirely (see above)
-- **Calendar link duplication** — `post-to-schoology.mjs` checks for existing calendar link title on materials page before posting
+Ran `node scripts/lesson-prep.mjs --unit 6 --lesson 10` for Monday 3/16 (Period B: Setting Up Test for p₁ − p₂).
 
-### Files modified this session
-- `scripts/lesson-prep.mjs` — pipeline gating, Step 2 rewrite (parallel Codex with prompt files + validation)
-- `scripts/lib/build-codex-prompts.mjs` — NEW: builds self-contained prompts for worksheet/Blooket/drills
-- `scripts/post-to-schoology.mjs` — folder scoping fix (`extractFolderUrl`), calendar duplicate check
-- `scripts/aistudio-ingest.mjs` — CDK overlay dismissal fix
-- `design/step2-content-gen-spec.md` — NEW: spec for the Step 2 refactor
-- `dispatch/prompts/codex-agents/step2-content-gen.md` — NEW: Codex prompt for the refactor
+**What succeeded:**
+- Video ingest via CDP (2 videos from Drive index)
+- Worksheet: `u6_lesson10_live.html` — 24 fill-in-the-blank, 2 reflections, exit ticket
+- AI grading prompts: `ai-grading-prompts-u6-l10.js`
+- Drills cartridge: 4 new modes (l17-l20) for hypotheses, procedure, pooled proportion, conditions
+- Blooket CSV: 30 questions generated, manually uploaded after fixing CSV format
+- Schoology: all 4 links posted (worksheet, drills, quiz, blooket)
+- Both downstream repos committed and pushed
 
-### Immediate priority: Animation rendering (Steps 3-4)
+**What went wrong (lessons learned):**
+- Playwright wasn't installed on home machine (fixed: `npm install playwright`)
+- MiKTeX wasn't installed (fixed: `scoop install miktex`)
+- Blooket CSV had commas inside math notation answers — broke Blooket's parser. Fixed by replacing commas with semicolons. Also had trailing blank line and UTF-8 BOM.
+- Blooket upload script (`upload-blooket.mjs`) failed repeatedly — spent time chasing "Spreadsheet Import" UI changes when the real problem was CSV formatting
+- Schoology posting initially failed (not signed in), then succeeded on retry
+- Schoology folder wasn't created because we ran `post-to-schoology.mjs` directly instead of through `lesson-prep.mjs --auto`
+- Multiple empty Blooket sets created from failed retries (need cleanup)
+- Blooket URL had to be manually found and passed between scripts
 
-Steps 3 and 4 currently do nothing useful:
-- **Step 3** (`render-animations.mjs`) looks for `apstat_67_*.py` Manim files — none exist for 6.7
-- **Step 4** (`upload-animations.mjs`) finds animation references in `manifest.json` modes but no rendered MP4s
+### New spec: URL Registry + CSV Validation
 
-The drills cartridge modes (created by Codex in Step 2) reference animation files like `IdentifyErrorType.mp4`, `PowerAndErrorProbabilities.mp4`, etc. — but nobody creates the Manim `.py` source files or renders them.
+**Read: `design/url-registry-and-csv-validation-spec.md`**
 
-**What needs to happen:**
-1. Understand the existing animation pipeline: how do `.py` files get created? What naming convention? Where do rendered MP4s go?
-2. Either: add animation generation to the Step 2 Codex prompts (the drills prompt already mentions it but Codex may not be creating the `.py` files), or create a separate step
-3. Fix `render-animations.mjs` glob pattern if needed (currently `apstat_67_*.py` — is that right?)
-4. Fix `upload-animations.mjs` to find rendered files and upload to Supabase
-5. Ensure the full loop works: Codex creates `.py` → Step 3 renders to MP4 → Step 4 uploads to Supabase → drills platform loads them
+Five improvements designed but not yet implemented:
 
-### Repos on this machine
+1. **CSV validation** — validate Blooket CSV immediately after generation. Check field counts, no commas in answer text, no non-ASCII, proper header. Auto-fix where possible.
+2. **URL registry** (`state/lesson-registry.json`) — persistent JSON mapping unit.lesson → all URLs + status. Enables pipeline resumability, cross-script URL sharing, and calendar app integration.
+3. **Preflight check** (`scripts/preflight.mjs`) — verify all dependencies and browser sessions before running pipeline on a new machine.
+4. **Schoology scraper** — backfill registry with URLs from previously posted lessons by walking Schoology course materials.
+5. **Blooket upload fix** — update selectors in `upload-blooket.mjs` for current Blooket UI.
 
-| Repo | Path | Description |
-|------|------|-------------|
-| **apstats-live-worksheet** | `C:/Users/ColsonR/apstats-live-worksheet` | AP Stats worksheets, calendar HTMLs, Blooket CSVs |
-| **curriculum-render** | `C:/Users/ColsonR/curriculum_render` | Consensus Quiz app + `data/units.js` (video links) |
-| **lrsl-driller** | `C:/Users/ColsonR/lrsl-driller` | Drill platform, cartridges with mode manifests |
-| **Agent** | `C:/Users/ColsonR/Agent` | This repo — pipeline orchestrator, CDP scripts, LLM profiles |
+**Implementation order:** CSV validation → URL registry → preflight → scraper → Blooket fix.
+
+### Files modified/created this session
+
+**Agent repo:**
+- `scripts/lib/paths.mjs` — NEW: machine-aware path config
+- `scripts/verify-paths.mjs` — NEW: path validation
+- `scripts/upload-blooket.mjs` — added modal dismissal (partially working)
+- `scripts/watch-blooket.mjs` — NEW: temporary debug watcher (can delete)
+- All 11 consumer scripts — import from paths.mjs instead of hardcoding
+- `design/url-registry-and-csv-validation-spec.md` — NEW: improvement spec
+
+**Downstream repos (committed + pushed):**
+- `follow-alongs/u6_lesson10_live.html` — worksheet
+- `follow-alongs/ai-grading-prompts-u6-l10.js` — AI grading
+- `follow-alongs/u6_l10_blooket.csv` — Blooket CSV (fixed)
+- `lrsl-driller/cartridges/apstats-u6-inference-prop/` — manifest, generator, grading-rules updated with 6.10 modes (merged with upstream 6.4-6.9 content)
+
+### Repos
+
+| Repo | School path | Home path | Description |
+|------|------------|-----------|-------------|
+| **apstats-live-worksheet** | `C:/Users/ColsonR/apstats-live-worksheet` | `.../school/follow-alongs` | Worksheets, calendar, Blooket CSVs |
+| **curriculum-render** | `C:/Users/ColsonR/curriculum_render` | `.../school/curriculum_render` | Quiz app + `data/units.js` |
+| **lrsl-driller** | `C:/Users/ColsonR/lrsl-driller` | `.../school/lrsl-driller` | Drill platform + cartridges |
+| **Agent** | `C:/Users/ColsonR/Agent` | `C:/Users/rober/Downloads/Projects/Agent` | Pipeline orchestrator |
 
 ### Pipeline command reference
 
@@ -71,30 +96,24 @@ The drills cartridge modes (created by Codex in Step 2) reference animation file
 node scripts/lesson-prep.mjs --auto
 
 # Prep for a specific date:
-node scripts/lesson-prep.mjs --auto --date 2026-03-10
+node scripts/lesson-prep.mjs --auto --date 2026-03-16
 
-# Skip ingest (video context already captured):
-node scripts/lesson-prep.mjs --auto --date 2026-03-10 --skip-ingest
+# Manual unit/lesson:
+node scripts/lesson-prep.mjs --unit 6 --lesson 10
 
-# Just Schoology posting (all content exists):
-node scripts/lesson-prep.mjs --unit 6 --lesson 7 --date 2026-03-10 \
-  --skip-ingest --skip-render --skip-upload --skip-blooket
+# Schoology posting with blooket URL:
+node scripts/post-to-schoology.mjs --unit 6 --lesson 10 --auto-urls \
+  --blooket "URL" --create-folder "Monday 3/16/26"
 
-# Direct Schoology post with all features:
-node scripts/post-to-schoology.mjs --unit 6 --lesson 7 --auto-urls --with-videos \
-  --blooket "URL" --create-folder "Tuesday 3/10/26" \
-  --folder-desc "6.7 Potential Errors\nDue: Quiz 6.5\nAssign: Drills 6.7, Quiz 6.6" \
-  --calendar-link "URL" --calendar-title "Week Calendar (mar9)"
-
-# Dry run (no browser needed):
-node scripts/post-to-schoology.mjs --unit 6 --lesson 7 --auto-urls --with-videos --dry-run
+# Verify paths on current machine:
+node scripts/verify-paths.mjs
 ```
 
 ### Key architectural decisions
 - Schoology/Blooket/AI Studio automation uses Playwright CDP connecting to Edge on port 9222
-- Step 2 uses `codex exec --full-auto` with stdin piping on Windows (`cmd /c codex.cmd exec --full-auto -`)
-- Prompts embed ALL context inline — video transcriptions + pattern files — so Codex doesn't need repo exploration
-- Calendar link duplicate detection scans materials page for matching title before posting
+- `scripts/lib/paths.mjs` auto-detects machine via username, exports all paths
+- Step 2 uses `codex exec --full-auto` with stdin piping
+- Prompts embed ALL context inline — video transcriptions + pattern files
 - Pipeline gating: Step 1 failure → abort; Step 2 failure → abort; Steps 3-5 non-blocking
 
 I am a high school math teacher building educational tools. My main projects are AP Statistics teaching tools. I want the lesson prep workflow to be as automated as possible — ideally I say "prep for Monday" and everything happens.
