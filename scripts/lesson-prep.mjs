@@ -46,6 +46,8 @@ import {
   computeUrls,
   getLesson,
 } from "./lib/lesson-registry.mjs";
+import { verifySupabaseAssets } from "./lib/verify-supabase.mjs";
+import { checkWithLLM, analyzeError } from "./lib/llm-check.mjs";
 import {
   SCRIPTS,
   WORKING_DIRS,
@@ -74,6 +76,8 @@ function parseArgs(argv) {
   let targetDate = null;
   let noFolder = false;
   let force = false;
+  let strictLlm = false;
+  let skipLlm = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -101,6 +105,10 @@ function parseArgs(argv) {
       unit = parseInt(args[++i], 10);
     } else if ((arg === "--lesson" || arg === "-l") && args[i + 1]) {
       lesson = parseInt(args[++i], 10);
+    } else if (arg === "--strict-llm") {
+      strictLlm = true;
+    } else if (arg === "--skip-llm") {
+      skipLlm = true;
     } else if (arg === "--drive-ids") {
       // Collect all subsequent args until the next flag or end of args
       i++;
@@ -131,12 +139,14 @@ function parseArgs(argv) {
         "  --skip-schoology    Skip Step 6 (Schoology posting)\n" +
         "  --date YYYY-MM-DD   Target date for calendar lookup and folder creation\n" +
         "  --no-folder         Skip Schoology folder creation (post links at top level)\n" +
-        "  --force             Re-run all steps even if registry shows them as done"
+        "  --force             Re-run all steps even if registry shows them as done\n" +
+        "  --strict-llm        Make LLM validation failures fatal (abort pipeline)\n" +
+        "  --skip-llm          Skip all LLM semantic checks"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force };
+  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force, strictLlm, skipLlm };
 }
 
 // ── Resume helpers ───────────────────────────────────────────────────────────
@@ -727,7 +737,7 @@ function validateWorksheetTask(unit, lesson) {
   };
 }
 
-function validateBlooketTask(unit, lesson) {
+async function validateBlooketTask(unit, lesson, opts = {}) {
   const blooketPath = path.join(WORKING_DIRS.worksheet, `u${unit}_l${lesson}_blooket.csv`);
 
   // First, try auto-fix
@@ -737,16 +747,39 @@ function validateBlooketTask(unit, lesson) {
     fixResult.changes.forEach(c => console.log(`      - ${c}`));
   }
 
-  // Then validate
+  // Then validate structurally
   const result = validateBlooketCsv(blooketPath);
-  if (result.valid) {
-    console.log("    Validation: Blooket CSV OK (all checks passed)");
-    return { ok: true };
+  if (!result.valid) {
+    console.log("    Validation FAILED:");
+    result.errors.forEach(e => console.log(`      - ${e}`));
+    return { ok: false, error: result.errors.join("; ") };
   }
 
-  console.log("    Validation FAILED:");
-  result.errors.forEach(e => console.log(`      - ${e}`));
-  return { ok: false, error: result.errors.join("; ") };
+  console.log("    Validation: Blooket CSV OK (all checks passed)");
+
+  // LLM semantic check (Check 1)
+  if (!opts.skipLlm && existsSync(blooketPath)) {
+    const csvContent = readFileSync(blooketPath, "utf-8");
+    const preview = takeCsvRows(csvContent, 10);
+    const llmResult = await checkWithLLM(
+      `You are validating a Blooket quiz CSV for AP Statistics Topic ${unit}.${lesson}.\n` +
+      `Check for: (1) questions that don't match the topic, (2) incorrect correct answers, ` +
+      `(3) duplicate questions, (4) nonsensical answer choices.\n` +
+      `Respond with JSON: { "ok": true/false, "issues": ["..."] }`,
+      preview,
+    );
+    if (!llmResult.ok && llmResult.issues.length > 0) {
+      console.log("    LLM validation issues:");
+      llmResult.issues.forEach(i => console.log(`      - ${i}`));
+      if (opts.strictLlm) {
+        return { ok: false, error: "LLM: " + llmResult.issues.join("; ") };
+      }
+    } else if (llmResult.raw !== "skipped (no API key)") {
+      console.log("    LLM validation: OK");
+    }
+  }
+
+  return { ok: true };
 }
 
 function validateDrillsTask(unit, lesson) {
@@ -843,7 +876,7 @@ function validateAnimationNames(unit, lesson) {
   return { ok: true, fixes };
 }
 
-function validateTaskResult(taskKey, unit, lesson, result) {
+async function validateTaskResult(taskKey, unit, lesson, result, opts = {}) {
   if (!result.success) {
     return result;
   }
@@ -854,7 +887,7 @@ function validateTaskResult(taskKey, unit, lesson, result) {
     taskKey === "worksheet"
       ? validateWorksheetTask(unit, lesson)
       : taskKey === "blooket"
-        ? validateBlooketTask(unit, lesson)
+        ? await validateBlooketTask(unit, lesson, opts)
         : validateDrillsTask(unit, lesson);
 
   if (!validation.ok) {
@@ -876,12 +909,43 @@ function validateTaskResult(taskKey, unit, lesson, result) {
     if (animCheck.fixes > 0) {
       console.log(`  Animation names: ${animCheck.fixes} auto-fixed in manifest`);
     }
+
+    // LLM Check 2: validate animation scripts
+    if (!opts.skipLlm) {
+      const animDir = path.join(WORKING_DIRS.driller, "animations");
+      const prefix = `apstat_${unit}${lesson}_`;
+      if (existsSync(animDir)) {
+        const pyFiles = readdirSync(animDir).filter(
+          f => f.startsWith(prefix) && f.endsWith(".py")
+        );
+        for (const pyFile of pyFiles) {
+          const pyContent = readFileSync(path.join(animDir, pyFile), "utf-8");
+          const llmResult = await checkWithLLM(
+            `You are reviewing a Manim animation script for AP Statistics Topic ${unit}.${lesson}.\n` +
+            `Check for: (1) missing imports, (2) class doesn't extend Scene, ` +
+            `(3) undefined variables, (4) obvious runtime errors. ` +
+            `Only flag clear bugs, not style issues.\n` +
+            `Respond with JSON: { "ok": true/false, "issues": ["..."] }`,
+            pyContent,
+          );
+          if (!llmResult.ok && llmResult.issues.length > 0) {
+            console.log(`    LLM check for ${pyFile}:`);
+            llmResult.issues.forEach(i => console.log(`      - ${i}`));
+            if (opts.strictLlm) {
+              return { ...result, success: false, error: "LLM: " + llmResult.issues.join("; ") };
+            }
+          } else if (llmResult.raw !== "skipped (no API key)") {
+            console.log(`    LLM check for ${pyFile}: OK`);
+          }
+        }
+      }
+    }
   }
 
   return result;
 }
 
-async function step2_contentGeneration(unit, lesson) {
+async function step2_contentGeneration(unit, lesson, opts = {}) {
   console.log("=== Step 2: Parallel content generation (Codex) ===\n");
   const failedResults = (error) => [
     { label: "Worksheet + Grading", success: false, error },
@@ -999,7 +1063,7 @@ async function step2_contentGeneration(unit, lesson) {
           promptFile,
           task.workingDir
         );
-        return validateTaskResult(task.key, unit, lesson, launchResult);
+        return await validateTaskResult(task.key, unit, lesson, launchResult, opts);
       } catch (e) {
         cleanupTempPromptFile(promptFile);
         return {
@@ -1017,6 +1081,22 @@ async function step2_contentGeneration(unit, lesson) {
     const status = r.success ? "OK" : `FAILED (${r.error})`;
     console.log(`  ${r.label}: ${status}`);
   }
+
+  // LLM Check 4: diagnose failures
+  if (!opts.skipLlm) {
+    const failures = results.filter(r => !r.success && r.error);
+    for (const f of failures) {
+      const diagnosis = await analyzeError(f.error, { step: `Step 2: ${f.label}`, unit, lesson });
+      if (diagnosis.diagnosis) {
+        console.log(`\n  AI diagnosis for ${f.label}:`);
+        console.log(`    Diagnosis: ${diagnosis.diagnosis}`);
+        if (diagnosis.suggestedFix) {
+          console.log(`    Suggested fix: ${diagnosis.suggestedFix}`);
+        }
+      }
+    }
+  }
+
   console.log();
 
   // Incremental render test: if drills task produced .py files, try a quick render
@@ -1167,8 +1247,13 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
     args.push(`--blooket "${blooketUrl}"`);
   }
 
-  // Folder creation args from calendar context
-  if (calendarContext && calendarContext.folderTitle) {
+  // Check if folder already exists in registry (from a previous run)
+  const regEntry = getLesson(unit, lesson);
+  if (regEntry?.urls?.schoologyFolder) {
+    args.push(`--target-folder "${regEntry.urls.schoologyFolder}"`);
+  }
+  // Folder creation args from calendar context (only if no existing folder)
+  else if (calendarContext && calendarContext.folderTitle) {
     args.push(`--create-folder "${calendarContext.folderTitle}"`);
     if (calendarContext.folderDesc) {
       // Escape newlines and quotes for shell transport
@@ -1470,6 +1555,20 @@ async function main() {
     repoCommits: null,
   };
 
+  // ── Preflight: warn about missing env vars for enabled steps ──────────────
+  const preflightWarnings = [];
+  if (!opts.skipUpload) {
+    if (!process.env.SUPABASE_URL) preflightWarnings.push("SUPABASE_URL not set (needed for Step 4: animation upload)");
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) preflightWarnings.push("SUPABASE_SERVICE_ROLE_KEY not set (needed for Step 4: animation upload)");
+  }
+  if (preflightWarnings.length > 0) {
+    console.log("=== Preflight Warnings ===");
+    for (const w of preflightWarnings) {
+      console.log(`  [!] ${w}`);
+    }
+    console.log("  (Pipeline will continue — affected steps may fail)\n");
+  }
+
   // Calendar context for folder creation (populated by step0 or --date)
   let calendarContext = null;
 
@@ -1607,7 +1706,7 @@ async function main() {
       { label: "Drills Cartridge", success: true, skipped: true },
     ];
   } else {
-    results.codexResults = await step2_contentGeneration(unit, lesson);
+    results.codexResults = await step2_contentGeneration(unit, lesson, opts);
     const step2StatusByLabel = {
       "Worksheet + Grading": "worksheet",
       "Blooket CSV": "blooketCsv",
@@ -1631,23 +1730,67 @@ async function main() {
     return;
   }
 
+  // Check for animation files before running steps 3 and 4
+  const animDir = path.join(WORKING_DIRS.driller, "animations");
+  const animPrefix = `apstat_${unit}${lesson}_`;
+  const hasAnimFiles = existsSync(animDir) &&
+    readdirSync(animDir).some(f => f.startsWith(animPrefix) && f.endsWith(".py"));
+
   // Step 3: Render animations
   const step3Resume = canResume(existingEntry, "animations", null, opts.force);
   if (opts.skipRender) {
     console.log("=== Step 3: Rendering skipped (--skip-render) ===\n");
   } else if (step3Resume.skip) {
     console.log(`=== Step 3: Animations — ${step3Resume.reason} (registry) ===\n`);
+  } else if (!hasAnimFiles) {
+    console.log(`=== Step 3: No animation files for ${unit}.${lesson} — skipping render ===\n`);
+    updateStatus(unit, lesson, "animations", "skipped");
   } else {
     results.renderResult = step3_renderAnimations(unit, lesson);
+    updateStatus(unit, lesson, "animations", results.renderResult?.success ? "done" : "failed");
   }
 
-  // Step 4: Upload animations (no separate registry key — tied to step 3)
+  // Step 4: Upload animations
   if (opts.skipUpload) {
     console.log("=== Step 4: Upload skipped (--skip-upload) ===\n");
   } else if (step3Resume.skip) {
     console.log(`=== Step 4: Animation upload — ${step3Resume.reason} (registry) ===\n`);
+  } else if (!hasAnimFiles) {
+    console.log(`=== Step 4: No animation files for ${unit}.${lesson} — skipping upload ===\n`);
   } else {
     results.uploadResult = step4_uploadAnimations(unit, lesson);
+
+    // Verify uploaded assets are publicly accessible
+    if (results.uploadResult?.success && process.env.SUPABASE_URL) {
+      const cartridgeName = findCartridgePath(unit);
+      if (cartridgeName) {
+        const cartridgeDir = path.join(WORKING_DIRS.driller, "cartridges", cartridgeName);
+        const manifestPath = path.join(cartridgeDir, "manifest.json");
+        if (existsSync(manifestPath)) {
+          const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+          const lessonPattern = `${unit}.${lesson}`;
+          const assetUrls = (manifest.modes || [])
+            .filter(m => m.name?.includes(lessonPattern) && m.animation)
+            .map(m => {
+              const asset = m.animation.replace(/^assets\//, "");
+              return `${process.env.SUPABASE_URL}/storage/v1/object/public/videos/animations/${cartridgeName}/${asset}`;
+            });
+
+          if (assetUrls.length > 0) {
+            console.log(`  Verifying ${assetUrls.length} Supabase asset(s)...`);
+            const verification = await verifySupabaseAssets(assetUrls);
+            if (verification.failed.length > 0) {
+              console.warn(`  [!] ${verification.failed.length} asset(s) NOT accessible:`);
+              for (const f of verification.failed) {
+                console.warn(`      ${f.url} (${f.error || `HTTP ${f.status}`})`);
+              }
+            } else {
+              console.log(`  All ${verification.verified.length} asset(s) verified accessible.`);
+            }
+          }
+        }
+      }
+    }
   }
 
   // Step 5: Upload Blooket
@@ -1679,6 +1822,29 @@ async function main() {
   } else {
     const schoologyOk = step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
     updateStatus(unit, lesson, "schoology", schoologyOk ? "done" : "failed");
+
+    // Check 3: verify posted URLs are reachable
+    if (schoologyOk && !opts.skipLlm) {
+      const freshEntry = getLesson(unit, lesson);
+      const urlsToCheck = [
+        freshEntry?.urls?.worksheet,
+        freshEntry?.urls?.drills,
+        freshEntry?.urls?.quiz,
+      ].filter(Boolean);
+
+      if (urlsToCheck.length > 0) {
+        console.log(`  Verifying ${urlsToCheck.length} posted URL(s) are reachable...`);
+        const { verified, failed } = await verifySupabaseAssets(urlsToCheck, { timeout: 10000 });
+        if (failed.length > 0) {
+          console.warn(`  [!] ${failed.length} URL(s) returned errors:`);
+          for (const f of failed) {
+            console.warn(`      ${f.url} (${f.error || `HTTP ${f.status}`})`);
+          }
+        } else {
+          console.log(`  All ${verified.length} URL(s) are reachable.`);
+        }
+      }
+    }
   }
 
   // Step 7: Generate URLs

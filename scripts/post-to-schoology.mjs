@@ -31,7 +31,7 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
-import { getLesson, updateStatus } from "./lib/lesson-registry.mjs";
+import { getLesson, updateStatus, updateUrl } from "./lib/lesson-registry.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -72,6 +72,7 @@ function parseArgs(argv) {
   let calendarLink = null;
   let calendarTitle = null;
   let noPrompt = false;
+  let targetFolder = null;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -108,6 +109,8 @@ function parseArgs(argv) {
       calendarTitle = args[++i];
     } else if (arg === "--no-prompt") {
       noPrompt = true;
+    } else if (arg === "--target-folder") {
+      targetFolder = args[++i];
     }
   }
 
@@ -130,12 +133,13 @@ function parseArgs(argv) {
         "  --with-videos     Include AP Classroom video links from curriculum_render/data/units.js\n" +
         "  --calendar-link   URL for calendar link (posted at top level, outside folder)\n" +
         "  --calendar-title  Title for the calendar link\n" +
-        "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n"
+        "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n" +
+        "  --target-folder   Post into an existing folder URL (skip folder creation)\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -621,12 +625,18 @@ async function main() {
   // Determine the materials page URL (root, or folder if creating one)
   let materialsUrl = rootMaterialsUrl;
 
-  // Create folder if requested
-  if (opts.createFolder) {
+  // Use existing folder (--target-folder) or create a new one (--create-folder)
+  if (opts.targetFolder) {
+    materialsUrl = opts.targetFolder;
+    console.log(`  Using existing folder: ${materialsUrl}`);
+  } else if (opts.createFolder) {
     try {
       await createFolder(page, opts.createFolder, opts.folderDesc, rootMaterialsUrl);
       // Extract folder ID from DOM and build the scoped URL (?f=ID)
       materialsUrl = await extractFolderUrl(page, opts.createFolder, rootMaterialsUrl);
+      // Persist the folder URL to the registry
+      updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+      console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);
       console.error("  Falling back to posting links at top level.");

@@ -11,3 +11,4 @@ dispatch/routing-plan.generated.json
 __pycache__/
 node_modules/
 scripts/tmp*/
+.env
