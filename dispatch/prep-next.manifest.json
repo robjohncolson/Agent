@@ -1,0 +1,50 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "prep-next-v1",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "full-auto",
+  "verify_commands": [],
+  "agents": [
+    {
+      "name": "scan-calendars",
+      "description": "Create scripts/lib/scan-calendars.mjs — calendar HTML parser",
+      "prompt_file": "dispatch/prompts/prep-next-agents/scan-calendars.md",
+      "owned_paths": [
+        "scripts/lib/scan-calendars.mjs"
+      ]
+    },
+    {
+      "name": "menu-integration",
+      "description": "Add prepNextUndeveloped() to scripts/menu.mjs",
+      "prompt_file": "dispatch/prompts/prep-next-agents/menu-integration.md",
+      "depends_on": [
+        "scan-calendars"
+      ],
+      "owned_paths": [
+        "scripts/menu.mjs"
+      ]
+    },
+    {
+      "name": "verify",
+      "description": "Syntax check + smoke test scanner + validate menu wiring",
+      "prompt_file": "dispatch/prompts/prep-next-agents/verify.md",
+      "depends_on": [
+        "menu-integration"
+      ],
+      "owned_paths": [
+        "scripts/lib/scan-calendars.mjs",
+        "scripts/menu.mjs"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "prep-next",
+    "verify_commands": [
+      "node --check scripts/lib/scan-calendars.mjs",
+      "node --check scripts/menu.mjs"
+    ]
+  }
+}

@@ -1,101 +1,104 @@
 {
   "$schema": "../schema/parallel-batch-state.schema.json",
   "version": 1,
-  "batch_name": "tui-menu-v1",
+  "batch_name": "prep-next-v1",
   "status": "failed",
   "target_branch": "master",
   "base_ref": "master",
-  "manifest_file": "dispatch/tui-menu.manifest.json",
+  "manifest_file": "dispatch/prep-next.manifest.json",
   "evidence_observations": [],
   "dependency_batches": [
     [
-      "package-json",
-      "tui-menu"
+      "scan-calendars"
     ],
     [
-      "verify-menu"
+      "menu-integration"
+    ],
+    [
+      "verify"
     ]
   ],
   "current_batch": {
-    "index": 2,
+    "index": 3,
     "agents": [
-      "verify-menu"
+      "verify"
     ],
-    "started_at": "2026-03-08T08:07:29Z"
+    "started_at": "2026-03-08T15:58:39Z"
   },
-  "completed_batches": 1,
+  "completed_batches": 2,
   "last_error": {
     "stage": "dependency-batch",
-    "message": "Batch 2 failed: verify-menu",
-    "timestamp": "2026-03-08T08:08:09Z"
+    "message": "Batch 3 failed: verify",
+    "timestamp": "2026-03-08T15:59:54Z"
   },
-  "updated_at": "2026-03-08T08:08:09Z",
+  "updated_at": "2026-03-08T15:59:54Z",
   "agents": [
     {
-      "name": "package-json",
-      "branch": "codex/package-json",
+      "name": "scan-calendars",
+      "branch": "codex/scan-calendars",
       "status": "completed",
       "depends_on": [],
       "owned_paths": [
-        "package.json"
+        "scripts/lib/scan-calendars.mjs"
       ],
-      "prompt_file": "dispatch/prompts/tui-menu-agents/package-json.md",
+      "prompt_file": "dispatch/prompts/prep-next-agents/scan-calendars.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-08T08:04:21Z",
-      "finished_at": "2026-03-08T08:05:00Z",
-      "commit": "0bc45f757d7e64e73fc6818d9e7a8730baec3175",
-      "worktree": "state/parallel-worktrees/package-json",
-      "codex_log": "state/parallel-codex-logs/package-json-20260308T080421Z.log",
+      "started_at": "2026-03-08T15:55:08Z",
+      "finished_at": "2026-03-08T15:57:35Z",
+      "commit": "7da2d9838a5581475acdc9c480aa982710e681ea",
+      "worktree": "state/parallel-worktrees/scan-calendars",
+      "codex_log": "state/parallel-codex-logs/scan-calendars-20260308T155508Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": null
     },
     {
-      "name": "tui-menu",
-      "branch": "codex/tui-menu",
+      "name": "menu-integration",
+      "branch": "codex/menu-integration",
       "status": "completed",
-      "depends_on": [],
+      "depends_on": [
+        "scan-calendars"
+      ],
       "owned_paths": [
         "scripts/menu.mjs"
       ],
-      "prompt_file": "dispatch/prompts/tui-menu-agents/tui-menu.md",
+      "prompt_file": "dispatch/prompts/prep-next-agents/menu-integration.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-08T08:04:21Z",
-      "finished_at": "2026-03-08T08:07:28Z",
-      "commit": "4df085add532bcb67b793e03c0f67a3af74e699d",
-      "worktree": "state/parallel-worktrees/tui-menu",
-      "codex_log": "state/parallel-codex-logs/tui-menu-20260308T080421Z.log",
+      "started_at": "2026-03-08T15:57:36Z",
+      "finished_at": "2026-03-08T15:58:39Z",
+      "commit": "128436a178002a284ef8430147cc68545ff9948e",
+      "worktree": "state/parallel-worktrees/menu-integration",
+      "codex_log": "state/parallel-codex-logs/menu-integration-20260308T155735Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": null
     },
     {
-      "name": "verify-menu",
-      "branch": "codex/verify-menu",
+      "name": "verify",
+      "branch": "codex/verify",
       "status": "failed",
       "depends_on": [
-        "package-json",
-        "tui-menu"
+        "menu-integration"
       ],
       "owned_paths": [
-        "package.json",
+        "scripts/lib/scan-calendars.mjs",
         "scripts/menu.mjs"
       ],
-      "prompt_file": "dispatch/prompts/tui-menu-agents/verify-menu.md",
+      "prompt_file": "dispatch/prompts/prep-next-agents/verify.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-08T08:07:29Z",
-      "finished_at": "2026-03-08T08:08:09Z",
+      "started_at": "2026-03-08T15:58:39Z",
+      "finished_at": "2026-03-08T15:59:54Z",
       "commit": null,
-      "worktree": "state/parallel-worktrees/verify-menu",
-      "codex_log": "state/parallel-codex-logs/verify-menu-20260308T080729Z.log",
+      "worktree": "state/parallel-worktrees/verify",
+      "codex_log": "state/parallel-codex-logs/verify-20260308T155839Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": {
-        "message": "Ownership enforcement failed for verify-menu. Files outside owned_paths were modified.",
-        "timestamp": "2026-03-08T08:08:09Z"
+        "message": "Agent verify made no changes.",
+        "timestamp": "2026-03-08T15:59:54Z"
       }
     }
   ],
@@ -117,7 +120,7 @@
     "merged": 0,
     "failed": 1,
     "blocked": 0,
-    "dependency_batches_total": 2,
-    "dependency_batches_completed": 1
+    "dependency_batches_total": 3,
+    "dependency_batches_completed": 2
   }
 }
