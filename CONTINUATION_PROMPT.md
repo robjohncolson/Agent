@@ -17,103 +17,135 @@ You are the **Agent** — an LLM routing intelligence layer that also houses the
 
 Path resolution is handled by `scripts/lib/paths.mjs` — auto-detects machine via `os.userInfo().username`.
 
-### What just happened (2026-03-08)
+### What just happened (2026-03-08, evening session)
 
-**Session on home machine (rober).** Completed two major efforts:
+#### TUI Menu System (committed + pushed)
+Built `scripts/menu.mjs` — a terminal UI for the lesson-prep pipeline. `npm start` shows an arrow-key menu with 8 options: prep next undeveloped, prep tomorrow, prep specific, view status, get URLs, preflight, utility tools, quit. Uses `prompts` npm package.
 
-#### 1. Machine-aware path configuration (committed + pushed)
+Also built `scripts/lib/scan-calendars.mjs` — parses all `*_calendar.html` files in CALENDAR_DIR, extracts Period B lessons, returns sorted/deduped array. Found 33 lessons (5.4 through 9.5).
 
-Eliminated 33 hardcoded `C:/Users/ColsonR/` paths across 11 scripts. Created `scripts/lib/paths.mjs` which auto-detects the machine and exports all paths. All scripts now import from `paths.mjs`. Commit `90f4203`.
+#### Lesson 6.11 Pipeline Run (partially successful)
+Ran "Prep next undeveloped" → selected 6.11. Results:
+- **Succeeded:** Video ingest, worksheet, grading prompts, Blooket CSV, drills cartridge, lesson URLs, downstream commits (not pushed)
+- **Failed:** Blooket upload (`"Could not find 'Spreadsheet Import' button"`), Schoology posting (`ETIMEDOUT` on stdin prompt)
 
-Also installed MiKTeX via scoop and made `MIKTEX_DIR` machine-aware (was hardcoded to school path).
+#### Blooket/Schoology Fix (committed + pushed)
+Three fixes deployed via parallel Codex agents:
+1. `upload-blooket.mjs` — replaced 5 single-selector lookups with multi-strategy cascades (4-6 selectors each) + `dumpPageState()` debug dump on failure
+2. `post-to-schoology.mjs` — added `--no-prompt` flag + `process.stdin.isTTY` check to skip blocking readline, added registry check to skip re-attempting failed Blooket uploads
+3. `lesson-prep.mjs` — passes `--no-prompt` to Step 6 Schoology invocation
 
-#### 2. Lesson 6.10 pipeline run (committed + pushed to downstream repos)
+**BUT: The selector fixes are still speculative.** Nobody has inspected the actual current Blooket/Schoology/AI Studio DOM. The debug dump will help on next failure, but the real fix requires a live inspection session.
 
-Ran `node scripts/lesson-prep.mjs --unit 6 --lesson 10` for Monday 3/16 (Period B: Setting Up Test for p₁ − p₂).
+---
 
-**What succeeded:**
-- Video ingest via CDP (2 videos from Drive index)
-- Worksheet: `u6_lesson10_live.html` — 24 fill-in-the-blank, 2 reflections, exit ticket
-- AI grading prompts: `ai-grading-prompts-u6-l10.js`
-- Drills cartridge: 4 new modes (l17-l20) for hypotheses, procedure, pooled proportion, conditions
-- Blooket CSV: 30 questions generated, manually uploaded after fixing CSV format
-- Schoology: all 4 links posted (worksheet, drills, quiz, blooket)
-- Both downstream repos committed and pushed
+## NEXT TASK: Interactive CDP Resilience Session
 
-**What went wrong (lessons learned):**
-- Playwright wasn't installed on home machine (fixed: `npm install playwright`)
-- MiKTeX wasn't installed (fixed: `scoop install miktex`)
-- Blooket CSV had commas inside math notation answers — broke Blooket's parser. Fixed by replacing commas with semicolons. Also had trailing blank line and UTF-8 BOM.
-- Blooket upload script (`upload-blooket.mjs`) failed repeatedly — spent time chasing "Spreadsheet Import" UI changes when the real problem was CSV formatting
-- Schoology posting initially failed (not signed in), then succeeded on retry
-- Schoology folder wasn't created because we ran `post-to-schoology.mjs` directly instead of through `lesson-prep.mjs --auto`
-- Multiple empty Blooket sets created from failed retries (need cleanup)
-- Blooket URL had to be manually found and passed between scripts
+The user wants a **hands-on session** where we connect to the debug browser and inspect each service's actual DOM together. The goal is to make all three CDP automations bulletproof.
 
-### New spec: URL Registry + CSV Validation
+### The 3 Services to Fix
 
-**Read: `design/url-registry-and-csv-validation-spec.md`**
+#### 1. Blooket (dashboard.blooket.com)
+- **Script:** `scripts/upload-blooket.mjs`
+- **Flow:** Navigate to `/create` → select "CSV Upload" radio → fill title → click "Create Set" → redirect to `/edit?id=xxx` → click "Spreadsheet Import" → upload CSV file → click "Import" → click "Save Set"
+- **Known broken:** "Spreadsheet Import" button selector fails. All other selectors are suspect too.
+- **Key:** The `findButton()` helper and `dumpPageState()` were just added — use `dumpPageState` output to find real selectors.
 
-Five improvements designed but not yet implemented:
+#### 2. Schoology (lynnschools.schoology.com)
+- **Script:** `scripts/post-to-schoology.mjs`
+- **Flow:** Navigate to course materials → optionally create folder → post links as external URL materials
+- **Status:** The `--no-prompt` fix prevents the stdin crash, but actual Schoology selectors haven't been audited.
 
-1. **CSV validation** — validate Blooket CSV immediately after generation. Check field counts, no commas in answer text, no non-ASCII, proper header. Auto-fix where possible.
-2. **URL registry** (`state/lesson-registry.json`) — persistent JSON mapping unit.lesson → all URLs + status. Enables pipeline resumability, cross-script URL sharing, and calendar app integration.
-3. **Preflight check** (`scripts/preflight.mjs`) — verify all dependencies and browser sessions before running pipeline on a new machine.
-4. **Schoology scraper** — backfill registry with URLs from previously posted lessons by walking Schoology course materials.
-5. **Blooket upload fix** — update selectors in `upload-blooket.mjs` for current Blooket UI.
+#### 3. AI Studio (aistudio.google.com)
+- **Script:** `scripts/aistudio-ingest.mjs`
+- **Flow:** Upload Drive video files for context extraction
+- **Status:** Unknown — hasn't been tested against live UI recently.
 
-**Implementation order:** CSV validation → URL registry → preflight → scraper → Blooket fix.
+### How to Run the Session
 
-### Files modified/created this session
+1. **Start Edge debug mode:**
+   ```bash
+   scripts/start-edge-debug.cmd
+   # Or manually: msedge --remote-debugging-port=9222 --user-data-dir="C:\Users\rober\.edge-debug-profile"
+   ```
 
-**Agent repo:**
-- `scripts/lib/paths.mjs` — NEW: machine-aware path config
-- `scripts/verify-paths.mjs` — NEW: path validation
-- `scripts/upload-blooket.mjs` — added modal dismissal (partially working)
-- `scripts/watch-blooket.mjs` — NEW: temporary debug watcher (can delete)
-- All 11 consumer scripts — import from paths.mjs instead of hardcoding
-- `design/url-registry-and-csv-validation-spec.md` — NEW: improvement spec
+2. **Inspect a page's DOM:**
+   ```bash
+   node -e "
+     import('playwright').then(async pw => {
+       const b = await pw.chromium.connectOverCDP('http://localhost:9222');
+       const pages = b.contexts()[0].pages();
+       console.log('Open pages:', pages.map(p => p.url()));
+       // Find blooket/schoology/aistudio tab and dump its DOM
+       const page = pages.find(p => p.url().includes('blooket'));
+       if (page) {
+         const info = await page.evaluate(() => ({
+           url: location.href,
+           buttons: [...document.querySelectorAll('button, [role=button], div[class*=button]')]
+             .slice(0,20).map(e => ({ tag: e.tagName, text: e.innerText.trim().slice(0,80), cls: e.className.slice(0,100) }))
+         }));
+         console.log(JSON.stringify(info, null, 2));
+       }
+       await b.close();
+     });
+   "
+   ```
 
-**Downstream repos (committed + pushed):**
-- `follow-alongs/u6_lesson10_live.html` — worksheet
-- `follow-alongs/ai-grading-prompts-u6-l10.js` — AI grading
-- `follow-alongs/u6_l10_blooket.csv` — Blooket CSV (fixed)
-- `lrsl-driller/cartridges/apstats-u6-inference-prop/` — manifest, generator, grading-rules updated with 6.10 modes (merged with upstream 6.4-6.9 content)
+3. **For each service:** Navigate, log in if needed (user provides credentials), dump DOM at each step, update selectors, test full flow.
 
-### Repos
+4. **Test end-to-end:** Run the actual upload/posting scripts and verify they complete.
 
-| Repo | School path | Home path | Description |
-|------|------------|-----------|-------------|
-| **apstats-live-worksheet** | `C:/Users/ColsonR/apstats-live-worksheet` | `.../school/follow-alongs` | Worksheets, calendar, Blooket CSVs |
-| **curriculum-render** | `C:/Users/ColsonR/curriculum_render` | `.../school/curriculum_render` | Quiz app + `data/units.js` |
-| **lrsl-driller** | `C:/Users/ColsonR/lrsl-driller` | `.../school/lrsl-driller` | Drill platform + cartridges |
-| **Agent** | `C:/Users/ColsonR/Agent` | `C:/Users/rober/Downloads/Projects/Agent` | Pipeline orchestrator |
+### Key Resilience Patterns to Add
 
-### Pipeline command reference
+- **Login detection:** Before starting any flow, check if logged in. If not, navigate to login page and wait for user to authenticate.
+- **Wait strategies:** Replace `waitForTimeout` with `waitForSelector` where possible. Add retry loops for flaky loads.
+- **Screenshot on failure:** Save a screenshot to `state/debug/` when a step fails.
+- **Selector registry:** Consider a `scripts/lib/selectors.json` mapping logical names to CSS selectors, so they can be updated without editing code.
+
+---
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `scripts/upload-blooket.mjs` | Blooket CSV upload (414→~500 lines) |
+| `scripts/post-to-schoology.mjs` | Schoology link posting |
+| `scripts/aistudio-ingest.mjs` | AI Studio video context extraction |
+| `scripts/lesson-prep.mjs` | 10-step pipeline orchestrator |
+| `scripts/menu.mjs` | TUI menu (365 lines) |
+| `scripts/lib/cdp-connect.mjs` | CDP connection helper |
+| `scripts/lib/paths.mjs` | Machine-aware path config |
+| `scripts/lib/lesson-registry.mjs` | Lesson status/URL CRUD |
+| `scripts/lib/scan-calendars.mjs` | Calendar HTML parser |
+| `scripts/start-edge-debug.cmd` | Launch Edge with debug port |
+| `scripts/watch-blooket.mjs` | Temp watcher for page state |
+| `design/blooket-upload-fix-spec.md` | Spec for selector fixes |
+
+## Repos
+
+| Repo | Home path | Description |
+|------|-----------|-------------|
+| **Agent** | `C:/Users/rober/Downloads/Projects/Agent` | Pipeline orchestrator |
+| **apstats-live-worksheet** | `.../school/follow-alongs` | Worksheets, calendar, Blooket CSVs |
+| **curriculum-render** | `.../school/curriculum_render` | Quiz app + units.js |
+| **lrsl-driller** | `.../school/lrsl-driller` | Drill platform + cartridges |
+
+## Pipeline Commands
 
 ```bash
-# Full auto (detects tomorrow's lesson):
-node scripts/lesson-prep.mjs --auto
-
-# Prep for a specific date:
-node scripts/lesson-prep.mjs --auto --date 2026-03-16
-
-# Manual unit/lesson:
-node scripts/lesson-prep.mjs --unit 6 --lesson 10
-
-# Schoology posting with blooket URL:
-node scripts/post-to-schoology.mjs --unit 6 --lesson 10 --auto-urls \
-  --blooket "URL" --create-folder "Monday 3/16/26"
-
-# Verify paths on current machine:
-node scripts/verify-paths.mjs
+npm start                                    # TUI menu
+node scripts/lesson-prep.mjs --auto          # Full auto (tomorrow)
+node scripts/lesson-prep.mjs --unit 6 --lesson 11 --skip-ingest --force
+node scripts/upload-blooket.mjs --unit 6 --lesson 11 --force
+node scripts/post-to-schoology.mjs --unit 6 --lesson 11 --auto-urls --no-prompt
+node scripts/preflight.mjs                   # Check all deps
+node scripts/verify-paths.mjs                # Check path config
 ```
 
-### Key architectural decisions
-- Schoology/Blooket/AI Studio automation uses Playwright CDP connecting to Edge on port 9222
-- `scripts/lib/paths.mjs` auto-detects machine via username, exports all paths
-- Step 2 uses `codex exec --full-auto` with stdin piping
-- Prompts embed ALL context inline — video transcriptions + pattern files
-- Pipeline gating: Step 1 failure → abort; Step 2 failure → abort; Steps 3-5 non-blocking
+## Unfinished Business
+
+- 6.11 downstream repos committed locally but NOT pushed (apstats-live-worksheet, lrsl-driller)
+- Blooket set for 6.11 was created but CSV import failed — may have an empty set on Blooket that needs cleanup
+- 32 more lessons (5.4–9.5 minus 6.10 and 6.11) remain undeveloped
 
 I am a high school math teacher building educational tools. My main projects are AP Statistics teaching tools. I want the lesson prep workflow to be as automated as possible — ideally I say "prep for Monday" and everything happens.

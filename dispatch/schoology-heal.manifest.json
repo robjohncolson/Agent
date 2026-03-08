@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "batch_name": "schoology-heal-tui",
+  "target_branch": "master",
+  "base_ref": "master",
+  "agents": [
+    {
+      "name": "registry-links",
+      "description": "Add updateSchoologyLink + getSchoologyLinks to lesson-registry.mjs",
+      "prompt_file": "dispatch/prompts/schoology-heal/registry-links.md",
+      "owned_paths": ["scripts/lib/lesson-registry.mjs"]
+    },
+    {
+      "name": "tui-utils",
+      "description": "Create scripts/lib/tui.mjs with ora/chalk TUI utilities",
+      "prompt_file": "dispatch/prompts/schoology-heal/tui-utils.md",
+      "owned_paths": ["scripts/lib/tui.mjs"]
+    },
+    {
+      "name": "schoology-heal",
+      "description": "Create scripts/lib/schoology-heal.mjs with audit/verify functions",
+      "prompt_file": "dispatch/prompts/schoology-heal/schoology-heal.md",
+      "depends_on": ["registry-links"],
+      "owned_paths": ["scripts/lib/schoology-heal.mjs"]
+    },
+    {
+      "name": "menu-enhance",
+      "description": "Replace ANSI with chalk, add Dashboard + Heal menu items",
+      "prompt_file": "dispatch/prompts/schoology-heal/menu-enhance.md",
+      "depends_on": ["registry-links", "tui-utils"],
+      "owned_paths": ["scripts/menu.mjs"]
+    },
+    {
+      "name": "post-heal",
+      "description": "Add --heal flag to post-to-schoology.mjs for idempotent posting",
+      "prompt_file": "dispatch/prompts/schoology-heal/post-heal.md",
+      "depends_on": ["registry-links", "schoology-heal"],
+      "owned_paths": ["scripts/post-to-schoology.mjs"]
+    },
+    {
+      "name": "lesson-prep-wire",
+      "description": "Wire auto-heal + TUI into lesson-prep.mjs step 6",
+      "prompt_file": "dispatch/prompts/schoology-heal/lesson-prep-wire.md",
+      "depends_on": ["registry-links", "tui-utils", "schoology-heal"],
+      "owned_paths": ["scripts/lesson-prep.mjs"]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "verify_commands": [
+      "node --check scripts/lib/lesson-registry.mjs",
+      "node --check scripts/lib/tui.mjs",
+      "node --check scripts/lib/schoology-heal.mjs",
+      "node --check scripts/menu.mjs",
+      "node --check scripts/post-to-schoology.mjs",
+      "node --check scripts/lesson-prep.mjs"
+    ]
+  }
+}

@@ -40,7 +40,7 @@
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson11_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l21-zstat-611",
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=10",
-      "blooket": null,
+      "blooket": "https://dashboard.blooket.com/set/69ade09c572efa156e0e3402",
       "schoologyFolder": null,
       "videos": []
     },
@@ -49,13 +49,13 @@
       "worksheet": "done",
       "drills": "done",
       "blooketCsv": "done",
-      "blooketUpload": "failed",
-      "animations": "pending",
+      "blooketUpload": "done",
+      "animations": "done",
       "schoology": "done"
     },
     "timestamps": {
       "created": "2026-03-08T16:25:49.168Z",
-      "lastUpdated": "2026-03-08T17:16:53.758Z"
+      "lastUpdated": "2026-03-08T21:10:00.000Z"
     }
   },
   "6.7": {
