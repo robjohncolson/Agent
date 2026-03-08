@@ -31,6 +31,7 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
+import { getLesson, updateStatus } from "./lib/lesson-registry.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -451,6 +452,7 @@ async function main() {
   }
 
   const { unit, lesson, courseId, dryRun, autoUrls } = opts;
+  let blooketUrl = opts.blooketUrl;
   const titles = buildLinkTitles(unit, lesson);
   const rootMaterialsUrl = `${CONFIG.baseUrl}/course/${courseId}/materials`;
 
@@ -486,8 +488,17 @@ async function main() {
     }
 
     // Blooket: use explicit URL, or auto-upload CSV, or prompt
-    if (opts.blooketUrl) {
-      links.push({ key: "blooket", url: opts.blooketUrl, title: titles.blooket });
+    // If --blooket not provided, check registry
+    if (!blooketUrl) {
+      const entry = getLesson(unit, lesson);
+      if (entry?.urls?.blooket) {
+        blooketUrl = entry.urls.blooket;
+        console.log(`Using Blooket URL from registry: ${blooketUrl}`);
+      }
+    }
+
+    if (blooketUrl) {
+      links.push({ key: "blooket", url: blooketUrl, title: titles.blooket });
     } else {
       // Try auto-uploading the Blooket CSV via upload-blooket.mjs
       const csvPath = join(WORKSHEET_REPO, `u${unit}_l${lesson}_blooket.csv`);
@@ -515,10 +526,12 @@ async function main() {
       }
 
       if (autoUrl) {
+        blooketUrl = autoUrl;
         links.push({ key: "blooket", url: autoUrl, title: titles.blooket });
       } else {
         const blooketInput = await promptUser("Enter Blooket URL (or press Enter to skip): ");
         if (blooketInput) {
+          blooketUrl = blooketInput;
           links.push({ key: "blooket", url: blooketInput, title: titles.blooket });
         } else {
           console.log("  Skipping Blooket (no URL provided).");
@@ -536,8 +549,8 @@ async function main() {
     if (opts.quizUrl) {
       links.push({ key: "quiz", url: opts.quizUrl, title: titles.quiz });
     }
-    if (opts.blooketUrl) {
-      links.push({ key: "blooket", url: opts.blooketUrl, title: titles.blooket });
+    if (blooketUrl) {
+      links.push({ key: "blooket", url: blooketUrl, title: titles.blooket });
     }
 
     if (links.length === 0) {
@@ -673,6 +686,10 @@ async function main() {
   console.log(`\n${"=".repeat(50)}`);
   console.log(`Done. ${successCount} posted, ${failCount} failed.`);
   console.log("=".repeat(50));
+
+  if (failCount === 0) {
+    updateStatus(unit, lesson, "schoology", "done");
+  }
 
   // Disconnect without closing the browser
   console.log("\nDisconnecting from browser (CDP). Your browser remains open.");

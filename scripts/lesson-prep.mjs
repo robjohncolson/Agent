@@ -38,6 +38,14 @@ import {
   buildWorksheetPrompt,
   readVideoContext,
 } from "./lib/build-codex-prompts.mjs";
+import { validateBlooketCsv, autoFixBlooketCsv } from "./lib/validate-blooket-csv.mjs";
+import {
+  upsertLesson,
+  updateUrl,
+  updateStatus,
+  computeUrls,
+  getLesson,
+} from "./lib/lesson-registry.mjs";
 import {
   SCRIPTS,
   WORKING_DIRS,
@@ -699,23 +707,24 @@ function validateWorksheetTask(unit, lesson) {
 
 function validateBlooketTask(unit, lesson) {
   const blooketPath = path.join(WORKING_DIRS.worksheet, `u${unit}_l${lesson}_blooket.csv`);
-  const sizeValidation = validateFileSize(blooketPath, 500);
 
-  console.log(`    Validation: ${sizeValidation.detail}`);
-
-  if (!sizeValidation.ok) {
-    return { ok: false, error: sizeValidation.detail };
+  // First, try auto-fix
+  const fixResult = autoFixBlooketCsv(blooketPath);
+  if (fixResult.fixed) {
+    console.log("    Auto-fix applied:");
+    fixResult.changes.forEach(c => console.log(`      - ${c}`));
   }
 
-  const content = readFileSync(blooketPath, "utf-8");
-  if (!content.startsWith(`"Blooket`)) {
-    const error = `${path.basename(blooketPath)} missing Blooket header`;
-    console.log(`    Validation: ${error}`);
-    return { ok: false, error };
+  // Then validate
+  const result = validateBlooketCsv(blooketPath);
+  if (result.valid) {
+    console.log("    Validation: Blooket CSV OK (all checks passed)");
+    return { ok: true };
   }
 
-  console.log("    Validation: Blooket header OK");
-  return { ok: true };
+  console.log("    Validation FAILED:");
+  result.errors.forEach(e => console.log(`      - ${e}`));
+  return { ok: false, error: result.errors.join("; ") };
 }
 
 function validateDrillsTask(unit, lesson) {
@@ -1125,7 +1134,7 @@ function step5_uploadBlooket(unit, lesson) {
 function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   if (!scriptExists(SCRIPTS.postSchoology)) {
     console.log("post-to-schoology.mjs not found, skipping Schoology posting.\n");
-    return;
+    return false;
   }
 
   console.log("=== Step 6: Posting links to Schoology ===\n");
@@ -1164,9 +1173,11 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
       { stdio: "inherit", timeout: 300000 }
     );
     console.log();
+    return true;
   } catch (e) {
     console.error(`Schoology posting failed: ${e.message}`);
     console.error("Continuing with remaining pipeline steps...\n");
+    return false;
   }
 }
 
@@ -1449,13 +1460,29 @@ async function main() {
     }
     results.autoDetected = true;
     if (!opts.noFolder) {
+      const resolvedDate = opts.targetDate || (() => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return tomorrow.toISOString().slice(0, 10);
+      })();
       calendarContext = {
         folderTitle: detected.folderTitle,
         folderDesc: detected.folderDesc,
         calendarUrl: detected.calendarUrl,
+        date: resolvedDate,
       };
     }
   }
+
+  const existingEntry = getLesson(unit, lesson);
+
+  // Initialize registry entry with computed URLs
+  const computedUrls = computeUrls(unit, lesson);
+  upsertLesson(unit, lesson, {
+    topic: calendarContext?.folderTitle || `Topic ${unit}.${lesson}`,
+    date: calendarContext?.date || null,
+    urls: computedUrls,
+  });
 
   // Step 0.5: Drive video lookup (whenever no --drive-ids provided and not skipping ingest)
   if (opts.driveIds.length === 0 && !opts.skipIngest) {
@@ -1492,8 +1519,19 @@ async function main() {
   console.log(`  Lesson Prep Pipeline v3 -- Unit ${unit}, Lesson ${lesson}`);
   console.log(`========================================\n`);
 
+  if (existingEntry) {
+    console.log(`Registry: Found existing entry for ${unit}.${lesson}`);
+    const status = existingEntry.status || {};
+    // Show what's already done
+    for (const [step, state] of Object.entries(status)) {
+      if (state === "done") console.log(`  ${step}: already done`);
+    }
+    console.log();
+  }
+
   // Step 1: Video ingest via CDP
   let step1ok = false;
+  const ranStep1 = !opts.skipIngest && opts.driveIds.length > 0;
   if (opts.skipIngest) {
     console.log("=== Step 1: Video ingest skipped (--skip-ingest) ===\n");
     step1ok = true; // explicitly skipped = treat as passed for gating
@@ -1502,6 +1540,10 @@ async function main() {
     step1ok = true;
   } else {
     step1ok = step1_videoIngest(unit, lesson, opts.driveIds);
+  }
+
+  if (ranStep1) {
+    updateStatus(unit, lesson, "ingest", step1ok ? "done" : "failed");
   }
 
   if (!step1ok) {
@@ -1514,6 +1556,17 @@ async function main() {
 
   // Step 2: Parallel content generation
   results.codexResults = await step2_contentGeneration(unit, lesson);
+  const step2StatusByLabel = {
+    "Worksheet + Grading": "worksheet",
+    "Blooket CSV": "blooketCsv",
+    "Drills Cartridge": "drills",
+    "Cartridge + Animations": "drills",
+  };
+  for (const taskResult of results.codexResults || []) {
+    const stepKey = step2StatusByLabel[taskResult.label];
+    if (!stepKey) continue;
+    updateStatus(unit, lesson, stepKey, taskResult.success ? "done" : "failed");
+  }
   const step2ok = results.codexResults && results.codexResults.some(r => r.success);
 
   if (!step2ok) {
@@ -1549,6 +1602,12 @@ async function main() {
   } else {
     blooketUrl = step5_uploadBlooket(unit, lesson);
     results.blooketUrl = blooketUrl;
+    if (blooketUrl) {
+      updateStatus(unit, lesson, "blooketUpload", "done");
+      updateUrl(unit, lesson, "blooket", blooketUrl);
+    } else {
+      updateStatus(unit, lesson, "blooketUpload", "failed");
+    }
     // Non-blocking: Schoology can still post other links without Blooket
   }
 
@@ -1556,7 +1615,8 @@ async function main() {
   if (opts.skipSchoology) {
     console.log("=== Step 6: Schoology posting skipped (--skip-schoology) ===\n");
   } else {
-    step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
+    const schoologyOk = step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
+    updateStatus(unit, lesson, "schoology", schoologyOk ? "done" : "failed");
   }
 
   // Step 7: Generate URLs

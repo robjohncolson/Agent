@@ -6,6 +6,7 @@ import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 import { CARTRIDGES_DIR } from "./lib/paths.mjs";
+import { getLesson, computeUrls } from "./lib/lesson-registry.mjs";
 
 // ── Cartridge mapping ──────────────────────────────────────────────────────────
 const CARTRIDGE_MAP = {
@@ -75,9 +76,10 @@ function findFirstDrillMode(unit, lesson) {
 
 // ── Main ───────────────────────────────────────────────────────────────────────
 const { unit, lesson } = parseArgs(process.argv);
+const computedUrls = computeUrls(unit, lesson);
 
 // 1. Worksheet
-const worksheetUrl =
+const worksheetUrl = computedUrls.worksheet ||
   `https://robjohncolson.github.io/apstats-live-worksheet/u${unit}_lesson${lesson}_live.html`;
 
 // 2. Drills
@@ -90,20 +92,23 @@ if (cartridgeId && modeId) {
   drillsUrl =
     `https://lrsl-driller.vercel.app/platform/app.html?c=${cartridgeId}  [mode not auto-detected]`;
 } else {
-  drillsUrl = "[no cartridge mapped for unit " + unit + "]";
+  drillsUrl = computedUrls.drills || "[no cartridge mapped for unit " + unit + "]";
 }
 
 // 3. Quiz (previous lesson)
 let quizUrl;
 if (lesson > 1) {
-  quizUrl =
+  quizUrl = computedUrls.quiz ||
     `https://robjohncolson.github.io/curriculum_render/?u=${unit}&l=${lesson - 1}`;
 } else {
   quizUrl = "[no quiz — lesson 1 has no previous lesson]";
 }
 
-// 4. Blooket (placeholder)
-const blooketUrl = "[upload CSV to blooket.com and paste URL here]";
+// 4. Blooket
+// Check registry for Blooket URL
+const registryEntry = getLesson(unit, lesson);
+const blooketUrl = registryEntry?.urls?.blooket
+  || "[upload CSV to blooket.com and paste URL here]";
 
 // ── Format output ──────────────────────────────────────────────────────────────
 const output = `=== Lesson ${unit}.${lesson} URLs ===

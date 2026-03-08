@@ -27,6 +27,7 @@ import { execSync } from "node:child_process";
 import { join } from "node:path";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CSV_BASE_DIR } from "./lib/paths.mjs";
+import { getLesson, updateUrl, updateStatus } from "./lib/lesson-registry.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -45,6 +46,7 @@ function parseArgs(argv) {
   let file = null;
   let title = null;
   let dryRun = false;
+  let force = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -59,6 +61,8 @@ function parseArgs(argv) {
       title = args[++i];
     } else if (arg === "--dry-run") {
       dryRun = true;
+    } else if (arg === "--force") {
+      force = true;
     } else if (arg === "--help" || arg === "-h") {
       printUsage();
       process.exit(0);
@@ -87,7 +91,7 @@ function parseArgs(argv) {
     }
   }
 
-  return { unit, lesson, file, title, dryRun };
+  return { unit, lesson, file, title, dryRun, force };
 }
 
 function printUsage() {
@@ -99,6 +103,7 @@ function printUsage() {
       "  -f, --file <path>   Explicit CSV file path (overrides auto-detect)\n" +
       "  -t, --title <text>  Set title (overrides auto-generated)\n" +
       "  --dry-run            Show what would happen without creating\n" +
+      "  --force              Re-upload even if registry already has a successful URL\n" +
       "  -h, --help           Show this help\n\n" +
       "Examples:\n" +
       '  node scripts/upload-blooket.mjs --unit 6 --lesson 5\n' +
@@ -296,6 +301,19 @@ function saveUploadRecord({ unit, lesson, title, url, csvPath }) {
 async function main() {
   const opts = parseArgs(process.argv);
 
+  // Check if already uploaded
+  if (opts.unit && opts.lesson) {
+    const existing = getLesson(opts.unit, opts.lesson);
+    if (existing?.urls?.blooket && existing?.status?.blooketUpload === "done") {
+      console.log(`Blooket already uploaded for ${opts.unit}.${opts.lesson}: ${existing.urls.blooket}`);
+      console.log("Use --force to re-upload.");
+      if (!opts.force) {
+        console.log(existing.urls.blooket); // Print URL for capture by lesson-prep
+        return;
+      }
+    }
+  }
+
   // Validate CSV file exists
   if (!existsSync(opts.file)) {
     console.error(`Error: CSV file not found: ${opts.file}`);
@@ -312,6 +330,7 @@ async function main() {
     console.log(`  Lesson:   ${opts.lesson}`);
   }
   console.log(`  Dry run:  ${opts.dryRun}`);
+  console.log(`  Force:    ${opts.force}`);
 
   if (opts.dryRun) {
     console.log("\nDry run complete. No set was created.");
@@ -349,6 +368,13 @@ async function main() {
       console.log("  (Copied to clipboard)");
     }
 
+    if (opts.unit && opts.lesson) {
+      // Write to lesson registry
+      updateUrl(opts.unit, opts.lesson, "blooket", blooketUrl);
+      updateStatus(opts.unit, opts.lesson, "blooketUpload", "done");
+      console.log(`Registry: saved Blooket URL for ${opts.unit}.${opts.lesson}`);
+    }
+
     try {
       saveUploadRecord({
         unit: opts.unit,
@@ -361,6 +387,13 @@ async function main() {
       console.warn(`WARNING: Failed to save upload record: ${err.message}`);
     }
   } catch (err) {
+    if (opts.unit && opts.lesson) {
+      try {
+        updateStatus(opts.unit, opts.lesson, "blooketUpload", "failed");
+      } catch (statusErr) {
+        console.warn(`WARNING: Failed to update registry status: ${statusErr.message}`);
+      }
+    }
     console.error("\nFAILED:", err.message);
     process.exit(1);
   } finally {
