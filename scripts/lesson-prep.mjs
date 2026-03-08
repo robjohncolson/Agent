@@ -1161,7 +1161,7 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
 
   console.log("=== Step 6: Posting links to Schoology ===\n");
 
-  const args = [`--unit ${unit}`, `--lesson ${lesson}`, `--auto-urls`, `--with-videos`];
+  const args = [`--unit ${unit}`, `--lesson ${lesson}`, `--auto-urls`, `--with-videos`, `--no-prompt`];
 
   if (blooketUrl) {
     args.push(`--blooket "${blooketUrl}"`);
