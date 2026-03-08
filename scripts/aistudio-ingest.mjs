@@ -222,7 +222,7 @@ async function waitForResponse(page, turnCountBefore = 0) {
           if (len > 100) {
             bestTurn = turns[i];
             bestLen = len;
-            bestTurn = turn;
+            break;
           }
         }
         return bestTurn;
@@ -285,8 +285,9 @@ async function waitForResponse(page, turnCountBefore = 0) {
 async function typeAndSubmit(page, promptText) {
   // Find the prompt input area — try several selectors
   const inputSelectors = [
-    'textarea[aria-label="Type something"]',
     'textarea[aria-label="Enter a prompt"]',
+    'textarea[placeholder*="Start"]',
+    'textarea[aria-label="Type something"]',
     "textarea.prompt-input",
     'div[contenteditable="true"]',
     'textarea[placeholder*="Type"]',
@@ -859,10 +860,10 @@ async function selectModel(page, modelName) {
 
   // Look for model selector
   const modelSelectors = [
+    'button[class*="model"]',
+    'div[class*="model-selector"]',
     'button[aria-label*="model"]',
     'button[aria-label*="Model"]',
-    'div[class*="model-selector"]',
-    'button[class*="model"]',
     '[data-test-id="model-selector"]',
     'mat-select[aria-label*="model"]',
   ];

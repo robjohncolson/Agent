@@ -179,11 +179,12 @@ async function uploadBlooket(page, csvPath, title) {
   await page.waitForTimeout(2000);
 
   // Select CSV Upload radio
+  // Real DOM: <input type="radio" value="csv"> inside <label class="ButtonPicker_radio__eRnhr">
   console.log('  Clicking "CSV Upload" radio...');
   const csvRadio = await findButton(page, [
-    { selector: 'label:has-text("CSV Upload")', description: "label text" },
-    { selector: 'label:has-text("CSV")', description: "label CSV" },
-    { selector: 'input[value*="csv" i]', description: "input value csv" },
+    { selector: 'label:has-text("CSV Upload")', description: "label text (visible wrapper)" },
+    { selector: 'label[class*="ButtonPicker"]:has-text("CSV")', description: "ButtonPicker label" },
+    { selector: 'label[class*="radio"]:has-text("CSV")', description: "label radio class" },
     { selector: '[class*="csv" i]', description: "class contains csv" },
   ], "CSV Upload");
   if (!csvRadio) {
@@ -194,17 +195,23 @@ async function uploadBlooket(page, csvPath, title) {
   await page.waitForTimeout(500);
 
   // Fill title
+  // Real DOM: <input type="text" name="title" class="TextInput_input__FyICi">
   console.log(`  Filling title: "${title}"`);
-  await page.fill("#title", title);
+  const titleFilled = await page.fill('input[name="title"]', title).then(() => true).catch(() => false);
+  if (!titleFilled) {
+    // Fallback to old selector
+    await page.fill("#title", title);
+  }
   await page.waitForTimeout(300);
 
   // Click Create Set
+  // Real DOM: <button type="submit" class="... CreateQuestionSetForm_submitButton__...">
   console.log('  Clicking "Create Set"...');
   const createBtn = await findButton(page, [
-    { selector: 'button:has-text("Create Set")', description: "button text" },
+    { selector: 'button[type="submit"]:has-text("Create Set")', description: "submit button text" },
     { selector: 'button[type="submit"]', description: "submit button" },
-    { selector: 'div:has-text("Create Set")', description: "div text" },
-    { selector: 'button:has-text("Create")', description: "button Create" },
+    { selector: 'button:has-text("Create Set")', description: "button text" },
+    { selector: 'button[class*="submitButton"]', description: "submitButton class" },
   ], "Create Set");
   if (!createBtn) {
     await dumpPageState(page);
@@ -237,15 +244,16 @@ async function uploadBlooket(page, csvPath, title) {
   }
   console.log(`  Set ID: ${setId}`);
 
-  // Click "Spreadsheet Import" button (Blooket renamed from "CSV Upload")
+  // Click "Spreadsheet Import" button
+  // Real DOM: <div class="_button_552gk_1 _addButton_1byfb_155" role="button">
+  //   contains <div class="_addButtonInside_1byfb_159">Spreadsheet<br>Import</div>
+  // NOTE: It's a div[role="button"], NOT a <button>. No element has "import" in class.
   console.log('  Clicking "Spreadsheet Import"...');
   const importBtn = await findButton(page, [
-    { selector: 'button:has-text("Spreadsheet Import")', description: "button text" },
-    { selector: 'div[class*="import" i]:has-text("Spreadsheet")', description: "div class+text" },
-    { selector: '[class*="import" i]', description: "class contains import" },
-    { selector: 'button:has-text("Import")', description: "button Import" },
-    { selector: 'div:has-text("Spreadsheet Import")', description: "div text (original)" },
-    { selector: ':has-text("Spreadsheet Import")', description: "any element text" },
+    { selector: 'div[role="button"]:has-text("Spreadsheet")', description: "div role=button Spreadsheet" },
+    { selector: 'div[class*="addButton"]:has-text("Spreadsheet")', description: "addButton class+text" },
+    { selector: 'div[class*="addButtonInside"]:has-text("Spreadsheet")', description: "addButtonInside text" },
+    { selector: 'div[tabindex="0"]:has-text("Spreadsheet")', description: "tabindex div text" },
   ], "Spreadsheet Import");
   if (!importBtn) {
     await dumpPageState(page);
@@ -269,12 +277,13 @@ async function uploadBlooket(page, csvPath, title) {
   await page.waitForTimeout(3000);
 
   // Click any "Import" or "Upload" confirmation button in the dialog
+  // After file selection, Blooket may show a confirmation dialog with a button
   const confirmBtn = await findButton(page, [
     { selector: 'button:has-text("Import")', description: "button Import" },
-    { selector: 'div:has-text("Import")', description: "div Import" },
+    { selector: 'div[role="button"]:has-text("Import")', description: "div role=button Import" },
     { selector: 'button:has-text("Upload")', description: "button Upload" },
     { selector: 'button:has-text("Confirm")', description: "button Confirm" },
-    { selector: 'div:has-text("Upload")', description: "div Upload" },
+    { selector: 'div[class*="button"]:has-text("Import")', description: "div button class Import" },
   ], "Import/Upload confirmation");
   if (confirmBtn) {
     console.log('  Clicking import confirmation...');
@@ -316,12 +325,14 @@ async function uploadBlooket(page, csvPath, title) {
   await dismissModals(page);
 
   // Try multiple strategies to find the save button
+  // Real DOM: <div class="_button_552gk_1 _saveButton_1byfb_89" role="button">
+  //   contains <div class="_saveButtonInside_1byfb_94">Save Set</div>
   const saveBtn = await findButton(page, [
-    { selector: 'div[class*="saveButton"]:has-text("Save Set")', description: "div saveButton class" },
+    { selector: 'div[class*="saveButton"]:has-text("Save")', description: "div saveButton class" },
+    { selector: 'div[role="button"]:has-text("Save Set")', description: "div role=button Save Set" },
+    { selector: 'div[class*="saveButtonInside"]', description: "saveButtonInside class" },
     { selector: 'button:has-text("Save Set")', description: "button text" },
-    { selector: 'button:has-text("Save")', description: "button Save" },
     { selector: '[class*="save" i]:has-text("Save")', description: "class+text save" },
-    { selector: 'div:has-text("Save Set")', description: "div text (original)" },
   ], "Save Set");
 
   if (!saveBtn) {
