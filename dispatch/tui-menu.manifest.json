@@ -1,0 +1,47 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "tui-menu-v1",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "full-auto",
+  "verify_commands": [],
+  "agents": [
+    {
+      "name": "package-json",
+      "description": "Add prompts dependency and start script to package.json",
+      "prompt_file": "dispatch/prompts/tui-menu-agents/package-json.md",
+      "owned_paths": [
+        "package.json"
+      ]
+    },
+    {
+      "name": "tui-menu",
+      "description": "Create scripts/menu.mjs — full TUI menu implementation",
+      "prompt_file": "dispatch/prompts/tui-menu-agents/tui-menu.md",
+      "owned_paths": [
+        "scripts/menu.mjs"
+      ]
+    },
+    {
+      "name": "verify-menu",
+      "description": "Install deps, syntax-check menu.mjs, fix any issues",
+      "prompt_file": "dispatch/prompts/tui-menu-agents/verify-menu.md",
+      "depends_on": [
+        "package-json",
+        "tui-menu"
+      ],
+      "owned_paths": [
+        "package.json",
+        "scripts/menu.mjs"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "tui-menu",
+    "verify_commands": [
+      "node --check scripts/menu.mjs"
+    ]
+  }
+}
