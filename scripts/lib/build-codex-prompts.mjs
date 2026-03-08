@@ -258,6 +258,8 @@ Key format rules:
 - Row 2: Headers — \`Question #,Question Text,Answer 1,Answer 2,"Answer 3\\n(Optional)","Answer 4\\n(Optional)","Time Limit (sec)\\n(Max: 300 seconds)","Correct Answer(s)\\n(Only include Answer #)"\` followed by empty cells
 - Data rows: question number, question text in quotes, 4 answer choices in quotes, time limit (20), correct answer number (1-4), followed by empty cells (18 commas)
 - Each row ends with \`,,,,,,,,,,,,,,,,,,\` (18 trailing commas)
+- CRITICAL: NEVER use commas inside answer text. If an answer naturally contains a comma, rephrase it or use a semicolon instead. Commas inside answer fields break Blooket's CSV parser even when the field is quoted. Example: instead of "mean, median, and mode" write "mean; median; and mode".
+- CRITICAL: Use only ASCII characters in all fields. No Unicode symbols (≠, →, ≤, ≥, π, μ, σ). Use text equivalents instead: != for ≠, -> for →, <= for ≤, >= for ≥, pi for π, mu for μ, sigma for σ, p-hat for p̂.
 
 ## Video context (source material)
 
