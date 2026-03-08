@@ -1,18 +1,19 @@
 {
   "$schema": "../schema/parallel-batch-state.schema.json",
   "version": 1,
-  "batch_name": "prep-next-v1",
+  "batch_name": "blooket-fix-v1",
   "status": "failed",
   "target_branch": "master",
   "base_ref": "master",
-  "manifest_file": "dispatch/prep-next.manifest.json",
+  "manifest_file": "dispatch/blooket-fix.manifest.json",
   "evidence_observations": [],
   "dependency_batches": [
     [
-      "scan-calendars"
+      "blooket-selectors",
+      "schoology-noprompt"
     ],
     [
-      "menu-integration"
+      "lesson-prep-wire"
     ],
     [
       "verify"
@@ -23,54 +24,74 @@
     "agents": [
       "verify"
     ],
-    "started_at": "2026-03-08T15:58:39Z"
+    "started_at": "2026-03-08T17:10:23Z"
   },
   "completed_batches": 2,
   "last_error": {
     "stage": "dependency-batch",
     "message": "Batch 3 failed: verify",
-    "timestamp": "2026-03-08T15:59:54Z"
+    "timestamp": "2026-03-08T17:11:33Z"
   },
-  "updated_at": "2026-03-08T15:59:54Z",
+  "updated_at": "2026-03-08T17:11:33Z",
   "agents": [
     {
-      "name": "scan-calendars",
-      "branch": "codex/scan-calendars",
+      "name": "blooket-selectors",
+      "branch": "codex/blooket-selectors",
       "status": "completed",
       "depends_on": [],
       "owned_paths": [
-        "scripts/lib/scan-calendars.mjs"
+        "scripts/upload-blooket.mjs"
       ],
-      "prompt_file": "dispatch/prompts/prep-next-agents/scan-calendars.md",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/blooket-selectors.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-08T15:55:08Z",
-      "finished_at": "2026-03-08T15:57:35Z",
-      "commit": "7da2d9838a5581475acdc9c480aa982710e681ea",
-      "worktree": "state/parallel-worktrees/scan-calendars",
-      "codex_log": "state/parallel-codex-logs/scan-calendars-20260308T155508Z.log",
+      "started_at": "2026-03-08T17:08:12Z",
+      "finished_at": "2026-03-08T17:09:57Z",
+      "commit": "1795aa685dd25f62b4ef076ae16153470c69d05e",
+      "worktree": "state/parallel-worktrees/blooket-selectors",
+      "codex_log": "state/parallel-codex-logs/blooket-selectors-20260308T170811Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": null
     },
     {
-      "name": "menu-integration",
-      "branch": "codex/menu-integration",
+      "name": "schoology-noprompt",
+      "branch": "codex/schoology-noprompt",
       "status": "completed",
-      "depends_on": [
-        "scan-calendars"
-      ],
+      "depends_on": [],
       "owned_paths": [
-        "scripts/menu.mjs"
+        "scripts/post-to-schoology.mjs"
       ],
-      "prompt_file": "dispatch/prompts/prep-next-agents/menu-integration.md",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/schoology-noprompt.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-08T15:57:36Z",
-      "finished_at": "2026-03-08T15:58:39Z",
-      "commit": "128436a178002a284ef8430147cc68545ff9948e",
-      "worktree": "state/parallel-worktrees/menu-integration",
-      "codex_log": "state/parallel-codex-logs/menu-integration-20260308T155735Z.log",
+      "started_at": "2026-03-08T17:08:12Z",
+      "finished_at": "2026-03-08T17:09:52Z",
+      "commit": "11f4c9795a1767b52335e1a6bbf3f964196cb988",
+      "worktree": "state/parallel-worktrees/schoology-noprompt",
+      "codex_log": "state/parallel-codex-logs/schoology-noprompt-20260308T170811Z.log",
+      "verify_results": [],
+      "blocked_by": [],
+      "error": null
+    },
+    {
+      "name": "lesson-prep-wire",
+      "branch": "codex/lesson-prep-wire",
+      "status": "completed",
+      "depends_on": [
+        "schoology-noprompt"
+      ],
+      "owned_paths": [
+        "scripts/lesson-prep.mjs"
+      ],
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/lesson-prep-wire.md",
+      "verify_commands": [],
+      "attempts": 1,
+      "started_at": "2026-03-08T17:09:57Z",
+      "finished_at": "2026-03-08T17:10:23Z",
+      "commit": "9d3fb2d2a07a5aa3abd74277be73c7b2104d7173",
+      "worktree": "state/parallel-worktrees/lesson-prep-wire",
+      "codex_log": "state/parallel-codex-logs/lesson-prep-wire-20260308T170957Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": null
@@ -80,25 +101,28 @@
       "branch": "codex/verify",
       "status": "failed",
       "depends_on": [
-        "menu-integration"
+        "blooket-selectors",
+        "schoology-noprompt",
+        "lesson-prep-wire"
       ],
       "owned_paths": [
-        "scripts/lib/scan-calendars.mjs",
-        "scripts/menu.mjs"
+        "scripts/upload-blooket.mjs",
+        "scripts/post-to-schoology.mjs",
+        "scripts/lesson-prep.mjs"
       ],
-      "prompt_file": "dispatch/prompts/prep-next-agents/verify.md",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/verify.md",
       "verify_commands": [],
       "attempts": 1,
-      "started_at": "2026-03-08T15:58:39Z",
-      "finished_at": "2026-03-08T15:59:54Z",
+      "started_at": "2026-03-08T17:10:23Z",
+      "finished_at": "2026-03-08T17:11:32Z",
       "commit": null,
       "worktree": "state/parallel-worktrees/verify",
-      "codex_log": "state/parallel-codex-logs/verify-20260308T155839Z.log",
+      "codex_log": "state/parallel-codex-logs/verify-20260308T171023Z.log",
       "verify_results": [],
       "blocked_by": [],
       "error": {
         "message": "Agent verify made no changes.",
-        "timestamp": "2026-03-08T15:59:54Z"
+        "timestamp": "2026-03-08T17:11:32Z"
       }
     }
   ],
@@ -113,10 +137,10 @@
     "error": null
   },
   "summary": {
-    "total_agents": 3,
+    "total_agents": 4,
     "pending": 0,
     "running": 0,
-    "completed": 2,
+    "completed": 3,
     "merged": 0,
     "failed": 1,
     "blocked": 0,

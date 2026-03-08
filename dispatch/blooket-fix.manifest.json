@@ -1,0 +1,62 @@
+{
+  "$schema": "../schema/parallel-runner-manifest.schema.json",
+  "version": 1,
+  "batch_name": "blooket-fix-v1",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "full-auto",
+  "verify_commands": [],
+  "agents": [
+    {
+      "name": "blooket-selectors",
+      "description": "Multi-strategy selectors + debug dump in upload-blooket.mjs",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/blooket-selectors.md",
+      "owned_paths": [
+        "scripts/upload-blooket.mjs"
+      ]
+    },
+    {
+      "name": "schoology-noprompt",
+      "description": "Add --no-prompt flag + registry check to post-to-schoology.mjs",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/schoology-noprompt.md",
+      "owned_paths": [
+        "scripts/post-to-schoology.mjs"
+      ]
+    },
+    {
+      "name": "lesson-prep-wire",
+      "description": "Pass --no-prompt in lesson-prep.mjs Step 6 invocation",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/lesson-prep-wire.md",
+      "depends_on": [
+        "schoology-noprompt"
+      ],
+      "owned_paths": [
+        "scripts/lesson-prep.mjs"
+      ]
+    },
+    {
+      "name": "verify",
+      "description": "Syntax check all 3 modified files + validate changes",
+      "prompt_file": "dispatch/prompts/blooket-fix-agents/verify.md",
+      "depends_on": [
+        "blooket-selectors",
+        "schoology-noprompt",
+        "lesson-prep-wire"
+      ],
+      "owned_paths": [
+        "scripts/upload-blooket.mjs",
+        "scripts/post-to-schoology.mjs",
+        "scripts/lesson-prep.mjs"
+      ]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "commit_prefix": "blooket-fix",
+    "verify_commands": [
+      "node --check scripts/upload-blooket.mjs",
+      "node --check scripts/post-to-schoology.mjs",
+      "node --check scripts/lesson-prep.mjs"
+    ]
+  }
+}

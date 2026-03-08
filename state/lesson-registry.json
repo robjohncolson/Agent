@@ -29,5 +29,33 @@
       "created": "2026-03-08T01:00:00Z",
       "lastUpdated": "2026-03-08T07:48:15.159Z"
     }
+  },
+  "6.11": {
+    "unit": 6,
+    "lesson": 11,
+    "topic": "Topic 6.11",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson11_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=10",
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "failed",
+      "animations": "pending",
+      "schoology": "failed"
+    },
+    "timestamps": {
+      "created": "2026-03-08T16:25:49.168Z",
+      "lastUpdated": "2026-03-08T16:57:23.446Z"
+    }
   }
 }
