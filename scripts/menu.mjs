@@ -3,6 +3,7 @@ import { loadRegistry, getLesson } from "./lib/lesson-registry.mjs";
 import { SCRIPTS, AGENT_ROOT } from "./lib/paths.mjs";
 import { execSync } from "node:child_process";
 import prompts from "prompts";
+import { scanCalendars } from "./lib/scan-calendars.mjs";
 
 // ── ANSI helpers ────────────────────────────────────────────────────────────
 const BOLD  = "\x1b[1m";
@@ -100,6 +101,74 @@ async function showSkipToggles(unit, lesson) {
 }
 
 // ── Menu actions ────────────────────────────────────────────────────────────
+
+async function prepNextUndeveloped() {
+  const calendarLessons = scanCalendars();
+  const registry = loadRegistry();
+  const STATUS_KEYS = ["ingest", "worksheet", "drills", "blooketCsv", "blooketUpload", "animations", "schoology"];
+
+  const undeveloped = [];
+  for (const item of calendarLessons) {
+    const entry = getLesson(item.unit, item.lesson);
+    if (!entry) {
+      undeveloped.push({ ...item, doneCount: 0, label: "not started" });
+      continue;
+    }
+    const doneCount = STATUS_KEYS.filter((s) => {
+      const v = entry.status?.[s];
+      return v === "done" || v === "skipped" || v === "scraped";
+    }).length;
+    if (doneCount < STATUS_KEYS.length) {
+      undeveloped.push({ ...item, doneCount, label: `${doneCount}/7 done` });
+    }
+  }
+
+  if (undeveloped.length === 0) {
+    console.log("\nAll calendar lessons are fully prepped!\n");
+    return;
+  }
+
+  console.log(`\n${BOLD}Undeveloped Lessons (Period B)${RESET}`);
+  console.log(`${DIM}${"─".repeat(30)}${RESET}`);
+
+  const choices = undeveloped.map((item) => {
+    const icon = item.doneCount === 0 ? "○" : "◐";
+    const datePad = item.dateLabel.padEnd(6);
+    const ul = `${item.unit}.${item.lesson}`.padStart(5);
+    const title = item.title.length > 40 ? item.title.slice(0, 37) + "..." : item.title;
+    const tag = `[${item.label}]`;
+    return {
+      title: `${YELLOW}${icon}${RESET} ${datePad} ${ul}  — ${title.padEnd(42)} ${tag}`,
+      value: `${item.unit}:${item.lesson}`,
+    };
+  });
+  choices.push({ title: `${DIM}Back${RESET}`, value: "__back__" });
+
+  const { selected } = await prompts({
+    type: "select", name: "selected",
+    message: "Pick a lesson to prep:",
+    choices,
+  }, { onCancel });
+
+  if (!selected || selected === "__back__") return;
+
+  const [unit, lesson] = selected.split(":").map(Number);
+
+  const entry = getLesson(unit, lesson);
+  if (entry) {
+    console.log(`\n${DIM}Current status for ${unit}.${lesson}:${RESET}`);
+    for (const s of STATUS_KEYS) {
+      console.log(`  ${s.padEnd(16)} ${formatStatus(entry.status?.[s])}`);
+    }
+    console.log();
+  }
+
+  const skips = await showSkipToggles(unit, lesson);
+  const skipStr = buildSkipArgs(skips);
+  const cmd = `node scripts/lesson-prep.mjs --unit ${unit} --lesson ${lesson}${skipStr ? " " + skipStr : ""}`;
+  console.log(`\n${DIM}> ${cmd}${RESET}\n`);
+  runScript(cmd);
+}
 
 async function prepTomorrow() {
   console.log(`\n${BOLD}Detecting tomorrow's lesson...${RESET}\n`);
@@ -265,6 +334,7 @@ async function main() {
       type: "select", name: "action",
       message: "What would you like to do?",
       choices: [
+        { title: "Prep next undeveloped",              value: "next" },
         { title: "Prep for tomorrow (auto-detect)", value: "auto" },
         { title: "Prep specific lesson",             value: "specific" },
         { title: "View lesson status",               value: "status" },
@@ -280,6 +350,7 @@ async function main() {
     }
 
     switch (action) {
+      case "next":      await prepNextUndeveloped(); break;
       case "auto":      await prepTomorrow(); break;
       case "specific":  await prepSpecific(); break;
       case "status":    await viewStatus(); break;
