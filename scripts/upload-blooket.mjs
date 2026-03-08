@@ -130,6 +130,43 @@ async function dismissModals(page) {
   if (count > 0) console.log(`  Hidden ${count} modal/overlay element(s).`);
 }
 
+// ── Selector helpers ────────────────────────────────────────────────────────
+
+async function findButton(page, strategies, label) {
+  for (const { selector, description } of strategies) {
+    try {
+      const el = await page.$(selector);
+      if (el) {
+        console.log(`  Found "${label}" via: ${description}`);
+        return el;
+      }
+    } catch {
+      // selector syntax not supported in this browser, skip
+    }
+  }
+  return null;
+}
+
+async function dumpPageState(page) {
+  const info = await page.evaluate(() => ({
+    url: location.href,
+    title: document.title,
+    visibleText: document.body.innerText.substring(0, 600),
+    buttons: [...document.querySelectorAll('button, [role="button"], div[class*="button" i], a[class*="button" i]')]
+      .slice(0, 20)
+      .map(el => ({
+        tag: el.tagName,
+        text: (el.innerText || "").trim().substring(0, 80),
+        classes: (el.className || "").substring(0, 100),
+      })),
+  }));
+  console.error("\n  DEBUG — page state at failure:");
+  console.error("  URL:", info.url);
+  console.error("  Title:", info.title);
+  console.error("  Visible text (first 600 chars):\n   ", info.visibleText.replace(/\n/g, "\n    "));
+  console.error("  Clickable elements:", JSON.stringify(info.buttons, null, 2));
+}
+
 // ── Upload flow ─────────────────────────────────────────────────────────────
 
 async function uploadBlooket(page, csvPath, title) {
@@ -143,7 +180,17 @@ async function uploadBlooket(page, csvPath, title) {
 
   // Select CSV Upload radio
   console.log('  Clicking "CSV Upload" radio...');
-  await page.click('label:has-text("CSV Upload")');
+  const csvRadio = await findButton(page, [
+    { selector: 'label:has-text("CSV Upload")', description: "label text" },
+    { selector: 'label:has-text("CSV")', description: "label CSV" },
+    { selector: 'input[value*="csv" i]', description: "input value csv" },
+    { selector: '[class*="csv" i]', description: "class contains csv" },
+  ], "CSV Upload");
+  if (!csvRadio) {
+    await dumpPageState(page);
+    throw new Error('Could not find "CSV Upload" option on the create page.');
+  }
+  await csvRadio.click();
   await page.waitForTimeout(500);
 
   // Fill title
@@ -153,7 +200,17 @@ async function uploadBlooket(page, csvPath, title) {
 
   // Click Create Set
   console.log('  Clicking "Create Set"...');
-  await page.click('button:has-text("Create Set")');
+  const createBtn = await findButton(page, [
+    { selector: 'button:has-text("Create Set")', description: "button text" },
+    { selector: 'button[type="submit"]', description: "submit button" },
+    { selector: 'div:has-text("Create Set")', description: "div text" },
+    { selector: 'button:has-text("Create")', description: "button Create" },
+  ], "Create Set");
+  if (!createBtn) {
+    await dumpPageState(page);
+    throw new Error('Could not find "Create Set" button.');
+  }
+  await createBtn.click();
 
   // Wait for redirect to edit page
   console.log("  Waiting for redirect to edit page...");
@@ -182,8 +239,16 @@ async function uploadBlooket(page, csvPath, title) {
 
   // Click "Spreadsheet Import" button (Blooket renamed from "CSV Upload")
   console.log('  Clicking "Spreadsheet Import"...');
-  const importBtn = await page.$('div:has-text("Spreadsheet Import")');
+  const importBtn = await findButton(page, [
+    { selector: 'button:has-text("Spreadsheet Import")', description: "button text" },
+    { selector: 'div[class*="import" i]:has-text("Spreadsheet")', description: "div class+text" },
+    { selector: '[class*="import" i]', description: "class contains import" },
+    { selector: 'button:has-text("Import")', description: "button Import" },
+    { selector: 'div:has-text("Spreadsheet Import")', description: "div text (original)" },
+    { selector: ':has-text("Spreadsheet Import")', description: "any element text" },
+  ], "Spreadsheet Import");
   if (!importBtn) {
+    await dumpPageState(page);
     throw new Error('Could not find "Spreadsheet Import" button on the edit page.');
   }
   await importBtn.click();
@@ -204,7 +269,13 @@ async function uploadBlooket(page, csvPath, title) {
   await page.waitForTimeout(3000);
 
   // Click any "Import" or "Upload" confirmation button in the dialog
-  const confirmBtn = await page.$('div:has-text("Import"), button:has-text("Import"), div:has-text("Upload"), button:has-text("Upload")');
+  const confirmBtn = await findButton(page, [
+    { selector: 'button:has-text("Import")', description: "button Import" },
+    { selector: 'div:has-text("Import")', description: "div Import" },
+    { selector: 'button:has-text("Upload")', description: "button Upload" },
+    { selector: 'button:has-text("Confirm")', description: "button Confirm" },
+    { selector: 'div:has-text("Upload")', description: "div Upload" },
+  ], "Import/Upload confirmation");
   if (confirmBtn) {
     console.log('  Clicking import confirmation...');
     await confirmBtn.click();
@@ -244,12 +315,17 @@ async function uploadBlooket(page, csvPath, title) {
   // Force-remove any modal overlays blocking the save
   await dismissModals(page);
 
-  // Try the specific save button class first, then fall back to text match
-  const saveBtn =
-    (await page.$('div[class*="saveButton"]:has-text("Save Set")')) ||
-    (await page.$('div:has-text("Save Set")'));
+  // Try multiple strategies to find the save button
+  const saveBtn = await findButton(page, [
+    { selector: 'div[class*="saveButton"]:has-text("Save Set")', description: "div saveButton class" },
+    { selector: 'button:has-text("Save Set")', description: "button text" },
+    { selector: 'button:has-text("Save")', description: "button Save" },
+    { selector: '[class*="save" i]:has-text("Save")', description: "class+text save" },
+    { selector: 'div:has-text("Save Set")', description: "div text (original)" },
+  ], "Save Set");
 
   if (!saveBtn) {
+    await dumpPageState(page);
     throw new Error(
       'Could not find "Save Set" button. The set may not have loaded properly.'
     );
