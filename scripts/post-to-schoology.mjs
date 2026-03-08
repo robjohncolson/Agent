@@ -71,6 +71,7 @@ function parseArgs(argv) {
   let withVideos = false;
   let calendarLink = null;
   let calendarTitle = null;
+  let noPrompt = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -105,6 +106,8 @@ function parseArgs(argv) {
       calendarLink = args[++i];
     } else if (arg === "--calendar-title") {
       calendarTitle = args[++i];
+    } else if (arg === "--no-prompt") {
+      noPrompt = true;
     }
   }
 
@@ -126,12 +129,13 @@ function parseArgs(argv) {
         "  --folder-desc     Description text for the folder\n" +
         "  --with-videos     Include AP Classroom video links from curriculum_render/data/units.js\n" +
         "  --calendar-link   URL for calendar link (posted at top level, outside folder)\n" +
-        "  --calendar-title  Title for the calendar link\n"
+        "  --calendar-title  Title for the calendar link\n" +
+        "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -505,29 +509,37 @@ async function main() {
       const uploadScript = SCRIPTS.uploadBlooket;
       let autoUrl = null;
 
-      try {
-        const { existsSync } = await import("node:fs");
-        const { execSync } = await import("node:child_process");
-        if (existsSync(csvPath) && existsSync(uploadScript)) {
-          console.log(`  Auto-uploading Blooket CSV: ${csvPath}`);
-          const output = execSync(
-            `node "${uploadScript}" --unit ${unit} --lesson ${lesson}`,
-            { encoding: "utf-8", timeout: 60000 }
-          );
-          // Extract URL from output (looks for https://dashboard.blooket.com/set/...)
-          const urlMatch = output.match(/https:\/\/dashboard\.blooket\.com\/set\/[a-z0-9]+/i);
-          if (urlMatch) {
-            autoUrl = urlMatch[0];
-            console.log(`  Blooket URL: ${autoUrl}`);
+      // Skip re-attempt if Blooket upload already failed this run
+      const regEntry = getLesson(unit, lesson);
+      if (regEntry?.status?.blooketUpload === "failed") {
+        console.log("  Blooket upload already failed (registry), skipping re-attempt.");
+      } else {
+        try {
+          const { existsSync } = await import("node:fs");
+          const { execSync } = await import("node:child_process");
+          if (existsSync(csvPath) && existsSync(uploadScript)) {
+            console.log(`  Auto-uploading Blooket CSV: ${csvPath}`);
+            const output = execSync(
+              `node "${uploadScript}" --unit ${unit} --lesson ${lesson}`,
+              { encoding: "utf-8", timeout: 60000 }
+            );
+            // Extract URL from output (looks for https://dashboard.blooket.com/set/...)
+            const urlMatch = output.match(/https:\/\/dashboard\.blooket\.com\/set\/[a-z0-9]+/i);
+            if (urlMatch) {
+              autoUrl = urlMatch[0];
+              console.log(`  Blooket URL: ${autoUrl}`);
+            }
           }
+        } catch (e) {
+          console.log(`  Blooket auto-upload failed: ${e.message}`);
         }
-      } catch (e) {
-        console.log(`  Blooket auto-upload failed: ${e.message}`);
       }
 
       if (autoUrl) {
         blooketUrl = autoUrl;
         links.push({ key: "blooket", url: autoUrl, title: titles.blooket });
+      } else if (opts.noPrompt || !process.stdin.isTTY) {
+        console.log("  Skipping Blooket URL prompt (non-interactive mode).");
       } else {
         const blooketInput = await promptUser("Enter Blooket URL (or press Enter to skip): ");
         if (blooketInput) {
