@@ -1,0 +1,325 @@
+{
+  "version": 2,
+  "batch_name": "improvement-spec-full",
+  "description": "Dependency-graph-aware prompts derived from the March 2026 Improvement Spec. Covers grid bot safety net, lesson pipeline recovery, education platform hardening, orchestration upgrades, and infrastructure consolidation.",
+  "source_spec": "C:/Users/ColsonR/IMPROVEMENT_SPEC.md",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "suggest",
+
+  "phases": [
+    {
+      "phase_id": "P1-foundation",
+      "description": "CLAUDE.md governance, custom skills, hooks — no code dependencies",
+      "agents": [
+        {
+          "name": "claude-md-global",
+          "description": "Create ~/.claude/CLAUDE.md with global debugging protocol, intent confirmation, git workflow, and environment awareness rules",
+          "prompt_file": "dispatch/prompts/improvement-spec/P1-01-claude-md-global.md",
+          "owned_paths": [".claude/CLAUDE.md"],
+          "working_dir": "C:/Users/ColsonR",
+          "depends_on": []
+        },
+        {
+          "name": "claude-md-gridbot-v2",
+          "description": "Append trading-bot-specific rules to grid-bot-v2/CLAUDE.md (frozen state machine, fill detection paths, fee trace)",
+          "prompt_file": "dispatch/prompts/improvement-spec/P1-02-claude-md-gridbot-v2.md",
+          "owned_paths": ["CLAUDE.md"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": []
+        },
+        {
+          "name": "claude-md-education",
+          "description": "Append rules to CLAUDE.md for lrsl-driller, curriculum_render, and apstats-live-worksheet",
+          "prompt_file": "dispatch/prompts/improvement-spec/P1-03-claude-md-education.md",
+          "owned_paths": ["CLAUDE.md"],
+          "working_dir": "C:/Users/ColsonR/lrsl-driller",
+          "depends_on": []
+        },
+        {
+          "name": "custom-skills",
+          "description": "Create /push, /botfix, /analyze, /lessonprep, /cartridge skills in ~/.claude/skills/",
+          "prompt_file": "dispatch/prompts/improvement-spec/P1-04-custom-skills.md",
+          "owned_paths": [".claude/skills/**"],
+          "working_dir": "C:/Users/ColsonR",
+          "depends_on": []
+        },
+        {
+          "name": "hooks-setup",
+          "description": "Add PostToolUse Python/JS lint hooks to ~/.claude/settings.json alongside existing GitNexus hooks",
+          "prompt_file": "dispatch/prompts/improvement-spec/P1-05-hooks-setup.md",
+          "owned_paths": [".claude/settings.json"],
+          "working_dir": "C:/Users/ColsonR",
+          "depends_on": []
+        }
+      ]
+    },
+
+    {
+      "phase_id": "P2-gridbot-safety-net",
+      "description": "Test-driven safety net for grid-bot-v2. Must complete before any production bug fixes.",
+      "agents": [
+        {
+          "name": "test-fill-detection-paths",
+          "description": "Write failing tests for every fill detection code path: normal poll, startup reconciliation, degraded mode, companion order placement",
+          "prompt_file": "dispatch/prompts/improvement-spec/P2-01-test-fill-detection.md",
+          "owned_paths": ["test_fill_detection_paths.py"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": []
+        },
+        {
+          "name": "test-startup-reconciliation",
+          "description": "Write tests for startup state reconstruction from ledger + adapter query, covering the missed initialization path that caused money loss",
+          "prompt_file": "dispatch/prompts/improvement-spec/P2-02-test-startup-reconciliation.md",
+          "owned_paths": ["test_startup_reconciliation.py"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": []
+        },
+        {
+          "name": "test-orphan-recovery-paths",
+          "description": "Write tests for S1a/S1b orphan timeout → orphan order → recovery → re-bootstrap, including the bug where the wrong side was cancelled",
+          "prompt_file": "dispatch/prompts/improvement-spec/P2-03-test-orphan-paths.md",
+          "owned_paths": ["test_orphan_recovery_paths.py"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": []
+        },
+        {
+          "name": "test-fee-integration",
+          "description": "Write end-to-end test tracing fee calculation from config.MAKER_FEE_PCT through cycle profit computation to ledger booking and dashboard display",
+          "prompt_file": "dispatch/prompts/improvement-spec/P2-04-test-fee-integration.md",
+          "owned_paths": ["test_fee_integration.py"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": ["test-fill-detection-paths"]
+        },
+        {
+          "name": "test-degraded-modes",
+          "description": "Write tests for all degraded mode transitions: S0_long_only, S0_short_only, S1a_short_only, S1b_long_only entry and exit",
+          "prompt_file": "dispatch/prompts/improvement-spec/P2-05-test-degraded-modes.md",
+          "owned_paths": ["test_degraded_mode_transitions.py"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": []
+        },
+        {
+          "name": "ci-setup-gridbot",
+          "description": "Create GitHub Actions CI workflow for grid-bot-v2 that runs pytest on push/PR and reports coverage",
+          "prompt_file": "dispatch/prompts/improvement-spec/P2-06-ci-setup.md",
+          "owned_paths": [".github/workflows/ci.yml", ".github/workflows/coverage.yml"],
+          "working_dir": "C:/Users/ColsonR/grid-bot-v2",
+          "depends_on": [
+            "test-fill-detection-paths",
+            "test-startup-reconciliation",
+            "test-orphan-recovery-paths",
+            "test-fee-integration",
+            "test-degraded-modes"
+          ]
+        }
+      ],
+      "contracts": [
+        {
+          "name": "conftest-fixtures-v1",
+          "description": "Shared pytest fixtures for Kraken mock adapter, slot factory, and state builders",
+          "producer_agent": "test-fill-detection-paths",
+          "consumer_agents": [
+            "test-startup-reconciliation",
+            "test-orphan-recovery-paths",
+            "test-fee-integration",
+            "test-degraded-modes"
+          ],
+          "path": "conftest.py",
+          "symbols": ["mock_adapter", "make_slot", "make_pair_state", "make_fill_event", "make_engine_config"]
+        }
+      ]
+    },
+
+    {
+      "phase_id": "P3-education-hardening",
+      "description": "Deep-link, progression, and grading hardening for education platform repos.",
+      "agents": [
+        {
+          "name": "test-deep-link-roundtrip",
+          "description": "Write Vitest tests for deep-link navigation, page refresh restoration, and progression gating after deep-link entry",
+          "prompt_file": "dispatch/prompts/improvement-spec/P3-01-test-deep-link.md",
+          "owned_paths": ["tests/deep-link-roundtrip.test.js"],
+          "working_dir": "C:/Users/ColsonR/lrsl-driller",
+          "depends_on": []
+        },
+        {
+          "name": "test-progression-regression",
+          "description": "Write Vitest tests for level completion → next level advancement, preventing the 5-7→5-2 regression",
+          "prompt_file": "dispatch/prompts/improvement-spec/P3-02-test-progression.md",
+          "owned_paths": ["tests/progression-regression.test.js"],
+          "working_dir": "C:/Users/ColsonR/lrsl-driller",
+          "depends_on": []
+        },
+        {
+          "name": "extract-url-state-module",
+          "description": "Extract URL state management from app.html (3600 lines) into a dedicated platform/core/url-state.js module with tests",
+          "prompt_file": "dispatch/prompts/improvement-spec/P3-03-extract-url-state.md",
+          "owned_paths": ["platform/core/url-state.js", "tests/core/url-state.test.js"],
+          "working_dir": "C:/Users/ColsonR/lrsl-driller",
+          "depends_on": ["test-deep-link-roundtrip"]
+        },
+        {
+          "name": "test-grading-escalation-e2e",
+          "description": "Write integration tests for the full 3-tier grading escalation (keywords → AI → appeal) across both curriculum_render and lrsl-driller",
+          "prompt_file": "dispatch/prompts/improvement-spec/P3-04-test-grading-escalation.md",
+          "owned_paths": ["tests/grading/escalation-e2e.test.js"],
+          "working_dir": "C:/Users/ColsonR/curriculum_render",
+          "depends_on": []
+        }
+      ]
+    },
+
+    {
+      "phase_id": "P4-pipeline-recovery",
+      "description": "Recover dormant video transcription and harden lesson prep pipeline.",
+      "agents": [
+        {
+          "name": "whisper-integration",
+          "description": "Replace dormant Gemini transcription with Whisper (local whisper.cpp or OpenAI API) as drop-in replacement for video-ingest.mjs",
+          "prompt_file": "dispatch/prompts/improvement-spec/P4-01-whisper-integration.md",
+          "owned_paths": ["video-ingest-whisper.mjs", "scripts/whisper-transcribe.sh"],
+          "working_dir": "C:/Users/ColsonR/apstats-live-worksheet",
+          "depends_on": []
+        },
+        {
+          "name": "headless-executor",
+          "description": "Update Agent/runner/parallel-codex-runner.py to support --executor claude using Claude Code headless mode, fixing Windows TTY issues",
+          "prompt_file": "dispatch/prompts/improvement-spec/P4-02-headless-executor.md",
+          "owned_paths": ["runner/parallel-codex-runner.py", "runner/claude-headless.sh"],
+          "working_dir": "C:/Users/ColsonR/Agent",
+          "depends_on": []
+        },
+        {
+          "name": "lessonprep-orchestrator-v3",
+          "description": "Rewrite lesson-prep.mjs to use dependency-aware step execution: transcript → rubric → worksheet → blooket, with parallel content generation where safe",
+          "prompt_file": "dispatch/prompts/improvement-spec/P4-03-lessonprep-orchestrator.md",
+          "owned_paths": ["scripts/lesson-prep-v3.mjs"],
+          "working_dir": "C:/Users/ColsonR/apstats-live-worksheet",
+          "depends_on": ["whisper-integration"]
+        }
+      ]
+    },
+
+    {
+      "phase_id": "P5-infrastructure",
+      "description": "Shared services and infrastructure consolidation.",
+      "agents": [
+        {
+          "name": "shared-grading-proxy",
+          "description": "Extract shared AI grading proxy from curriculum_render and lrsl-driller into standalone Express service with keyword + Groq + appeal escalation",
+          "prompt_file": "dispatch/prompts/improvement-spec/P5-01-shared-grading-proxy.md",
+          "owned_paths": ["shared-grading-proxy/**"],
+          "working_dir": "C:/Users/ColsonR",
+          "depends_on": []
+        },
+        {
+          "name": "wire-grading-proxy-cr",
+          "description": "Update curriculum_render to call shared grading proxy instead of its own inline grading logic",
+          "prompt_file": "dispatch/prompts/improvement-spec/P5-02-wire-grading-cr.md",
+          "owned_paths": ["railway-server/server.js", "js/grading/grading-engine.js"],
+          "working_dir": "C:/Users/ColsonR/curriculum_render",
+          "depends_on": ["shared-grading-proxy"]
+        },
+        {
+          "name": "wire-grading-proxy-driller",
+          "description": "Update lrsl-driller to call shared grading proxy instead of its own inline grading logic",
+          "prompt_file": "dispatch/prompts/improvement-spec/P5-03-wire-grading-driller.md",
+          "owned_paths": ["platform/core/grading-engine.js", "railway-server/server.js"],
+          "working_dir": "C:/Users/ColsonR/lrsl-driller",
+          "depends_on": ["shared-grading-proxy"]
+        },
+        {
+          "name": "supabase-consolidation",
+          "description": "Namespace Supabase tables for both education apps into a shared instance with unified auth",
+          "prompt_file": "dispatch/prompts/improvement-spec/P5-04-supabase-consolidation.md",
+          "owned_paths": ["migrations/**"],
+          "working_dir": "C:/Users/ColsonR/shared-grading-proxy",
+          "depends_on": ["wire-grading-proxy-cr", "wire-grading-proxy-driller"]
+        }
+      ],
+      "contracts": [
+        {
+          "name": "grading-api-v1",
+          "description": "Shared grading proxy API contract — all consumers must use this interface",
+          "producer_agent": "shared-grading-proxy",
+          "consumer_agents": ["wire-grading-proxy-cr", "wire-grading-proxy-driller"],
+          "endpoints": {
+            "POST /grade": {
+              "request": {
+                "questionId": "string",
+                "questionType": "mcq | frq",
+                "studentAnswer": "string",
+                "correctAnswer": "string",
+                "rubric": "object (optional)",
+                "frameworkContext": "string (optional)"
+              },
+              "response": {
+                "score": "E | P | I",
+                "feedback": "string",
+                "matched": "string[]",
+                "missing": "string[]",
+                "provider": "keywords | groq | gemini",
+                "model": "string"
+              }
+            },
+            "POST /appeal": {
+              "request": {
+                "questionId": "string",
+                "studentAnswer": "string",
+                "currentScore": "E | P | I",
+                "reasoning": "string",
+                "frameworkContext": "string"
+              },
+              "response": {
+                "score": "E | P | I (can only upgrade)",
+                "feedback": "string",
+                "upgraded": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+
+  "dependency_graph_summary": {
+    "description": "Visual dependency graph across all phases",
+    "graph": [
+      "P1 (all 5 agents) ── no inter-dependencies, fully parallel",
+      "",
+      "P2-01 test-fill-detection ──────────────────────────┐",
+      "P2-02 test-startup-reconciliation ──────────────────┤",
+      "P2-03 test-orphan-recovery ─────────────────────────┤── P2-06 ci-setup",
+      "P2-04 test-fee-integration (← P2-01 conftest) ─────┤",
+      "P2-05 test-degraded-modes ──────────────────────────┘",
+      "",
+      "P3-01 test-deep-link ─── P3-03 extract-url-state",
+      "P3-02 test-progression (parallel with P3-01)",
+      "P3-04 test-grading-escalation (independent)",
+      "",
+      "P4-01 whisper ─── P4-03 lessonprep-orchestrator",
+      "P4-02 headless-executor (independent)",
+      "",
+      "P5-01 shared-grading-proxy ──┬── P5-02 wire-cr ────┬── P5-04 supabase",
+      "                             └── P5-03 wire-drill ──┘"
+    ]
+  },
+
+  "execution_strategy": {
+    "recommended": "depth-first-by-phase",
+    "notes": [
+      "Phase 1 is zero-risk (config files only) — execute first to establish guardrails.",
+      "Phase 2 can run fully parallel except P2-04 (needs conftest from P2-01) and P2-06 (fan-in).",
+      "Phase 3 can start before Phase 2 completes (different repos, no shared files).",
+      "Phase 4 can start after Phase 1 (needs CLAUDE.md rules for lesson prep).",
+      "Phase 5 should run last — it touches production infrastructure."
+    ]
+  },
+
+  "verify_commands": [
+    "cd C:/Users/ColsonR/grid-bot-v2 && python -m pytest -x",
+    "cd C:/Users/ColsonR/lrsl-driller && npm test",
+    "cd C:/Users/ColsonR/curriculum_render && npm test"
+  ]
+}

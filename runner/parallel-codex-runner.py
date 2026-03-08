@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase 5 parallel Codex runner with branch-per-agent orchestration."""
+"""Phase 5 parallel executor runner with branch-per-agent orchestration."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 from datetime import datetime, timezone
 from typing import Any
@@ -25,6 +26,8 @@ DEFAULT_ERROR_LOG = "state/parallel-runner-errors.log"
 DEFAULT_LOG_DIR = "state/parallel-codex-logs"
 DEFAULT_WORKTREE_ROOT = "state/parallel-worktrees"
 DEFAULT_CODEX_BIN = os.environ.get("CODEX_BIN", "codex")
+DEFAULT_CLAUDE_BIN = os.environ.get("CLAUDE_BIN", "claude")
+DEFAULT_CLAUDE_ALLOWED_TOOLS = "Edit,Read,Write,Bash,Glob,Grep"
 
 AGENT_TERMINAL_STATES = {"pending", "running", "completed", "failed", "blocked", "merged"}
 
@@ -43,6 +46,10 @@ def normalize_repo_path(value: str) -> str:
     cleaned = re.sub(r"^\./", "", cleaned)
     cleaned = re.sub(r"/+", "/", cleaned)
     return cleaned.strip("/")
+
+
+def to_forward_slashes(value: str) -> str:
+    return value.replace("\\", "/")
 
 
 def slugify(value: str) -> str:
@@ -71,6 +78,45 @@ def _resolve_codex_on_windows(codex_bin: str) -> list[str]:
     return []
 
 
+def _resolve_claude_on_windows(claude_bin: str) -> list[str]:
+    """Resolve npm .cmd shim to a Claude Code JS entry point."""
+    if os.name != "nt":
+        return []
+    cmd_path = shutil.which(f"{claude_bin}.cmd") or shutil.which(claude_bin)
+    if not cmd_path:
+        return []
+    cmd_dir = pathlib.Path(cmd_path).parent
+    for pkg_name in ("@anthropic-ai", "@anthropic"):
+        package_dir = cmd_dir / "node_modules" / pkg_name / "claude-code"
+        if package_dir.exists():
+            break
+    else:
+        return []
+
+    candidates = [
+        package_dir / "bin" / "claude.js",
+        package_dir / "bin" / "cli.js",
+        package_dir / "cli.js",
+        package_dir / "dist" / "cli.js",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return ["node", str(candidate)]
+
+    try:
+        js_candidates = sorted(package_dir.rglob("*.js"))
+    except OSError:
+        return []
+
+    for candidate in js_candidates:
+        lower_name = candidate.name.lower()
+        if "claude" in lower_name or "cli" in lower_name:
+            return ["node", str(candidate)]
+    if js_candidates:
+        return ["node", str(js_candidates[0])]
+    return []
+
+
 def parse_codex_bin(codex_bin: str) -> list[str]:
     try:
         parts = shlex.split(codex_bin, posix=(os.name != "nt"))
@@ -79,6 +125,18 @@ def parse_codex_bin(codex_bin: str) -> list[str]:
     # On Windows, try to resolve past .cmd shims when the default "codex" is used
     if parts == ["codex"]:
         resolved = _resolve_codex_on_windows("codex")
+        if resolved:
+            return resolved
+    return parts
+
+
+def parse_claude_bin(claude_bin: str) -> list[str]:
+    try:
+        parts = shlex.split(claude_bin, posix=(os.name != "nt"))
+    except ValueError as exc:
+        raise ValueError(f"Invalid --claude-bin value: {claude_bin}") from exc
+    if parts == ["claude"]:
+        resolved = _resolve_claude_on_windows("claude")
         if resolved:
             return resolved
     return parts
@@ -106,8 +164,10 @@ class ParallelCodexRunner:
         self.error_log = self._resolve_path(args.error_log)
         self.codex_log_dir = self._resolve_path(args.codex_log_dir)
         self.worktree_root = self._resolve_path(args.worktree_root)
+        self.claude_wrapper = self._resolve_path("runner/claude-headless.sh")
 
         self.codex_cmd_base = parse_codex_bin(args.codex_bin)
+        self.claude_cmd_base = parse_claude_bin(args.claude_bin)
 
         self.state_lock = threading.Lock()
         self.state: dict[str, Any] = {}
@@ -167,6 +227,7 @@ class ParallelCodexRunner:
         cwd: pathlib.Path,
         log_handle: Any,
         stdin_text: str | None = None,
+        env: dict[str, str] | None = None,
     ) -> int:
         process = subprocess.Popen(
             command,
@@ -176,6 +237,7 @@ class ParallelCodexRunner:
             stderr=subprocess.STDOUT,
             text=True,
             encoding="utf-8",
+            env=env,
         )
 
         if stdin_text is not None:
@@ -686,6 +748,111 @@ class ParallelCodexRunner:
             if exit_code != 0:
                 raise RunnerError(f"Verification failed for {agent_name}: {command}")
 
+    def _claude_env(self) -> dict[str, str]:
+        env = os.environ.copy()
+        env.pop("CLAUDECODE", None)
+        return env
+
+    def _write_temp_prompt(self, prompt_text: str) -> pathlib.Path:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            suffix=".md",
+            delete=False,
+        ) as handle:
+            handle.write(prompt_text)
+            return pathlib.Path(handle.name)
+
+    def _build_claude_prompt(self, agent_name: str) -> str:
+        agent = self.agents_by_name[agent_name]
+        prompt_file = pathlib.Path(agent["prompt_file_abs"])
+        base_prompt = prompt_file.read_text(encoding="utf-8").strip()
+        owned_paths = ", ".join(agent["owned_paths"])
+
+        lines = [
+            "You are executing as part of a parallel agent batch.",
+            "",
+            "## Your Task",
+            base_prompt,
+            "",
+            "## Constraints",
+            f"- You may ONLY modify files matching these owned paths: {owned_paths}",
+            "- Do NOT modify files outside your ownership manifest.",
+            "- Do NOT make git commits; the runner will verify and commit changes.",
+            "- Keep changes scoped to this agent task.",
+        ]
+
+        verify_commands = agent["verify_commands"]
+        if verify_commands:
+            lines.append(
+                "- Run these verification commands before you finish if possible: "
+                + "; ".join(verify_commands)
+            )
+        else:
+            lines.append(
+                "- No explicit verification commands are provided by the manifest."
+            )
+
+        return "\n".join(lines) + "\n"
+
+    def _run_claude_via_wrapper(
+        self, worktree_dir: pathlib.Path, log_handle: Any, prompt_path: pathlib.Path
+    ) -> int:
+        bash_bin = shutil.which("bash")
+        if not bash_bin:
+            raise RunnerError("bash is not available.")
+        if not self.claude_wrapper.exists():
+            raise RunnerError(f"Claude wrapper not found: {self.claude_wrapper}")
+        command = [
+            bash_bin,
+            to_forward_slashes(str(self.claude_wrapper)),
+            to_forward_slashes(str(prompt_path)),
+            to_forward_slashes(str(worktree_dir)),
+            DEFAULT_CLAUDE_ALLOWED_TOOLS,
+            self.args.claude_bin,
+        ]
+        log_handle.write(
+            "$ "
+            + " ".join(command[:-1])
+            + f" [claude-bin={self.args.claude_bin}]"
+            + "\n"
+        )
+        return self._run_stream(
+            command,
+            cwd=worktree_dir,
+            log_handle=log_handle,
+            env=self._claude_env(),
+        )
+
+    def _run_claude_direct(
+        self,
+        worktree_dir: pathlib.Path,
+        log_handle: Any,
+        prompt_text: str,
+    ) -> int:
+        command = [
+            *self.claude_cmd_base,
+            "-p",
+            prompt_text,
+            "--allowedTools",
+            DEFAULT_CLAUDE_ALLOWED_TOOLS,
+            "--output-format",
+            "text",
+        ]
+        rendered = (
+            " ".join(self.claude_cmd_base)
+            + " -p <inline prompt> --allowedTools "
+            + DEFAULT_CLAUDE_ALLOWED_TOOLS
+            + " --output-format text"
+        )
+        log_handle.write("$ " + rendered + "\n")
+        return self._run_stream(
+            command,
+            cwd=worktree_dir,
+            log_handle=log_handle,
+            env=self._claude_env(),
+        )
+
     def _run_codex(
         self, agent_name: str, worktree_dir: pathlib.Path, log_handle: Any
     ) -> None:
@@ -711,6 +878,48 @@ class ParallelCodexRunner:
             raise RunnerError(
                 f"Codex failed for {agent_name} (exit code {exit_code})."
             )
+
+    def _run_claude(
+        self, agent_name: str, worktree_dir: pathlib.Path, log_handle: Any
+    ) -> None:
+        prompt_text = self._build_claude_prompt(agent_name)
+        prompt_path = self._write_temp_prompt(prompt_text)
+        try:
+            if (
+                os.name == "nt"
+                and self.args.claude_bin == DEFAULT_CLAUDE_BIN
+                and shutil.which("bash")
+                and self.claude_wrapper.exists()
+            ):
+                exit_code = self._run_claude_via_wrapper(
+                    worktree_dir,
+                    log_handle,
+                    prompt_path,
+                )
+            else:
+                exit_code = self._run_claude_direct(
+                    worktree_dir,
+                    log_handle,
+                    prompt_text,
+                )
+        finally:
+            try:
+                prompt_path.unlink()
+            except OSError:
+                pass
+
+        if exit_code != 0:
+            raise RunnerError(
+                f"Claude failed for {agent_name} (exit code {exit_code})."
+            )
+
+    def _run_executor(
+        self, agent_name: str, worktree_dir: pathlib.Path, log_handle: Any
+    ) -> None:
+        if self.args.executor == "claude":
+            self._run_claude(agent_name, worktree_dir, log_handle)
+            return
+        self._run_codex(agent_name, worktree_dir, log_handle)
 
     def _enforce_ownership(
         self, agent_name: str, changed_files: list[str], log_handle: Any
@@ -853,7 +1062,9 @@ class ParallelCodexRunner:
             if self.args.dry_run:
                 self._mark_agent_running(agent_name, None, log_rel)
                 with log_path.open("w", encoding="utf-8") as log_handle:
-                    log_handle.write("[DRY RUN] No branch, Codex, verify, or commit actions.\n")
+                    log_handle.write(
+                        "[DRY RUN] No branch, executor, verify, or commit actions.\n"
+                    )
                     log_handle.write(
                         f"[DRY RUN] would create branch {agent['branch']} and worktree.\n"
                     )
@@ -865,7 +1076,7 @@ class ParallelCodexRunner:
                 worktree_rel = self._repo_rel(worktree_dir)
                 self._mark_agent_running(agent_name, worktree_rel, log_rel)
 
-                self._run_codex(agent_name, worktree_dir, log_handle)
+                self._run_executor(agent_name, worktree_dir, log_handle)
                 self._run_verify_commands(agent_name, worktree_dir, log_handle)
 
                 changed_files = self._collect_changed_files(worktree_dir)
@@ -1172,7 +1383,7 @@ class ParallelCodexRunner:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Phase 5 parallel Codex runner with branch-per-agent execution."
+        description="Phase 5 parallel executor runner with branch-per-agent execution."
     )
     parser.add_argument(
         "--manifest",
@@ -1205,6 +1416,17 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help=f"Codex binary/command (default: {DEFAULT_CODEX_BIN})",
     )
     parser.add_argument(
+        "--claude-bin",
+        default=DEFAULT_CLAUDE_BIN,
+        help=f"Claude binary/command (default: {DEFAULT_CLAUDE_BIN})",
+    )
+    parser.add_argument(
+        "--executor",
+        choices=["codex", "claude"],
+        default="codex",
+        help="Which CLI to use for execution (claude avoids Windows TTY issues).",
+    )
+    parser.add_argument(
         "--max-parallel",
         type=int,
         default=0,
@@ -1233,7 +1455,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Skip branch creation, Codex, verify, commit, and merge actions.",
+        help="Skip branch creation, executor, verify, commit, and merge actions.",
     )
     parser.add_argument(
         "--validate-only",
