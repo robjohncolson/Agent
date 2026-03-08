@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "batch_name": "pipeline-reliability-improvements",
+  "target_branch": "master",
+  "base_ref": "master",
+  "codex_approval_mode": "full-auto",
+  "verify_commands": [],
+  "agents": [
+    {
+      "name": "csv-validation",
+      "description": "Blooket CSV validation library + prompt fix for no-commas rule",
+      "prompt_file": "dispatch/prompts/csv-validation.prompt.md",
+      "branch": "codex/csv-validation",
+      "depends_on": [],
+      "owned_paths": [
+        "scripts/lib/validate-blooket-csv.mjs",
+        "scripts/lib/build-codex-prompts.mjs"
+      ],
+      "allow_no_changes": false,
+      "merge_enabled": true
+    },
+    {
+      "name": "url-registry",
+      "description": "URL registry CRUD library for lesson-registry.json",
+      "prompt_file": "dispatch/prompts/url-registry.prompt.md",
+      "branch": "codex/url-registry",
+      "depends_on": [],
+      "owned_paths": [
+        "scripts/lib/lesson-registry.mjs"
+      ],
+      "allow_no_changes": false,
+      "merge_enabled": true
+    },
+    {
+      "name": "preflight",
+      "description": "Pipeline preflight dependency checker script",
+      "prompt_file": "dispatch/prompts/preflight.prompt.md",
+      "branch": "codex/preflight",
+      "depends_on": [],
+      "owned_paths": [
+        "scripts/preflight.mjs"
+      ],
+      "allow_no_changes": false,
+      "merge_enabled": true
+    },
+    {
+      "name": "pipeline-integration",
+      "description": "Wire csv-validation and url-registry into lesson-prep, upload-blooket, post-to-schoology, lesson-urls",
+      "prompt_file": "dispatch/prompts/pipeline-integration.prompt.md",
+      "branch": "codex/pipeline-integration",
+      "depends_on": ["csv-validation", "url-registry"],
+      "owned_paths": [
+        "scripts/lesson-prep.mjs",
+        "scripts/upload-blooket.mjs",
+        "scripts/post-to-schoology.mjs",
+        "scripts/lesson-urls.mjs"
+      ],
+      "allow_no_changes": false,
+      "merge_enabled": true
+    },
+    {
+      "name": "schoology-scraper",
+      "description": "Schoology materials scraper for backfilling URL registry",
+      "prompt_file": "dispatch/prompts/schoology-scraper.prompt.md",
+      "branch": "codex/schoology-scraper",
+      "depends_on": ["url-registry"],
+      "owned_paths": [
+        "scripts/scrape-schoology-urls.mjs"
+      ],
+      "allow_no_changes": false,
+      "merge_enabled": true
+    }
+  ],
+  "contracts": [],
+  "merge": {
+    "enabled": true,
+    "branch": "",
+    "commit_prefix": "pipeline: reliability improvements",
+    "verify_commands": []
+  }
+}
