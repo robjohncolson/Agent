@@ -1,0 +1,11 @@
+{
+  "name": "agent-lesson-prep",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/menu.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.58.2",
+    "prompts": "^2.4.2"
+  }
+}
