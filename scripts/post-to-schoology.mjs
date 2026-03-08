@@ -31,7 +31,8 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
-import { getLesson, updateStatus, updateUrl } from "./lib/lesson-registry.mjs";
+import { getLesson, updateStatus, updateUrl, updateSchoologyLink } from "./lib/lesson-registry.mjs";
+import { auditSchoologyFolder, buildExpectedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -73,6 +74,7 @@ function parseArgs(argv) {
   let calendarTitle = null;
   let noPrompt = false;
   let targetFolder = null;
+  let heal = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -111,6 +113,8 @@ function parseArgs(argv) {
       noPrompt = true;
     } else if (arg === "--target-folder") {
       targetFolder = args[++i];
+    } else if (arg === "--heal") {
+      heal = true;
     }
   }
 
@@ -134,12 +138,13 @@ function parseArgs(argv) {
         "  --calendar-link   URL for calendar link (posted at top level, outside folder)\n" +
         "  --calendar-title  Title for the calendar link\n" +
         "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n" +
-        "  --target-folder   Post into an existing folder URL (skip folder creation)\n"
+        "  --target-folder   Post into an existing folder URL (skip folder creation)\n" +
+        "  --heal            Heal mode: audit folder, post only missing links, verify\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder, heal };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -625,6 +630,15 @@ async function main() {
   // Determine the materials page URL (root, or folder if creating one)
   let materialsUrl = rootMaterialsUrl;
 
+  // --heal mode: determine materialsUrl from registry if not explicit
+  if (opts.heal && !opts.targetFolder) {
+    const regEntry = getLesson(unit, lesson);
+    if (regEntry?.urls?.schoologyFolder) {
+      materialsUrl = regEntry.urls.schoologyFolder;
+      console.log(`  [heal] Using folder from registry: ${materialsUrl}`);
+    }
+  }
+
   // Use existing folder (--target-folder) or create a new one (--create-folder)
   if (opts.targetFolder) {
     materialsUrl = opts.targetFolder;
@@ -644,6 +658,44 @@ async function main() {
     }
   }
 
+  // --heal mode: audit folder and filter out existing links
+  if (opts.heal && materialsUrl !== rootMaterialsUrl) {
+    console.log(`\n[heal] Auditing Schoology folder...`);
+    const expectedLinks = links.length > 0 ? links : buildExpectedLinks(unit, lesson, { blooketUrl });
+    const audit = await auditSchoologyFolder(page, materialsUrl, expectedLinks);
+
+    console.log(`  Found ${audit.existing.length} existing link(s) in folder`);
+    console.log(`  Matched: ${audit.matched.length}, Missing: ${audit.missing.length}`);
+
+    // Update registry for matched (already-posted) links
+    for (const m of audit.matched) {
+      updateSchoologyLink(unit, lesson, m.key, {
+        status: "done",
+        postedAt: new Date().toISOString(),
+        title: m.title,
+        verifiedExisting: true,
+      });
+      console.log(`  [heal] ✓ ${m.key} already posted`);
+    }
+
+    // Replace links array with only the missing ones
+    links = audit.missing;
+
+    if (links.length === 0) {
+      console.log(`\n[heal] All links already present. Nothing to post.`);
+      // Update overall status
+      updateStatus(unit, lesson, "schoology", "done");
+      if (browser) await browser.close();
+      return;
+    }
+
+    console.log(`\n[heal] Will post ${links.length} missing link(s):`);
+    for (const link of links) {
+      console.log(`  [${link.key}] "${link.title}"`);
+    }
+    console.log();
+  }
+
   // Post each link (inside folder if we navigated into one, else at top level)
   for (let i = 0; i < links.length; i++) {
     const link = links[i];
@@ -654,9 +706,35 @@ async function main() {
       await postLink(page, link.url, link.title, materialsUrl);
       console.log(`  SUCCESS: "${link.title}" posted.`);
       successCount++;
+
+      // --heal mode: verify and update per-link registry
+      if (opts.heal) {
+        const verified = await verifyPostedLink(page, link.title, materialsUrl);
+        updateSchoologyLink(unit, lesson, link.key, {
+          status: verified ? "done" : "failed",
+          postedAt: new Date().toISOString(),
+          title: link.title,
+          verified,
+        });
+        if (verified) {
+          console.log(`  [heal] ✓ Verified: "${link.title}" appears in folder`);
+        } else {
+          console.log(`  [heal] ⚠ Posted but not verified: "${link.title}"`);
+        }
+      }
     } catch (err) {
       console.error(`  FAILED: ${err.message}`);
       failCount++;
+
+      // --heal mode: record failure in per-link registry
+      if (opts.heal) {
+        updateSchoologyLink(unit, lesson, link.key, {
+          status: "failed",
+          error: err.message,
+          attemptedAt: new Date().toISOString(),
+          title: link.title,
+        });
+      }
     }
 
     // Delay between posts to avoid overwhelming Schoology
