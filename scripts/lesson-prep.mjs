@@ -45,7 +45,9 @@ import {
   updateStatus,
   computeUrls,
   getLesson,
+  getSchoologyLinks,
 } from "./lib/lesson-registry.mjs";
+import { createSpinner, stepBanner, formatStatus as tuiFormatStatus } from "./lib/tui.mjs";
 import { verifySupabaseAssets } from "./lib/verify-supabase.mjs";
 import { checkWithLLM, analyzeError } from "./lib/llm-check.mjs";
 import {
@@ -1239,9 +1241,25 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
     return false;
   }
 
-  console.log("=== Step 6: Posting links to Schoology ===\n");
+  console.log(stepBanner(6, "Posting links to Schoology") + "\n");
 
   const args = [`--unit ${unit}`, `--lesson ${lesson}`, `--auto-urls`, `--with-videos`, `--no-prompt`];
+
+  // Auto-heal: add --heal when previous run failed or has missing links
+  const healEntry = getLesson(unit, lesson);
+  const needsHeal = healEntry?.status?.schoology === "failed"
+    || (() => {
+      const scLinks = healEntry?.schoologyLinks;
+      if (!scLinks) return false;
+      return Object.values(scLinks).some(
+        (l) => l && (l.status === "failed" || !l.status)
+      );
+    })();
+
+  if (needsHeal) {
+    args.push("--heal");
+    console.log("  [auto-heal] Previous Schoology posting incomplete — adding --heal flag");
+  }
 
   if (blooketUrl) {
     args.push(`--blooket "${blooketUrl}"`);
@@ -1274,14 +1292,20 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
     args.push(`--calendar-title "${calTitle}"`);
   }
 
+  const postSpinner = createSpinner("Posting to Schoology");
   try {
+    postSpinner.start();
     execSync(
       `node "${SCRIPTS.postSchoology}" ${args.join(" ")}`,
       { stdio: "inherit", timeout: 300000 }
     );
+    postSpinner.succeed("Posted to Schoology");
     console.log();
     return true;
   } catch (e) {
+    if (postSpinner.isSpinning) {
+      postSpinner.fail("Schoology posting failed");
+    }
     console.error(`Schoology posting failed: ${e.message}`);
     console.error("Continuing with remaining pipeline steps...\n");
     return false;
@@ -1816,12 +1840,21 @@ async function main() {
   // Step 6: Post to Schoology
   const step6Resume = canResume(existingEntry, "schoology", null, opts.force);
   if (opts.skipSchoology) {
-    console.log("=== Step 6: Schoology posting skipped (--skip-schoology) ===\n");
+    console.log(stepBanner(6, "Schoology posting skipped (--skip-schoology)") + "\n");
   } else if (step6Resume.skip) {
-    console.log(`=== Step 6: Schoology posting — ${step6Resume.reason} (registry) ===\n`);
+    console.log(stepBanner(6, `Schoology posting — ${step6Resume.reason} (registry)`) + "\n");
   } else {
     const schoologyOk = step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
     updateStatus(unit, lesson, "schoology", schoologyOk ? "done" : "failed");
+    // Show per-link status summary
+    const postScLinks = getSchoologyLinks(unit, lesson);
+    if (postScLinks) {
+      console.log("  Schoology link status:");
+      for (const [key, entry] of Object.entries(postScLinks)) {
+        const st = entry?.status || "unknown";
+        console.log(`    ${key.padEnd(16)} ${tuiFormatStatus(st)}`);
+      }
+    }
 
     // Check 3: verify posted URLs are reachable
     if (schoologyOk && !opts.skipLlm) {
