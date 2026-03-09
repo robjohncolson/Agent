@@ -5,6 +5,9 @@
     "start": "node scripts/menu.mjs"
   },
   "dependencies": {
+    "chalk": "^5.6.2",
+    "dotenv": "^17.3.1",
+    "ora": "^9.3.0",
     "playwright": "^1.58.2",
     "prompts": "^2.4.2"
   }

@@ -20,6 +20,7 @@
  *   Step 9:   Print summary
  */
 
+import "dotenv/config";
 import { execSync, spawn } from "node:child_process";
 import {
   existsSync,
