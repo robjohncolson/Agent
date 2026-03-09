@@ -46,15 +46,41 @@
       "timestamp": "2026-03-03T04:12:22Z",
       "files_changed": [],
       "depth": 0
+    },
+    {
+      "call_id": "108ccde28803",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Edit the file scripts/lib/build-codex-prompts.mjs.\r\n\r\nIn the buildDrillsPrompt() function, find the ",
+      "status": "completed",
+      "duration_seconds": 80.788,
+      "timestamp": "2026-03-07T05:03:18Z",
+      "files_changed": [
+        "scripts/lib/build-codex-prompts.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "4c7dc8edf5fd",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Edit the file scripts/lesson-prep.mjs.\r\n\r\n## Part 1: Add new function\r\n\r\nAdd a new function called v",
+      "status": "completed",
+      "duration_seconds": 93.41,
+      "timestamp": "2026-03-07T05:03:33Z",
+      "files_changed": [
+        "scripts/lesson-prep.mjs"
+      ],
+      "depth": 0
     }
   ],
   "summary": {
-    "total_calls": 4,
-    "cc_to_codex": 1,
+    "total_calls": 6,
+    "cc_to_codex": 3,
     "codex_to_cc": 3,
-    "completed": 2,
+    "completed": 4,
     "failed": 2,
     "refused": 0,
-    "avg_duration_seconds": 34.993
+    "avg_duration_seconds": 52.362
   }
 }

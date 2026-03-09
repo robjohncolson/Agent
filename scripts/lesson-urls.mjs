@@ -12,6 +12,7 @@ import { getLesson, computeUrls } from "./lib/lesson-registry.mjs";
 const CARTRIDGE_MAP = {
   "5": "apstats-u5-sampling-dist",
   "6": "apstats-u6-inference-prop",
+  "7": "apstats-u7-mean-ci",
   // extend as new cartridges are added
 };
 
