@@ -100,8 +100,8 @@
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "done",
       "blooketUpload": "done",
       "animations": "pending",
@@ -109,7 +109,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T17:14:27.262Z",
-      "lastUpdated": "2026-03-09T04:30:32.397Z"
+      "lastUpdated": "2026-03-09T04:40:47.513Z"
     },
     "schoology": {
       "materials": [

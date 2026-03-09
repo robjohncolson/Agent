@@ -62,13 +62,6 @@ for (const [key, entry] of Object.entries(registry)) {
 
   const urls = entry.urls || {};
   const status = entry.status || {};
-  const needsWorksheet = urls.worksheet == null;
-  const needsDrills = urls.drills == null;
-  const needsQuiz = urls.quiz == null;
-  const needsBlooket = urls.blooket == null;
-
-  if (!needsWorksheet && !needsDrills && !needsQuiz && !needsBlooket)
-    continue;
 
   const computed = computeUrls(entry.unit, entry.lesson);
 
@@ -81,30 +74,47 @@ for (const [key, entry] of Object.entries(registry)) {
   const blooketEntry = blooketMap.get(key);
   const blooketUrl = blooketEntry ? blooketEntry.url : null;
 
-  // Build patch — only fill null fields
+  // Build patch — fill null URLs and promote stale statuses to "done"
   const urlPatch = {};
   const statusPatch = {};
   const changes = [];
 
-  if (needsWorksheet && computed.worksheet) {
+  // Worksheet: fill URL if null, promote status if URL exists but status isn't "done"
+  if (urls.worksheet == null && computed.worksheet) {
     urlPatch.worksheet = computed.worksheet;
     statusPatch.worksheet = "done";
     changes.push(`worksheet → ${computed.worksheet}`);
+  } else if (urls.worksheet && status.worksheet !== "done") {
+    statusPatch.worksheet = "done";
+    changes.push(`worksheet status → done`);
   }
-  if (needsDrills && computed.drills) {
+
+  // Drills: same pattern
+  if (urls.drills == null && computed.drills) {
     urlPatch.drills = computed.drills;
     statusPatch.drills = "done";
     changes.push(`drills → (set)`);
+  } else if (urls.drills && status.drills !== "done") {
+    statusPatch.drills = "done";
+    changes.push(`drills status → done`);
   }
-  if (needsQuiz && computed.quiz) {
+
+  // Quiz: no status key, just fill URL
+  if (urls.quiz == null && computed.quiz) {
     urlPatch.quiz = computed.quiz;
     changes.push(`quiz → ${computed.quiz}`);
   }
-  if (needsBlooket && blooketUrl) {
+
+  // Blooket: fill URL if null, promote status if URL exists
+  if (urls.blooket == null && blooketUrl) {
     urlPatch.blooket = blooketUrl;
     statusPatch.blooketCsv = "done";
     statusPatch.blooketUpload = "done";
     changes.push(`blooket → ${blooketUrl}`);
+  } else if (urls.blooket && status.blooketUpload !== "done") {
+    statusPatch.blooketCsv = "done";
+    statusPatch.blooketUpload = "done";
+    changes.push(`blooket status → done`);
   }
 
   if (changes.length === 0) continue;
