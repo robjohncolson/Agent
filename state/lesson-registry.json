@@ -10,7 +10,7 @@
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-hypotheses-610",
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=9",
       "blooket": "https://dashboard.blooket.com/set/69ad1cce0d5874349dbbf688",
-      "schoologyFolder": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986721319",
       "videos": [
         "1dIRMyHdePpkx7pCJFcAkRHIPj2Q8RtqG",
         "1SDYELDZa9kcJldq_qf1DsOOMhrjzfkio"
@@ -23,11 +23,11 @@
       "blooketCsv": "done",
       "blooketUpload": "done",
       "animations": "skipped",
-      "schoology": "failed"
+      "schoology": "done"
     },
     "timestamps": {
       "created": "2026-03-08T01:00:00Z",
-      "lastUpdated": "2026-03-09T03:19:39.519Z"
+      "lastUpdated": "2026-03-09T14:08:13.162Z"
     },
     "schoologyLinks": {
       "worksheet": {
@@ -2514,6 +2514,34 @@
         "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585732",
         "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585782"
       ]
+    }
+  },
+  "7.2": {
+    "unit": 7,
+    "lesson": 2,
+    "topic": "Friday 3/20/26",
+    "date": "2026-03-20",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l01-identify-procedure",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=1",
+      "blooket": "https://dashboard.blooket.com/set/69aee24b0d5874349dbc4469",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986757072",
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "done",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-09T14:16:08.903Z",
+      "lastUpdated": "2026-03-09T16:01:32.210Z"
     }
   }
 }
