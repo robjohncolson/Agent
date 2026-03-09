@@ -109,6 +109,57 @@ export async function auditSchoologyFolder(page, folderUrl, expectedLinks) {
   return { existing, missing, matched };
 }
 
+/**
+ * Discover which Schoology folder contains a lesson's links by scanning
+ * folder contents for "Topic {unit}.{lesson}" title patterns.
+ * Returns { folderUrl, folderTitle } or null if no folder matches.
+ */
+export async function discoverLessonFolder(page, unit, lesson, materialsRootUrl) {
+  await page.goto(materialsRootUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+  await page.waitForTimeout(2000);
+
+  // Collect all folders from the materials root (same selectors as post-to-schoology.mjs extractFolderUrl)
+  const folders = await page.$$('tr[id^="f-"]');
+  const topicPattern = `Topic ${unit}.${lesson}`;
+
+  for (const row of folders) {
+    const titleEl = await row.$("div.folder-title");
+    if (!titleEl) continue;
+    const folderTitle = (await titleEl.innerText().catch(() => "")).trim();
+    if (!folderTitle) continue;
+
+    const rowId = await row.getAttribute("id"); // e.g. "f-986313435"
+    const folderId = rowId.replace("f-", "");
+    const folderUrl = `${materialsRootUrl}?f=${folderId}`;
+
+    // Navigate into the folder and scan link titles
+    await page.goto(folderUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.waitForTimeout(2000);
+
+    const hasMatch = await page.evaluate((pattern) => {
+      const clean = (v) => (v || "").replace(/\s+/g, " ").trim();
+      const rows = document.querySelectorAll('tr[id^="s-"], tr.material-row, .material-row');
+      for (const r of rows) {
+        for (const a of r.querySelectorAll("a[href]")) {
+          const title = clean(a.textContent || a.getAttribute("title") || "");
+          if (title.includes(pattern)) return true;
+        }
+      }
+      return false;
+    }, topicPattern);
+
+    if (hasMatch) {
+      return { folderUrl, folderTitle };
+    }
+
+    // Go back to materials root for next folder
+    await page.goto(materialsRootUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.waitForTimeout(2000);
+  }
+
+  return null;
+}
+
 export async function verifyPostedLink(page, title, folderUrl) {
   await page.goto(folderUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
   await page.waitForTimeout(2000);

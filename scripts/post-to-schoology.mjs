@@ -32,7 +32,7 @@ import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
 import { getLesson, updateStatus, updateUrl, updateSchoologyLink } from "./lib/lesson-registry.mjs";
-import { auditSchoologyFolder, buildExpectedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
+import { auditSchoologyFolder, buildExpectedLinks, discoverLessonFolder, verifyPostedLink } from "./lib/schoology-heal.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -639,6 +639,17 @@ async function main() {
     }
   }
 
+  // --heal mode: DOM discovery fallback when registry had no folder URL
+  if (opts.heal && materialsUrl === rootMaterialsUrl && !opts.targetFolder) {
+    console.log(`  [heal] No folder in registry — scanning Schoology folders...`);
+    const discovered = await discoverLessonFolder(page, unit, lesson, rootMaterialsUrl);
+    if (discovered) {
+      materialsUrl = discovered.folderUrl;
+      updateUrl(unit, lesson, "schoologyFolder", discovered.folderUrl);
+      console.log(`  [heal] Discovered folder: "${discovered.folderTitle}" → ${discovered.folderUrl}`);
+    }
+  }
+
   // Use existing folder (--target-folder) or create a new one (--create-folder)
   if (opts.targetFolder) {
     materialsUrl = opts.targetFolder;
@@ -659,7 +670,9 @@ async function main() {
   }
 
   // --heal mode: audit folder and filter out existing links
-  if (opts.heal && materialsUrl !== rootMaterialsUrl) {
+  if (opts.heal && materialsUrl === rootMaterialsUrl) {
+    console.warn(`  [heal] ⚠ No folder found for ${unit}.${lesson}. Use --create-folder or --target-folder.`);
+  } else if (opts.heal && materialsUrl !== rootMaterialsUrl) {
     console.log(`\n[heal] Auditing Schoology folder...`);
     const expectedLinks = links.length > 0 ? links : buildExpectedLinks(unit, lesson, { blooketUrl });
     const audit = await auditSchoologyFolder(page, materialsUrl, expectedLinks);
