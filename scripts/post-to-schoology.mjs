@@ -32,7 +32,7 @@ import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
 import { getLesson, updateStatus, updateUrl, updateSchoologyLink } from "./lib/lesson-registry.mjs";
-import { auditSchoologyFolder, buildExpectedLinks, discoverLessonFolder, verifyPostedLink } from "./lib/schoology-heal.mjs";
+import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -707,6 +707,54 @@ async function main() {
       console.log(`  [${link.key}] "${link.title}"`);
     }
     console.log();
+
+    // --heal mode: scan root for orphaned links and delete them
+    console.log(`\n[heal] Scanning root for orphaned links...`);
+    const orphans = await findOrphanedLinks(page, unit, lesson, rootMaterialsUrl);
+
+    if (orphans.length > 0) {
+      console.log(`  Found ${orphans.length} orphan(s) at root level:`);
+
+      // Build set of titles that are safe to delete:
+      // - already confirmed in folder (audit.matched)
+      // - will be posted to folder (audit.missing / links)
+      const safeTitles = new Set([
+        ...audit.matched.map((m) => m.title.toLowerCase().trim()),
+        ...links.map((l) => l.title.toLowerCase().trim()),
+      ]);
+
+      let deletedCount = 0;
+      for (const orphan of orphans) {
+        const orphanLower = orphan.title.toLowerCase().trim();
+        const inFolder = audit.matched.some((m) => m.title.toLowerCase().trim() === orphanLower);
+        const willPost = links.some((l) => l.title.toLowerCase().trim() === orphanLower);
+
+        if (!inFolder && !willPost) {
+          console.log(`    [orphan] "${orphan.title}" (${orphan.linkViewId}) — no folder copy, skipping`);
+          continue;
+        }
+
+        const reason = inFolder ? "already in folder" : "will be posted to folder";
+        console.log(`    [orphan] "${orphan.title}" (${orphan.linkViewId}) — ${reason}, deleting`);
+
+        // Navigate back to root for deletion
+        await page.goto(rootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+        await page.waitForTimeout(2000);
+
+        const result = await deleteSchoologyLink(page, orphan.linkViewId);
+        if (result.deleted) {
+          deletedCount++;
+        } else {
+          console.log(`    [orphan] Failed to delete: ${result.reason}`);
+        }
+      }
+
+      if (deletedCount > 0) {
+        console.log(`  [heal] Deleted ${deletedCount} orphan(s) from root.`);
+      }
+    } else {
+      console.log(`  No orphaned links found at root.`);
+    }
   }
 
   // Post each link (inside folder if we navigated into one, else at top level)
