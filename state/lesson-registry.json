@@ -2,8 +2,8 @@
   "6.10": {
     "unit": 6,
     "lesson": 10,
-    "topic": "Topic 6.10",
-    "date": null,
+    "topic": "Monday 3/16/26",
+    "date": "2026-03-16",
     "period": "B",
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson10_live.html",
@@ -23,25 +23,51 @@
       "blooketCsv": "done",
       "blooketUpload": "done",
       "animations": "skipped",
-      "schoology": "done"
+      "schoology": "failed"
     },
     "timestamps": {
       "created": "2026-03-08T01:00:00Z",
-      "lastUpdated": "2026-03-08T07:48:15.159Z"
+      "lastUpdated": "2026-03-09T03:19:39.519Z"
+    },
+    "schoologyLinks": {
+      "worksheet": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:14:10.430Z",
+        "title": "Topic 6.10 — Follow-Along Worksheet",
+        "verified": false
+      },
+      "drills": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:14:27.842Z",
+        "title": "Topic 6.10 — Drills",
+        "verified": false
+      },
+      "quiz": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:14:45.124Z",
+        "title": "Quiz 6.9",
+        "verified": false
+      },
+      "blooket": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:15:02.616Z",
+        "title": "Topic 6.10 — Blooket Review",
+        "verified": false
+      }
     }
   },
   "6.11": {
     "unit": 6,
     "lesson": 11,
-    "topic": "Topic 6.11",
-    "date": null,
+    "topic": "Tuesday 3/17/26",
+    "date": "2026-03-17",
     "period": null,
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson11_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l21-zstat-611",
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=10",
       "blooket": "https://dashboard.blooket.com/set/69ade09c572efa156e0e3402",
-      "schoologyFolder": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986588515",
       "videos": []
     },
     "status": {
@@ -55,7 +81,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T16:25:49.168Z",
-      "lastUpdated": "2026-03-08T21:10:00.000Z"
+      "lastUpdated": "2026-03-09T03:52:19.924Z"
     }
   },
   "6.7": {
@@ -68,7 +94,7 @@
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson7_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l35-identify-error-type",
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=6",
-      "blooket": null,
+      "blooket": "https://dashboard.blooket.com/set/69ab32e0d721c5ea7bb4c56e",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986400679",
       "videos": []
     },
@@ -76,14 +102,14 @@
       "ingest": "pending",
       "worksheet": "pending",
       "drills": "pending",
-      "blooketCsv": "pending",
-      "blooketUpload": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
       "animations": "pending",
       "schoology": "pending"
     },
     "timestamps": {
       "created": "2026-03-08T17:14:27.262Z",
-      "lastUpdated": "2026-03-08T19:58:27.701Z"
+      "lastUpdated": "2026-03-09T04:30:32.397Z"
     },
     "schoology": {
       "materials": [
@@ -149,16 +175,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson3_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=2",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -167,7 +193,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.668Z",
-      "lastUpdated": "2026-03-08T19:58:27.668Z"
+      "lastUpdated": "2026-03-09T04:30:32.399Z"
     },
     "schoology": {
       "materials": [
@@ -195,16 +221,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson4_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=3",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -213,7 +239,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.670Z",
-      "lastUpdated": "2026-03-08T19:58:27.670Z"
+      "lastUpdated": "2026-03-09T04:30:32.404Z"
     },
     "schoology": {
       "materials": [
@@ -241,16 +267,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=4",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -259,7 +285,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.670Z",
-      "lastUpdated": "2026-03-08T19:58:27.670Z"
+      "lastUpdated": "2026-03-09T04:30:32.407Z"
     },
     "schoology": {
       "materials": [
@@ -287,16 +313,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=5",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -305,7 +331,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.671Z",
-      "lastUpdated": "2026-03-08T19:58:27.671Z"
+      "lastUpdated": "2026-03-09T04:30:32.409Z"
     },
     "schoology": {
       "materials": [
@@ -333,16 +359,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=6",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=948168199",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -351,7 +377,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.672Z",
-      "lastUpdated": "2026-03-08T19:58:27.672Z"
+      "lastUpdated": "2026-03-09T04:30:32.411Z"
     },
     "schoology": {
       "materials": [
@@ -398,16 +424,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=7",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=949296571",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -416,7 +442,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.673Z",
-      "lastUpdated": "2026-03-08T19:58:27.673Z"
+      "lastUpdated": "2026-03-09T04:30:32.412Z"
     },
     "schoology": {
       "materials": [
@@ -454,16 +480,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson9_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=8",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=949903740",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -472,7 +498,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.673Z",
-      "lastUpdated": "2026-03-08T19:58:27.673Z"
+      "lastUpdated": "2026-03-09T04:30:32.413Z"
     },
     "schoology": {
       "materials": [
@@ -508,16 +534,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson10_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=9",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=950173574",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -526,7 +552,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.674Z",
-      "lastUpdated": "2026-03-08T19:58:27.674Z"
+      "lastUpdated": "2026-03-09T04:30:32.415Z"
     },
     "schoology": {
       "materials": [
@@ -612,7 +638,7 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson1_live.html",
       "drills": null,
       "quiz": null,
       "blooket": null,
@@ -621,7 +647,7 @@
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -630,7 +656,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.675Z",
-      "lastUpdated": "2026-03-08T19:58:27.675Z"
+      "lastUpdated": "2026-03-09T04:30:32.417Z"
     },
     "schoology": {
       "materials": [
@@ -666,16 +692,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson2_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=1",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=954636359",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -684,7 +710,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.676Z",
-      "lastUpdated": "2026-03-08T19:58:27.676Z"
+      "lastUpdated": "2026-03-09T04:30:32.419Z"
     },
     "schoology": {
       "materials": [
@@ -721,16 +747,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson3_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=2",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=955309456",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -739,7 +765,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.676Z",
-      "lastUpdated": "2026-03-08T19:58:27.676Z"
+      "lastUpdated": "2026-03-09T04:30:32.420Z"
     },
     "schoology": {
       "materials": [
@@ -776,16 +802,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson4_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=3",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=957153701",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -794,7 +820,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.677Z",
-      "lastUpdated": "2026-03-08T19:58:27.677Z"
+      "lastUpdated": "2026-03-09T04:30:32.422Z"
     },
     "schoology": {
       "materials": [
@@ -822,16 +848,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=4",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=959200382",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -840,7 +866,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.677Z",
-      "lastUpdated": "2026-03-08T19:58:27.677Z"
+      "lastUpdated": "2026-03-09T04:30:32.423Z"
     },
     "schoology": {
       "materials": [
@@ -892,16 +918,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=5",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=960099957",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -910,7 +936,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.678Z",
-      "lastUpdated": "2026-03-08T19:58:27.678Z"
+      "lastUpdated": "2026-03-09T04:30:32.425Z"
     },
     "schoology": {
       "materials": [
@@ -962,16 +988,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=6",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=961457155",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -980,7 +1006,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.679Z",
-      "lastUpdated": "2026-03-08T19:58:27.679Z"
+      "lastUpdated": "2026-03-09T04:30:32.426Z"
     },
     "schoology": {
       "materials": [
@@ -1025,25 +1051,25 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson4_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=3",
       "blooket": null,
-      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=970432845",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945312398/materials?f=986581863",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
-      "schoology": "scraped"
+      "schoology": "done"
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.679Z",
-      "lastUpdated": "2026-03-08T19:58:27.679Z"
+      "lastUpdated": "2026-03-09T04:30:32.428Z"
     },
     "schoology": {
       "materials": [
@@ -1071,16 +1097,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=4",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=971289382",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -1089,7 +1115,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.680Z",
-      "lastUpdated": "2026-03-08T19:58:27.680Z"
+      "lastUpdated": "2026-03-09T04:30:32.429Z"
     },
     "schoology": {
       "materials": [
@@ -1117,16 +1143,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=2",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=976933461",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -1135,7 +1161,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.680Z",
-      "lastUpdated": "2026-03-08T19:58:27.680Z"
+      "lastUpdated": "2026-03-09T04:30:32.431Z"
     },
     "schoology": {
       "materials": [
@@ -1171,16 +1197,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=5",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=978369747",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -1189,7 +1215,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.681Z",
-      "lastUpdated": "2026-03-08T19:58:27.681Z"
+      "lastUpdated": "2026-03-09T04:30:32.432Z"
     },
     "schoology": {
       "materials": [
@@ -1217,16 +1243,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=6",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=979189351",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -1235,7 +1261,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.681Z",
-      "lastUpdated": "2026-03-08T19:58:27.681Z"
+      "lastUpdated": "2026-03-09T04:30:32.435Z"
     },
     "schoology": {
       "materials": [
@@ -1263,16 +1289,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=7",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=979189351",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -1281,7 +1307,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.682Z",
-      "lastUpdated": "2026-03-08T19:58:27.682Z"
+      "lastUpdated": "2026-03-09T04:30:32.436Z"
     },
     "schoology": {
       "materials": [
@@ -1309,16 +1335,16 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson9_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=8",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=979189351",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
+      "worksheet": "done",
       "drills": "pending",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
@@ -1327,7 +1353,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.683Z",
-      "lastUpdated": "2026-03-08T19:58:27.683Z"
+      "lastUpdated": "2026-03-09T04:30:32.437Z"
     },
     "schoology": {
       "materials": [
@@ -1364,8 +1390,8 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson1_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l01-sample-variability",
       "quiz": null,
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=980335378",
@@ -1373,8 +1399,8 @@
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1382,7 +1408,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.683Z",
-      "lastUpdated": "2026-03-08T19:58:27.683Z"
+      "lastUpdated": "2026-03-09T04:30:32.439Z"
     },
     "schoology": {
       "materials": [
@@ -1410,17 +1436,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l03-z-score-calc",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=1",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=980334396",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1428,7 +1454,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.684Z",
-      "lastUpdated": "2026-03-08T19:58:27.684Z"
+      "lastUpdated": "2026-03-09T04:30:32.442Z"
     },
     "schoology": {
       "materials": [
@@ -1456,17 +1482,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson3_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l11-clt-concept",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=2",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=981293561",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1474,7 +1500,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.685Z",
-      "lastUpdated": "2026-03-08T19:58:27.685Z"
+      "lastUpdated": "2026-03-09T04:30:32.444Z"
     },
     "schoology": {
       "materials": [
@@ -1533,17 +1559,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson4_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l16-point-estimate-terminology",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=3",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=981564763",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1551,7 +1577,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.686Z",
-      "lastUpdated": "2026-03-08T19:58:27.686Z"
+      "lastUpdated": "2026-03-09T04:30:32.446Z"
     },
     "schoology": {
       "materials": [
@@ -1602,17 +1628,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson5_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l20-prop-dist-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=4",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=981770601",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1620,7 +1646,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.687Z",
-      "lastUpdated": "2026-03-08T19:58:27.687Z"
+      "lastUpdated": "2026-03-09T04:30:32.448Z"
     },
     "schoology": {
       "materials": [
@@ -1686,17 +1712,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson6_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l25-diff-prop-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=5",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=982382766",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1704,7 +1730,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.689Z",
-      "lastUpdated": "2026-03-08T19:58:27.689Z"
+      "lastUpdated": "2026-03-09T04:30:32.450Z"
     },
     "schoology": {
       "materials": [
@@ -1770,17 +1796,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson7_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l31-mean-dist-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=6",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=982382766",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1788,7 +1814,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.690Z",
-      "lastUpdated": "2026-03-08T19:58:27.690Z"
+      "lastUpdated": "2026-03-09T04:30:32.452Z"
     },
     "schoology": {
       "materials": [
@@ -1847,17 +1873,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson8_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l36-diff-mean-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=7",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=984565607",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1865,7 +1891,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.691Z",
-      "lastUpdated": "2026-03-08T19:58:27.691Z"
+      "lastUpdated": "2026-03-09T04:30:32.454Z"
     },
     "schoology": {
       "materials": [
@@ -1915,8 +1941,8 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l01-identify-evidence",
       "quiz": null,
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=985196978",
@@ -1924,8 +1950,8 @@
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1933,7 +1959,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.693Z",
-      "lastUpdated": "2026-03-08T19:58:27.693Z"
+      "lastUpdated": "2026-03-09T04:30:32.456Z"
     },
     "schoology": {
       "materials": [
@@ -1962,17 +1988,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l04-identify-procedure",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=1",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=985597961",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -1980,7 +2006,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.694Z",
-      "lastUpdated": "2026-03-08T19:58:27.694Z"
+      "lastUpdated": "2026-03-09T04:30:32.458Z"
     },
     "schoology": {
       "materials": [
@@ -2032,17 +2058,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson3_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l12-interpret-ci",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=2",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=985937488",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -2050,7 +2076,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.695Z",
-      "lastUpdated": "2026-03-08T19:58:27.695Z"
+      "lastUpdated": "2026-03-09T04:30:32.460Z"
     },
     "schoology": {
       "materials": [
@@ -2101,17 +2127,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson4_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-state-null",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=3",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986218661",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -2119,7 +2145,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.697Z",
-      "lastUpdated": "2026-03-08T19:58:27.697Z"
+      "lastUpdated": "2026-03-09T04:30:32.462Z"
     },
     "schoology": {
       "materials": [
@@ -2185,17 +2211,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson5_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l24-test-statistic",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=4",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986218661",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -2203,7 +2229,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.698Z",
-      "lastUpdated": "2026-03-08T19:58:27.698Z"
+      "lastUpdated": "2026-03-09T04:30:32.464Z"
     },
     "schoology": {
       "materials": [
@@ -2254,25 +2280,25 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
-      "blooket": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson6_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l29-compare-pvalue-alpha",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=5",
+      "blooket": "https://dashboard.blooket.com/set/69ab037ffb99ffa131a2e07d",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986400679",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
-      "blooketCsv": "pending",
-      "blooketUpload": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
       "animations": "pending",
       "schoology": "scraped"
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.699Z",
-      "lastUpdated": "2026-03-08T19:58:27.699Z"
+      "lastUpdated": "2026-03-09T04:30:32.466Z"
     },
     "schoology": {
       "materials": [
@@ -2338,17 +2364,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson8_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l44-identify-two-prop-ci",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=7",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986444841",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -2356,7 +2382,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.702Z",
-      "lastUpdated": "2026-03-08T19:58:27.702Z"
+      "lastUpdated": "2026-03-09T04:30:32.468Z"
     },
     "schoology": {
       "materials": [
@@ -2422,17 +2448,17 @@
     "date": null,
     "period": null,
     "urls": {
-      "worksheet": null,
-      "drills": null,
-      "quiz": null,
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson9_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l49-interpret-two-prop-claim-interval",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=8",
       "blooket": null,
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986454317",
       "videos": []
     },
     "status": {
       "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
+      "worksheet": "done",
+      "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
       "animations": "pending",
@@ -2440,7 +2466,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.704Z",
-      "lastUpdated": "2026-03-08T19:58:27.704Z"
+      "lastUpdated": "2026-03-09T04:30:32.471Z"
     },
     "schoology": {
       "materials": [
