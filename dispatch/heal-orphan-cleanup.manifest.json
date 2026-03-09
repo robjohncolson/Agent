@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "batch_name": "heal-orphan-cleanup",
+  "target_branch": "master",
+  "base_ref": "master",
+  "agents": [
+    {
+      "name": "heal-utilities",
+      "description": "Add deleteSchoologyLink + findOrphanedLinks to schoology-heal.mjs",
+      "prompt_file": "dispatch/prompts/heal-orphan-cleanup/heal-utilities.md",
+      "owned_paths": ["scripts/lib/schoology-heal.mjs"]
+    },
+    {
+      "name": "wire-orphan-cleanup",
+      "description": "Wire orphan scan/delete into --heal flow in post-to-schoology.mjs",
+      "prompt_file": "dispatch/prompts/heal-orphan-cleanup/wire-orphan-cleanup.md",
+      "depends_on": ["heal-utilities"],
+      "owned_paths": ["scripts/post-to-schoology.mjs"]
+    }
+  ],
+  "merge": {
+    "enabled": true,
+    "verify_commands": [
+      "node --check scripts/lib/schoology-heal.mjs",
+      "node --check scripts/post-to-schoology.mjs"
+    ]
+  }
+}
