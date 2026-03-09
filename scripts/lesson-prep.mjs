@@ -51,6 +51,7 @@ import { createSpinner, stepBanner, formatStatus as tuiFormatStatus } from "./li
 import { verifySupabaseAssets } from "./lib/verify-supabase.mjs";
 import { checkWithLLM, analyzeError } from "./lib/llm-check.mjs";
 import {
+  AGENT_ROOT,
   SCRIPTS,
   WORKING_DIRS,
   DRIVE_VIDEO_INDEX_PATH,
@@ -1882,6 +1883,15 @@ async function main() {
 
   // Step 7: Generate URLs
   step7_lessonUrls(unit, lesson);
+
+  // Step 7.5: Export registry sidecar for roadmap app
+  try {
+    const exportScript = path.join(AGENT_ROOT, "scripts", "export-registry.mjs");
+    execSync(`node "${exportScript}"`, { stdio: "inherit" });
+    console.log("Registry sidecar exported successfully.\n");
+  } catch (e) {
+    console.warn("Registry sidecar export failed (non-fatal):", e.message, "\n");
+  }
 
   // Step 8: Commit and push downstream repos
   results.repoCommits = commitAndPushRepos(unit, lesson, opts.autoPush);
