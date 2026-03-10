@@ -955,7 +955,7 @@ async function validateTaskResult(taskKey, unit, lesson, result, opts = {}) {
   return result;
 }
 
-async function step2_contentGeneration(unit, lesson, opts = {}) {
+async function step2_contentGeneration(unit, lesson, opts = {}, skipTasks = new Set()) {
   console.log("=== Step 2: Parallel content generation (Codex) ===\n");
   const failedResults = (error) => [
     { label: "Worksheet + Grading", success: false, error },
@@ -969,71 +969,78 @@ async function step2_contentGeneration(unit, lesson, opts = {}) {
 
   try {
     const videoContext = readVideoContext(unit, lesson);
-    const worksheetPattern = pickPatternArtifact(
-      WORKING_DIRS.worksheet,
-      `u${unit}_lesson${lesson - 1}_live.html`,
-      /^u(\d+)_lesson(\d+)_live\.html$/,
-      unit,
-      lesson
-    );
-    const gradingPattern = pickPatternArtifact(
-      WORKING_DIRS.worksheet,
-      `ai-grading-prompts-u${unit}-l${lesson - 1}.js`,
-      /^ai-grading-prompts-u(\d+)-l(\d+)\.js$/,
-      unit,
-      lesson
-    );
-    const blooketPattern = pickPatternArtifact(
-      WORKING_DIRS.worksheet,
-      `u${unit}_l${lesson - 1}_blooket.csv`,
-      /^u(\d+)_l(\d+)_blooket\.csv$/,
-      unit,
-      lesson
-    );
-    const manifestExcerpt = buildManifestExcerpt(unit);
-
     console.log(`  Topic ${unit}.${lesson}: ${videoContext.topicTitle}`);
     console.log(
       `  Video context loaded: ${videoContext.videos.length} video(s) from u${unit}/`
     );
-    console.log(
-      `  Worksheet pattern: ${worksheetPattern.name}${worksheetPattern.isFallback ? " (fallback)" : ""}`
-    );
-    console.log(
-      `  Grading pattern: ${gradingPattern.name}${gradingPattern.isFallback ? " (fallback)" : ""}`
-    );
-    console.log(
-      `  Blooket pattern: ${blooketPattern.name}${blooketPattern.isFallback ? " (fallback)" : ""}`
-    );
 
-    worksheetPrompt = buildWorksheetPrompt(unit, lesson, videoContext, {
-      worksheet: worksheetPattern,
-      grading: gradingPattern,
-    });
-    blooketPrompt = buildBlooketPrompt(unit, lesson, videoContext, {
-      name: blooketPattern.name,
-      content: takeCsvRows(blooketPattern.content, 10),
-    });
+    // Only build prompts for tasks that will actually run
+    if (!skipTasks.has("worksheet")) {
+      const worksheetPattern = pickPatternArtifact(
+        WORKING_DIRS.worksheet,
+        `u${unit}_lesson${lesson - 1}_live.html`,
+        /^u(\d+)_lesson(\d+)_live\.html$/,
+        unit,
+        lesson
+      );
+      const gradingPattern = pickPatternArtifact(
+        WORKING_DIRS.worksheet,
+        `ai-grading-prompts-u${unit}-l${lesson - 1}.js`,
+        /^ai-grading-prompts-u(\d+)-l(\d+)\.js$/,
+        unit,
+        lesson
+      );
+      console.log(
+        `  Worksheet pattern: ${worksheetPattern.name}${worksheetPattern.isFallback ? " (fallback)" : ""}`
+      );
+      console.log(
+        `  Grading pattern: ${gradingPattern.name}${gradingPattern.isFallback ? " (fallback)" : ""}`
+      );
+      worksheetPrompt = buildWorksheetPrompt(unit, lesson, videoContext, {
+        worksheet: worksheetPattern,
+        grading: gradingPattern,
+      });
+    }
 
-    if (manifestExcerpt) {
-      console.log(`  Cartridge found: ${manifestExcerpt.cartridgeName} (extending)`);
-      drillsPrompt = buildDrillsPrompt(unit, lesson, videoContext, manifestExcerpt);
-    } else {
-      console.log(`  No cartridge for unit ${unit} — will create new cartridge`);
-      const templateExcerpt = buildTemplateExcerpt();
-      let animationExample = "";
-      const animDir = path.join(WORKING_DIRS.driller, "animations");
-      if (existsSync(animDir)) {
-        const animFiles = readdirSync(animDir)
-          .filter((f) => f.startsWith("apstat_") && f.endsWith(".py"))
-          .sort()
-          .reverse();
-        if (animFiles.length > 0) {
-          const content = readFileSync(path.join(animDir, animFiles[0]), "utf-8");
-          animationExample = content.split("\n").slice(0, 80).join("\n");
+    if (!skipTasks.has("blooket")) {
+      const blooketPattern = pickPatternArtifact(
+        WORKING_DIRS.worksheet,
+        `u${unit}_l${lesson - 1}_blooket.csv`,
+        /^u(\d+)_l(\d+)_blooket\.csv$/,
+        unit,
+        lesson
+      );
+      console.log(
+        `  Blooket pattern: ${blooketPattern.name}${blooketPattern.isFallback ? " (fallback)" : ""}`
+      );
+      blooketPrompt = buildBlooketPrompt(unit, lesson, videoContext, {
+        name: blooketPattern.name,
+        content: takeCsvRows(blooketPattern.content, 10),
+      });
+    }
+
+    if (!skipTasks.has("drills")) {
+      const manifestExcerpt = buildManifestExcerpt(unit);
+      if (manifestExcerpt) {
+        console.log(`  Cartridge found: ${manifestExcerpt.cartridgeName} (extending)`);
+        drillsPrompt = buildDrillsPrompt(unit, lesson, videoContext, manifestExcerpt);
+      } else {
+        console.log(`  No cartridge for unit ${unit} — will create new cartridge`);
+        const templateExcerpt = buildTemplateExcerpt();
+        let animationExample = "";
+        const animDir = path.join(WORKING_DIRS.driller, "animations");
+        if (existsSync(animDir)) {
+          const animFiles = readdirSync(animDir)
+            .filter((f) => f.startsWith("apstat_") && f.endsWith(".py"))
+            .sort()
+            .reverse();
+          if (animFiles.length > 0) {
+            const content = readFileSync(path.join(animDir, animFiles[0]), "utf-8");
+            animationExample = content.split("\n").slice(0, 80).join("\n");
+          }
         }
+        drillsPrompt = buildNewCartridgePrompt(unit, lesson, videoContext, templateExcerpt, animationExample);
       }
-      drillsPrompt = buildNewCartridgePrompt(unit, lesson, videoContext, templateExcerpt, animationExample);
     }
   } catch (e) {
     console.error(`  Step 2 setup failed: ${e.message}`);
@@ -1041,7 +1048,7 @@ async function step2_contentGeneration(unit, lesson, opts = {}) {
     return failedResults(e.message);
   }
 
-  const tasks = [
+  const allTasks = [
     {
       key: "worksheet",
       label: "Worksheet + Grading",
@@ -1062,28 +1069,45 @@ async function step2_contentGeneration(unit, lesson, opts = {}) {
     },
   ];
 
-  const results = await Promise.all(
-    tasks.map(async (task) => {
-      let promptFile = null;
+  // Separate into tasks to run and tasks to skip
+  const tasksToRun = allTasks.filter(t => !skipTasks.has(t.key));
+  const skippedResults = allTasks
+    .filter(t => skipTasks.has(t.key))
+    .map(t => {
+      console.log(`  ${t.label}: skipped (already done)`);
+      return { label: t.label, success: true, skipped: true };
+    });
 
-      try {
-        promptFile = writeTempPromptFile(task.label, task.prompt, task.workingDir);
-        const launchResult = await launchCodexTask(
-          task.label,
-          promptFile,
-          task.workingDir
-        );
-        return await validateTaskResult(task.key, unit, lesson, launchResult, opts);
-      } catch (e) {
-        cleanupTempPromptFile(promptFile);
-        return {
-          label: task.label,
-          success: false,
-          error: e.message,
-        };
-      }
-    })
-  );
+  let runResults = [];
+  if (tasksToRun.length > 0) {
+    runResults = await Promise.all(
+      tasksToRun.map(async (task) => {
+        let promptFile = null;
+
+        try {
+          promptFile = writeTempPromptFile(task.label, task.prompt, task.workingDir);
+          const launchResult = await launchCodexTask(
+            task.label,
+            promptFile,
+            task.workingDir
+          );
+          return await validateTaskResult(task.key, unit, lesson, launchResult, opts);
+        } catch (e) {
+          cleanupTempPromptFile(promptFile);
+          return {
+            label: task.label,
+            success: false,
+            error: e.message,
+          };
+        }
+      })
+    );
+  }
+
+  // Merge results in original task order
+  const resultsByLabel = new Map();
+  for (const r of [...skippedResults, ...runResults]) resultsByLabel.set(r.label, r);
+  const results = allTasks.map(t => resultsByLabel.get(t.label));
 
   console.log();
 
@@ -1735,9 +1759,34 @@ async function main() {
   const step2WorksheetResume = canResume(existingEntry, "worksheet", worksheetPath, opts.force, opts.forceSteps);
   const step2BlooketResume = canResume(existingEntry, "blooketCsv", blooketCsvPath, opts.force, opts.forceSteps);
   const step2DrillsResume = canResume(existingEntry, "drills", null, opts.force, opts.forceSteps);
-  const allStep2Done = step2WorksheetResume.skip && step2BlooketResume.skip && step2DrillsResume.skip;
 
-  if (allStep2Done) {
+  // Registry self-heal: if artifact exists on disk but status is stale, mark done
+  const healTargets = [
+    { resume: step2WorksheetResume, key: "worksheet", path: worksheetPath },
+    { resume: step2BlooketResume, key: "blooketCsv", path: blooketCsvPath },
+  ];
+  for (const ht of healTargets) {
+    if (!ht.resume.skip && ht.path && existsSync(ht.path)) {
+      try {
+        const st = statSync(ht.path);
+        if (st.size > 0) {
+          console.log(`  Registry heal: ${ht.key} artifact found on disk (${st.size}B), marking done`);
+          updateStatus(unit, lesson, ht.key, "done");
+          ht.resume.skip = true;
+          ht.resume.reason = "healed (artifact exists)";
+        }
+      } catch { /* stat failed, don't heal */ }
+    }
+  }
+
+  // Build per-task skip set
+  const step2SkipTasks = new Set();
+  if (step2WorksheetResume.skip) step2SkipTasks.add("worksheet");
+  if (step2BlooketResume.skip) step2SkipTasks.add("blooket");
+  if (step2DrillsResume.skip) step2SkipTasks.add("drills");
+
+  if (step2SkipTasks.size === 3) {
+    // Fast path: all tasks already done
     console.log("=== Step 2: Content generation — all tasks already done (registry) ===");
     console.log(`  Worksheet: ${step2WorksheetResume.reason}`);
     console.log(`  Blooket CSV: ${step2BlooketResume.reason}`);
@@ -1748,9 +1797,17 @@ async function main() {
       { label: "Drills Cartridge", success: true, skipped: true },
     ];
   } else {
+    // Selective run: only launch tasks that aren't already done
+    if (step2SkipTasks.size > 0) {
+      const skippedNames = [];
+      if (step2SkipTasks.has("worksheet")) skippedNames.push(`Worksheet (${step2WorksheetResume.reason})`);
+      if (step2SkipTasks.has("blooket")) skippedNames.push(`Blooket CSV (${step2BlooketResume.reason})`);
+      if (step2SkipTasks.has("drills")) skippedNames.push(`Drills (${step2DrillsResume.reason})`);
+      console.log(`  Skipping ${skippedNames.length} task(s): ${skippedNames.join(", ")}`);
+    }
     const step2Start = Date.now();
     pipelineEvents.stepStarted('lesson-prep', 'content-gen');
-    results.codexResults = await step2_contentGeneration(unit, lesson, opts);
+    results.codexResults = await step2_contentGeneration(unit, lesson, opts, step2SkipTasks);
     const step2Ok = results.codexResults && results.codexResults.some(r => r.success);
     if (step2Ok) {
       pipelineEvents.stepCompleted('lesson-prep', 'content-gen', Date.now() - step2Start);
@@ -1764,6 +1821,7 @@ async function main() {
       "Cartridge + Animations": "drills",
     };
     for (const taskResult of results.codexResults || []) {
+      if (taskResult.skipped) continue;  // don't overwrite registry for skipped tasks
       const stepKey = step2StatusByLabel[taskResult.label];
       if (!stepKey) continue;
       updateStatus(unit, lesson, stepKey, taskResult.success ? "done" : "failed");
@@ -1935,14 +1993,21 @@ async function main() {
   try {
     const verifyScript = path.join(AGENT_ROOT, "scripts", "schoology-verify.mjs");
     console.log(stepBanner(6.5, "Verifying Schoology links (both periods)") + "\n");
+    const step65Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'verify-schoology');
     execSync(`node "${verifyScript}" --unit ${unit} --lesson ${lesson}`, { stdio: "inherit", timeout: 120000 });
+    pipelineEvents.stepCompleted('lesson-prep', 'verify-schoology', Date.now() - step65Start);
     console.log();
   } catch (e) {
+    pipelineEvents.stepFailed('lesson-prep', 'verify-schoology', e);
     console.warn("Schoology verification failed or found missing links (non-fatal).\n");
   }
 
   // Step 7: Generate URLs
+  const step7Start = Date.now();
+  pipelineEvents.stepStarted('lesson-prep', 'generate-urls');
   step7_lessonUrls(unit, lesson);
+  pipelineEvents.stepCompleted('lesson-prep', 'generate-urls', Date.now() - step7Start);
 
   // Step 7.5: Export registry sidecar for roadmap app
   try {
@@ -1950,4 +2015,23 @@ async function main() {
     execSync(`node "${exportScript}"`, { stdio: "inherit" });
     console.log("Registry sidecar exported successfully.\n");
   } catch (e) {
-    console.warn("Registry sidecar export failed (non-fatal):", e.me
+    console.warn("Registry sidecar export failed (non-fatal):", e.message, "\n");
+  }
+
+  // Step 8: Commit and push downstream repos
+  const step8Start = Date.now();
+  pipelineEvents.stepStarted('lesson-prep', 'commit-push');
+  results.repoCommits = commitAndPushRepos(unit, lesson, opts.autoPush);
+  pipelineEvents.stepCompleted('lesson-prep', 'commit-push', Date.now() - step8Start);
+
+  // Step 9: Print summary
+  step9_summary(unit, lesson, results);
+
+  pipelineEvents.completed('lesson-prep', { unit, lesson, duration_ms: Date.now() - pipelineStart });
+  console.log("Pipeline complete.");
+}
+
+main().catch((err) => {
+  console.error("Fatal error:", err);
+  process.exit(1);
+});

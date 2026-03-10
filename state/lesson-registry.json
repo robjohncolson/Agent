@@ -2126,8 +2126,8 @@
   "6.4": {
     "unit": 6,
     "lesson": 4,
-    "topic": "Topic 6.4",
-    "date": null,
+    "topic": "Wednesday 3/11/26",
+    "date": "2026-03-11",
     "period": null,
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson4_live.html",
@@ -2139,17 +2139,17 @@
       "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896839"
     },
     "status": {
-      "ingest": "pending",
+      "ingest": "done",
       "worksheet": "done",
       "drills": "done",
-      "blooketCsv": "pending",
+      "blooketCsv": "done",
       "blooketUpload": "pending",
       "animations": "pending",
       "schoology": "scraped"
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.697Z",
-      "lastUpdated": "2026-03-09T04:30:32.462Z"
+      "lastUpdated": "2026-03-10T21:39:48.056Z"
     },
     "schoology": {
       "materials": [
