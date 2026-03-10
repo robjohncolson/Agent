@@ -8,6 +8,7 @@
 
 const VALID_COLORS = ["blue","red","orange","yellow","green","purple","pink","black","gray"];
 const COLOR_VALUES = { blue: 0, red: 1, orange: 2, yellow: 3, green: 4, purple: 5, pink: 6, black: 7, gray: 8 };
+export const COURSE_IDS = { B: '7945275782', E: '7945275798' };
 
 // ── Utilities ────────────────────────────────────────────────────────────────
 

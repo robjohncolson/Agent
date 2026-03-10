@@ -3,14 +3,15 @@
  * schoology-manage.mjs — Schoology folder structure management CLI via CDP.
  *
  * Commands:
- *   list [--in <folder>] [--recursive]              List folders and links
- *   tree [--depth <n>]                              Recursive folder tree
- *   create-folder <name> [--in <parent>] [--color]  Create a folder
- *   move-folder <name> --into <target> [--from <parent>]  Move a folder
- *   post-link <title> <url> --in <folder>           Post a link material
+ *   list [--in <folder>] [--recursive] [--period <B|E>]              List folders and links
+ *   tree [--depth <n>] [--period <B|E>]                              Recursive folder tree
+ *   create-folder <name> [--in <parent>] [--color] [--period <B|E>]  Create a folder
+ *   move-folder <name> --into <target> [--from <parent>] [--period <B|E>]  Move a folder
+ *   post-link <title> <url> --in <folder> [--period <B|E>]           Post a link material
  *
  * Examples:
  *   node scripts/schoology-manage.mjs list
+ *   node scripts/schoology-manage.mjs list --period E
  *   node scripts/schoology-manage.mjs list --in "work-ahead/future"
  *   node scripts/schoology-manage.mjs list --recursive
  *   node scripts/schoology-manage.mjs tree --depth 2
@@ -27,9 +28,7 @@ import { cmdList, cmdTree } from "./lib/schoology-commands-list.mjs";
 import { cmdCreateFolder } from "./lib/schoology-commands-create.mjs";
 import { cmdMoveFolder } from "./lib/schoology-commands-move.mjs";
 import { cmdPostLink } from "./lib/schoology-commands-postlink.mjs";
-import { VALID_COLORS } from "./lib/schoology-dom.mjs";
-
-const COURSE_ID = "7945275782";
+import { COURSE_IDS, VALID_COLORS } from "./lib/schoology-dom.mjs";
 
 // ── Arg helpers ──────────────────────────────────────────────────────────────
 
@@ -43,6 +42,22 @@ function hasFlag(args, flag) {
   return args.includes(flag);
 }
 
+function extractFlag(args, flag) {
+  const filtered = [];
+  let value = null;
+
+  for (let i = 0; i < args.length; i += 1) {
+    if (args[i] === flag) {
+      value = args[i + 1] || null;
+      i += 1;
+      continue;
+    }
+    filtered.push(args[i]);
+  }
+
+  return { args: filtered, value };
+}
+
 function printUsage() {
   console.error(`
 Schoology Folder Manager — CLI
@@ -50,20 +65,24 @@ Schoology Folder Manager — CLI
 Usage: node scripts/schoology-manage.mjs <command> [options]
 
 Commands:
-  list [--in <folder>] [--recursive]
+  list [--in <folder>] [--recursive] [--period <B|E>]
     List folders and links at a given level.
 
-  tree [--depth <n>]
+  tree [--depth <n>] [--period <B|E>]
     Show full recursive folder tree with box-drawing characters.
 
-  create-folder <name> [--in <parent>] [--color <color>]
+  create-folder <name> [--in <parent>] [--color <color>] [--period <B|E>]
     Create a folder. Colors: ${VALID_COLORS.join(", ")}
 
-  move-folder <name> --into <target> [--from <parent>]
+  move-folder <name> --into <target> [--from <parent>] [--period <B|E>]
     Move a folder into another folder.
 
-  post-link <title> <url> --in <folder>
+  post-link <title> <url> --in <folder> [--period <B|E>]
     Post a link material into a folder.
+
+Options:
+  --period <B|E>
+    Select the course period. Default: B.
 
 Folder references can be names or numeric IDs.
 `.trim());
@@ -72,12 +91,20 @@ Folder references can be names or numeric IDs.
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const args = process.argv.slice(2);
+  const parsed = extractFlag(process.argv.slice(2), "--period");
+  const args = parsed.args;
   const command = args[0];
 
   if (!command || command === "--help" || command === "-h") {
     printUsage();
     process.exit(command ? 0 : 1);
+  }
+
+  const period = (parsed.value || "B").toUpperCase();
+  const courseId = COURSE_IDS[period];
+  if (!courseId) {
+    console.error(`Invalid --period "${period}". Use B or E.`);
+    process.exit(1);
   }
 
   const { browser, page } = await connectCDP(chromium, { preferUrl: "schoology.com" });
@@ -87,14 +114,14 @@ async function main() {
       case "list": {
         const inFolder = getFlag(args, "--in");
         const recursive = hasFlag(args, "--recursive");
-        await cmdList(page, COURSE_ID, { inFolder, recursive });
+        await cmdList(page, courseId, { inFolder, recursive });
         break;
       }
 
       case "tree": {
         const depthStr = getFlag(args, "--depth");
         const depth = depthStr ? parseInt(depthStr, 10) : Infinity;
-        await cmdTree(page, COURSE_ID, { depth });
+        await cmdTree(page, courseId, { depth });
         break;
       }
 
@@ -107,7 +134,7 @@ async function main() {
         const inFolder = getFlag(args, "--in");
         const color = getFlag(args, "--color");
         console.log(`\nCreating folder: "${name}"${inFolder ? ` in "${inFolder}"` : ""}${color ? ` (${color})` : ""}...\n`);
-        await cmdCreateFolder(page, COURSE_ID, { name, inFolder, color });
+        await cmdCreateFolder(page, courseId, { name, inFolder, color });
         break;
       }
 
@@ -120,7 +147,7 @@ async function main() {
           process.exit(1);
         }
         console.log(`\nMoving "${name}" into "${into}"${from ? ` (from "${from}")` : ""}...\n`);
-        await cmdMoveFolder(page, COURSE_ID, { name, into, from });
+        await cmdMoveFolder(page, courseId, { name, into, from });
         break;
       }
 
@@ -133,7 +160,7 @@ async function main() {
           process.exit(1);
         }
         console.log(`\nPosting link: "${title}" into "${inFolder}"...\n`);
-        await cmdPostLink(page, COURSE_ID, { title, url, inFolder });
+        await cmdPostLink(page, courseId, { title, url, inFolder });
         break;
       }
 
