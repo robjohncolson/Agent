@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Machine Paths",
+  "description": "Per-machine mapping of repo slugs to their absolute checkout paths on that machine.",
+  "type": "object",
+  "required": ["machine", "base_path", "repos"],
+  "additionalProperties": false,
+  "properties": {
+    "machine": {
+      "type": "string",
+      "description": "Machine slug matching a key in the machine registry"
+    },
+    "base_path": {
+      "type": "string",
+      "description": "Base directory under which repos are checked out on this machine"
+    },
+    "repos": {
+      "type": "object",
+      "description": "Maps repo slugs to their absolute checkout paths on this machine",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Absolute path to the repo on this machine"
+      }
+    }
+  }
+}

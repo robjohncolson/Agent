@@ -1,0 +1,13 @@
+{
+  "machine": "colsonr-work",
+  "base_path": "C:/Users/ColsonR",
+  "repos": {
+    "apstats-live-worksheet": "C:/Users/ColsonR/apstats-live-worksheet",
+    "lrsl-driller": "C:/Users/ColsonR/lrsl-driller",
+    "curriculum-render": "C:/Users/ColsonR/curriculum_render",
+    "grid-bot": "C:/Users/ColsonR/grid-bot/doge-grid-bot",
+    "grid-bot-v3": "C:/Users/ColsonR/grid-bot-v3",
+    "cmd-line-tools": "C:/Users/ColsonR/cmd-line-tools",
+    "agent": "C:/Users/ColsonR/Agent"
+  }
+}

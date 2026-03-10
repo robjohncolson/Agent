@@ -26,7 +26,11 @@
     },
     "checkpoint_trigger": {
       "type": "string",
-      "enum": ["manual", "auto-context-threshold", "startup-sync"]
+      "enum": ["manual", "auto-context-threshold", "startup-sync", "pipeline-complete", "task-complete"]
+    },
+    "agent_commit": {
+      "type": "string",
+      "description": "Git HEAD commit hash of the Agent repo at checkpoint time"
     },
     "last_synced_observation_id": {
       "type": "integer",

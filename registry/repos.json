@@ -1,0 +1,58 @@
+{
+  "apstats-live-worksheet": {
+    "remote": "ssh://git@github.com/robjohncolson/apstats-live-worksheet.git",
+    "purpose": "Student-facing live worksheets, calendars, quizzes",
+    "deploy": "github-pages",
+    "depends_on": ["lrsl-driller", "curriculum-render"],
+    "entry_points": ["u*_lesson*_live.html", "ap_stats_roadmap_square_mode.html"],
+    "domain": "teaching"
+  },
+  "lrsl-driller": {
+    "remote": "ssh://git@github.com/robjohncolson/lrsl-driller.git",
+    "purpose": "Drill game engine with cartridge system and Manim animations",
+    "deploy": "vercel",
+    "depends_on": [],
+    "entry_points": ["platform/app.html", "cartridges/*/manifest.json"],
+    "domain": "teaching"
+  },
+  "curriculum-render": {
+    "remote": "ssh://git@github.com/robjohncolson/curriculum_render.git",
+    "purpose": "Quiz renderer and Railway-hosted grading API",
+    "deploy": "railway",
+    "depends_on": [],
+    "entry_points": ["index.html", "server.js"],
+    "domain": "teaching"
+  },
+  "grid-bot": {
+    "remote": "ssh://git@github.com/robjohncolson/doge-grid-bot.git",
+    "purpose": "Original DOGE grid trading bot",
+    "deploy": null,
+    "depends_on": [],
+    "entry_points": [],
+    "domain": "trading"
+  },
+  "grid-bot-v3": {
+    "remote": "git@github.com:robjohncolson/grid-bot-v3.git",
+    "purpose": "Kraken DOGE grid trading bot with R/Shiny dashboard and Haskell state machine",
+    "deploy": "railway",
+    "depends_on": [],
+    "entry_points": ["bot.py", "app.R", "StateMachine.hs"],
+    "domain": "trading"
+  },
+  "cmd-line-tools": {
+    "remote": "git@github.com:robjohncolson/cmd-line-tools.git",
+    "purpose": "Personal CLI utilities",
+    "deploy": null,
+    "depends_on": [],
+    "entry_points": [],
+    "domain": "tools"
+  },
+  "agent": {
+    "remote": "ssh://git@github.com/robjohncolson/Agent.git",
+    "purpose": "LLM routing intelligence layer and cross-machine orchestration hub",
+    "deploy": null,
+    "depends_on": [],
+    "entry_points": ["scripts/lesson-prep.mjs", "scripts/agent-startup.mjs"],
+    "domain": "meta"
+  }
+}

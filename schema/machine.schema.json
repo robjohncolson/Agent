@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Machine Registry",
+  "description": "Maps machine slugs to their hardware and software environment metadata.",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/$defs/machineEntry"
+  },
+  "$defs": {
+    "machineEntry": {
+      "type": "object",
+      "required": ["hostname", "os", "platform_notes", "python", "node", "shell"],
+      "additionalProperties": false,
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "OS hostname of the machine"
+        },
+        "os": {
+          "type": "string",
+          "enum": ["win32", "linux", "darwin"],
+          "description": "Platform identifier"
+        },
+        "platform_notes": {
+          "type": "string",
+          "description": "Human-readable description of the machine environment and any relevant constraints"
+        },
+        "python": {
+          "type": ["string", "null"],
+          "description": "Absolute path to the Python interpreter, or null if not available"
+        },
+        "node": {
+          "type": ["string", "null"],
+          "description": "Node.js version string (e.g. v22.19.0), or null if not available"
+        },
+        "shell": {
+          "type": ["string", "null"],
+          "description": "Shell description (e.g. bash via Git Bash), or null if not applicable"
+        }
+      }
+    }
+  }
+}

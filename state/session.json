@@ -1,42 +1,14 @@
 {
   "$schema": "../schema/session-state.schema.json",
-  "state_version": 3,
-  "machine": "work-colsonr",
-  "machine_base_path": "C:/Users/ColsonR",
+  "state_version": 4,
   "current_project": null,
-  "active_task": "Full lesson prep cycle observed (obs #44). Next: try video-ingest.mjs on next lesson, explore Supabase upload automation.",
-  "last_checkpoint_at": "2026-03-04T23:20:00Z",
+  "active_task": "Agent Hub v1 implementation — cross-machine orchestration layer with Supabase checkpoints",
+  "last_checkpoint_at": "2026-03-10T12:00:00Z",
   "checkpoint_trigger": "manual",
+  "agent_commit": null,
   "last_synced_observation_id": 44,
   "continuation_prompt": "CONTINUATION_PROMPT.md",
   "project_state_file": null,
-  "known_projects": [
-    {
-      "slug": "apstats-live-worksheet",
-      "path": "C:/Users/ColsonR/apstats-live-worksheet",
-      "state_file": "state/project-apstats-live-worksheet.json"
-    },
-    {
-      "slug": "curriculum-render",
-      "path": "C:/Users/ColsonR/curriculum_render",
-      "state_file": "state/project-curriculum-render.json"
-    },
-    {
-      "slug": "lrsl-driller",
-      "path": "C:/Users/ColsonR/lrsl-driller",
-      "state_file": "state/project-lrsl-driller.json"
-    },
-    {
-      "slug": "grid-bot",
-      "path": "C:/Users/ColsonR/grid-bot/doge-grid-bot",
-      "state_file": "state/project-grid-bot.json"
-    },
-    {
-      "slug": "cmd-line-tools",
-      "path": "C:/Users/ColsonR/cmd-line-tools",
-      "state_file": "state/project-cmd-line-tools.json"
-    }
-  ],
   "context_window_policy": {
     "auto_checkpoint_at_percent": 80,
     "hard_limit_percent": 90

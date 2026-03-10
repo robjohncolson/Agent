@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Repo Registry",
+  "description": "Maps repo slugs to their metadata: remote URL, purpose, deploy target, dependencies, entry points, and domain category.",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/$defs/repoEntry"
+  },
+  "$defs": {
+    "repoEntry": {
+      "type": "object",
+      "required": ["remote", "purpose", "deploy", "depends_on", "entry_points", "domain"],
+      "additionalProperties": false,
+      "properties": {
+        "remote": {
+          "type": "string",
+          "description": "Git remote URL for the repository"
+        },
+        "purpose": {
+          "type": "string",
+          "description": "One-line description of what the repo does"
+        },
+        "deploy": {
+          "type": ["string", "null"],
+          "enum": ["github-pages", "vercel", "railway", null],
+          "description": "Deployment platform, or null if not deployed"
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Slugs of repos this repo depends on"
+        },
+        "entry_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key file patterns (globs or paths) that define the repo's surface"
+        },
+        "domain": {
+          "type": "string",
+          "enum": ["teaching", "trading", "tools", "meta"],
+          "description": "High-level category grouping repos by purpose"
+        }
+      }
+    }
+  }
+}

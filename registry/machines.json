@@ -1,0 +1,10 @@
+{
+  "colsonr-work": {
+    "hostname": "LPS-5CD32865BG",
+    "os": "win32",
+    "platform_notes": "Windows 11 Education, Lynn Public Schools, no admin",
+    "python": "C:/Users/ColsonR/AppData/Local/Programs/Python/Python312",
+    "node": "v22.19.0",
+    "shell": "bash (git bash)"
+  }
+}
