@@ -82,6 +82,7 @@ function parseArgs(argv) {
   let force = false;
   let strictLlm = false;
   let skipLlm = false;
+  const forceSteps = new Set();
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -113,6 +114,8 @@ function parseArgs(argv) {
       strictLlm = true;
     } else if (arg === "--skip-llm") {
       skipLlm = true;
+    } else if (arg === "--force-step" && args[i + 1]) {
+      forceSteps.add(args[++i]);
     } else if (arg === "--drive-ids") {
       // Collect all subsequent args until the next flag or end of args
       i++;
@@ -144,13 +147,14 @@ function parseArgs(argv) {
         "  --date YYYY-MM-DD   Target date for calendar lookup and folder creation\n" +
         "  --no-folder         Skip Schoology folder creation (post links at top level)\n" +
         "  --force             Re-run all steps even if registry shows them as done\n" +
+        "  --force-step <key>  Force re-run of a specific step (repeatable). Keys: ingest, worksheet, blooketCsv, drills, animations, blooketUpload, schoology\n" +
         "  --strict-llm        Make LLM validation failures fatal (abort pipeline)\n" +
         "  --skip-llm          Skip all LLM semantic checks"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force, strictLlm, skipLlm };
+  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force, forceSteps, strictLlm, skipLlm };
 }
 
 // ── Resume helpers ───────────────────────────────────────────────────────────
@@ -161,7 +165,8 @@ function parseArgs(argv) {
  *
  * Returns { skip: true, reason: "..." } or { skip: false }.
  */
-function canResume(registryEntry, stepKey, artifactPath, force) {
+function canResume(registryEntry, stepKey, artifactPath, force, forceSteps) {
+  if (forceSteps instanceof Set && forceSteps.has(stepKey)) return { skip: false };
   if (force) return { skip: false };
   if (!registryEntry) return { skip: false };
   const status = registryEntry.status?.[stepKey];
@@ -1686,7 +1691,7 @@ async function main() {
   const blooketCsvPath = path.join(WORKING_DIRS.worksheet, `u${unit}_l${lesson}_blooket.csv`);
 
   // Step 1: Video ingest via CDP
-  const step1Resume = canResume(existingEntry, "ingest", null, opts.force);
+  const step1Resume = canResume(existingEntry, "ingest", null, opts.force, opts.forceSteps);
   let step1ok = false;
   let ranStep1 = false;
   if (opts.skipIngest) {
@@ -1716,9 +1721,9 @@ async function main() {
   }
 
   // Step 2: Parallel content generation
-  const step2WorksheetResume = canResume(existingEntry, "worksheet", worksheetPath, opts.force);
-  const step2BlooketResume = canResume(existingEntry, "blooketCsv", blooketCsvPath, opts.force);
-  const step2DrillsResume = canResume(existingEntry, "drills", null, opts.force);
+  const step2WorksheetResume = canResume(existingEntry, "worksheet", worksheetPath, opts.force, opts.forceSteps);
+  const step2BlooketResume = canResume(existingEntry, "blooketCsv", blooketCsvPath, opts.force, opts.forceSteps);
+  const step2DrillsResume = canResume(existingEntry, "drills", null, opts.force, opts.forceSteps);
   const allStep2Done = step2WorksheetResume.skip && step2BlooketResume.skip && step2DrillsResume.skip;
 
   if (allStep2Done) {
@@ -1763,7 +1768,7 @@ async function main() {
     readdirSync(animDir).some(f => f.startsWith(animPrefix) && f.endsWith(".py"));
 
   // Step 3: Render animations
-  const step3Resume = canResume(existingEntry, "animations", null, opts.force);
+  const step3Resume = canResume(existingEntry, "animations", null, opts.force, opts.forceSteps);
   if (opts.skipRender) {
     console.log("=== Step 3: Rendering skipped (--skip-render) ===\n");
   } else if (step3Resume.skip) {
@@ -1820,7 +1825,7 @@ async function main() {
   }
 
   // Step 5: Upload Blooket
-  const step5Resume = canResume(existingEntry, "blooketUpload", null, opts.force);
+  const step5Resume = canResume(existingEntry, "blooketUpload", null, opts.force, opts.forceSteps);
   let blooketUrl = existingEntry?.urls?.blooket || null;
   if (opts.skipBlooket) {
     console.log("=== Step 5: Blooket upload skipped (--skip-blooket) ===\n");
@@ -1840,7 +1845,7 @@ async function main() {
   }
 
   // Step 6: Post to Schoology
-  const step6Resume = canResume(existingEntry, "schoology", null, opts.force);
+  const step6Resume = canResume(existingEntry, "schoology", null, opts.force, opts.forceSteps);
   if (opts.skipSchoology) {
     console.log(stepBanner(6, "Schoology posting skipped (--skip-schoology)") + "\n");
   } else if (step6Resume.skip) {
@@ -1880,6 +1885,16 @@ async function main() {
         }
       }
     }
+  }
+
+  // Step 6.5: Verify Schoology links for both periods
+  try {
+    const verifyScript = path.join(AGENT_ROOT, "scripts", "schoology-verify.mjs");
+    console.log(stepBanner(6.5, "Verifying Schoology links (both periods)") + "\n");
+    execSync(`node "${verifyScript}" --unit ${unit} --lesson ${lesson}`, { stdio: "inherit", timeout: 120000 });
+    console.log();
+  } catch (e) {
+    console.warn("Schoology verification failed or found missing links (non-fatal).\n");
   }
 
   // Step 7: Generate URLs
