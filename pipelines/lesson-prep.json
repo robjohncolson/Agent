@@ -6,15 +6,15 @@
   "steps": [
     { "task": "ingest", "depends_on": [], "defined": true },
     { "task": "content-gen-worksheet", "depends_on": ["ingest"], "defined": true },
-    { "task": "content-gen-blooket", "depends_on": ["ingest"], "defined": false },
-    { "task": "content-gen-drills", "depends_on": ["ingest"], "defined": false },
+    { "task": "content-gen-blooket", "depends_on": ["ingest"], "defined": true },
+    { "task": "content-gen-drills", "depends_on": ["ingest"], "defined": true },
     { "task": "render-animations", "depends_on": ["content-gen-drills"], "defined": true },
-    { "task": "upload-animations", "depends_on": ["render-animations"], "defined": false },
-    { "task": "upload-blooket", "depends_on": ["content-gen-blooket"], "defined": false },
-    { "task": "schoology-post", "depends_on": ["upload-blooket", "content-gen-worksheet"], "defined": false },
-    { "task": "verify-schoology", "depends_on": ["schoology-post"], "defined": false },
-    { "task": "generate-urls", "depends_on": ["schoology-post", "upload-animations"], "defined": false },
-    { "task": "export-registry", "depends_on": ["generate-urls"], "defined": false },
-    { "task": "commit-push", "depends_on": ["export-registry"], "defined": false }
+    { "task": "upload-animations", "depends_on": ["render-animations"], "defined": true },
+    { "task": "upload-blooket", "depends_on": ["content-gen-blooket"], "defined": true },
+    { "task": "schoology-post", "depends_on": ["upload-blooket", "content-gen-worksheet"], "defined": true },
+    { "task": "verify-schoology", "depends_on": ["schoology-post"], "defined": true },
+    { "task": "generate-urls", "depends_on": ["schoology-post", "upload-animations"], "defined": true },
+    { "task": "export-registry", "depends_on": ["generate-urls"], "defined": true },
+    { "task": "commit-push", "depends_on": ["export-registry"], "defined": true }
   ]
 }

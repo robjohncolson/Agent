@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Hub Dashboard</title>
+  <meta name="supabase-url" content="https://hgvnytaqmuybzbotosyj.supabase.co">
+  <meta name="supabase-anon-key" content="REPLACE_WITH_ANON_KEY">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header>
+    <h1>Agent Hub</h1>
+    <nav id="tabs">
+      <button class="tab active" data-view="pipeline">Pipelines</button>
+      <button class="tab" data-view="timeline">Timeline</button>
+      <button class="tab" data-view="checkpoints">Checkpoints</button>
+      <button class="tab" data-view="repos">Repos</button>
+    </nav>
+    <div id="controls">
+      <label><input type="checkbox" id="auto-refresh"> Auto-refresh (30s)</label>
+    </div>
+  </header>
+  <main>
+    <div id="loading" class="hidden">Loading...</div>
+    <div id="error" class="hidden"></div>
+    <div id="view-pipeline" class="view active"></div>
+    <div id="view-timeline" class="view hidden"></div>
+    <div id="view-checkpoints" class="view hidden"></div>
+    <div id="view-repos" class="view hidden"></div>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

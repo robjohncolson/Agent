@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "commit-push",
+  "name": "Commit and push all downstream repos",
+  "type": "git-operation",
+  "worker": "scripts/lesson-prep.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}",
+    "auto_push": true
+  },
+  "outputs": {
+    "registry_key": "committed"
+  },
+  "preconditions": {
+    "registry_status": { "key": "committed", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "fail"
+  },
+  "timeout_minutes": 5
+}

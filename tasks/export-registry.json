@@ -1,0 +1,18 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "export-registry",
+  "name": "Export lesson registry to worksheet repo",
+  "type": "node-script",
+  "worker": "scripts/export-registry.mjs",
+  "inputs": {},
+  "outputs": {
+    "registry_key": "registry_exported"
+  },
+  "preconditions": {
+    "registry_status": { "key": "registry_exported", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 2
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "schoology-post",
+  "name": "Post lesson materials to Schoology",
+  "type": "cdp-browser",
+  "worker": "scripts/post-to-schoology.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}",
+    "blooket_url": "{{blooket_url}}",
+    "auto_urls": true
+  },
+  "outputs": {
+    "registry_key": "schoology"
+  },
+  "preconditions": {
+    "requires_cdp": true,
+    "registry_status": { "key": "schoology", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 15
+}

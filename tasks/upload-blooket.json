@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "upload-blooket",
+  "name": "Upload Blooket CSV via CDP",
+  "type": "cdp-browser",
+  "worker": "scripts/upload-blooket.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}"
+  },
+  "outputs": {
+    "registry_key": "blooket_url"
+  },
+  "preconditions": {
+    "requires_cdp": true,
+    "registry_status": { "key": "blooket_url", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 10
+}

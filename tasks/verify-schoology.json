@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "verify-schoology",
+  "name": "Verify Schoology links are live",
+  "type": "node-script",
+  "worker": "scripts/schoology-verify.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}"
+  },
+  "outputs": {
+    "registry_key": "schoology_verified"
+  },
+  "preconditions": {
+    "registry_status": { "key": "schoology_verified", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 5
+}

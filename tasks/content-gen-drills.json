@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "content-gen-drills",
+  "name": "Generate drill cartridge definitions via Codex",
+  "type": "codex-agent",
+  "worker": "codex",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}",
+    "video_context_dir": "u{{unit}}"
+  },
+  "outputs": {
+    "registry_key": "drills"
+  },
+  "preconditions": {
+    "registry_status": { "key": "drills", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "fail"
+  },
+  "timeout_minutes": 15
+}

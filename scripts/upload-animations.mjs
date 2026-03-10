@@ -2,14 +2,25 @@
 /**
  * upload-animations.mjs — Upload rendered Manim MP4s to Supabase Storage
  *
- * Usage: node scripts/upload-animations.mjs --unit 7 --lesson 2
+ * Usage:
+ *   node scripts/upload-animations.mjs --unit 7 --lesson 2
+ *   node scripts/upload-animations.mjs --unit 6 --lesson 11 --retry-failed
+ *   node scripts/upload-animations.mjs --unit 6 --lesson 11 --force
+ *   node scripts/upload-animations.mjs --unit 6 --lesson 11 --dry-run
  *
  * Expects env vars: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
  * Uploads 720p30 renders to: videos/animations/{cartridgeName}/{filename}.mp4
  */
 
+import "dotenv/config";
 import { readFileSync, readdirSync, statSync, existsSync } from "fs";
 import path from "path";
+import { fetchWithRetry } from "./lib/fetch-retry.mjs";
+import { loadState, updateFileState } from "./lib/upload-state.mjs";
+import { emit } from "./lib/event-log.mjs";
+
+// Corporate proxy TLS bypass
+process.env.NODE_TLS_REJECT_UNAUTHORIZED ??= '0';
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
@@ -29,15 +40,19 @@ const CARTRIDGE_MAP = {
 function parseArgs() {
   const args = process.argv.slice(2);
   let unit = null, lesson = null;
+  let force = false, dryRun = false, retryFailed = false;
   for (let i = 0; i < args.length; i++) {
     if ((args[i] === "--unit" || args[i] === "-u") && args[i + 1]) unit = args[++i];
-    if ((args[i] === "--lesson" || args[i] === "-l") && args[i + 1]) lesson = args[++i];
+    else if ((args[i] === "--lesson" || args[i] === "-l") && args[i + 1]) lesson = args[++i];
+    else if (args[i] === "--force") force = true;
+    else if (args[i] === "--dry-run") dryRun = true;
+    else if (args[i] === "--retry-failed") retryFailed = true;
   }
   if (!unit || !lesson) {
-    console.error("Usage: node scripts/upload-animations.mjs --unit <U> --lesson <L>");
+    console.error("Usage: node scripts/upload-animations.mjs --unit <U> --lesson <L> [--force] [--dry-run] [--retry-failed]");
     process.exit(1);
   }
-  return { unit, lesson };
+  return { unit, lesson, force, dryRun, retryFailed };
 }
 
 // ── Find MP4s ───────────────────────────────────────────────────────────────
@@ -61,14 +76,48 @@ function findAnimationFiles(unit, lesson) {
     });
 }
 
-// ── Upload to Supabase ──────────────────────────────────────────────────────
+// ── File selection planner ──────────────────────────────────────────────────
+
+function planUploads(files, state, { force, retryFailed }) {
+  return files.map(file => {
+    const fileState = state.files[file.filename];
+    if (force) return { ...file, action: 'upload' };
+    if (retryFailed) {
+      if (fileState?.status === 'failed') return { ...file, action: 'retry' };
+      return { ...file, action: 'skip' };
+    }
+    if (fileState?.status === 'uploaded') return { ...file, action: 'skip' };
+    return { ...file, action: 'upload' };
+  });
+}
+
+// ── Idempotency probe ───────────────────────────────────────────────────────
+
+async function checkExists(supabaseUrl, serviceKey, storagePath, expectedSize) {
+  try {
+    const url = `${supabaseUrl}/storage/v1/object/${BUCKET}/${storagePath}`;
+    const res = await fetch(url, {
+      method: 'HEAD',
+      headers: { Authorization: `Bearer ${serviceKey}` },
+    });
+    if (!res.ok) return false;
+    const contentLength = res.headers.get('content-length');
+    if (contentLength && expectedSize && parseInt(contentLength, 10) !== expectedSize) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ── Upload to Supabase (with retry) ─────────────────────────────────────────
 
 async function uploadFile(supabaseUrl, serviceKey, storagePath, localPath) {
   const fileData = readFileSync(localPath);
   const url = `${supabaseUrl}/storage/v1/object/${BUCKET}/${storagePath}`;
 
-  // Try upsert (PUT first, then POST if bucket doesn't support upsert)
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${serviceKey}`,
@@ -76,25 +125,9 @@ async function uploadFile(supabaseUrl, serviceKey, storagePath, localPath) {
       "x-upsert": "true",
     },
     body: fileData,
-  });
+  }, { maxRetries: 3, baseDelay: 1000 });
 
   if (res.ok) return { success: true, status: res.status };
-
-  // If PUT fails, try POST (create)
-  if (res.status === 400 || res.status === 404) {
-    const res2 = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${serviceKey}`,
-        "Content-Type": "video/mp4",
-      },
-      body: fileData,
-    });
-    if (res2.ok) return { success: true, status: res2.status };
-    const body = await res2.text();
-    return { success: false, status: res2.status, error: body };
-  }
-
   const body = await res.text();
   return { success: false, status: res.status, error: body };
 }
@@ -102,7 +135,7 @@ async function uploadFile(supabaseUrl, serviceKey, storagePath, localPath) {
 // ── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const { unit, lesson } = parseArgs();
+  const { unit, lesson, force, dryRun, retryFailed } = parseArgs();
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -124,29 +157,96 @@ async function main() {
     process.exit(0);
   }
 
-  console.log(`Uploading ${files.length} animation(s) to Supabase...`);
+  const state = loadState(unit, lesson);
+  const plan = planUploads(files, state, { force, retryFailed });
+
+  const toUpload = plan.filter(f => f.action !== 'skip');
+  const toSkip = plan.filter(f => f.action === 'skip');
+
+  console.log(`Plan: ${toUpload.length} to upload, ${toSkip.length} to skip (of ${files.length} total)`);
+
+  emit('animation.upload.started', 'animation', {
+    unit, lesson, total: files.length, toUpload: toUpload.length, toSkip: toSkip.length
+  });
+
+  if (dryRun) {
+    plan.forEach(f => console.log(`  [${f.action}] ${f.filename}`));
+    console.log('\n--dry-run: no files uploaded.');
+    process.exit(0);
+  }
+
   console.log(`  Bucket: ${BUCKET}`);
   console.log(`  Path prefix: animations/${cartridgeName}/\n`);
 
-  let succeeded = 0, failed = 0;
+  let succeeded = 0, failed = 0, skipped = toSkip.length;
 
-  for (const file of files) {
+  for (const file of plan) {
+    if (file.action === 'skip') {
+      console.log(`  SKIP ${file.filename} (already uploaded)`);
+      continue;
+    }
+
     const storagePath = `animations/${cartridgeName}/${file.filename}`;
     const sizeKB = Math.round(file.size / 1024);
+
+    // Idempotency check (unless --force)
+    if (!force) {
+      const exists = await checkExists(supabaseUrl, serviceKey, storagePath, file.size);
+      if (exists) {
+        console.log(`  SKIP ${file.filename} (exists in Supabase, ${sizeKB} KB)`);
+        updateFileState(state, file.filename, {
+          status: 'uploaded', url: storagePath, skipped_at: new Date().toISOString()
+        });
+        skipped++;
+        continue;
+      }
+    }
+
     process.stdout.write(`  ${file.filename} (${sizeKB} KB) → ${storagePath} ... `);
 
-    const result = await uploadFile(supabaseUrl, serviceKey, storagePath, file.localPath);
-    if (result.success) {
-      console.log(`✓ (HTTP ${result.status})`);
-      succeeded++;
-    } else {
-      console.log(`✗ (HTTP ${result.status})`);
-      console.log(`    Error: ${result.error}`);
+    try {
+      const result = await uploadFile(supabaseUrl, serviceKey, storagePath, file.localPath);
+      if (result.success) {
+        console.log(`✓ (HTTP ${result.status})`);
+        updateFileState(state, file.filename, {
+          status: 'uploaded', url: storagePath, uploaded_at: new Date().toISOString(),
+          size_bytes: file.size, retries: 0
+        });
+        emit('animation.upload.file', 'animation', {
+          unit, lesson, filename: file.filename, status: 'uploaded', retries: 0
+        });
+        succeeded++;
+      } else {
+        console.log(`✗ (HTTP ${result.status})`);
+        console.log(`    Error: ${result.error}`);
+        updateFileState(state, file.filename, {
+          status: 'failed', error: result.error, last_attempt: new Date().toISOString(),
+          retries: (state.files[file.filename]?.retries || 0) + 1
+        });
+        emit('animation.upload.file', 'animation', {
+          unit, lesson, filename: file.filename, status: 'failed', error: result.error
+        });
+        failed++;
+      }
+    } catch (err) {
+      console.log(`✗ (${err.message})`);
+      updateFileState(state, file.filename, {
+        status: 'failed', error: err.message, last_attempt: new Date().toISOString(),
+        retries: (state.files[file.filename]?.retries || 0) + 1
+      });
+      emit('animation.upload.file', 'animation', {
+        unit, lesson, filename: file.filename, status: 'failed', error: err.message
+      });
       failed++;
     }
   }
 
-  console.log(`\nDone. ${succeeded} uploaded, ${failed} failed.`);
+  console.log(`\nDone. ${succeeded} uploaded, ${skipped} skipped, ${failed} failed.`);
+
+  emit('animation.upload.completed', 'animation', {
+    unit, lesson, succeeded, skipped, failed, total: files.length
+  });
+
   if (failed > 0) process.exit(1);
 }
 

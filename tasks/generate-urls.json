@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "generate-urls",
+  "name": "Generate and print lesson URLs",
+  "type": "node-script",
+  "worker": "scripts/lesson-urls.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}"
+  },
+  "outputs": {
+    "registry_key": "urls_generated"
+  },
+  "preconditions": {
+    "registry_status": { "key": "urls_generated", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 2
+}

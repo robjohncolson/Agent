@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "upload-animations",
+  "name": "Upload rendered animations to Supabase",
+  "type": "node-script",
+  "worker": "scripts/upload-animations.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}"
+  },
+  "outputs": {
+    "registry_key": "animation_urls"
+  },
+  "preconditions": {
+    "registry_status": { "key": "animation_urls", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 10
+}
