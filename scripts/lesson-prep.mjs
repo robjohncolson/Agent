@@ -183,6 +183,47 @@ function canResume(registryEntry, stepKey, artifactPath, force, forceSteps) {
 const CALENDAR_BASE_URL = "https://robjohncolson.github.io/apstats-live-worksheet";
 
 /**
+ * Determine the Schoology quarter folder and week number for a given date.
+ * Uses known anchor: week 23 = Monday Mar 2, 2026 (inside Q3).
+ * Returns { quarter: "Q3", weekNum: 24, folderPath: "Q3/week 24" } or null.
+ */
+function determineSchoolWeek(targetDate) {
+  if (!targetDate) return null;
+  const [y, m, d] = targetDate.split("-").map(Number);
+  const target = new Date(y, m - 1, d);
+
+  // Get Monday of target week
+  const dow = target.getDay(); // 0=Sun
+  const targetMonday = new Date(target);
+  targetMonday.setDate(target.getDate() - ((dow + 6) % 7));
+  targetMonday.setHours(0, 0, 0, 0);
+
+  // Known anchor: week 23 starts Monday March 2, 2026
+  const anchorMonday = new Date(2026, 2, 2); // Mar 2, 2026
+  anchorMonday.setHours(0, 0, 0, 0);
+  const anchorWeek = 23;
+
+  const msDiff = targetMonday.getTime() - anchorMonday.getTime();
+  const weekDiff = Math.round(msDiff / (7 * 24 * 60 * 60 * 1000));
+  const weekNum = anchorWeek + weekDiff;
+
+  // Determine quarter from approximate week ranges
+  // S1: weeks 1-20, Q3: weeks 21-30, S2/Q4: weeks 31+
+  let quarter;
+  if (weekNum <= 20) quarter = "S2";
+  else if (weekNum <= 30) quarter = "Q3";
+  else quarter = "Q4";
+
+  if (weekNum < 1) return null;
+
+  return {
+    quarter,
+    weekNum,
+    folderPath: `${quarter}/week ${weekNum}`,
+  };
+}
+
+/**
  * Check if a script file exists. Returns true/false.
  */
 function scriptExists(path) {
@@ -330,7 +371,17 @@ function step0_detectFromCalendar(targetDate) {
   if (calendarUrl) console.log(`Calendar: ${calendarUrl}`);
   console.log();
 
-  return { unit, lesson, folderTitle, folderDesc, calendarUrl };
+  // Compute ISO date string for downstream use (quarter/week detection)
+  let isoDate = targetDate;
+  if (!isoDate && monthAbbr && dayNum) {
+    const monthMap2 = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const yr = tomorrow.getFullYear();
+    isoDate = `${yr}-${monthMap2[monthAbbr] || '01'}-${String(dayNum).padStart(2, '0')}`;
+  }
+
+  return { unit, lesson, folderTitle, folderDesc, calendarUrl, date: isoDate };
 }
 
 // ── Step 0.5: Drive video lookup ─────────────────────────────────────────────
@@ -1302,8 +1353,15 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   if (regEntry?.urls?.schoologyFolder) {
     args.push(`--target-folder "${regEntry.urls.schoologyFolder}"`);
   }
-  // Folder creation args from calendar context (only if no existing folder)
+  // Navigate into quarter/week hierarchy, create day folder inside
   else if (calendarContext && calendarContext.folderTitle) {
+    const weekInfo = calendarContext.date
+      ? determineSchoolWeek(calendarContext.date)
+      : null;
+    if (weekInfo) {
+      args.push(`--folder-path "${weekInfo.folderPath}"`);
+      console.log(`  Folder path: ${weekInfo.folderPath} (${weekInfo.quarter}, week ${weekInfo.weekNum})`);
+    }
     args.push(`--create-folder "${calendarContext.folderTitle}"`);
     if (calendarContext.folderDesc) {
       // Escape newlines and quotes for shell transport

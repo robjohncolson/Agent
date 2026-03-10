@@ -75,6 +75,7 @@ function parseArgs(argv) {
   let calendarTitle = null;
   let noPrompt = false;
   let targetFolder = null;
+  let folderPath = null;
   let heal = false;
 
   for (let i = 0; i < args.length; i++) {
@@ -114,6 +115,8 @@ function parseArgs(argv) {
       noPrompt = true;
     } else if (arg === "--target-folder") {
       targetFolder = args[++i];
+    } else if (arg === "--folder-path") {
+      folderPath = args[++i];
     } else if (arg === "--heal") {
       heal = true;
     }
@@ -140,12 +143,13 @@ function parseArgs(argv) {
         "  --calendar-title  Title for the calendar link\n" +
         "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n" +
         "  --target-folder   Post into an existing folder URL (skip folder creation)\n" +
+        "  --folder-path     Navigate into nested folder hierarchy (e.g. \"Q3/week 24\"), create missing folders\n" +
         "  --heal            Heal mode: audit folder, post only missing links, verify\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder, heal };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder, folderPath, heal };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -391,7 +395,9 @@ async function extractFolderUrl(page, folderTitle, materialsUrl) {
     if (text.trim() === folderTitle) {
       const rowId = await row.getAttribute('id'); // e.g. "f-986313435"
       const folderId = rowId.replace('f-', '');
-      const folderUrl = `${materialsUrl}?f=${folderId}`;
+      // Replace existing ?f= param or append; avoids ?f=parent?f=child
+      const baseUrl = materialsUrl.replace(/\?f=\d+$/, '');
+      const folderUrl = `${baseUrl}?f=${folderId}`;
       console.log(`  Found folder ID: ${folderId}`);
       console.log(`  Folder URL: ${folderUrl}`);
       return folderUrl;
@@ -651,10 +657,35 @@ async function main() {
     }
   }
 
-  // Use existing folder (--target-folder) or create a new one (--create-folder)
+  // Use existing folder (--target-folder), navigate path (--folder-path), or create new (--create-folder)
   if (opts.targetFolder) {
     materialsUrl = opts.targetFolder;
     console.log(`  Using existing folder: ${materialsUrl}`);
+  } else if (opts.folderPath) {
+    try {
+      const { navigatePath, materialsUrl: buildMaterialsUrl } = await import('./lib/schoology-dom.mjs');
+      const pathSegments = opts.folderPath.split('/').map(s => s.trim()).filter(Boolean);
+      console.log(`  Navigating folder path: ${pathSegments.join(' → ')}`);
+      const parentFolderId = await navigatePath(page, courseId, pathSegments, { createMissing: true });
+      const parentUrl = buildMaterialsUrl(courseId, parentFolderId);
+
+      // If --create-folder is also specified, create the day folder inside the resolved parent
+      if (opts.createFolder) {
+        await createFolder(page, opts.createFolder, opts.folderDesc, parentUrl);
+        materialsUrl = await extractFolderUrl(page, opts.createFolder, parentUrl);
+        updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+        console.log(`  Day folder created inside path: ${materialsUrl}`);
+      } else {
+        // Post directly into the resolved parent folder
+        materialsUrl = parentUrl;
+        updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+        console.log(`  Posting into: ${materialsUrl}`);
+      }
+    } catch (err) {
+      console.error(`  FOLDER PATH NAVIGATION FAILED: ${err.message}`);
+      console.error("  Falling back to posting links at top level.");
+      failCount++;
+    }
   } else if (opts.createFolder) {
     try {
       await createFolder(page, opts.createFolder, opts.folderDesc, rootMaterialsUrl);

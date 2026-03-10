@@ -138,6 +138,59 @@ export async function resolveFolder(page, courseId, ref) {
   return match || null;
 }
 
+// ── Folder Path Navigation ──────────────────────────────────────────────────
+
+/**
+ * Navigate through a folder hierarchy by name, creating missing folders along
+ * the way if `createMissing` is true. Returns the final folder ID.
+ *
+ * @param {Page} page - Playwright page
+ * @param {string} courseId - Schoology course ID
+ * @param {string[]} pathSegments - e.g., ["Q3", "week 24"]
+ * @param {{ createMissing?: boolean }} options
+ * @returns {Promise<string>} - folder ID of the deepest segment
+ */
+export async function navigatePath(page, courseId, pathSegments, { createMissing = false } = {}) {
+  let currentFolderId = null;
+
+  for (const segment of pathSegments) {
+    await navigateToFolder(page, courseId, currentFolderId);
+    const items = await listItems(page);
+    const match = items.find(
+      i => i.type === 'folder' && i.name.toLowerCase() === segment.toLowerCase()
+    );
+
+    if (match) {
+      currentFolderId = match.id;
+    } else if (createMissing) {
+      // Create the missing folder at the current level
+      await clickAddMaterials(page);
+      await clickAddFolder(page);
+      await fillFolderForm(page, { name: segment });
+      await submitPopup(page);
+
+      // Re-list to find the newly created folder
+      await navigateToFolder(page, courseId, currentFolderId);
+      const refreshed = await listItems(page);
+      const created = refreshed.find(
+        i => i.type === 'folder' && i.name.toLowerCase() === segment.toLowerCase()
+      );
+      if (!created) {
+        throw new Error(`Failed to create folder "${segment}" — not found after creation`);
+      }
+      currentFolderId = created.id;
+      console.log(`  Created folder: "${segment}" (id: ${currentFolderId})`);
+    } else {
+      const available = items.filter(i => i.type === 'folder').map(i => i.name);
+      throw new Error(
+        `Folder "${segment}" not found. Available: ${available.join(', ') || '(none)'}`
+      );
+    }
+  }
+
+  return currentFolderId;
+}
+
 // ── Folder Creation ──────────────────────────────────────────────────────────
 
 /**
@@ -160,15 +213,23 @@ export async function clickAddMaterials(page) {
  * Click the "Add Folder" link in the Add Materials dropdown.
  */
 export async function clickAddFolder(page) {
-  await page.evaluate(() => {
-    const links = document.querySelectorAll('a');
-    for (const a of links) {
-      if (a.textContent.trim() === 'Add Folder') {
-        a.click();
-        return;
+  // Use Playwright's native click — page.evaluate clicks don't trigger
+  // Schoology's popups-processed handlers inside subfolder contexts.
+  try {
+    await page.click('a:has-text("Add Folder")', { timeout: 5000 });
+  } catch {
+    // Fallback to evaluate click for older DOM states
+    await page.evaluate(() => {
+      const links = document.querySelectorAll('a');
+      for (const a of links) {
+        if (a.textContent.trim() === 'Add Folder') {
+          a.click();
+          return;
+        }
       }
-    }
-  });
+    });
+  }
+  await sleep(2000);
 }
 
 /**
