@@ -14,6 +14,9 @@
 import 'dotenv/config';
 import { execSync } from 'node:child_process';
 
+// Corporate proxy (Lynn Public Schools) does TLS interception
+process.env.NODE_TLS_REJECT_UNAUTHORIZED ??= '0';
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------

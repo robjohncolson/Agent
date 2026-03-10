@@ -13,6 +13,9 @@
 
 import 'dotenv/config';
 
+// Corporate proxy (Lynn Public Schools) does TLS interception
+process.env.NODE_TLS_REJECT_UNAUTHORIZED ??= '0';
+
 // ── SQL to create the table (printed if it doesn't exist) ───────────────────
 
 const CREATE_SQL = `
