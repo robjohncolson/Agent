@@ -38,7 +38,7 @@ let chromium;
 
 import { CONFIG_DIR } from "./lib/paths.mjs";
 
-const CDP_URL = "http://127.0.0.1:9222";
+const CDP_URL = process.env.CDP_ENDPOINT || "http://127.0.0.1:9222";
 const INDEX_PATH = path.join(CONFIG_DIR, "drive-video-index.json");
 
 // Video file extensions to match

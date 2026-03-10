@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task Definition",
+  "description": "Declarative definition of a pipeline task for the Agent Hub task runner.",
+  "type": "object",
+  "required": ["id", "name", "type", "worker"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique task identifier (kebab-case)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable task name"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["cdp-browser", "codex-agent", "node-script", "git-operation"],
+      "description": "Worker type"
+    },
+    "worker": {
+      "type": "string",
+      "description": "Relative path to the worker script from repo root"
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Input parameters. Values can be template strings like {{unit}}",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean", "array"]
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "description": "Expected output artifacts",
+      "properties": {
+        "files": {
+          "type": "string",
+          "description": "Glob pattern for expected output files"
+        },
+        "registry_key": {
+          "type": "string",
+          "description": "Registry status key to mark done"
+        }
+      }
+    },
+    "preconditions": {
+      "type": "object",
+      "description": "Conditions that must be true before running",
+      "properties": {
+        "requires_cdp": {
+          "type": "boolean"
+        },
+        "registry_status": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "not": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "on_failure": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["fail", "retry", "skip"]
+        },
+        "delay_minutes": {
+          "type": "number"
+        },
+        "max_retries": {
+          "type": "number"
+        }
+      }
+    },
+    "timeout_minutes": {
+      "type": "number",
+      "description": "Max execution time in minutes"
+    }
+  },
+  "additionalProperties": false
+}

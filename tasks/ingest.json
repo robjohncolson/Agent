@@ -1,0 +1,26 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "ingest",
+  "name": "Video ingest via AI Studio",
+  "type": "cdp-browser",
+  "worker": "scripts/aistudio-ingest.mjs",
+  "inputs": {
+    "unit": "{{unit}}",
+    "lesson": "{{lesson}}",
+    "drive_ids": "{{drive_ids}}"
+  },
+  "outputs": {
+    "files": "u{{unit}}/apstat_{{unit}}-{{lesson}}-*",
+    "registry_key": "ingest"
+  },
+  "preconditions": {
+    "requires_cdp": true,
+    "registry_status": { "key": "ingest", "not": "done" }
+  },
+  "on_failure": {
+    "strategy": "retry",
+    "delay_minutes": 120,
+    "max_retries": 5
+  },
+  "timeout_minutes": 30
+}

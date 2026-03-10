@@ -17,6 +17,9 @@ const CDP_PORT = 9222;
 const CDP_URL = `http://127.0.0.1:${CDP_PORT}`;
 const LAUNCH_WAIT_SECONDS = 10;
 
+const CDP_ENDPOINT_ENV = process.env.CDP_ENDPOINT;
+const IS_REMOTE = !!CDP_ENDPOINT_ENV;
+
 /**
  * Check if a TCP port is listening by attempting a connection.
  */
@@ -59,66 +62,73 @@ function sleep(ms) {
  * @returns {Promise<{browser: object, page: object}>}
  */
 export async function connectCDP(chromium, { preferUrl = null } = {}) {
-  let isListening = await checkPort(CDP_PORT);
+  let browser;
 
-  if (!isListening) {
-    console.log("No browser with debugging found on port 9222.");
-    console.log("Launching Edge with remote debugging...");
+  if (IS_REMOTE) {
+    console.log("CDP: Connecting to remote endpoint...");
+    browser = await chromium.connectOverCDP(CDP_ENDPOINT_ENV);
+  } else {
+    let isListening = await checkPort(CDP_PORT);
 
-    try {
-      const child = spawn(
-        EDGE_PATH,
-        [
-          `--remote-debugging-port=${CDP_PORT}`,
-          `--user-data-dir=${EDGE_DEBUG_PROFILE}`,
-        ],
-        { detached: true, stdio: "ignore" }
-      );
-      child.unref();
-    } catch (err) {
-      console.error(`Failed to launch Edge: ${err.message}`);
-      console.error(`\nPlease start Edge manually with remote debugging:\n`);
-      console.error(`  "${EDGE_PATH}" --remote-debugging-port=${CDP_PORT}\n`);
-      console.error(`Or run the helper script:\n`);
-      console.error(`  scripts\\start-edge-debug.cmd\n`);
-      process.exit(1);
-    }
+    if (!isListening) {
+      console.log("No browser with debugging found on port 9222.");
+      console.log("Launching Edge with remote debugging...");
 
-    // Wait for the port to become available
-    for (let i = 0; i < LAUNCH_WAIT_SECONDS; i++) {
-      await sleep(1000);
-      isListening = await checkPort(CDP_PORT);
-      if (isListening) {
-        console.log(`Edge is ready (took ${i + 1}s).`);
-        break;
+      try {
+        const child = spawn(
+          EDGE_PATH,
+          [
+            `--remote-debugging-port=${CDP_PORT}`,
+            `--user-data-dir=${EDGE_DEBUG_PROFILE}`,
+          ],
+          { detached: true, stdio: "ignore" }
+        );
+        child.unref();
+      } catch (err) {
+        console.error(`Failed to launch Edge: ${err.message}`);
+        console.error(`\nPlease start Edge manually with remote debugging:\n`);
+        console.error(`  "${EDGE_PATH}" --remote-debugging-port=${CDP_PORT}\n`);
+        console.error(`Or run the helper script:\n`);
+        console.error(`  scripts\\start-edge-debug.cmd\n`);
+        process.exit(1);
+      }
+
+      // Wait for the port to become available
+      for (let i = 0; i < LAUNCH_WAIT_SECONDS; i++) {
+        await sleep(1000);
+        isListening = await checkPort(CDP_PORT);
+        if (isListening) {
+          console.log(`Edge is ready (took ${i + 1}s).`);
+          break;
+        }
+      }
+
+      if (!isListening) {
+        console.error(`\nEdge did not start within ${LAUNCH_WAIT_SECONDS} seconds.`);
+        console.error(`Please start Edge manually with remote debugging:\n`);
+        console.error(`  "${EDGE_PATH}" --remote-debugging-port=${CDP_PORT}\n`);
+        console.error(`Or run the helper script:\n`);
+        console.error(`  scripts\\start-edge-debug.cmd\n`);
+        process.exit(1);
       }
     }
 
-    if (!isListening) {
-      console.error(`\nEdge did not start within ${LAUNCH_WAIT_SECONDS} seconds.`);
-      console.error(`Please start Edge manually with remote debugging:\n`);
-      console.error(`  "${EDGE_PATH}" --remote-debugging-port=${CDP_PORT}\n`);
-      console.error(`Or run the helper script:\n`);
-      console.error(`  scripts\\start-edge-debug.cmd\n`);
+    // Verify CDP is responding with version info
+    try {
+      const response = await fetch(`${CDP_URL}/json/version`);
+      if (response.ok) {
+        const info = await response.json();
+        console.log(`CDP: Found browser — ${info.Browser || "unknown"}`);
+      }
+    } catch {
+      console.error("CDP port is open but /json/version did not respond.");
+      console.error("The process on port 9222 may not be a Chromium-based browser.");
       process.exit(1);
     }
-  }
 
-  // Verify CDP is responding with version info
-  try {
-    const response = await fetch(`${CDP_URL}/json/version`);
-    if (response.ok) {
-      const info = await response.json();
-      console.log(`CDP: Found browser — ${info.Browser || "unknown"}`);
-    }
-  } catch {
-    console.error("CDP port is open but /json/version did not respond.");
-    console.error("The process on port 9222 may not be a Chromium-based browser.");
-    process.exit(1);
+    // Connect via Playwright
+    browser = await chromium.connectOverCDP(CDP_URL);
   }
-
-  // Connect via Playwright
-  const browser = await chromium.connectOverCDP(CDP_URL);
   const contexts = browser.contexts();
   if (contexts.length === 0) {
     console.error("CDP: Connected but no browser contexts found.");

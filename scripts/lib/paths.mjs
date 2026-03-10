@@ -5,7 +5,7 @@
  * all paths that scripts need. Import from here instead of hardcoding.
  */
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -37,15 +37,61 @@ const MACHINES = {
   },
 };
 
-const username = os.userInfo().username;
-const machine = MACHINES[username];
-if (!machine) {
-  const known = Object.keys(MACHINES).join(", ");
-  console.error(
-    `[paths.mjs] Unknown user "${username}". Known: ${known}. ` +
-    `Add a profile to scripts/lib/paths.mjs.`
-  );
-  process.exit(1);
+// ── Registry-based machine resolution ────────────────────────────────────────
+
+function readFromRegistry() {
+  // Determine machine ID: env override takes precedence, then .machine-id file
+  let machineId;
+  if (process.env.AGENT_MACHINE) {
+    machineId = process.env.AGENT_MACHINE.trim();
+  } else {
+    const machineIdPath = join(AGENT_ROOT, ".machine-id");
+    machineId = readFileSync(machineIdPath, "utf-8").trim();
+  }
+
+  // Read machine-paths/<machineId>.json
+  const machinePathsFile = join(AGENT_ROOT, "registry", "machine-paths", `${machineId}.json`);
+  const machinePaths = JSON.parse(readFileSync(machinePathsFile, "utf-8"));
+
+  // Read machines.json for per-machine metadata (python path, etc.)
+  const machinesFile = join(AGENT_ROOT, "registry", "machines.json");
+  const machinesRegistry = JSON.parse(readFileSync(machinesFile, "utf-8"));
+  const machineRecord = machinesRegistry[machineId] ?? null;
+
+  // Resolve python executable: registry stores the directory, append binary name
+  let pythonExe = null;
+  if (machineRecord?.python) {
+    const suffix = process.platform === "win32" ? "python.exe" : "python3";
+    pythonExe = join(machineRecord.python, suffix);
+  }
+
+  return {
+    worksheetRepo:  machinePaths.repos["apstats-live-worksheet"],
+    drillerRepo:    machinePaths.repos["lrsl-driller"],
+    curriculumRepo: machinePaths.repos["curriculum-render"],
+    python:         pythonExe,
+    ffmpegDir:      null,
+    miktexDir:      null,
+    edgeProfile:    join(machinePaths.base_path, ".edge-debug-profile"),
+  };
+}
+
+// ── Machine resolution (registry first, hardcoded MACHINES as fallback) ──────
+
+let machine;
+try {
+  machine = readFromRegistry();
+} catch {
+  const username = os.userInfo().username;
+  machine = MACHINES[username];
+  if (!machine) {
+    const known = Object.keys(MACHINES).join(", ");
+    console.error(
+      `[paths.mjs] Unknown user "${username}". Known: ${known}. ` +
+      `Add a profile or configure registry.`
+    );
+    process.exit(1);
+  }
 }
 
 // ── Executable helpers ───────────────────────────────────────────────────────

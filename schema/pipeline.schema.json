@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pipeline Definition",
+  "description": "Declarative pipeline with dependency-ordered task steps.",
+  "type": "object",
+  "required": ["id", "name", "params", "steps"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "params": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required parameters passed to the pipeline"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["task", "depends_on"],
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "Task ID reference"
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Task IDs that must complete first"
+          },
+          "defined": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether a task JSON file exists for this step"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

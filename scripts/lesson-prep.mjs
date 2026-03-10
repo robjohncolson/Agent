@@ -21,6 +21,7 @@
  */
 
 import "dotenv/config";
+import { pipeline as pipelineEvents } from './lib/event-log.mjs';
 import { execSync, spawn } from "node:child_process";
 import {
   existsSync,
@@ -1636,6 +1637,9 @@ async function main() {
     urls: computedUrls,
   });
 
+  pipelineEvents.started('lesson-prep', { unit, lesson });
+  const pipelineStart = Date.now();
+
   // Step 0.5: Drive video lookup (whenever no --drive-ids provided and not skipping ingest)
   if (opts.driveIds.length === 0 && !opts.skipIngest) {
     const ids = await step05_driveVideoLookup(unit, lesson, opts);
@@ -1705,7 +1709,14 @@ async function main() {
     step1ok = true;
   } else {
     ranStep1 = true;
+    const step1Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'ingest');
     step1ok = step1_videoIngest(unit, lesson, opts.driveIds);
+    if (step1ok) {
+      pipelineEvents.stepCompleted('lesson-prep', 'ingest', Date.now() - step1Start);
+    } else {
+      pipelineEvents.stepFailed('lesson-prep', 'ingest', new Error('Video ingest failed'));
+    }
   }
 
   if (ranStep1) {
@@ -1737,7 +1748,15 @@ async function main() {
       { label: "Drills Cartridge", success: true, skipped: true },
     ];
   } else {
+    const step2Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'content-gen');
     results.codexResults = await step2_contentGeneration(unit, lesson, opts);
+    const step2Ok = results.codexResults && results.codexResults.some(r => r.success);
+    if (step2Ok) {
+      pipelineEvents.stepCompleted('lesson-prep', 'content-gen', Date.now() - step2Start);
+    } else {
+      pipelineEvents.stepFailed('lesson-prep', 'content-gen', new Error('Content generation failed'));
+    }
     const step2StatusByLabel = {
       "Worksheet + Grading": "worksheet",
       "Blooket CSV": "blooketCsv",
@@ -1777,7 +1796,14 @@ async function main() {
     console.log(`=== Step 3: No animation files for ${unit}.${lesson} — skipping render ===\n`);
     updateStatus(unit, lesson, "animations", "skipped");
   } else {
+    const step3Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'render-animations');
     results.renderResult = step3_renderAnimations(unit, lesson);
+    if (results.renderResult?.success) {
+      pipelineEvents.stepCompleted('lesson-prep', 'render-animations', Date.now() - step3Start);
+    } else {
+      pipelineEvents.stepFailed('lesson-prep', 'render-animations', new Error('Render animations failed'));
+    }
     updateStatus(unit, lesson, "animations", results.renderResult?.success ? "done" : "failed");
   }
 
@@ -1789,7 +1815,14 @@ async function main() {
   } else if (!hasAnimFiles) {
     console.log(`=== Step 4: No animation files for ${unit}.${lesson} — skipping upload ===\n`);
   } else {
+    const step4Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'upload-animations');
     results.uploadResult = step4_uploadAnimations(unit, lesson);
+    if (results.uploadResult?.success) {
+      pipelineEvents.stepCompleted('lesson-prep', 'upload-animations', Date.now() - step4Start);
+    } else {
+      pipelineEvents.stepFailed('lesson-prep', 'upload-animations', new Error('Animation upload failed'));
+    }
 
     // Verify uploaded assets are publicly accessible
     if (results.uploadResult?.success && process.env.SUPABASE_URL) {
@@ -1834,12 +1867,16 @@ async function main() {
     console.log(`  URL: ${blooketUrl}\n`);
     results.blooketUrl = blooketUrl;
   } else {
+    const step5Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'upload-blooket');
     blooketUrl = step5_uploadBlooket(unit, lesson);
     results.blooketUrl = blooketUrl;
     if (blooketUrl) {
+      pipelineEvents.stepCompleted('lesson-prep', 'upload-blooket', Date.now() - step5Start);
       updateStatus(unit, lesson, "blooketUpload", "done");
       updateUrl(unit, lesson, "blooket", blooketUrl);
     } else {
+      pipelineEvents.stepFailed('lesson-prep', 'upload-blooket', new Error('Blooket upload failed or no URL captured'));
       updateStatus(unit, lesson, "blooketUpload", "failed");
     }
   }
@@ -1851,7 +1888,14 @@ async function main() {
   } else if (step6Resume.skip) {
     console.log(stepBanner(6, `Schoology posting — ${step6Resume.reason} (registry)`) + "\n");
   } else {
+    const step6Start = Date.now();
+    pipelineEvents.stepStarted('lesson-prep', 'schoology-post');
     const schoologyOk = step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
+    if (schoologyOk) {
+      pipelineEvents.stepCompleted('lesson-prep', 'schoology-post', Date.now() - step6Start);
+    } else {
+      pipelineEvents.stepFailed('lesson-prep', 'schoology-post', new Error('Schoology posting failed'));
+    }
     updateStatus(unit, lesson, "schoology", schoologyOk ? "done" : "failed");
     // Show per-link status summary
     const postScLinks = getSchoologyLinks(unit, lesson);
@@ -1906,19 +1950,4 @@ async function main() {
     execSync(`node "${exportScript}"`, { stdio: "inherit" });
     console.log("Registry sidecar exported successfully.\n");
   } catch (e) {
-    console.warn("Registry sidecar export failed (non-fatal):", e.message, "\n");
-  }
-
-  // Step 8: Commit and push downstream repos
-  results.repoCommits = commitAndPushRepos(unit, lesson, opts.autoPush);
-
-  // Step 9: Print summary
-  step9_summary(unit, lesson, results);
-
-  console.log("Pipeline complete.");
-}
-
-main().catch((err) => {
-  console.error("Fatal error:", err);
-  process.exit(1);
-});
+    console.warn("Registry sidecar export failed (non-fatal):", e.me
