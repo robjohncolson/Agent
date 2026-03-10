@@ -16,7 +16,7 @@ import "dotenv/config";
 import { readFileSync, readdirSync, statSync, existsSync } from "fs";
 import path from "path";
 import { fetchWithRetry } from "./lib/fetch-retry.mjs";
-import { loadState, updateFileState } from "./lib/upload-state.mjs";
+import { loadState, saveState, updateFileState } from "./lib/upload-state.mjs";
 import { emit } from "./lib/event-log.mjs";
 
 // Corporate proxy TLS bypass
@@ -109,6 +109,18 @@ async function checkExists(supabaseUrl, serviceKey, storagePath, expectedSize) {
   } catch {
     return false;
   }
+}
+
+// ── Failure recording helper ─────────────────────────────────────────────────
+
+function recordFailure(state, filename, errorMsg, { unit, lesson }) {
+  updateFileState(state, filename, {
+    status: 'failed', error: errorMsg, last_attempt: new Date().toISOString(),
+    retries: (state.files[filename]?.retries || 0) + 1
+  });
+  emit('animation.upload.file', 'animation', {
+    unit, lesson, filename, status: 'failed', error: errorMsg
+  });
 }
 
 // ── Upload to Supabase (with retry) ─────────────────────────────────────────
@@ -217,30 +229,20 @@ async function main() {
         });
         succeeded++;
       } else {
+        const errorMsg = result.error;
         console.log(`✗ (HTTP ${result.status})`);
-        console.log(`    Error: ${result.error}`);
-        updateFileState(state, file.filename, {
-          status: 'failed', error: result.error, last_attempt: new Date().toISOString(),
-          retries: (state.files[file.filename]?.retries || 0) + 1
-        });
-        emit('animation.upload.file', 'animation', {
-          unit, lesson, filename: file.filename, status: 'failed', error: result.error
-        });
+        console.log(`    Error: ${errorMsg}`);
+        recordFailure(state, file.filename, errorMsg, { unit, lesson });
         failed++;
       }
     } catch (err) {
       console.log(`✗ (${err.message})`);
-      updateFileState(state, file.filename, {
-        status: 'failed', error: err.message, last_attempt: new Date().toISOString(),
-        retries: (state.files[file.filename]?.retries || 0) + 1
-      });
-      emit('animation.upload.file', 'animation', {
-        unit, lesson, filename: file.filename, status: 'failed', error: err.message
-      });
+      recordFailure(state, file.filename, err.message, { unit, lesson });
       failed++;
     }
   }
 
+  saveState(state);
   console.log(`\nDone. ${succeeded} uploaded, ${skipped} skipped, ${failed} failed.`);
 
   emit('animation.upload.completed', 'animation', {

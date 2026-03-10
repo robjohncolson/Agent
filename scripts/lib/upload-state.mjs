@@ -10,17 +10,15 @@ const STATE_PATH = 'state/animation-uploads.json';
 
 /** Load state for a unit+lesson. Returns { unit, lesson, files: {} } */
 export function loadState(unit, lesson) {
-  if (!existsSync(STATE_PATH)) return { unit, lesson, files: {} };
   try {
     const raw = JSON.parse(readFileSync(STATE_PATH, 'utf8'));
     if (String(raw.unit) === String(unit) && String(raw.lesson) === String(lesson)) {
       return raw;
     }
-    // Different lesson - start fresh
-    return { unit, lesson, files: {} };
   } catch {
-    return { unit, lesson, files: {} };
+    // File missing, corrupted, or different lesson — start fresh
   }
+  return { unit, lesson, files: {} };
 }
 
 /** Save state to disk */
@@ -30,8 +28,7 @@ export function saveState(state) {
   writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
 }
 
-/** Update a single file entry in state */
+/** Update a single file entry in state (does NOT auto-save — call saveState() when done) */
 export function updateFileState(state, filename, update) {
   state.files[filename] = { ...(state.files[filename] || {}), ...update };
-  saveState(state);
 }

@@ -4,7 +4,7 @@
  */
 
 import { query } from '../lib/supabase-client.js';
-import { formatDate, statusBadge, timeAgo } from '../lib/formatters.js';
+import { formatDate, statusBadge, timeAgo, escapeHtml } from '../lib/formatters.js';
 
 export async function render(container) {
   const { data, error } = await query('agent_events', {
@@ -28,10 +28,10 @@ export async function render(container) {
       <span class="feed-time">${timeAgo(ev.created_at)}</span>
       <span class="feed-body">
         ${statusBadge(ev.data?.status || ev.event_type.split('.').pop())}
-        <strong>${ev.event_type}</strong>
-        ${ev.data?.step ? `— step: ${ev.data.step}` : ''}
-        ${ev.data?.pipeline ? `(${ev.data.pipeline})` : ''}
-        ${ev.machine ? `<span class="card-detail">@ ${ev.machine}</span>` : ''}
+        <strong>${escapeHtml(ev.event_type)}</strong>
+        ${ev.data?.step ? `— step: ${escapeHtml(ev.data.step)}` : ''}
+        ${ev.data?.pipeline ? `(${escapeHtml(ev.data.pipeline)})` : ''}
+        ${ev.machine ? `<span class="card-detail">@ ${escapeHtml(ev.machine)}</span>` : ''}
       </span>
     </div>
   `).join('');

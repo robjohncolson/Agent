@@ -4,7 +4,7 @@
  */
 
 import { query } from '../lib/supabase-client.js';
-import { formatDate, formatDuration, statusBadge } from '../lib/formatters.js';
+import { formatDate, formatDuration, statusBadge, escapeHtml } from '../lib/formatters.js';
 
 export async function render(container) {
   const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString();
@@ -12,7 +12,8 @@ export async function render(container) {
     order: 'created_at',
     ascending: false,
     limit: 500,
-    gte: ['created_at', sevenDaysAgo]
+    gte: ['created_at', sevenDaysAgo],
+    eq: ['category', 'pipeline']
   });
 
   if (error || !data) {
@@ -21,7 +22,7 @@ export async function render(container) {
   }
 
   // Group by pipeline runs (cluster pipeline.started -> pipeline.completed sequences)
-  const runs = groupPipelineRuns(data.filter(e => e.category === 'pipeline'));
+  const runs = groupPipelineRuns(data);
 
   if (runs.length === 0) {
     container.innerHTML = '<p class="card-detail">No pipeline runs in the last 7 days.</p>';
@@ -31,14 +32,14 @@ export async function render(container) {
   container.innerHTML = runs.map(run => `
     <div class="card fade-in">
       <div class="card-header">
-        <h3>${run.name || 'pipeline'} — ${formatDate(run.startedAt)}</h3>
+        <h3>${escapeHtml(run.name) || 'pipeline'} — ${formatDate(run.startedAt)}</h3>
         ${statusBadge(run.status)}
       </div>
       <div class="card-detail">
         ${run.steps.map(s => `
           <div class="feed-item" style="border:none;padding:0.3rem 0">
             ${statusBadge(s.status)}
-            <span>${s.step}</span>
+            <span>${escapeHtml(s.step)}</span>
             ${s.duration ? `<span class="card-detail">${formatDuration(s.duration)}</span>` : ''}
           </div>
         `).join('')}

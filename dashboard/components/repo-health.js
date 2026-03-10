@@ -3,7 +3,7 @@
  */
 
 import { query } from '../lib/supabase-client.js';
-import { staleness, formatDate } from '../lib/formatters.js';
+import { staleness, stalenessClass, formatDate, escapeHtml } from '../lib/formatters.js';
 
 // Bundled at build time or fetched. For now, fetch from repo root.
 async function loadRepos() {
@@ -39,11 +39,11 @@ export async function render(container) {
           const s = cp ? staleness(cp.created_at) : { text: 'no data', level: 'stale' };
           return `
             <tr class="fade-in">
-              <td><strong>${repo.name || repo.id}</strong></td>
-              <td class="card-detail">${repo.description || '—'}</td>
+              <td><strong>${escapeHtml(repo.name || repo.id)}</strong></td>
+              <td class="card-detail">${escapeHtml(repo.description) || '—'}</td>
               <td>${cp ? formatDate(cp.created_at) : '—'}</td>
-              <td>${cp?.machine_id || '—'}</td>
-              <td><span class="badge badge-${s.level === 'fresh' ? 'green' : s.level === 'warn' ? 'yellow' : 'red'}">${s.text}</span></td>
+              <td>${escapeHtml(cp?.machine_id) || '—'}</td>
+              <td><span class="badge ${stalenessClass(s.level)}">${escapeHtml(s.text)}</span></td>
             </tr>
           `;
         }).join('')}

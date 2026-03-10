@@ -3,6 +3,17 @@
  * No dependencies. Pure functions only.
  */
 
+/** Escape HTML special characters to prevent XSS */
+export function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /** Format ISO timestamp to locale string */
 export function formatDate(iso) {
   if (!iso) return '—';
@@ -45,7 +56,13 @@ export function statusBadge(status) {
     failed: 'badge-red', skipped: 'badge-gray', timeout: 'badge-red'
   };
   const cls = colors[status] || 'badge-gray';
-  return `<span class="badge ${cls}">${status || 'unknown'}</span>`;
+  return `<span class="badge ${cls}">${escapeHtml(status) || 'unknown'}</span>`;
+}
+
+/** Map staleness level to badge CSS class */
+export function stalenessClass(level) {
+  const map = { fresh: 'badge-green', warn: 'badge-yellow', stale: 'badge-red' };
+  return map[level] || 'badge-gray';
 }
 
 /** Relative time (e.g. "3 minutes ago") */

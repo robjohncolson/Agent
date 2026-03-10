@@ -3,7 +3,7 @@
  */
 
 import { query } from '../lib/supabase-client.js';
-import { formatDate, staleness } from '../lib/formatters.js';
+import { formatDate, staleness, stalenessClass, escapeHtml } from '../lib/formatters.js';
 
 export async function render(container) {
   const { data, error } = await query('agent_checkpoints', {
@@ -40,10 +40,10 @@ export async function render(container) {
         ${rows.map(r => `
           <tr class="fade-in">
             <td>${formatDate(r.created_at)}</td>
-            <td>${r.machine_id || '—'}</td>
-            <td>${r.trigger || '—'}</td>
-            <td><code>${(r.commit_hash || '—').slice(0, 7)}</code></td>
-            <td><span class="badge badge-${r.staleness.level === 'fresh' ? 'green' : r.staleness.level === 'warn' ? 'yellow' : 'red'}">${r.staleness.text}</span></td>
+            <td>${escapeHtml(r.machine_id) || '—'}</td>
+            <td>${escapeHtml(r.trigger) || '—'}</td>
+            <td><code>${escapeHtml((r.commit_hash || '—').slice(0, 7))}</code></td>
+            <td><span class="badge ${stalenessClass(r.staleness.level)}">${escapeHtml(r.staleness.text)}</span></td>
             <td>${r.gap > 2 ? `<span class="badge badge-yellow">${r.gap.toFixed(1)}h gap</span>` : '—'}</td>
           </tr>
         `).join('')}
