@@ -1,0 +1,5712 @@
+{
+  "version": 1,
+  "lastRun": "2026-03-11T14:51:40.589Z",
+  "stats": {
+    "totalActions": 300,
+    "completed": 56,
+    "pending": 44,
+    "failed": 0,
+    "rateLimited": 0,
+    "skipped": 0,
+    "running": 0,
+    "blocked": 200
+  },
+  "actions": [
+    {
+      "id": "6.4-ingest",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "ingest",
+      "status": "completed",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.583Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-content-gen-blooket",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-content-gen-drills",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-render-animations",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.4-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-upload-animations",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.4-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-upload-blooket",
+      "unit": 6,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.4-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-post-schoology-E",
+      "unit": 6,
+      "lesson": 4,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.4-content-gen-worksheet",
+        "6.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.4-verify-schoology-E",
+      "unit": 6,
+      "lesson": 4,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.4-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-ingest",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-content-gen-blooket",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "6.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-content-gen-drills",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-render-animations",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.5-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-upload-animations",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.5-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-upload-blooket",
+      "unit": 6,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "6.5-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-post-schoology-E",
+      "unit": 6,
+      "lesson": 5,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.5-content-gen-worksheet",
+        "6.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.5-verify-schoology-E",
+      "unit": 6,
+      "lesson": 5,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.5-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-11"
+    },
+    {
+      "id": "6.8-ingest",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.8-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-content-gen-blooket",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-content-gen-drills",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.8-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-render-animations",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-upload-animations",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-upload-blooket",
+      "unit": 6,
+      "lesson": 8,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-post-schoology-B",
+      "unit": 6,
+      "lesson": 8,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-content-gen-worksheet",
+        "6.8-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-verify-schoology-B",
+      "unit": 6,
+      "lesson": 8,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-post-schoology-E",
+      "unit": 6,
+      "lesson": 8,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.8-content-gen-worksheet",
+        "6.8-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.8-verify-schoology-E",
+      "unit": 6,
+      "lesson": 8,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.8-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-12"
+    },
+    {
+      "id": "6.6-ingest",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-content-gen-blooket",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-content-gen-drills",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-render-animations",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.6-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-upload-animations",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.6-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-upload-blooket",
+      "unit": 6,
+      "lesson": 6,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.6-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-post-schoology-E",
+      "unit": 6,
+      "lesson": 6,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.6-content-gen-worksheet",
+        "6.6-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.6-verify-schoology-E",
+      "unit": 6,
+      "lesson": 6,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.6-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-ingest",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.9-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-content-gen-blooket",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-content-gen-drills",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.9-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-render-animations",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-upload-animations",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-upload-blooket",
+      "unit": 6,
+      "lesson": 9,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-post-schoology-B",
+      "unit": 6,
+      "lesson": 9,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-content-gen-worksheet",
+        "6.9-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-verify-schoology-B",
+      "unit": 6,
+      "lesson": 9,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-post-schoology-E",
+      "unit": 6,
+      "lesson": 9,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.9-content-gen-worksheet",
+        "6.9-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.9-verify-schoology-E",
+      "unit": 6,
+      "lesson": 9,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.9-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-13"
+    },
+    {
+      "id": "6.7-ingest",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.7-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-content-gen-blooket",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.7-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-content-gen-drills",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.7-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-render-animations",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.7-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-upload-animations",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.7-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-upload-blooket",
+      "unit": 6,
+      "lesson": 7,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.7-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-post-schoology-E",
+      "unit": 6,
+      "lesson": 7,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.7-content-gen-worksheet",
+        "6.7-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.7-verify-schoology-E",
+      "unit": 6,
+      "lesson": 7,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.7-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-ingest",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "ingest",
+      "status": "completed",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.10-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-content-gen-blooket",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.10-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-content-gen-drills",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.10-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-render-animations",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.10-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-upload-animations",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.10-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-upload-blooket",
+      "unit": 6,
+      "lesson": 10,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.10-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-post-schoology-B",
+      "unit": 6,
+      "lesson": 10,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "completed",
+      "dependsOn": [
+        "6.10-content-gen-worksheet",
+        "6.10-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-verify-schoology-B",
+      "unit": 6,
+      "lesson": 10,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "6.10-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-post-schoology-E",
+      "unit": 6,
+      "lesson": 10,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.10-content-gen-worksheet",
+        "6.10-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.10-verify-schoology-E",
+      "unit": 6,
+      "lesson": 10,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.10-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-16"
+    },
+    {
+      "id": "6.11-ingest",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "ingest",
+      "status": "completed",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-content-gen-worksheet",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-content-gen-blooket",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-content-gen-drills",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-render-animations",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "render-animations",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-upload-animations",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "6.11-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-upload-blooket",
+      "unit": 6,
+      "lesson": 11,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-post-schoology-B",
+      "unit": 6,
+      "lesson": 11,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-content-gen-worksheet",
+        "6.11-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": "2026-03-11T14:51:40.584Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-verify-schoology-B",
+      "unit": 6,
+      "lesson": 11,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "6.11-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.584Z",
+      "updatedAt": "2026-03-11T14:51:40.584Z",
+      "completedAt": null,
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-post-schoology-E",
+      "unit": 6,
+      "lesson": 11,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "6.11-content-gen-worksheet",
+        "6.11-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-17"
+    },
+    {
+      "id": "6.11-verify-schoology-E",
+      "unit": 6,
+      "lesson": 11,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "6.11-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-17"
+    },
+    {
+      "id": "7.1-ingest",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "ingest",
+      "status": "completed",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-content-gen-blooket",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-content-gen-drills",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-render-animations",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "render-animations",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-upload-animations",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.1-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-upload-blooket",
+      "unit": 7,
+      "lesson": 1,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-post-schoology-B",
+      "unit": 7,
+      "lesson": 1,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-content-gen-worksheet",
+        "7.1-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-verify-schoology-B",
+      "unit": 7,
+      "lesson": 1,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.1-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-post-schoology-E",
+      "unit": 7,
+      "lesson": 1,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.1-content-gen-worksheet",
+        "7.1-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.1-verify-schoology-E",
+      "unit": 7,
+      "lesson": 1,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "7.1-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-19"
+    },
+    {
+      "id": "7.2-ingest",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "ingest",
+      "status": "completed",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-content-gen-blooket",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-content-gen-drills",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-render-animations",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "render-animations",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-upload-animations",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.2-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-upload-blooket",
+      "unit": 7,
+      "lesson": 2,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-post-schoology-B",
+      "unit": 7,
+      "lesson": 2,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-content-gen-worksheet",
+        "7.2-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-verify-schoology-B",
+      "unit": 7,
+      "lesson": 2,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.2-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-post-schoology-E",
+      "unit": 7,
+      "lesson": 2,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.2-content-gen-worksheet",
+        "7.2-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.2-verify-schoology-E",
+      "unit": 7,
+      "lesson": 2,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "completed",
+      "dependsOn": [
+        "7.2-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": "2026-03-11T14:51:40.585Z",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "7.3-ingest",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.585Z",
+      "updatedAt": "2026-03-11T14:51:40.585Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-content-gen-blooket",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-content-gen-drills",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-render-animations",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-upload-animations",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-upload-blooket",
+      "unit": 7,
+      "lesson": 3,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-post-schoology-B",
+      "unit": 7,
+      "lesson": 3,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-content-gen-worksheet",
+        "7.3-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-verify-schoology-B",
+      "unit": 7,
+      "lesson": 3,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-post-schoology-E",
+      "unit": 7,
+      "lesson": 3,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-content-gen-worksheet",
+        "7.3-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.3-verify-schoology-E",
+      "unit": 7,
+      "lesson": 3,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.3-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-23"
+    },
+    {
+      "id": "7.4-ingest",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-content-gen-blooket",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-content-gen-drills",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-render-animations",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-upload-animations",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-upload-blooket",
+      "unit": 7,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-post-schoology-B",
+      "unit": 7,
+      "lesson": 4,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-content-gen-worksheet",
+        "7.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-verify-schoology-B",
+      "unit": 7,
+      "lesson": 4,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-post-schoology-E",
+      "unit": 7,
+      "lesson": 4,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-content-gen-worksheet",
+        "7.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.4-verify-schoology-E",
+      "unit": 7,
+      "lesson": 4,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.4-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-24"
+    },
+    {
+      "id": "7.5-ingest",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-content-gen-blooket",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-content-gen-drills",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-render-animations",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-upload-animations",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-upload-blooket",
+      "unit": 7,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-post-schoology-B",
+      "unit": 7,
+      "lesson": 5,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-content-gen-worksheet",
+        "7.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-verify-schoology-B",
+      "unit": 7,
+      "lesson": 5,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-post-schoology-E",
+      "unit": 7,
+      "lesson": 5,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-content-gen-worksheet",
+        "7.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.5-verify-schoology-E",
+      "unit": 7,
+      "lesson": 5,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.5-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-26"
+    },
+    {
+      "id": "7.6-ingest",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-content-gen-blooket",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-content-gen-drills",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-render-animations",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-upload-animations",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-upload-blooket",
+      "unit": 7,
+      "lesson": 6,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-post-schoology-B",
+      "unit": 7,
+      "lesson": 6,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-content-gen-worksheet",
+        "7.6-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-verify-schoology-B",
+      "unit": 7,
+      "lesson": 6,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-post-schoology-E",
+      "unit": 7,
+      "lesson": 6,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-content-gen-worksheet",
+        "7.6-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.6-verify-schoology-E",
+      "unit": 7,
+      "lesson": 6,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.6-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-27"
+    },
+    {
+      "id": "7.7-ingest",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-content-gen-blooket",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-content-gen-drills",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-render-animations",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-upload-animations",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-upload-blooket",
+      "unit": 7,
+      "lesson": 7,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-post-schoology-B",
+      "unit": 7,
+      "lesson": 7,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-content-gen-worksheet",
+        "7.7-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-verify-schoology-B",
+      "unit": 7,
+      "lesson": 7,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-post-schoology-E",
+      "unit": 7,
+      "lesson": 7,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-content-gen-worksheet",
+        "7.7-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.7-verify-schoology-E",
+      "unit": 7,
+      "lesson": 7,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.7-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-30"
+    },
+    {
+      "id": "7.8-ingest",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-content-gen-blooket",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-content-gen-drills",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-render-animations",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-upload-animations",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-upload-blooket",
+      "unit": 7,
+      "lesson": 8,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-post-schoology-B",
+      "unit": 7,
+      "lesson": 8,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-content-gen-worksheet",
+        "7.8-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-verify-schoology-B",
+      "unit": 7,
+      "lesson": 8,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-post-schoology-E",
+      "unit": 7,
+      "lesson": 8,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-content-gen-worksheet",
+        "7.8-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.8-verify-schoology-E",
+      "unit": 7,
+      "lesson": 8,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.8-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-03-31"
+    },
+    {
+      "id": "7.9-ingest",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-content-gen-worksheet",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-content-gen-blooket",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-content-gen-drills",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-render-animations",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.586Z",
+      "updatedAt": "2026-03-11T14:51:40.586Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-upload-animations",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-upload-blooket",
+      "unit": 7,
+      "lesson": 9,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-post-schoology-B",
+      "unit": 7,
+      "lesson": 9,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-content-gen-worksheet",
+        "7.9-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-verify-schoology-B",
+      "unit": 7,
+      "lesson": 9,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-post-schoology-E",
+      "unit": 7,
+      "lesson": 9,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-content-gen-worksheet",
+        "7.9-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "7.9-verify-schoology-E",
+      "unit": 7,
+      "lesson": 9,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "7.9-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-02"
+    },
+    {
+      "id": "8.1-ingest",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-content-gen-worksheet",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-content-gen-blooket",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-content-gen-drills",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-render-animations",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-upload-animations",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-upload-blooket",
+      "unit": 8,
+      "lesson": 1,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-post-schoology-B",
+      "unit": 8,
+      "lesson": 1,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-content-gen-worksheet",
+        "8.1-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-verify-schoology-B",
+      "unit": 8,
+      "lesson": 1,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-post-schoology-E",
+      "unit": 8,
+      "lesson": 1,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-content-gen-worksheet",
+        "8.1-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.1-verify-schoology-E",
+      "unit": 8,
+      "lesson": 1,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.1-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-06"
+    },
+    {
+      "id": "8.2-ingest",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-content-gen-worksheet",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-content-gen-blooket",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-content-gen-drills",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-render-animations",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-upload-animations",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-upload-blooket",
+      "unit": 8,
+      "lesson": 2,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-post-schoology-B",
+      "unit": 8,
+      "lesson": 2,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-content-gen-worksheet",
+        "8.2-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-verify-schoology-B",
+      "unit": 8,
+      "lesson": 2,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-post-schoology-E",
+      "unit": 8,
+      "lesson": 2,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-content-gen-worksheet",
+        "8.2-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.2-verify-schoology-E",
+      "unit": 8,
+      "lesson": 2,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.2-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-07"
+    },
+    {
+      "id": "8.3-ingest",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-content-gen-worksheet",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-content-gen-blooket",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-content-gen-drills",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-render-animations",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-upload-animations",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-upload-blooket",
+      "unit": 8,
+      "lesson": 3,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-post-schoology-B",
+      "unit": 8,
+      "lesson": 3,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-content-gen-worksheet",
+        "8.3-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-verify-schoology-B",
+      "unit": 8,
+      "lesson": 3,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-post-schoology-E",
+      "unit": 8,
+      "lesson": 3,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-content-gen-worksheet",
+        "8.3-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.3-verify-schoology-E",
+      "unit": 8,
+      "lesson": 3,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.3-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-09"
+    },
+    {
+      "id": "8.4-ingest",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-content-gen-worksheet",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-content-gen-blooket",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-content-gen-drills",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-render-animations",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-upload-animations",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-upload-blooket",
+      "unit": 8,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-post-schoology-B",
+      "unit": 8,
+      "lesson": 4,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-content-gen-worksheet",
+        "8.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-verify-schoology-B",
+      "unit": 8,
+      "lesson": 4,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-post-schoology-E",
+      "unit": 8,
+      "lesson": 4,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-content-gen-worksheet",
+        "8.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.4-verify-schoology-E",
+      "unit": 8,
+      "lesson": 4,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.4-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-10"
+    },
+    {
+      "id": "8.5-ingest",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-content-gen-worksheet",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-content-gen-blooket",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-content-gen-drills",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-render-animations",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-upload-animations",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-upload-blooket",
+      "unit": 8,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-post-schoology-B",
+      "unit": 8,
+      "lesson": 5,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-content-gen-worksheet",
+        "8.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-verify-schoology-B",
+      "unit": 8,
+      "lesson": 5,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-post-schoology-E",
+      "unit": 8,
+      "lesson": 5,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-content-gen-worksheet",
+        "8.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.5-verify-schoology-E",
+      "unit": 8,
+      "lesson": 5,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.5-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-13"
+    },
+    {
+      "id": "8.6-ingest",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-content-gen-worksheet",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-content-gen-blooket",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-content-gen-drills",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-render-animations",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-upload-animations",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-upload-blooket",
+      "unit": 8,
+      "lesson": 6,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-post-schoology-B",
+      "unit": 8,
+      "lesson": 6,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-content-gen-worksheet",
+        "8.6-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-verify-schoology-B",
+      "unit": 8,
+      "lesson": 6,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-post-schoology-E",
+      "unit": 8,
+      "lesson": 6,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-content-gen-worksheet",
+        "8.6-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "8.6-verify-schoology-E",
+      "unit": 8,
+      "lesson": 6,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "8.6-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-14"
+    },
+    {
+      "id": "9.1-ingest",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-content-gen-worksheet",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-content-gen-blooket",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-content-gen-drills",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-render-animations",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.587Z",
+      "updatedAt": "2026-03-11T14:51:40.587Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-upload-animations",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-upload-blooket",
+      "unit": 9,
+      "lesson": 1,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-post-schoology-B",
+      "unit": 9,
+      "lesson": 1,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-content-gen-worksheet",
+        "9.1-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-verify-schoology-B",
+      "unit": 9,
+      "lesson": 1,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-post-schoology-E",
+      "unit": 9,
+      "lesson": 1,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-content-gen-worksheet",
+        "9.1-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.1-verify-schoology-E",
+      "unit": 9,
+      "lesson": 1,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.1-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-16"
+    },
+    {
+      "id": "9.2-ingest",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-content-gen-worksheet",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-content-gen-blooket",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-content-gen-drills",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-render-animations",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-upload-animations",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-upload-blooket",
+      "unit": 9,
+      "lesson": 2,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-post-schoology-B",
+      "unit": 9,
+      "lesson": 2,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-content-gen-worksheet",
+        "9.2-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-verify-schoology-B",
+      "unit": 9,
+      "lesson": 2,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-post-schoology-E",
+      "unit": 9,
+      "lesson": 2,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-content-gen-worksheet",
+        "9.2-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.2-verify-schoology-E",
+      "unit": 9,
+      "lesson": 2,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.2-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-17"
+    },
+    {
+      "id": "9.3-ingest",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-content-gen-worksheet",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-content-gen-blooket",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-content-gen-drills",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-render-animations",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-upload-animations",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-upload-blooket",
+      "unit": 9,
+      "lesson": 3,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-post-schoology-B",
+      "unit": 9,
+      "lesson": 3,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-content-gen-worksheet",
+        "9.3-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-verify-schoology-B",
+      "unit": 9,
+      "lesson": 3,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-post-schoology-E",
+      "unit": 9,
+      "lesson": 3,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-content-gen-worksheet",
+        "9.3-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.3-verify-schoology-E",
+      "unit": 9,
+      "lesson": 3,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.3-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-27"
+    },
+    {
+      "id": "9.4-ingest",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-content-gen-worksheet",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-content-gen-blooket",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-content-gen-drills",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-render-animations",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-upload-animations",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-upload-blooket",
+      "unit": 9,
+      "lesson": 4,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-post-schoology-B",
+      "unit": 9,
+      "lesson": 4,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-content-gen-worksheet",
+        "9.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-verify-schoology-B",
+      "unit": 9,
+      "lesson": 4,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-post-schoology-E",
+      "unit": 9,
+      "lesson": 4,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-content-gen-worksheet",
+        "9.4-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.4-verify-schoology-E",
+      "unit": 9,
+      "lesson": 4,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.4-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-28"
+    },
+    {
+      "id": "9.5-ingest",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "ingest",
+      "status": "pending",
+      "dependsOn": [],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-content-gen-worksheet",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-worksheet",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-content-gen-blooket",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-content-gen-drills",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "content-gen-drills",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-ingest"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-render-animations",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "render-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-content-gen-drills"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-upload-animations",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-animations",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-render-animations"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-upload-blooket",
+      "unit": 9,
+      "lesson": 5,
+      "period": null,
+      "type": "upload-blooket",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-content-gen-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-post-schoology-B",
+      "unit": 9,
+      "lesson": 5,
+      "period": "B",
+      "type": "post-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-content-gen-worksheet",
+        "9.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-verify-schoology-B",
+      "unit": 9,
+      "lesson": 5,
+      "period": "B",
+      "type": "verify-schoology-B",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-post-schoology-B"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-post-schoology-E",
+      "unit": 9,
+      "lesson": 5,
+      "period": "E",
+      "type": "post-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-content-gen-worksheet",
+        "9.5-upload-blooket"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    },
+    {
+      "id": "9.5-verify-schoology-E",
+      "unit": 9,
+      "lesson": 5,
+      "period": "E",
+      "type": "verify-schoology-E",
+      "status": "pending",
+      "dependsOn": [
+        "9.5-post-schoology-E"
+      ],
+      "attempts": 0,
+      "maxAttempts": 5,
+      "retryAfter": null,
+      "lastError": null,
+      "createdAt": "2026-03-11T14:51:40.588Z",
+      "updatedAt": "2026-03-11T14:51:40.588Z",
+      "completedAt": null,
+      "date": "2026-04-30"
+    }
+  ]
+}
