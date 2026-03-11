@@ -156,9 +156,9 @@ for (const item of workList) {
     console.error(`  [ERROR] ${err.message?.substring(0, 200)}`);
     totalFailed++;
 
-    // Check for rate limit
+    // Check for rate limit (strict match to avoid false positives)
     const stderr = err.stderr || '';
-    if (stderr.includes('rate') || stderr.includes('429')) {
+    if (stderr.includes('429') || /rate.?limit/i.test(stderr)) {
       console.error('  Rate limited — stopping batch.');
       break;
     }
