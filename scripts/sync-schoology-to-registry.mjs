@@ -8,10 +8,20 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { parseTopicFromTitle, classifyMaterial } from './lib/schoology-classify.mjs';
 import { loadRegistry, upsertLesson, saveRegistry } from './lib/lesson-registry.mjs';
+import { COURSE_IDS } from './lib/schoology-dom.mjs';
+
+// Parse CLI args
+const cliArgs = process.argv.slice(2);
+let coursePeriod = 'B';
+for (let i = 0; i < cliArgs.length; i++) {
+  if (cliArgs[i] === '--course') {
+    coursePeriod = cliArgs[++i] || 'B';
+  }
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRAPE_PATH = resolve(__dirname, '..', 'state', 'schoology-materials.json');
-const COURSE_ID = '7945275782';
+const COURSE_ID = COURSE_IDS[coursePeriod] || COURSE_IDS.B;
 const COURSE_BASE = `https://lynnschools.schoology.com/course/${COURSE_ID}`;
 
 // --- Tree traversal ---
@@ -44,6 +54,7 @@ function flattenTree(items, path = [], parentFolderId = null) {
 const scrapeData = JSON.parse(readFileSync(SCRAPE_PATH, 'utf-8'));
 const allMaterials = flattenTree(scrapeData.tree);
 
+console.log(`Syncing Schoology materials for Period ${coursePeriod}...`);
 console.log(`Loaded ${allMaterials.length} materials from Schoology scrape\n`);
 
 // Group materials by unit.lesson
@@ -128,22 +139,25 @@ for (const key of sortedKeys) {
     : null;
 
   // Build the patch
+  const folderUrlKey = coursePeriod === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
   const patch = {
     topic: `Topic ${unit}.${lesson}`,
     urls: {
-      schoologyFolder
+      [folderUrlKey]: schoologyFolder
     },
     schoology: {
-      materials: materials.map(m => ({
-        title: m.title,
-        type: m.type,
-        schoologyId: m.schoologyId,
-        href: m.href
-      })),
-      folderIds,
-      dayFolders: [...data.dayFolderTitles],
-      ...schoologyUrls,
-      schoologyVideos: videos
+      [coursePeriod]: {
+        materials: materials.map(m => ({
+          title: m.title,
+          type: m.type,
+          schoologyId: m.schoologyId,
+          href: m.href
+        })),
+        folderIds,
+        dayFolders: [...data.dayFolderTitles],
+        ...schoologyUrls,
+        schoologyVideos: videos
+      }
     }
   };
 

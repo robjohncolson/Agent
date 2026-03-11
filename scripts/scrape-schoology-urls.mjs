@@ -16,6 +16,7 @@ import {
   loadRegistry,
   saveRegistry,
 } from "./lib/lesson-registry.mjs";
+import { COURSE_IDS } from "./lib/schoology-dom.mjs";
 
 const CDP_ENDPOINT = "http://localhost:9222";
 const DEFAULT_COURSE_URL =
@@ -38,6 +39,7 @@ function parseArgs(argv) {
   const args = argv.slice(2);
   let dryRun = false;
   let courseUrl = DEFAULT_COURSE_URL;
+  let coursePeriod = 'B';
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -54,6 +56,17 @@ function parseArgs(argv) {
         printUsage(1);
       }
       courseUrl = next;
+      i += 1;
+      continue;
+    }
+
+    if (arg === "--course") {
+      const next = args[i + 1];
+      if (!next) {
+        console.error("Missing value for --course.");
+        printUsage(1);
+      }
+      coursePeriod = next;
       i += 1;
       continue;
     }
@@ -75,7 +88,7 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { dryRun, courseUrl };
+  return { dryRun, courseUrl, coursePeriod };
 }
 
 function sleep(ms) {
@@ -322,14 +335,16 @@ function applyRegistryUpdate({
   folderUrl,
   urlType,
   lessonUrl,
+  coursePeriod = 'B',
 }) {
   const lessonKey = `${unit}.${lesson}`;
   const statusKeys = statusKeysForUrlType(urlType);
+  const folderUrlKey = coursePeriod === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
 
   if (dryRun) {
     console.log(`    [dry-run] ${lessonKey} urls.${urlType} = ${lessonUrl}`);
     if (folderUrl) {
-      console.log(`    [dry-run] ${lessonKey} urls.schoologyFolder = ${folderUrl}`);
+      console.log(`    [dry-run] ${lessonKey} urls.${folderUrlKey} = ${folderUrl}`);
     }
     for (const statusKey of statusKeys) {
       console.log(`    [dry-run] ${lessonKey} status.${statusKey} = scraped`);
@@ -343,7 +358,7 @@ function applyRegistryUpdate({
   upsertLesson(unit, lesson, { topic: folderTitle });
   updateUrl(unit, lesson, urlType, lessonUrl);
   if (folderUrl) {
-    updateUrl(unit, lesson, "schoologyFolder", folderUrl);
+    updateUrl(unit, lesson, folderUrlKey, folderUrl);
   }
 
   for (const statusKey of statusKeys) {
@@ -388,11 +403,15 @@ async function connectToEdgeCdp() {
 
 async function main() {
   const opts = parseArgs(process.argv);
-  const materialsRootUrl = toMaterialsRootUrl(opts.courseUrl);
+  const courseId = COURSE_IDS[opts.coursePeriod] || COURSE_IDS.B;
+  const defaultUrl = `https://lynnschools.schoology.com/course/${courseId}/materials`;
+  const materialsRootUrl = opts.courseUrl !== DEFAULT_COURSE_URL
+    ? toMaterialsRootUrl(opts.courseUrl)
+    : defaultUrl;
   const registryBefore = loadRegistry();
   const beforeCount = Object.keys(registryBefore).length;
 
-  console.log("Scraping Schoology materials from Period B...");
+  console.log(`Scraping Schoology materials from Period ${opts.coursePeriod}...`);
   console.log(`Course URL: ${materialsRootUrl}`);
   if (opts.dryRun) {
     console.log("Mode: dry-run (no writes)");
@@ -463,6 +482,7 @@ async function main() {
                 folderUrl: folder.folderUrl,
                 urlType: item.urlType,
                 lessonUrl: item.url,
+                coursePeriod: opts.coursePeriod,
               });
             }
           }

@@ -72,6 +72,15 @@ function isPlainObject(value) {
   );
 }
 
+function resolveSchoologyPeriod(schoologyObj, period) {
+  if (!schoologyObj) return null;
+  // New format: keyed by period letter
+  if (schoologyObj[period]) return schoologyObj[period];
+  // Old format: flat object with folderId at top level (treat as B)
+  if (schoologyObj.folderId !== undefined && period === 'B') return schoologyObj;
+  return null;
+}
+
 function deepMerge(base, patch) {
   if (Array.isArray(patch)) {
     return [...patch];
@@ -130,14 +139,7 @@ function createDefaultEntry(unit, lesson) {
       registryExported: "pending",
       committed: "pending",
     },
-    schoology: {
-      folderId: null,
-      folderPath: null,
-      folderTitle: null,
-      verifiedAt: null,
-      reconciledAt: null,
-      materials: {},
-    },
+    schoology: {},
     timestamps: {
       created: null,
       lastUpdated: null,
@@ -350,7 +352,7 @@ export function getSchoologyLinks(unit, lesson) {
   return entry.schoologyLinks;
 }
 
-export function setSchoologyState(unit, lesson, state) {
+export function setSchoologyState(unit, lesson, state, period = 'B') {
   const unitNum = toPositiveInt(unit, "unit");
   const lessonNum = toPositiveInt(lesson, "lesson");
   const key = lessonKey(unitNum, lessonNum);
@@ -358,7 +360,10 @@ export function setSchoologyState(unit, lesson, state) {
   if (!registry[key]) {
     registry[key] = createDefaultEntry(unitNum, lessonNum);
   }
-  registry[key].schoology = {
+  if (!registry[key].schoology || typeof registry[key].schoology !== 'object') {
+    registry[key].schoology = {};
+  }
+  registry[key].schoology[period] = {
     folderId: state.folderId ?? null,
     folderPath: state.folderPath ?? null,
     folderTitle: state.folderTitle ?? null,
@@ -370,12 +375,12 @@ export function setSchoologyState(unit, lesson, state) {
   saveRegistry(registry);
 }
 
-export function getSchoologyState(unit, lesson) {
+export function getSchoologyState(unit, lesson, period = 'B') {
   const entry = getLesson(unit, lesson);
-  return entry?.schoology ?? null;
+  return resolveSchoologyPeriod(entry?.schoology, period);
 }
 
-export function updateSchoologyMaterial(unit, lesson, type, materialData) {
+export function updateSchoologyMaterial(unit, lesson, type, materialData, period = 'B') {
   const unitNum = toPositiveInt(unit, "unit");
   const lessonNum = toPositiveInt(lesson, "lesson");
   const key = lessonKey(unitNum, lessonNum);
@@ -383,14 +388,17 @@ export function updateSchoologyMaterial(unit, lesson, type, materialData) {
   if (!registry[key]) {
     registry[key] = createDefaultEntry(unitNum, lessonNum);
   }
-  if (!registry[key].schoology) {
-    registry[key].schoology = {
+  if (!registry[key].schoology || typeof registry[key].schoology !== 'object') {
+    registry[key].schoology = {};
+  }
+  if (!registry[key].schoology[period]) {
+    registry[key].schoology[period] = {
       folderId: null, folderPath: null, folderTitle: null,
       verifiedAt: null, reconciledAt: null, materials: {}
     };
   }
-  registry[key].schoology.materials[type] = {
-    ...(registry[key].schoology.materials[type] || {}),
+  registry[key].schoology[period].materials[type] = {
+    ...(registry[key].schoology[period].materials[type] || {}),
     ...materialData,
   };
   registry[key].timestamps.lastUpdated = nowIso();

@@ -106,14 +106,15 @@ function saveRepairLog(log) {
  *
  * @returns {{ folderId: string, folderPath: string[] } | null}
  */
-function findTargetFolder(unit, lesson, registry, tree) {
+function findTargetFolder(unit, lesson, registry, tree, period = 'B') {
   const key = `${unit}.${lesson}`;
 
   // Strategy 1: registry has an explicit folderId
   const regEntry = registry[key];
-  if (regEntry?.schoology?.folderId) {
-    const folderId = String(regEntry.schoology.folderId);
-    const folderPath = regEntry.schoology.folderPath || [];
+  const schoologyPeriod = regEntry?.schoology?.[period];
+  if (schoologyPeriod?.folderId) {
+    const folderId = String(schoologyPeriod.folderId);
+    const folderPath = schoologyPeriod.folderPath || [];
     // Verify the folder exists in the tree
     if (tree.folders?.[folderId]) {
       return {
@@ -134,8 +135,9 @@ function findTargetFolder(unit, lesson, registry, tree) {
   }
 
   // Strategy 3: extract folderId from registry's schoologyFolder URL
-  if (regEntry?.urls?.schoologyFolder) {
-    const m = regEntry.urls.schoologyFolder.match(/[?&]f=(\d+)/);
+  const folderUrlKey = period === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
+  if (regEntry?.urls?.[folderUrlKey]) {
+    const m = regEntry.urls[folderUrlKey].match(/[?&]f=(\d+)/);
     if (m) {
       const folderId = m[1];
       const folder = tree.folders?.[folderId];
@@ -244,6 +246,7 @@ async function main() {
   const opts = parseCLI();
   const tree = loadTree();
   const registry = loadRegistry();
+  const period = tree.meta?.coursePeriod || 'B';
   const courseId = tree.meta?.courseId || COURSE_IDS.B;
 
   console.log('=== Schoology Orphan Repair ===');
@@ -315,7 +318,7 @@ async function main() {
     }
 
     // Look up target folder
-    const target = findTargetFolder(lessonInfo.unit, lessonInfo.lesson, registry, tree);
+    const target = findTargetFolder(lessonInfo.unit, lessonInfo.lesson, registry, tree, period);
     if (!target) {
       skipped.push({
         materialId: orphan.materialId,

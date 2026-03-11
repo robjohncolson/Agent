@@ -138,34 +138,38 @@ export function findLessonInTree(unit, lesson, tree) {
  * @param {object} tree - The full scraped tree
  * @returns {{ status: string, issues: object[], registryFolder: string|null, schoologyFolder: string|null, folderPath: string[]|null, expectedMaterials: string[], foundMaterials: string[], missing: string[], extra: string[] }}
  */
-export function reconcileLesson(unit, lesson, registryEntry, tree) {
+export function reconcileLesson(unit, lesson, registryEntry, tree, period = 'B') {
   const key = lessonKey(unit, lesson);
   const issues = [];
 
   // Find what's in Schoology
   const inTree = findLessonInTree(unit, lesson, tree);
 
+  // Determine which URL key to check based on period
+  const folderUrlKey = period === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
+
   // Determine registry folder ID
   let registryFolderId = null;
-  if (registryEntry?.schoology?.folderId) {
-    registryFolderId = String(registryEntry.schoology.folderId);
-  } else if (registryEntry?.urls?.schoologyFolder) {
-    const validation = validateFolderUrl(registryEntry.urls.schoologyFolder);
+  const schoologyPeriod = registryEntry?.schoology?.[period];
+  if (schoologyPeriod?.folderId) {
+    registryFolderId = String(schoologyPeriod.folderId);
+  } else if (registryEntry?.urls?.[folderUrlKey]) {
+    const validation = validateFolderUrl(registryEntry.urls[folderUrlKey]);
     if (validation.folderId) {
       registryFolderId = validation.folderId;
     }
   }
 
   // 1. Folder URL validity check
-  if (registryEntry?.urls?.schoologyFolder) {
-    const validation = validateFolderUrl(registryEntry.urls.schoologyFolder);
+  if (registryEntry?.urls?.[folderUrlKey]) {
+    const validation = validateFolderUrl(registryEntry.urls[folderUrlKey]);
     if (!validation.valid) {
       issues.push({
         lesson: key,
         severity: ISSUE_TYPES.malformed_folder_url,
         type: 'malformed_folder_url',
-        detail: `schoologyFolder URL is malformed: ${validation.error}`,
-        url: registryEntry.urls.schoologyFolder,
+        detail: `${folderUrlKey} URL is malformed: ${validation.error}`,
+        url: registryEntry.urls[folderUrlKey],
       });
     }
   }
@@ -188,8 +192,8 @@ export function reconcileLesson(unit, lesson, registryEntry, tree) {
   }
 
   // 3. Folder path mismatch (folder exists in tree but path differs from registry)
-  if (registryEntry?.schoology?.folderPath && inTree.folderPath) {
-    const regPath = registryEntry.schoology.folderPath;
+  if (schoologyPeriod?.folderPath && inTree.folderPath) {
+    const regPath = schoologyPeriod.folderPath;
     const treePath = inTree.folderPath;
     if (JSON.stringify(regPath) !== JSON.stringify(treePath)) {
       issues.push({
@@ -366,7 +370,7 @@ export function detectOrphans(tree) {
  * @param {object} tree - The scraped Schoology tree
  * @returns {{ generatedAt: string, summary: object, issues: object[], perLesson: object }}
  */
-export function reconcile(registry, tree) {
+export function reconcile(registry, tree, period = 'B') {
   const allIssues = [];
   const perLesson = {};
   let fullyReconciled = 0;
@@ -381,7 +385,7 @@ export function reconcile(registry, tree) {
     const lesson = entry?.lesson;
     if (!unit || !lesson) continue;
 
-    const result = reconcileLesson(unit, lesson, entry, safeTree);
+    const result = reconcileLesson(unit, lesson, entry, safeTree, period);
     perLesson[key] = result;
 
     if (result.status === 'reconciled') {

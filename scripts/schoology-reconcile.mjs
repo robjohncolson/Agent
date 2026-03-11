@@ -98,6 +98,10 @@ try {
   process.exit(1);
 }
 
+// Derive period from tree metadata
+const period = tree.meta?.coursePeriod || 'B';
+console.log(`Period: ${period}`);
+
 const registry = loadRegistry();
 
 // ── Run reconciliation ────────────────────────────────────────────────────────
@@ -116,7 +120,7 @@ if (singleMode) {
     process.exit(1);
   }
 
-  const result = reconcileLesson(unit, lesson, entry, tree);
+  const result = reconcileLesson(unit, lesson, entry, tree, period);
 
   // Wrap single-lesson result in the same report shape as full reconcile
   report = {
@@ -132,7 +136,7 @@ if (singleMode) {
     perLesson: { [key]: result },
   };
 } else {
-  report = reconcile(registry, tree);
+  report = reconcile(registry, tree, period);
 }
 
 // ── JSON output mode ──────────────────────────────────────────────────────────
@@ -157,16 +161,17 @@ if (args.fix) {
       case 'malformed_folder_url': {
         // Extract last f= value and clean the URL
         const entry = registry[issue.lesson];
-        if (entry?.urls?.schoologyFolder) {
-          const validation = validateFolderUrl(entry.urls.schoologyFolder);
+        const folderUrlKey = period === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
+        if (entry?.urls?.[folderUrlKey]) {
+          const validation = validateFolderUrl(entry.urls[folderUrlKey]);
           if (validation.folderId) {
-            const baseUrl = entry.urls.schoologyFolder.split('?')[0];
+            const baseUrl = entry.urls[folderUrlKey].split('?')[0];
             const cleanUrl = `${baseUrl}?f=${validation.folderId}`;
-            updateUrl(unit, lesson, 'schoologyFolder', cleanUrl);
+            updateUrl(unit, lesson, folderUrlKey, cleanUrl);
             fixes.push({
               lesson: issue.lesson,
               type: issue.type,
-              message: `Updated schoologyFolder to ?f=${validation.folderId}`,
+              message: `Updated ${folderUrlKey} to ?f=${validation.folderId}`,
             });
           }
         }
@@ -176,34 +181,34 @@ if (args.fix) {
       case 'wrong_folder': {
         // Update folder URL to point to the actual folder
         const entry = registry[issue.lesson];
+        const folderUrlKey = period === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
         if (issue.actualFolder) {
-          const baseUrl = entry?.urls?.schoologyFolder
-            ? entry.urls.schoologyFolder.split('?')[0]
-            : '';
+          const currentFolderUrl = entry?.urls?.[folderUrlKey];
+          const baseUrl = currentFolderUrl ? currentFolderUrl.split('?')[0] : '';
           if (baseUrl) {
             const fixedUrl = `${baseUrl}?f=${issue.actualFolder}`;
-            updateUrl(unit, lesson, 'schoologyFolder', fixedUrl);
+            updateUrl(unit, lesson, folderUrlKey, fixedUrl);
             fixes.push({
               lesson: issue.lesson,
               type: issue.type,
-              message: `Updated schoologyFolder to ?f=${issue.actualFolder}`,
+              message: `Updated ${folderUrlKey} to ?f=${issue.actualFolder}`,
             });
           }
 
           // Also update schoology.folderPath if tree provides it
           if (issue.actualPath) {
             const currentState = getLesson(unit, lesson);
-            const schoologyState = currentState?.schoology || {};
+            const schoologyState = currentState?.schoology?.[period] || {};
             setSchoologyState(unit, lesson, {
               ...schoologyState,
               folderId: issue.actualFolder,
               folderPath: issue.actualPath,
               reconciledAt: new Date().toISOString(),
-            });
+            }, period);
             fixes.push({
               lesson: issue.lesson,
               type: 'folder_path_updated',
-              message: `Updated schoology.folderId and folderPath from tree`,
+              message: `Updated schoology.${period}.folderId and folderPath from tree`,
             });
           }
         }
@@ -227,16 +232,16 @@ if (args.fix) {
         // Update folderPath to match tree
         if (issue.actualPath) {
           const currentState = getLesson(unit, lesson);
-          const schoologyState = currentState?.schoology || {};
+          const schoologyState = currentState?.schoology?.[period] || {};
           setSchoologyState(unit, lesson, {
             ...schoologyState,
             folderPath: issue.actualPath,
             reconciledAt: new Date().toISOString(),
-          });
+          }, period);
           fixes.push({
             lesson: issue.lesson,
             type: issue.type,
-            message: `Updated schoology.folderPath to [${issue.actualPath.join(' / ')}]`,
+            message: `Updated schoology.${period}.folderPath to [${issue.actualPath.join(' / ')}]`,
           });
         }
         break;

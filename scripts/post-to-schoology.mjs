@@ -33,6 +33,7 @@ import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
 import { getLesson, updateStatus, updateUrl, updateSchoologyLink, updateSchoologyMaterial, setSchoologyState } from "./lib/lesson-registry.mjs";
 import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
+import { COURSE_IDS } from './lib/schoology-dom.mjs';
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -53,6 +54,11 @@ const CONFIG = {
 };
 
 const DEFAULT_COURSE_ID = "7945275782";
+
+function detectPeriod(courseId) {
+  if (courseId === COURSE_IDS.E || courseId === 'E') return 'E';
+  return 'B';
+}
 
 // ── Arg parsing ─────────────────────────────────────────────────────────────
 
@@ -472,6 +478,8 @@ async function main() {
   }
 
   const { unit, lesson, courseId, dryRun, autoUrls } = opts;
+  const period = detectPeriod(courseId);
+  const folderUrlKey = period === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
   let blooketUrl = opts.blooketUrl;
   const titles = buildLinkTitles(unit, lesson);
   const rootMaterialsUrl = `${CONFIG.baseUrl}/course/${courseId}/materials`;
@@ -640,8 +648,8 @@ async function main() {
   // --heal mode: determine materialsUrl from registry if not explicit
   if (opts.heal && !opts.targetFolder) {
     const regEntry = getLesson(unit, lesson);
-    if (regEntry?.urls?.schoologyFolder) {
-      materialsUrl = regEntry.urls.schoologyFolder;
+    if (regEntry?.urls?.[folderUrlKey]) {
+      materialsUrl = regEntry.urls[folderUrlKey];
       console.log(`  [heal] Using folder from registry: ${materialsUrl}`);
     }
   }
@@ -652,7 +660,7 @@ async function main() {
     const discovered = await discoverLessonFolder(page, unit, lesson, rootMaterialsUrl);
     if (discovered) {
       materialsUrl = discovered.folderUrl;
-      updateUrl(unit, lesson, "schoologyFolder", discovered.folderUrl);
+      updateUrl(unit, lesson, folderUrlKey, discovered.folderUrl);
       console.log(`  [heal] Discovered folder: "${discovered.folderTitle}" → ${discovered.folderUrl}`);
     }
   }
@@ -673,7 +681,7 @@ async function main() {
       if (opts.createFolder) {
         await createFolder(page, opts.createFolder, opts.folderDesc, parentUrl);
         materialsUrl = await extractFolderUrl(page, opts.createFolder, parentUrl);
-        updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+        updateUrl(unit, lesson, folderUrlKey, materialsUrl);
         const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
         setSchoologyState(unit, lesson, {
           folderId: folderIdMatch ? folderIdMatch[1] : null,
@@ -682,12 +690,12 @@ async function main() {
           verifiedAt: null,
           reconciledAt: null,
           materials: {},
-        });
+        }, period);
         console.log(`  Day folder created inside path: ${materialsUrl}`);
       } else {
         // Post directly into the resolved parent folder
         materialsUrl = parentUrl;
-        updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+        updateUrl(unit, lesson, folderUrlKey, materialsUrl);
         const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
         setSchoologyState(unit, lesson, {
           folderId: folderIdMatch ? folderIdMatch[1] : null,
@@ -696,7 +704,7 @@ async function main() {
           verifiedAt: null,
           reconciledAt: null,
           materials: {},
-        });
+        }, period);
         console.log(`  Posting into: ${materialsUrl}`);
       }
     } catch (err) {
@@ -710,7 +718,7 @@ async function main() {
       // Extract folder ID from DOM and build the scoped URL (?f=ID)
       materialsUrl = await extractFolderUrl(page, opts.createFolder, rootMaterialsUrl);
       // Persist the folder URL to the registry
-      updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+      updateUrl(unit, lesson, folderUrlKey, materialsUrl);
       const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
       setSchoologyState(unit, lesson, {
         folderId: folderIdMatch ? folderIdMatch[1] : null,
@@ -719,7 +727,7 @@ async function main() {
         verifiedAt: null,
         reconciledAt: null,
         materials: {},
-      });
+      }, period);
       console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);
@@ -853,7 +861,7 @@ async function main() {
         postedAt: new Date().toISOString(),
         verified: verifiedOk,
         status: "done",
-      });
+      }, period);
     } catch (err) {
       console.error(`  FAILED: ${err.message}`);
       failCount++;
@@ -874,7 +882,7 @@ async function main() {
         status: "failed",
         error: err.message,
         attemptedAt: new Date().toISOString(),
-      });
+      }, period);
     }
 
     // Delay between posts to avoid overwhelming Schoology
