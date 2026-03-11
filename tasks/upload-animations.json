@@ -9,10 +9,10 @@
     "lesson": "{{lesson}}"
   },
   "outputs": {
-    "registry_key": "animation_urls"
+    "registry_key": "animationUpload"
   },
   "preconditions": {
-    "registry_status": { "key": "animation_urls", "not": "done" }
+    "registry_status": { "key": "animationUpload", "not": "done" }
   },
   "on_failure": {
     "strategy": "skip"

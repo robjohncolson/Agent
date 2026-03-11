@@ -25,7 +25,12 @@ const STATUS_KEYS = new Set([
   "blooketCsv",
   "blooketUpload",
   "animations",
+  "animationUpload",
   "schoology",
+  "schoologyVerified",
+  "urlsGenerated",
+  "registryExported",
+  "committed",
 ]);
 
 const STATUS_VALUES = new Set([
@@ -117,7 +122,12 @@ function createDefaultEntry(unit, lesson) {
       blooketCsv: "pending",
       blooketUpload: "pending",
       animations: "pending",
+      animationUpload: "pending",
       schoology: "pending",
+      schoologyVerified: "pending",
+      urlsGenerated: "pending",
+      registryExported: "pending",
+      committed: "pending",
     },
     timestamps: {
       created: null,

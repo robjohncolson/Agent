@@ -6,146 +6,105 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ## Context
 
-You are the **Agent** — an LLM routing intelligence layer that also houses the **lesson prep automation pipeline** for AP Statistics teaching. The pipeline automates the full workflow from calendar lookup to Schoology posting.
+You are the **Agent** — an LLM routing intelligence layer and **cross-machine orchestration hub**. It houses the lesson prep automation pipeline for AP Statistics and manages state across all repos and machines.
 
-### Machines
+### Current State (as of 2026-03-10)
 
-| Machine | Username | Base path | Notes |
-|---------|----------|-----------|-------|
-| School | ColsonR | `C:/Users/ColsonR` | Lynn Public Schools, Windows 11 Education |
-| Home | rober | `C:/Users/rober/Downloads/Projects/school/` | Personal, Windows + MSYS2 |
+**Task runner integration — Phase 1 complete (uncommitted):**
 
-Path resolution is handled by `scripts/lib/paths.mjs` — auto-detects machine via `os.userInfo().username`.
+1. **`task-runner.mjs` enhanced** with:
+   - Registry-based precondition enforcement (`checkRegistryPrecondition()`) — skips tasks when registry status = "done"
+   - Pipeline context (`Map`) for inter-step data flow — merges from registry after each step
+   - Force/forceSteps override support for preconditions
+   - Registry status auto-update after step completion/failure via `updateStatus()`
+   - `codex-agent` task type implementation (spawns Codex CLI via `spawn()`)
+   - `topoSort()` dead code cleaned up
+   - Template resolution reads from both `params` and pipeline `context`
 
-### What just happened (2026-03-08, evening session)
+2. **`lesson-registry.mjs` STATUS_KEYS expanded** — added: `animationUpload`, `schoologyVerified`, `urlsGenerated`, `registryExported`, `committed`
 
-#### TUI Menu System (committed + pushed)
-Built `scripts/menu.mjs` — a terminal UI for the lesson-prep pipeline. `npm start` shows an arrow-key menu with 8 options: prep next undeveloped, prep tomorrow, prep specific, view status, get URLs, preflight, utility tools, quit. Uses `prompts` npm package.
+3. **Task definition registry keys fixed** — snake_case → camelCase to match actual STATUS_KEYS:
+   - `content-gen-blooket.json`: `blooket_csv` → `blooketCsv`
+   - `upload-blooket.json`: `blooket_url` → `blooketUpload`
+   - `upload-animations.json`: `animation_urls` → `animationUpload`
+   - `verify-schoology.json`: `schoology_verified` → `schoologyVerified`
+   - `generate-urls.json`: `urls_generated` → `urlsGenerated`
+   - `export-registry.json`: `registry_exported` → `registryExported`
 
-Also built `scripts/lib/scan-calendars.mjs` — parses all `*_calendar.html` files in CALENDAR_DIR, extracts Period B lessons, returns sorted/deduped array. Found 33 lessons (5.4 through 9.5).
+4. **`scripts/run-pipeline.mjs` created** — CLI entry point for the task runner:
+   ```bash
+   node scripts/run-pipeline.mjs lesson-prep --unit 6 --lesson 5 --dry-run
+   node scripts/run-pipeline.mjs lesson-prep --unit 6 --lesson 5 --force
+   node scripts/run-pipeline.mjs lesson-prep --unit 6 --lesson 5 --force-step ingest
+   ```
 
-#### Lesson 6.11 Pipeline Run (partially successful)
-Ran "Prep next undeveloped" → selected 6.11. Results:
-- **Succeeded:** Video ingest, worksheet, grading prompts, Blooket CSV, drills cartridge, lesson URLs, downstream commits (not pushed)
-- **Failed:** Blooket upload (`"Could not find 'Spreadsheet Import' button"`), Schoology posting (`ETIMEDOUT` on stdin prompt)
+5. **`design/task-runner-integration-spec.md` created** — full gap analysis and 4-phase plan
 
-#### Blooket/Schoology Fix (committed + pushed)
-Three fixes deployed via parallel Codex agents:
-1. `upload-blooket.mjs` — replaced 5 single-selector lookups with multi-strategy cascades (4-6 selectors each) + `dumpPageState()` debug dump on failure
-2. `post-to-schoology.mjs` — added `--no-prompt` flag + `process.stdin.isTTY` check to skip blocking readline, added registry check to skip re-attempting failed Blooket uploads
-3. `lesson-prep.mjs` — passes `--no-prompt` to Step 6 Schoology invocation
+**Dry run verified** — topological sort produces 7 correct waves with parallel execution.
+**Precondition skips verified** — lesson 6.4 (fully done) correctly skips 6/12 steps.
 
-**BUT: The selector fixes are still speculative.** Nobody has inspected the actual current Blooket/Schoology/AI Studio DOM. The debug dump will help on next failure, but the real fix requires a live inspection session.
+**Prior session commits (already pushed):**
+- `3a085e6` — Step 2 selective resume fix
+- `fd6ead5` — Schoology folder path navigation
 
 ---
 
-## NEXT TASK: Interactive CDP Resilience Session
+## Task Queue (user's priority order)
 
-The user wants a **hands-on session** where we connect to the debug browser and inspect each service's actual DOM together. The goal is to make all three CDP automations bulletproof.
+1. ~~Lesson prep~~ — **DONE** (6.4 complete)
+2. **Task runner integration** — IN PROGRESS
+   - Phase 1: DONE (this session — registry enforcement, context, codex-agent type, CLI entry)
+   - Phase 2: NEXT — Extract Step 2 content gen into `scripts/workers/codex-content-gen.mjs`
+   - Phase 3: Wire `lesson-prep.mjs` main() to call `runPipeline()` instead of inline orchestration
+   - Phase 4: Deprecate inline orchestration, lesson-prep.mjs becomes thin wrapper
+   - Spec: `design/task-runner-integration-spec.md`
+3. **Dashboard go-live** — after task runner
+4. **v5 Realtime** — after dashboard
 
-### The 3 Services to Fix
+### Roadmap (from `design/agent-hub-roadmap.md`)
+- v3: Auto-discovery & repo indexing
+- v4: Dashboard — scaffolded, needs go-live
+- v5: Realtime cross-machine awareness
+- v6: Full automation ratchet
+- Railway deployment — end goal for all features
 
-#### 1. Blooket (dashboard.blooket.com)
-- **Script:** `scripts/upload-blooket.mjs`
-- **Flow:** Navigate to `/create` → select "CSV Upload" radio → fill title → click "Create Set" → redirect to `/edit?id=xxx` → click "Spreadsheet Import" → upload CSV file → click "Import" → click "Save Set"
-- **Known broken:** "Spreadsheet Import" button selector fails. All other selectors are suspect too.
-- **Key:** The `findButton()` helper and `dumpPageState()` were just added — use `dumpPageState` output to find real selectors.
-
-#### 2. Schoology (lynnschools.schoology.com)
-- **Script:** `scripts/post-to-schoology.mjs`
-- **Flow:** Navigate to course materials → optionally create folder → post links as external URL materials
-- **Status:** The `--no-prompt` fix prevents the stdin crash, but actual Schoology selectors haven't been audited.
-
-#### 3. AI Studio (aistudio.google.com)
-- **Script:** `scripts/aistudio-ingest.mjs`
-- **Flow:** Upload Drive video files for context extraction
-- **Status:** Unknown — hasn't been tested against live UI recently.
-
-### How to Run the Session
-
-1. **Start Edge debug mode:**
-   ```bash
-   scripts/start-edge-debug.cmd
-   # Or manually: msedge --remote-debugging-port=9222 --user-data-dir="C:\Users\rober\.edge-debug-profile"
-   ```
-
-2. **Inspect a page's DOM:**
-   ```bash
-   node -e "
-     import('playwright').then(async pw => {
-       const b = await pw.chromium.connectOverCDP('http://localhost:9222');
-       const pages = b.contexts()[0].pages();
-       console.log('Open pages:', pages.map(p => p.url()));
-       // Find blooket/schoology/aistudio tab and dump its DOM
-       const page = pages.find(p => p.url().includes('blooket'));
-       if (page) {
-         const info = await page.evaluate(() => ({
-           url: location.href,
-           buttons: [...document.querySelectorAll('button, [role=button], div[class*=button]')]
-             .slice(0,20).map(e => ({ tag: e.tagName, text: e.innerText.trim().slice(0,80), cls: e.className.slice(0,100) }))
-         }));
-         console.log(JSON.stringify(info, null, 2));
-       }
-       await b.close();
-     });
-   "
-   ```
-
-3. **For each service:** Navigate, log in if needed (user provides credentials), dump DOM at each step, update selectors, test full flow.
-
-4. **Test end-to-end:** Run the actual upload/posting scripts and verify they complete.
-
-### Key Resilience Patterns to Add
-
-- **Login detection:** Before starting any flow, check if logged in. If not, navigate to login page and wait for user to authenticate.
-- **Wait strategies:** Replace `waitForTimeout` with `waitForSelector` where possible. Add retry loops for flaky loads.
-- **Screenshot on failure:** Save a screenshot to `state/debug/` when a step fails.
-- **Selector registry:** Consider a `scripts/lib/selectors.json` mapping logical names to CSS selectors, so they can be updated without editing code.
+User explicitly said: **"all things should be constructed with the headless Railway deployment as the end goal."**
 
 ---
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `scripts/upload-blooket.mjs` | Blooket CSV upload (414→~500 lines) |
-| `scripts/post-to-schoology.mjs` | Schoology link posting |
-| `scripts/aistudio-ingest.mjs` | AI Studio video context extraction |
-| `scripts/lesson-prep.mjs` | 10-step pipeline orchestrator |
-| `scripts/menu.mjs` | TUI menu (365 lines) |
-| `scripts/lib/cdp-connect.mjs` | CDP connection helper |
-| `scripts/lib/paths.mjs` | Machine-aware path config |
-| `scripts/lib/lesson-registry.mjs` | Lesson status/URL CRUD |
-| `scripts/lib/scan-calendars.mjs` | Calendar HTML parser |
-| `scripts/start-edge-debug.cmd` | Launch Edge with debug port |
-| `scripts/watch-blooket.mjs` | Temp watcher for page state |
-| `design/blooket-upload-fix-spec.md` | Spec for selector fixes |
-
-## Repos
-
-| Repo | Home path | Description |
-|------|-----------|-------------|
-| **Agent** | `C:/Users/rober/Downloads/Projects/Agent` | Pipeline orchestrator |
-| **apstats-live-worksheet** | `.../school/follow-alongs` | Worksheets, calendar, Blooket CSVs |
-| **curriculum-render** | `.../school/curriculum_render` | Quiz app + units.js |
-| **lrsl-driller** | `.../school/lrsl-driller` | Drill platform + cartridges |
-
-## Pipeline Commands
-
-```bash
-npm start                                    # TUI menu
-node scripts/lesson-prep.mjs --auto          # Full auto (tomorrow)
-node scripts/lesson-prep.mjs --unit 6 --lesson 11 --skip-ingest --force
-node scripts/upload-blooket.mjs --unit 6 --lesson 11 --force
-node scripts/post-to-schoology.mjs --unit 6 --lesson 11 --auto-urls --no-prompt
-node scripts/preflight.mjs                   # Check all deps
-node scripts/verify-paths.mjs                # Check path config
+```
+scripts/lib/task-runner.mjs    # Pipeline engine (enhanced this session)
+scripts/run-pipeline.mjs       # CLI entry point (new this session)
+pipelines/lesson-prep.json     # Pipeline definition (12 steps)
+tasks/*.json                   # 12 task definitions (registry keys fixed this session)
+scripts/lib/lesson-registry.mjs  # Registry (STATUS_KEYS expanded this session)
+scripts/lesson-prep.mjs        # Current inline orchestration (~2100 lines)
+design/task-runner-integration-spec.md  # Integration spec (new this session)
 ```
 
-## Unfinished Business
+## Pipeline Commands
+```bash
+npm start                                              # Startup check + TUI menu
+node scripts/lesson-prep.mjs --auto                    # Full auto (tomorrow's lesson)
+node scripts/run-pipeline.mjs lesson-prep --unit 6 --lesson 5 --dry-run  # Task runner dry run
+node scripts/run-pipeline.mjs lesson-prep --unit 6 --lesson 5            # Task runner live
+node scripts/post-to-schoology.mjs -u 6 -l 4 --folder-path "Q3/week 24" --auto-urls --no-prompt
+```
 
-- 6.11 downstream repos committed locally but NOT pushed (apstats-live-worksheet, lrsl-driller)
-- Blooket set for 6.11 was created but CSV import failed — may have an empty set on Blooket that needs cleanup
-- 32 more lessons (5.4–9.5 minus 6.10 and 6.11) remain undeveloped
+## Supabase State
+- `agent_checkpoints` — LIVE
+- `agent_events` — LIVE
+- URL: `https://hgvnytaqmuybzbotosyj.supabase.co`
+- Credentials: `.env` (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+- TLS: Corporate proxy requires `NODE_TLS_REJECT_UNAUTHORIZED=0`
+- **Dashboard needs**: anon key + RLS SELECT policies on both tables
 
-I am a high school math teacher building educational tools. My main projects are AP Statistics teaching tools. I want the lesson prep workflow to be as automated as possible — ideally I say "prep for Monday" and everything happens.
+## User Profile
+- High school AP Statistics teacher at Lynn Public Schools
+- Work machine: ColsonR, Windows 11 Education, no admin
+- Wants maximum automation — "prep for Monday" should be one command
+- Uses Edge browser with CDP (port 9222) for Schoology/Blooket/AI Studio
+- Codex CLI v0.106.0, GPT-5.4, invoked via `codex exec --full-auto`
+- Has a home machine (rober) — cross-machine sync is why Agent Hub exists

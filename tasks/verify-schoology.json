@@ -9,10 +9,10 @@
     "lesson": "{{lesson}}"
   },
   "outputs": {
-    "registry_key": "schoology_verified"
+    "registry_key": "schoologyVerified"
   },
   "preconditions": {
-    "registry_status": { "key": "schoology_verified", "not": "done" }
+    "registry_status": { "key": "schoologyVerified", "not": "done" }
   },
   "on_failure": {
     "strategy": "skip"

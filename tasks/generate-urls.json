@@ -9,10 +9,10 @@
     "lesson": "{{lesson}}"
   },
   "outputs": {
-    "registry_key": "urls_generated"
+    "registry_key": "urlsGenerated"
   },
   "preconditions": {
-    "registry_status": { "key": "urls_generated", "not": "done" }
+    "registry_status": { "key": "urlsGenerated", "not": "done" }
   },
   "on_failure": {
     "strategy": "skip"

@@ -9,11 +9,11 @@
     "lesson": "{{lesson}}"
   },
   "outputs": {
-    "registry_key": "blooket_url"
+    "registry_key": "blooketUpload"
   },
   "preconditions": {
     "requires_cdp": true,
-    "registry_status": { "key": "blooket_url", "not": "done" }
+    "registry_status": { "key": "blooketUpload", "not": "done" }
   },
   "on_failure": {
     "strategy": "skip"

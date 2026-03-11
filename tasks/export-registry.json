@@ -6,10 +6,10 @@
   "worker": "scripts/export-registry.mjs",
   "inputs": {},
   "outputs": {
-    "registry_key": "registry_exported"
+    "registry_key": "registryExported"
   },
   "preconditions": {
-    "registry_status": { "key": "registry_exported", "not": "done" }
+    "registry_status": { "key": "registryExported", "not": "done" }
   },
   "on_failure": {
     "strategy": "skip"

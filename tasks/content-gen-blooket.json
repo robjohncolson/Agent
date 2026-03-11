@@ -11,10 +11,10 @@
   },
   "outputs": {
     "files": "u{{unit}}_l{{lesson}}_blooket.csv",
-    "registry_key": "blooket_csv"
+    "registry_key": "blooketCsv"
   },
   "preconditions": {
-    "registry_status": { "key": "blooket_csv", "not": "done" }
+    "registry_status": { "key": "blooketCsv", "not": "done" }
   },
   "on_failure": {
     "strategy": "fail"

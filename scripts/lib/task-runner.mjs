@@ -5,14 +5,22 @@
  * dependencies via topological sort (Kahn's algorithm), and executes tasks
  * in parallel where the dependency graph allows.
  *
+ * Features:
+ *   - Registry-based precondition enforcement (skip if already done)
+ *   - Pipeline context for inter-step data flow
+ *   - Force/forceSteps to override preconditions
+ *   - Registry status updates after step completion
+ *   - Codex agent task type support
+ *
  * Emits pipeline lifecycle events via event-log.mjs.
  */
 
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { execSync, spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { pipeline as pipelineEvents } from './event-log.mjs';
+import { getLesson, updateStatus } from './lesson-registry.mjs';
 
 // ---------------------------------------------------------------------------
 // Repo root resolution
@@ -74,34 +82,16 @@ function topoSort(steps) {
   const ids = steps.map(s => s.task);
   const depMap = new Map(steps.map(s => [s.task, new Set(s.depends_on)]));
 
-  // In-degree count per node
-  const inDegree = new Map(ids.map(id => [id, 0]));
+  // Validate all dependencies reference declared steps
   for (const [, deps] of depMap) {
     for (const dep of deps) {
-      if (!inDegree.has(dep)) {
+      if (!depMap.has(dep)) {
         throw new Error(`Unknown dependency: "${dep}" — not declared as a step in this pipeline`);
       }
-      inDegree.set(dep, inDegree.get(dep)); // dep is a prerequisite, not the current node
     }
   }
 
-  // Recompute in-degrees correctly: count how many steps depend on each id
-  for (const id of ids) inDegree.set(id, 0);
-  for (const [id, deps] of depMap) {
-    for (const dep of deps) {
-      // dep must finish before id, so id's in-degree increases
-      void dep; // dep is consumed by id
-    }
-  }
-  // Actually: in-degree of a node = number of nodes that list it as a dependency
-  // Re-derive cleanly:
-  const inDeg = new Map(ids.map(id => [id, 0]));
-  for (const [, deps] of depMap) {
-    // Each dep listed reduces the readiness of the node that lists it
-  }
-  // Simplest correct derivation: in-degree[id] = |{ s : id ∈ s.depends_on }|
-  // i.e. how many steps are waiting on *id* to finish before they can run.
-  // That is NOT what Kahn's needs. Kahn's in-degree[id] = |id.depends_on|.
+  // readyDegree[id] = number of unresolved dependencies for id
   const readyDegree = new Map(ids.map(id => [id, depMap.get(id).size]));
 
   const waves = [];
@@ -161,41 +151,122 @@ function loadTask(taskId) {
 }
 
 // ---------------------------------------------------------------------------
+// Registry precondition check
+// ---------------------------------------------------------------------------
+
+/**
+ * Check if a task should be skipped based on registry status.
+ *
+ * @param {object} task        — task definition
+ * @param {object} params      — pipeline params (must include unit, lesson)
+ * @param {boolean} force      — force all steps
+ * @param {Set}    forceSteps  — specific step IDs to force
+ * @returns {{ skip: boolean, reason?: string }}
+ */
+function checkRegistryPrecondition(task, params, force, forceSteps) {
+  const stepId = task.id;
+
+  // Force overrides
+  if (force) return { skip: false };
+  if (forceSteps.has(stepId)) return { skip: false };
+
+  const pc = task.preconditions;
+  if (!pc?.registry_status) return { skip: false };
+
+  const { key, not: notVal } = pc.registry_status;
+  if (!params.unit || !params.lesson) return { skip: false };
+
+  const entry = getLesson(params.unit, params.lesson);
+  if (!entry) return { skip: false };
+
+  const currentStatus = entry.status?.[key];
+
+  // "not: done" means "run only when status is NOT done"
+  // So if currentStatus === notVal, precondition is not met → skip
+  if (currentStatus && currentStatus === notVal) {
+    return { skip: true, reason: `${key} already ${currentStatus}` };
+  }
+
+  return { skip: false };
+}
+
+// ---------------------------------------------------------------------------
+// Codex agent launcher
+// ---------------------------------------------------------------------------
+
+/**
+ * Launch a Codex agent task. Reads prompt from the worker field or builds
+ * from inputs. Returns a Promise that resolves when Codex finishes.
+ *
+ * @param {object} task   — task definition (type: codex-agent)
+ * @param {string} argsStr — resolved CLI args string
+ * @param {string} stepId — step identifier
+ * @returns {Promise<void>}
+ */
+function launchCodexAgent(task, argsStr, stepId) {
+  return new Promise((resolve, reject) => {
+    const isWindows = process.platform === 'win32';
+    const timeoutMs = (task.timeout_minutes ?? 15) * 60_000;
+
+    // Build the codex command
+    const spawnCommand = isWindows
+      ? (process.env.ComSpec || 'cmd.exe')
+      : 'codex';
+    const spawnArgs = isWindows
+      ? ['/d', '/s', '/c', `codex.cmd exec --full-auto ${argsStr}`]
+      : ['exec', '--full-auto', ...argsStr.split(/\s+/).filter(Boolean)];
+
+    console.log(`[task-runner] [${stepId}] Codex: ${isWindows ? spawnArgs[3] : spawnArgs.join(' ')}`);
+
+    const proc = spawn(spawnCommand, spawnArgs, {
+      stdio: 'inherit',
+      cwd: REPO_ROOT,
+      timeout: timeoutMs,
+    });
+
+    proc.on('error', (err) => reject(err));
+    proc.on('close', (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`Codex exited with code ${code}`));
+    });
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Single task executor
 // ---------------------------------------------------------------------------
 
 /**
  * Execute a single task step.
  *
- * @param {object} task       — loaded task definition
- * @param {object} params     — pipeline params (used for template resolution)
- * @param {string} pipelineId — pipeline ID (for event metadata)
- * @param {Set}    forceSteps — step IDs to force-run
+ * @param {object} task        — loaded task definition
+ * @param {object} params      — pipeline params (used for template resolution)
+ * @param {string} pipelineId  — pipeline ID (for event metadata)
+ * @param {boolean} force      — force all steps
+ * @param {Set}    forceSteps  — step IDs to force-run
+ * @param {Map}    context     — pipeline context for inter-step data flow
  * @returns {Promise<{ status: 'completed'|'skipped'|'failed', duration_ms: number, error?: string }>}
  */
-async function executeTask(task, params, pipelineId, forceSteps) {
+async function executeTask(task, params, pipelineId, force, forceSteps, context) {
   const stepId = task.id;
   const startTime = Date.now();
 
-  // --- Preconditions (log only — no actual registry check yet) ---
-  if (task.preconditions) {
-    const pc = task.preconditions;
-    if (pc.requires_cdp) {
-      console.log(`[task-runner] [${stepId}] Precondition: requires_cdp = true (not validated — assumed OK)`);
-    }
-    if (pc.registry_status) {
-      const { key, not: notVal } = pc.registry_status;
-      console.log(
-        `[task-runner] [${stepId}] Precondition: registry_status.key="${key}" not="${notVal}" (not validated — assumed OK)`
-      );
-    }
+  // --- Registry precondition check ---
+  const preconditionCheck = checkRegistryPrecondition(task, params, force, forceSteps);
+  if (preconditionCheck.skip) {
+    console.log(`[task-runner] [${stepId}] Skipped — ${preconditionCheck.reason}`);
+    return { status: 'skipped', duration_ms: 0, reason: preconditionCheck.reason };
   }
 
-  // --- Resolve inputs ---
-  const resolvedInputs = resolveInputs(task.inputs ?? {}, params);
+  if (task.preconditions?.requires_cdp) {
+    console.log(`[task-runner] [${stepId}] Precondition: requires_cdp = true`);
+  }
+
+  // --- Resolve inputs using both params and pipeline context ---
+  const resolvedParams = { ...params, ...Object.fromEntries(context) };
+  const resolvedInputs = resolveInputs(task.inputs ?? {}, resolvedParams);
 
   // --- Derive CLI args from resolved inputs ---
-  // Build --key value pairs for well-known scalar inputs
   const argPairs = [];
   for (const [k, v] of Object.entries(resolvedInputs)) {
     if (typeof v === 'boolean') {
@@ -226,9 +297,10 @@ async function executeTask(task, params, pipelineId, forceSteps) {
         break;
       }
 
-      case 'codex-agent':
-        console.log(`[task-runner] [${stepId}] Codex dispatch not yet implemented — skipping`);
+      case 'codex-agent': {
+        await launchCodexAgent(task, argsStr, stepId);
         break;
+      }
 
       default:
         console.warn(`[task-runner] [${stepId}] Unknown task type "${task.type}" — skipping`);
@@ -237,12 +309,27 @@ async function executeTask(task, params, pipelineId, forceSteps) {
 
     const duration_ms = Date.now() - startTime;
     pipelineEvents.stepCompleted(pipelineId, stepId, duration_ms, { taskName: task.name });
+
+    // --- Update registry status on success ---
+    if (task.outputs?.registry_key && params.unit && params.lesson) {
+      try {
+        updateStatus(params.unit, params.lesson, task.outputs.registry_key, 'done');
+      } catch { /* non-fatal — registry key may not be in STATUS_KEYS */ }
+    }
+
     return { status: 'completed', duration_ms };
 
   } catch (err) {
     const duration_ms = Date.now() - startTime;
     const message = err?.message ?? String(err);
     pipelineEvents.stepFailed(pipelineId, stepId, err);
+
+    // --- Update registry status on failure ---
+    if (task.outputs?.registry_key && params.unit && params.lesson) {
+      try {
+        updateStatus(params.unit, params.lesson, task.outputs.registry_key, 'failed');
+      } catch { /* non-fatal */ }
+    }
 
     const strategy = task.on_failure?.strategy ?? 'fail';
 
@@ -302,11 +389,22 @@ function printDryRun(pipelineDef, waves, taskDefs) {
  * @param {object} params       — pipeline parameters (e.g. { unit: 6, lesson: 11 })
  * @param {object} [options]
  * @param {boolean} [options.dryRun=false]   — print plan without executing
+ * @param {boolean} [options.force=false]    — force all steps regardless of preconditions
  * @param {Set}    [options.forceSteps]      — step IDs to force even if preconditions say skip
- * @returns {Promise<{ results: Map<string, { status, duration_ms, error? }>, success: boolean }>}
+ * @param {Map}    [options.context]         — initial pipeline context (pre-seeded outputs)
+ * @returns {Promise<{ results: Map<string, { status, duration_ms, error? }>, success: boolean, context: Map }>}
  */
 export async function runPipeline(pipelinePath, params, options = {}) {
-  const { dryRun = false, forceSteps = new Set() } = options;
+  const {
+    dryRun = false,
+    force = false,
+    forceSteps = new Set(),
+    context: initialContext = new Map(),
+  } = options;
+
+  // Pipeline context: accumulates outputs from completed steps
+  // Downstream tasks can reference these via {{key}} in their inputs
+  const context = new Map(initialContext);
 
   // --- Load pipeline definition ---
   if (!fs.existsSync(pipelinePath)) {
@@ -321,10 +419,9 @@ export async function runPipeline(pipelinePath, params, options = {}) {
   const waves = topoSort(steps);
 
   // --- Build step metadata map ---
-  // stepMeta[taskId] = the step object from the pipeline (includes defined flag)
   const stepMeta = new Map(steps.map(s => [s.task, s]));
 
-  // --- Pre-load task definitions (for dry run and type inspection) ---
+  // --- Pre-load task definitions ---
   const taskDefs = new Map();
   for (const step of steps) {
     if (step.defined === false) {
@@ -333,7 +430,6 @@ export async function runPipeline(pipelinePath, params, options = {}) {
       try {
         taskDefs.set(step.task, loadTask(step.task));
       } catch (err) {
-        // In dry-run mode we surface the error without aborting
         if (dryRun) {
           console.warn(`[task-runner] Warning: could not load task "${step.task}": ${err.message}`);
           taskDefs.set(step.task, null);
@@ -347,7 +443,7 @@ export async function runPipeline(pipelinePath, params, options = {}) {
   // --- Dry run ---
   if (dryRun) {
     printDryRun(pipelineDef, waves, taskDefs);
-    return { results: new Map(), success: true };
+    return { results: new Map(), success: true, context };
   }
 
   // --- Execute ---
@@ -360,7 +456,6 @@ export async function runPipeline(pipelinePath, params, options = {}) {
     // Filter out steps whose dependencies failed fatally
     const runnableInWave = wave.filter(taskId => {
       const step = stepMeta.get(taskId);
-      // Check if any dependency failed fatally
       for (const dep of (step.depends_on ?? [])) {
         const depResult = results.get(dep);
         if (depResult?.fatal) {
@@ -381,7 +476,6 @@ export async function runPipeline(pipelinePath, params, options = {}) {
       runnableInWave.map(async taskId => {
         const step = stepMeta.get(taskId);
 
-        // --- defined === false: skip ---
         if (step.defined === false) {
           console.log(`[task-runner] [${taskId}] Skipped (not yet defined)`);
           results.set(taskId, { status: 'skipped', duration_ms: 0 });
@@ -391,14 +485,24 @@ export async function runPipeline(pipelinePath, params, options = {}) {
         const task = taskDefs.get(taskId);
 
         try {
-          const result = await executeTask(task, params, pipelineId, forceSteps);
+          const result = await executeTask(task, params, pipelineId, force, forceSteps, context);
           results.set(taskId, result);
+
+          // After successful completion, refresh context from registry
+          // This lets downstream tasks access URLs/state set by this step
+          if (result.status === 'completed' && params.unit && params.lesson) {
+            const freshEntry = getLesson(params.unit, params.lesson);
+            if (freshEntry?.urls) {
+              for (const [k, v] of Object.entries(freshEntry.urls)) {
+                if (v) context.set(k, typeof v === 'string' ? v : JSON.stringify(v));
+              }
+            }
+          }
 
           if (result.fatal) {
             success = false;
           }
         } catch (unexpectedErr) {
-          // Shouldn't happen — executeTask catches internally — but guard anyway
           const message = unexpectedErr?.message ?? String(unexpectedErr);
           console.error(`[task-runner] [${taskId}] Unexpected error: ${message}`);
           results.set(taskId, { status: 'failed', duration_ms: 0, error: message, fatal: true });
@@ -407,7 +511,7 @@ export async function runPipeline(pipelinePath, params, options = {}) {
       })
     );
 
-    // If any step in this wave was fatal and its failure strategy is 'fail', stop
+    // If any step in this wave was fatal, stop the pipeline
     let shouldAbort = false;
     for (const taskId of runnableInWave) {
       const result = results.get(taskId);
@@ -434,5 +538,5 @@ export async function runPipeline(pipelinePath, params, options = {}) {
   });
 
   console.log(`[task-runner] Pipeline ${success ? 'SUCCEEDED' : 'FAILED'}: ${pipelineName}`);
-  return { results, success };
+  return { results, success, context };
 }
