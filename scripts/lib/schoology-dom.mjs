@@ -26,7 +26,15 @@ export { VALID_COLORS, COLOR_VALUES };
 export async function navigateToFolder(page, courseId, folderId = null) {
   let url = `https://lynnschools.schoology.com/course/${courseId}/materials`;
   if (folderId) url += `?f=${folderId}`;
-  await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
+
+  // Use JS-based navigation to force a full reload, bypassing Schoology's SPA cache
+  // which can redirect back to the previously-viewed folder with page.goto().
+  await page.evaluate((targetUrl) => {
+    window.location.href = targetUrl;
+  }, url);
+
+  // Wait for the page to fully load after JS navigation
+  await page.waitForLoadState('networkidle', { timeout: 30000 });
   await sleep(2000);
 }
 

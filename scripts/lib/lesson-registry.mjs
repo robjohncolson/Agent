@@ -397,10 +397,15 @@ export function updateSchoologyMaterial(unit, lesson, type, materialData, period
       verifiedAt: null, reconciledAt: null, materials: {}
     };
   }
-  registry[key].schoology[period].materials[type] = {
-    ...(registry[key].schoology[period].materials[type] || {}),
-    ...materialData,
-  };
+  // Arrays (e.g. videos) must be assigned directly, not spread into an object
+  if (Array.isArray(materialData)) {
+    registry[key].schoology[period].materials[type] = materialData;
+  } else {
+    registry[key].schoology[period].materials[type] = {
+      ...(registry[key].schoology[period].materials[type] || {}),
+      ...materialData,
+    };
+  }
   registry[key].timestamps.lastUpdated = nowIso();
   saveRegistry(registry);
 }

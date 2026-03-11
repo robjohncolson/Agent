@@ -224,7 +224,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T17:14:27.262Z",
-      "lastUpdated": "2026-03-11T16:56:03.387Z"
+      "lastUpdated": "2026-03-11T18:23:45.111Z"
     },
     "schoology": {
       "B": {
@@ -309,14 +309,20 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288286201",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Topic 6.7 — AP Classroom Video 2",
               "copiedFrom": "B",
               "copiedFromId": "8285245921",
-              "copiedAt": "2026-03-11T16:56:03.385Z"
+              "copiedAt": "2026-03-11T17:03:24.337Z"
+            },
+            {
+              "title": "Topic 6.7 — AP Classroom Video 1",
+              "copiedFrom": "B",
+              "copiedFromId": "8285245328",
+              "copiedAt": "2026-03-11T18:23:45.099Z"
             }
-          }
+          ]
         }
       }
     }
@@ -658,14 +664,14 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8047054324",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit 1 Lesson 7 video (1 of 2) AP Classroom",
               "copiedFrom": "B",
               "copiedFromId": "8049255156",
               "copiedAt": "2026-03-11T16:33:36.442Z"
             }
-          }
+          ]
         }
       }
     }
@@ -695,13 +701,13 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.673Z",
-      "lastUpdated": "2026-03-11T14:22:02.261Z"
+      "lastUpdated": "2026-03-11T18:13:06.875Z"
     },
     "schoology": {
       "B": {
-        "folderId": "949296571",
+        "folderId": "949081768",
         "folderPath": null,
-        "folderTitle": "Friday(September 26th, 2025) apstat",
+        "folderTitle": "Thursday 9/25/25",
         "verifiedAt": null,
         "reconciledAt": null,
         "materials": {
@@ -747,7 +753,15 @@
             "title": "Unit 1 Lesson 8 Quiz",
             "href": "https://lynnschools.schoology.com/assignment/8059418599",
             "targetUrl": null
-          }
+          },
+          "videos": [
+            {
+              "title": "Unit 1 Lesson 8 video AP Classroom",
+              "copiedFrom": "B",
+              "copiedFromId": "8053341874",
+              "copiedAt": "2026-03-11T18:13:06.869Z"
+            }
+          ]
         }
       }
     }
@@ -830,14 +844,14 @@
             "href": "https://lynnschools.schoology.com/assignment/8065724949",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit 1 Lesson 9 Video (apclassroom)",
               "copiedFrom": "B",
               "copiedFromId": "8060349035",
               "copiedAt": "2026-03-11T16:35:20.670Z"
             }
-          }
+          ]
         }
       }
     }
@@ -950,14 +964,14 @@
             "href": "https://lynnschools.schoology.com/assignment/8076008702",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit 1 Lesson 10 Video 1 of 3 (apclassroom)",
               "copiedFrom": "B",
               "copiedFromId": "8060359697",
               "copiedAt": "2026-03-11T16:35:37.124Z"
             }
-          }
+          ]
         }
       }
     }
@@ -1040,14 +1054,14 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8087613966",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit 2 Lesson 1 Video",
               "copiedFrom": "B",
               "copiedFromId": "8087612554",
               "copiedAt": "2026-03-11T16:38:25.388Z"
             }
-          }
+          ]
         }
       }
     }
@@ -1085,9 +1099,14 @@
         "folderPath": null,
         "folderTitle": "Tuesday (October 21, 2025)",
         "verifiedAt": null,
-        "reconciledAt": null,
+        "reconciledAt": "2026-03-11T17:35:06.741Z",
         "materials": {
-          "worksheet": null,
+          "worksheet": {
+            "schoologyId": "8097514735",
+            "title": "u2l2followalong.pdf",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/gp/8097514735",
+            "targetUrl": null
+          },
           "drills": null,
           "quiz": {
             "schoologyId": "8093922594",
@@ -1164,9 +1183,14 @@
         "folderPath": null,
         "folderTitle": "Thursday (October 23rd, 2025)",
         "verifiedAt": null,
-        "reconciledAt": null,
+        "reconciledAt": "2026-03-11T17:35:06.743Z",
         "materials": {
-          "worksheet": null,
+          "worksheet": {
+            "schoologyId": "8097218414",
+            "title": "AP_Stats_U2L3_Final_Worksheet.pdf",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/gp/8097218414",
+            "targetUrl": null
+          },
           "drills": null,
           "quiz": {
             "schoologyId": "8100925322",
@@ -1253,9 +1277,9 @@
     },
     "schoology": {
       "B": {
-        "folderId": "957153701",
+        "folderId": "957152830",
         "folderPath": null,
-        "folderTitle": "week 9",
+        "folderTitle": "Friday 10/31/25",
         "verifiedAt": null,
         "reconciledAt": null,
         "materials": {
@@ -1394,14 +1418,14 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8123169199",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit 2 L5 Video 1 (of 2)",
               "copiedFrom": "B",
               "copiedFromId": "8119377463",
               "copiedAt": "2026-03-11T16:38:55.318Z"
             }
-          }
+          ]
         }
       }
     }
@@ -1501,14 +1525,14 @@
             "href": "https://lynnschools.schoology.com/assignment/8127678512",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit 2 L6 Video 1 (of 2)",
               "copiedFrom": "B",
               "copiedFromId": "8125316757",
               "copiedAt": "2026-03-11T16:39:52.872Z"
             }
-          }
+          ]
         }
       }
     }
@@ -1597,14 +1621,14 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8126992570",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "u2l7 vid 2 of 2",
               "copiedFrom": "B",
               "copiedFromId": "8135032166",
               "copiedAt": "2026-03-11T16:40:49.180Z"
             }
-          }
+          ]
         }
       }
     }
@@ -1638,9 +1662,9 @@
     },
     "schoology": {
       "B": {
-        "folderId": "986581863",
+        "folderId": "970432845",
         "folderPath": null,
-        "folderTitle": "tuesday 1/6/26",
+        "folderTitle": "Tuesday 1/6/26",
         "verifiedAt": null,
         "reconciledAt": null,
         "materials": {
@@ -1843,14 +1867,14 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8221157078",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Unit4 Lesson3 Video (Ap classroom)",
               "copiedFrom": "B",
               "copiedFromId": "8221153332",
               "copiedAt": "2026-03-11T16:41:45.584Z"
             }
-          }
+          ]
         }
       }
     }
@@ -2824,7 +2848,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.690Z",
-      "lastUpdated": "2026-03-11T16:45:40.981Z"
+      "lastUpdated": "2026-03-11T18:01:08.017Z"
     },
     "schoology": {
       "B": {
@@ -2916,14 +2940,20 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8277791347",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "apstats 5-7-2 video",
               "copiedFrom": "B",
               "copiedFromId": "8257278376",
               "copiedAt": "2026-03-11T16:45:40.978Z"
+            },
+            {
+              "title": "apstats 5-7-1 video",
+              "copiedFrom": "B",
+              "copiedFromId": "8257278254",
+              "copiedAt": "2026-03-11T18:01:07.997Z"
             }
-          }
+          ]
         }
       }
     }
@@ -2953,7 +2983,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.691Z",
-      "lastUpdated": "2026-03-11T16:46:07.145Z"
+      "lastUpdated": "2026-03-11T18:01:24.913Z"
     },
     "schoology": {
       "B": {
@@ -3034,14 +3064,20 @@
             "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Flrsl-driller.vercel.app%2Fplatform%2Fapp.html%3Fc%3Du5%26level%3Dl36-diff-mean-params&nid=8281137410",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "apstats 5-8-2 video",
               "copiedFrom": "B",
               "copiedFromId": "8274061116",
               "copiedAt": "2026-03-11T16:46:07.141Z"
+            },
+            {
+              "title": "apstats 5-8-1 video",
+              "copiedFrom": "B",
+              "copiedFromId": "8274061115",
+              "copiedAt": "2026-03-11T18:01:24.907Z"
             }
-          }
+          ]
         }
       }
     }
@@ -3130,14 +3166,14 @@
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8283999531",
             "targetUrl": null
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "apclassroom video 6-1",
               "copiedFrom": "B",
               "copiedFromId": "8276378685",
               "copiedAt": "2026-03-11T16:46:20.907Z"
             }
-          }
+          ]
         }
       }
     }
@@ -3230,7 +3266,33 @@
             "title": "quiz 6-2",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8287569296",
             "targetUrl": null
-          }
+          },
+          "videos": [
+            {
+              "title": "Topic 6.2 — AP Classroom Video 1",
+              "url": "https://apclassroom.collegeboard.org/d/cue0tavkxg?sui=33,6",
+              "postedAt": "2026-03-11T18:27:11.808Z",
+              "status": "done",
+              "copiedFromId": "8276379617",
+              "copiedFrom": "B"
+            },
+            {
+              "title": "Topic 6.2 — AP Classroom Video 2",
+              "url": "https://apclassroom.collegeboard.org/d/sa1jzello1?sui=33,6",
+              "postedAt": "2026-03-11T18:27:11.811Z",
+              "status": "done",
+              "copiedFromId": "8276379349",
+              "copiedFrom": "B"
+            },
+            {
+              "title": "Topic 6.2 — AP Classroom Video 3",
+              "url": "https://apclassroom.collegeboard.org/d/ho2mfeuu5x?sui=33,6",
+              "postedAt": "2026-03-11T18:27:11.811Z",
+              "status": "done",
+              "copiedFromId": "8276379024",
+              "copiedFrom": "B"
+            }
+          ]
         }
       }
     }
@@ -3264,11 +3326,11 @@
     },
     "schoology": {
       "B": {
-        "folderId": "985937488",
+        "folderId": "986218661",
         "folderPath": null,
-        "folderTitle": "thursday (3/5/26)",
+        "folderTitle": "Friday 3/6/26",
         "verifiedAt": null,
-        "reconciledAt": null,
+        "reconciledAt": "2026-03-11T17:35:06.744Z",
         "materials": {
           "worksheet": {
             "schoologyId": "8278729325",
@@ -3283,10 +3345,12 @@
             "targetUrl": null
           },
           "quiz": {
-            "schoologyId": "8282276571",
-            "title": "quiz 6-3",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282276571",
-            "targetUrl": null
+            "schoologyId": "8289707540",
+            "title": "Quiz 6.3",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707540",
+            "targetUrl": null,
+            "previousId": "8282276571",
+            "syncedAt": "2026-03-11T17:35:06.744Z"
           },
           "blooket": {
             "schoologyId": "8278726484",
@@ -3367,27 +3431,31 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.697Z",
-      "lastUpdated": "2026-03-11T14:22:02.455Z"
+      "lastUpdated": "2026-03-11T18:11:23.149Z"
     },
     "schoology": {
       "B": {
-        "folderId": "987073401",
+        "folderId": "986218661",
         "folderPath": null,
-        "folderTitle": "friday (3/6/26)",
+        "folderTitle": "Friday 3/6/26",
         "verifiedAt": null,
-        "reconciledAt": null,
+        "reconciledAt": "2026-03-11T17:35:06.744Z",
         "materials": {
           "worksheet": {
-            "schoologyId": "8282264090",
-            "title": "apstats 6-4 follow along worksheet",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282264090",
-            "targetUrl": null
+            "schoologyId": "8289706952",
+            "title": "Topic 6.4 — Follow-Along Worksheet",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289706952",
+            "targetUrl": null,
+            "previousId": "8282264090",
+            "syncedAt": "2026-03-11T17:35:06.744Z"
           },
           "drills": {
-            "schoologyId": "8282276275",
-            "title": "apstats 6-4 drills",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282276275",
-            "targetUrl": null
+            "schoologyId": "8289707242",
+            "title": "Topic 6.4 — Drills",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707242",
+            "targetUrl": null,
+            "previousId": "8282276275",
+            "syncedAt": "2026-03-11T17:35:06.744Z"
           },
           "quiz": {
             "schoologyId": "8283974303",
@@ -3396,23 +3464,27 @@
             "targetUrl": null
           },
           "blooket": {
-            "schoologyId": "8282263740",
-            "title": "apstats 6-4 blooket",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282263740",
-            "targetUrl": null
+            "schoologyId": "8289707686",
+            "title": "Topic 6.4 — Blooket Review",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707686",
+            "targetUrl": null,
+            "previousId": "8282263740",
+            "syncedAt": "2026-03-11T17:35:06.744Z"
           },
           "videos": [
             {
-              "schoologyId": "8282740391",
-              "title": "apclassroom video 6-4-1",
-              "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282740391",
-              "targetUrl": null
+              "schoologyId": "8289707809",
+              "title": "Topic 6.4 — AP Classroom Video 1",
+              "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707809",
+              "targetUrl": null,
+              "syncedAt": "2026-03-11T17:35:06.744Z"
             },
             {
-              "schoologyId": "8282742974",
-              "title": "apclassroom video 6-4-2",
-              "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282742974",
-              "targetUrl": null
+              "schoologyId": "8289707913",
+              "title": "Topic 6.4 — AP Classroom Video 2",
+              "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707913",
+              "targetUrl": null,
+              "syncedAt": "2026-03-11T17:35:06.744Z"
             }
           ]
         }
@@ -3451,7 +3523,21 @@
             "title": "Topic 6.4 — Blooket Review",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8289733027",
             "targetUrl": null
-          }
+          },
+          "videos": [
+            {
+              "title": "Topic 6.4 — AP Classroom Video 1",
+              "copiedFrom": "B",
+              "copiedFromId": "8289707809",
+              "copiedAt": "2026-03-11T18:11:10.919Z"
+            },
+            {
+              "title": "Topic 6.4 — AP Classroom Video 2",
+              "copiedFrom": "B",
+              "copiedFromId": "8289707913",
+              "copiedAt": "2026-03-11T18:11:23.147Z"
+            }
+          ]
         }
       }
     }
@@ -3590,15 +3676,15 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.699Z",
-      "lastUpdated": "2026-03-11T14:22:02.465Z"
+      "lastUpdated": "2026-03-11T18:06:53.447Z"
     },
     "schoology": {
       "B": {
-        "folderId": "986400679",
+        "folderId": "986330787",
         "folderPath": null,
-        "folderTitle": "Tuesday 3/10/26",
+        "folderTitle": "Monday 3/9/26",
         "verifiedAt": null,
-        "reconciledAt": null,
+        "reconciledAt": "2026-03-11T17:47:52.197Z",
         "materials": {
           "worksheet": {
             "schoologyId": "8284785922",
@@ -3674,7 +3760,21 @@
             "title": "Blooket — 6.6",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288285563",
             "targetUrl": null
-          }
+          },
+          "videos": [
+            {
+              "title": "Topic 6.6 — AP Classroom Video 1",
+              "copiedFrom": "B",
+              "copiedFromId": "8284788741",
+              "copiedAt": "2026-03-11T18:06:25.932Z"
+            },
+            {
+              "title": "Topic 6.6 — AP Classroom Video 2",
+              "copiedFrom": "B",
+              "copiedFromId": "8284789402",
+              "copiedAt": "2026-03-11T18:06:53.441Z"
+            }
+          ]
         }
       }
     }
@@ -3705,7 +3805,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.702Z",
-      "lastUpdated": "2026-03-11T16:56:27.447Z"
+      "lastUpdated": "2026-03-11T18:11:44.576Z"
     },
     "schoology": {
       "B": {
@@ -3791,14 +3891,20 @@
             "copiedAt": "2026-03-11T16:14:34.217Z",
             "status": "done"
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Topic 6.8 — AP Classroom Video 2",
               "copiedFrom": "B",
               "copiedFromId": "8285522018",
-              "copiedAt": "2026-03-11T16:56:27.443Z"
+              "copiedAt": "2026-03-11T17:04:14.238Z"
+            },
+            {
+              "title": "Topic 6.8 — AP Classroom Video 1",
+              "copiedFrom": "B",
+              "copiedFromId": "8285522000",
+              "copiedAt": "2026-03-11T18:11:44.547Z"
             }
-          }
+          ]
         }
       }
     }
@@ -3829,7 +3935,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.704Z",
-      "lastUpdated": "2026-03-11T16:57:02.773Z"
+      "lastUpdated": "2026-03-11T18:24:47.169Z"
     },
     "schoology": {
       "B": {
@@ -3910,14 +4016,20 @@
             "copiedAt": "2026-03-11T16:56:41.169Z",
             "status": "done"
           },
-          "videos": {
-            "0": {
+          "videos": [
+            {
               "title": "Topic 6.9 — AP Classroom Video 2",
               "copiedFrom": "B",
               "copiedFromId": "8285585782",
-              "copiedAt": "2026-03-11T16:57:02.772Z"
+              "copiedAt": "2026-03-11T17:04:39.934Z"
+            },
+            {
+              "title": "Topic 6.9 — AP Classroom Video 1",
+              "copiedFrom": "B",
+              "copiedFromId": "8285585732",
+              "copiedAt": "2026-03-11T18:24:47.164Z"
             }
-          }
+          ]
         }
       }
     }
