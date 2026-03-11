@@ -7,8 +7,16 @@
   "inputs": {
     "unit": "{{unit}}",
     "lesson": "{{lesson}}",
-    "blooket_url": "{{blooket_url}}",
-    "auto_urls": true
+    "blooket": "{{blooket}}",
+    "auto-urls": true,
+    "with-videos": true,
+    "no-prompt": true,
+    "folder-path": "{{folder_path}}",
+    "create-folder": "{{folder_title}}",
+    "folder-desc": "{{folder_desc}}",
+    "calendar-link": "{{calendar_url}}",
+    "calendar-title": "{{calendar_title}}",
+    "target-folder": "{{schoologyFolder}}"
   },
   "outputs": {
     "registry_key": "schoology"

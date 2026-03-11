@@ -3,7 +3,7 @@
   "id": "commit-push",
   "name": "Commit and push all downstream repos",
   "type": "git-operation",
-  "worker": "scripts/lesson-prep.mjs",
+  "worker": "scripts/workers/commit-push.mjs",
   "inputs": {
     "unit": "{{unit}}",
     "lesson": "{{lesson}}",

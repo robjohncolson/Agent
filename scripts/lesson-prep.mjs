@@ -61,6 +61,7 @@ import {
   WORKSHEET_REPO,
   DOWNSTREAM_REPOS,
 } from "./lib/paths.mjs";
+import { runPipeline } from "./lib/task-runner.mjs";
 
 
 
@@ -83,6 +84,7 @@ function parseArgs(argv) {
   let force = false;
   let strictLlm = false;
   let skipLlm = false;
+  let useTaskRunner = false;
   const forceSteps = new Set();
 
   for (let i = 0; i < args.length; i++) {
@@ -117,6 +119,8 @@ function parseArgs(argv) {
       skipLlm = true;
     } else if (arg === "--force-step" && args[i + 1]) {
       forceSteps.add(args[++i]);
+    } else if (arg === "--task-runner") {
+      useTaskRunner = true;
     } else if (arg === "--drive-ids") {
       // Collect all subsequent args until the next flag or end of args
       i++;
@@ -150,12 +154,13 @@ function parseArgs(argv) {
         "  --force             Re-run all steps even if registry shows them as done\n" +
         "  --force-step <key>  Force re-run of a specific step (repeatable). Keys: ingest, worksheet, blooketCsv, drills, animations, blooketUpload, schoology\n" +
         "  --strict-llm        Make LLM validation failures fatal (abort pipeline)\n" +
-        "  --skip-llm          Skip all LLM semantic checks"
+        "  --skip-llm          Skip all LLM semantic checks\n" +
+        "  --task-runner       Use the declarative task runner instead of inline orchestration"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force, forceSteps, strictLlm, skipLlm };
+  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force, forceSteps, strictLlm, skipLlm, useTaskRunner };
 }
 
 // ── Resume helpers ───────────────────────────────────────────────────────────
@@ -1752,6 +1757,68 @@ async function main() {
   }
 
   results.driveIdCount = opts.driveIds.length;
+
+  // ── Task Runner Mode ─────────────────────────────────────────────────────
+  // When --task-runner is set, delegate to runPipeline() instead of inline steps.
+  // Pre-pipeline setup (Steps 0, 0.5) has already run above.
+  if (opts.useTaskRunner) {
+    console.log(`\n========================================`);
+    console.log(`  Lesson Prep Pipeline (Task Runner) -- Unit ${unit}, Lesson ${lesson}`);
+    console.log(`========================================\n`);
+
+    const pipelinePath = path.join(AGENT_ROOT, 'pipelines', 'lesson-prep.json');
+
+    // Seed pipeline context from pre-pipeline data
+    const context = new Map();
+    if (opts.driveIds.length > 0) {
+      context.set('drive_ids', opts.driveIds.join(' '));
+    }
+    if (calendarContext) {
+      if (calendarContext.folderTitle) context.set('folder_title', calendarContext.folderTitle);
+      if (calendarContext.folderDesc) {
+        context.set('folder_desc', calendarContext.folderDesc.replace(/\n/g, '\\n'));
+      }
+      if (calendarContext.calendarUrl) {
+        context.set('calendar_url', calendarContext.calendarUrl);
+        const weekMatch = calendarContext.calendarUrl.match(/week[_]?(\w+)_calendar/);
+        context.set('calendar_title', weekMatch ? `Week Calendar (${weekMatch[1]})` : 'Weekly Calendar');
+      }
+      if (calendarContext.date) {
+        const weekInfo = determineSchoolWeek(calendarContext.date);
+        if (weekInfo) context.set('folder_path', weekInfo.folderPath);
+      }
+    }
+
+    // Existing blooket URL from registry
+    if (existingEntry?.urls?.blooket) {
+      context.set('blooket', existingEntry.urls.blooket);
+    }
+    // Existing folder from registry
+    if (existingEntry?.urls?.schoologyFolder) {
+      context.set('schoologyFolder', existingEntry.urls.schoologyFolder);
+    }
+
+    const { results: taskResults, success } = await runPipeline(pipelinePath, { unit, lesson }, {
+      force: opts.force,
+      forceSteps: opts.forceSteps,
+      context,
+    });
+
+    // Print summary
+    console.log('\n========================================');
+    console.log('  Pipeline Results');
+    console.log('========================================\n');
+    for (const [stepId, result] of taskResults) {
+      const icon = result.status === 'completed' ? '[x]'
+        : result.status === 'skipped' ? '[-]'
+        : '[!]';
+      const detail = result.reason || result.error || '';
+      const duration = result.duration_ms > 0 ? ` (${(result.duration_ms / 1000).toFixed(1)}s)` : '';
+      console.log(`  ${icon} ${stepId}: ${result.status}${duration}${detail ? ` — ${detail}` : ''}`);
+    }
+    console.log(`\n  ${success ? 'SUCCESS' : 'FAILED'}\n`);
+    return;
+  }
 
   console.log(`\n========================================`);
   console.log(`  Lesson Prep Pipeline v3 -- Unit ${unit}, Lesson ${lesson}`);
