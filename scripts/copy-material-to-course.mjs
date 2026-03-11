@@ -144,15 +144,17 @@ async function main() {
   const targetMaterials = targetSchoology.materials || {};
 
   const toCopy = [];
+
+  // Standard keyed materials (worksheet, drills, quiz, blooket)
   for (const [type, mat] of Object.entries(sourceMaterials)) {
-    if (type === 'videos') continue; // Handle videos separately if needed
+    if (type === 'videos') continue; // Handled below
     if (!mat?.schoologyId) continue;
-    if (opts.only && type !== opts.only) continue;
+    if (opts.only && opts.only !== 'videos' && type !== opts.only) continue;
 
     // Skip if already exists in target
     const existing = targetMaterials[type];
-    if (existing?.schoologyId) {
-      console.log(`  [skip] ${type}: already exists in target (${existing.schoologyId})`);
+    if (existing?.schoologyId || existing?.copiedFromId) {
+      console.log(`  [skip] ${type}: already exists in target`);
       continue;
     }
 
@@ -161,6 +163,32 @@ async function main() {
       schoologyId: mat.schoologyId,
       title: mat.title || `${type} ${key}`,
     });
+  }
+
+  // Videos array — each video is a separate material to copy
+  const sourceVideos = Array.isArray(sourceMaterials.videos) ? sourceMaterials.videos : [];
+  const targetVideos = Array.isArray(targetMaterials.videos) ? targetMaterials.videos : [];
+  const targetVideoIds = new Set(targetVideos.map(v => v.copiedFromId || v.schoologyId).filter(Boolean));
+
+  if (sourceVideos.length > 0 && (!opts.only || opts.only === 'videos')) {
+    for (let vi = 0; vi < sourceVideos.length; vi++) {
+      const vid = sourceVideos[vi];
+      if (!vid?.schoologyId) continue;
+
+      // Skip if already copied
+      if (targetVideoIds.has(vid.schoologyId)) {
+        console.log(`  [skip] video ${vi + 1}: "${vid.title}" already in target`);
+        continue;
+      }
+
+      toCopy.push({
+        type: `video:${vi}`,
+        schoologyId: vid.schoologyId,
+        title: vid.title || `AP Classroom Video ${vi + 1}`,
+        isVideo: true,
+        videoIndex: vi,
+      });
+    }
   }
 
   if (toCopy.length === 0) {
@@ -224,14 +252,34 @@ async function main() {
         console.log('  [OK] Copied successfully.');
         succeeded++;
 
-        // Update registry — we don't know the new schoologyId yet (reconciler will find it)
-        updateSchoologyMaterial(unit, lesson, mat.type, {
-          title: mat.title,
-          copiedFrom: fromPeriod,
-          copiedFromId: mat.schoologyId,
-          copiedAt: new Date().toISOString(),
-          status: 'done',
-        }, toPeriod);
+        // Update registry
+        if (mat.isVideo) {
+          // Append to the videos array in target
+          const regEntry = getLesson(unit, lesson);
+          const tgtSch = regEntry?.schoology?.[toPeriod];
+          if (tgtSch) {
+            if (!tgtSch.materials) tgtSch.materials = {};
+            if (!Array.isArray(tgtSch.materials.videos)) tgtSch.materials.videos = [];
+            tgtSch.materials.videos.push({
+              title: mat.title,
+              copiedFrom: fromPeriod,
+              copiedFromId: mat.schoologyId,
+              copiedAt: new Date().toISOString(),
+            });
+            // Save via updateSchoologyMaterial won't work for arrays, so
+            // we write the whole videos array
+            updateSchoologyMaterial(unit, lesson, 'videos',
+              tgtSch.materials.videos, toPeriod);
+          }
+        } else {
+          updateSchoologyMaterial(unit, lesson, mat.type, {
+            title: mat.title,
+            copiedFrom: fromPeriod,
+            copiedFromId: mat.schoologyId,
+            copiedAt: new Date().toISOString(),
+            status: 'done',
+          }, toPeriod);
+        }
 
         // Re-navigate to source folder for next material
         if (toCopy.indexOf(mat) < toCopy.length - 1) {

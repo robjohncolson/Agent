@@ -159,10 +159,28 @@ function isActionComplete(actionType, entry, unit, lesson) {
       // Check if B has a folder and materials posted
       return status.schoology === 'done' && schoology.B?.folderId != null;
 
-    case 'post-schoology-E':
-      // Check if E has a folder with materials posted via the poster
-      // A folder existing from scrape isn't enough — need materials posted
-      return schoology.E?.materials && Object.values(schoology.E.materials).some(m => m.status === 'done');
+    case 'post-schoology-E': {
+      // E is compliant when every material type in B also exists in E
+      // (including videos). A folder existing from scrape isn't enough.
+      if (!schoology.E?.folderId) return false;
+      const eMats = schoology.E?.materials || {};
+      const bMats = schoology.B?.materials || {};
+
+      // Check keyed materials (worksheet, drills, quiz, blooket)
+      for (const type of ['worksheet', 'drills', 'quiz', 'blooket']) {
+        if (bMats[type]?.schoologyId && !eMats[type]?.schoologyId && !eMats[type]?.copiedFromId) {
+          return false;
+        }
+      }
+      // Check videos: every B video should have a matching E video
+      const bVids = Array.isArray(bMats.videos) ? bMats.videos.filter(v => v.schoologyId) : [];
+      const eVids = Array.isArray(eMats.videos) ? eMats.videos : [];
+      const eVidIds = new Set(eVids.map(v => v.copiedFromId || v.schoologyId).filter(Boolean));
+      for (const v of bVids) {
+        if (!eVidIds.has(v.schoologyId)) return false;
+      }
+      return true;
+    }
 
     case 'verify-schoology-B':
       return status.schoologyVerified === 'done';
