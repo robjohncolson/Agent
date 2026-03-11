@@ -36,6 +36,7 @@ const { values: args } = parseArgs({
     course:  { type: 'string',  short: 'c', default: 'B' },
     folder:  { type: 'string',  short: 'f', default: '' },
     output:  { type: 'string',  short: 'o', default: '' },
+    ai:      { type: 'boolean', default: false },
     help:    { type: 'boolean', short: 'h', default: false },
   },
   strict: true,
@@ -47,6 +48,7 @@ if (args.help) {
 Options:
   --course, -c   Course period letter (B or E, default: B)
   --folder, -f   Start folder ID for subtree scrape (default: root)
+  --ai           Use DeepSeek AI fallback for unmatched titles after scraping
   --output, -o   Output file path (default: state/schoology-tree.json)
   --help,   -h   Show this help message
 `);
@@ -256,6 +258,44 @@ async function main() {
   }
 
   const elapsedSec = ((Date.now() - startTime) / 1000).toFixed(1);
+
+  // Optional AI pass: batch-parse unmatched materials via DeepSeek
+  if (args.ai) {
+    const unmatched = Object.entries(materials).filter(([, m]) => !m.parsedLesson);
+    if (unmatched.length > 0) {
+      console.log(`\nAI pass: ${unmatched.length} unmatched material(s)...`);
+      try {
+        const { batchParseTopics } = await import('./lib/schoology-classify-ai.mjs');
+        const items = unmatched.map(([, m]) => ({
+          title: m.title,
+          context: {
+            folderPath: m.folderPath,
+            siblingTitles: m.folderId && folders[m.folderId]
+              ? folders[m.folderId].materials
+                  .map(id => materials[id]?.title)
+                  .filter(Boolean)
+              : [],
+          },
+        }));
+        const results = await batchParseTopics(items);
+        let aiFixed = 0;
+        for (const [idx, [matId]] of unmatched.entries()) {
+          const title = items[idx].title;
+          const parsed = results.get(title);
+          if (parsed) {
+            materials[matId].parsedLesson = { unit: parsed.unit, lesson: parsed.lesson };
+            aiFixed++;
+            console.log(`  [AI] ${title} → ${parsed.unit}.${parsed.lesson}`);
+          }
+        }
+        console.log(`  AI resolved: ${aiFixed}/${unmatched.length}`);
+      } catch (err) {
+        console.warn(`  AI pass failed: ${err.message}`);
+      }
+    } else {
+      console.log('\nAI pass: all materials matched by regex — no API call needed.');
+    }
+  }
 
   // Build the lesson index
   const lessonIndex = buildLessonIndex();
