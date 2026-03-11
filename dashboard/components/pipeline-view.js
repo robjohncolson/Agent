@@ -17,7 +17,7 @@ export async function render(container) {
   });
 
   if (error || !data) {
-    container.innerHTML = `<p class="card-detail">Failed to load pipeline data: ${error || 'no data'}</p>`;
+    container.innerHTML = `<p class="card-detail">Failed to load pipeline data: ${error?.message || JSON.stringify(error) || 'no data'}</p>`;
     return;
   }
 

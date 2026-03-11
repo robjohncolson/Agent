@@ -14,7 +14,7 @@ export async function render(container) {
   });
 
   if (error || !data) {
-    container.innerHTML = `<p class="card-detail">Failed to load events: ${error || 'no data'}</p>`;
+    container.innerHTML = `<p class="card-detail">Failed to load events: ${error?.message || JSON.stringify(error) || 'no data'}</p>`;
     return;
   }
 

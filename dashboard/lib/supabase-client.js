@@ -17,8 +17,14 @@ let _client = null;
 
 export function getClient() {
   if (_client) return _client;
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    console.error('[supabase-client] Missing SUPABASE_URL or SUPABASE_ANON_KEY meta tags');
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'REPLACE_WITH_ANON_KEY') {
+    const msg = !SUPABASE_URL ? 'SUPABASE_URL missing'
+      : (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'REPLACE_WITH_ANON_KEY') ? 'SUPABASE_ANON_KEY not configured — set it in Railway env vars'
+      : 'unknown config error';
+    console.error(`[supabase-client] ${msg}`);
+    document.getElementById('error')?.classList.remove('hidden');
+    const errEl = document.getElementById('error');
+    if (errEl) errEl.textContent = msg;
     return null;
   }
   // Use supabase-js from CDN (loaded in index.html)
