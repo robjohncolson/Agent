@@ -170,9 +170,10 @@ export function reconcileLesson(unit, lesson, registryEntry, tree) {
     }
   }
 
-  // 2. Folder match: does registry's folder match where materials actually are?
-  if (registryFolderId && inTree.primaryFolder) {
-    if (registryFolderId !== inTree.primaryFolder) {
+  // 2. Folder match: does registry's folder match ANY of the lesson's known folders?
+  //    Lessons can span multiple folders (e.g., 6.6 across Monday + Tuesday).
+  if (registryFolderId && inTree.folders.length > 0) {
+    if (!inTree.folders.includes(registryFolderId)) {
       issues.push({
         lesson: key,
         severity: ISSUE_TYPES.wrong_folder,

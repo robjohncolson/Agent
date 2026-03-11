@@ -50,6 +50,10 @@ export function parseTopicFromTitle(title) {
   m = t.match(/(\d+)-(\d+)\s+(?:follow|drill|blooket|vid)/i);
   if (m) return { unit: +m[1], lesson: +m[2] };
 
+  // "Title — X.Y" or "Title - X.Y" (e.g., "Live Worksheet — 7.2", "Drills — 7.2")
+  m = t.match(/[—–\-]\s*(\d+)\.(\d+)\s*$/);
+  if (m) return { unit: +m[1], lesson: +m[2] };
+
   // "X.Y" bare (e.g., in folder descriptions like "6.6 Concluding a Test")
   m = t.match(/^(\d+)\.(\d+)\b/);
   if (m) return { unit: +m[1], lesson: +m[2] };
