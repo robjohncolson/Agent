@@ -6,6 +6,8 @@ import {
 } from "node:fs";
 import { dirname, join } from "node:path";
 import { AGENT_ROOT, CARTRIDGES_DIR } from "./paths.mjs";
+import { validateMaterial, validateSchoologyState } from './registry-validator.mjs';
+import { computeContentHash, normalizeTitle } from './content-hash.mjs';
 
 export const REGISTRY_PATH = join(AGENT_ROOT, "state", "lesson-registry.json");
 
@@ -363,6 +365,13 @@ export function setSchoologyState(unit, lesson, state, period = 'B') {
   if (!registry[key].schoology || typeof registry[key].schoology !== 'object') {
     registry[key].schoology = {};
   }
+  // --- Validate before write ---
+  const validation = validateSchoologyState(state, period);
+  if (!validation.valid) {
+    const msg = `[registry] Validation failed for ${unitNum}.${lessonNum} schoology.${period}:\n` +
+      validation.errors.map(e => `  - ${e}`).join('\n');
+    throw new Error(msg);
+  }
   registry[key].schoology[period] = {
     folderId: state.folderId ?? null,
     folderPath: state.folderPath ?? null,
@@ -397,10 +406,27 @@ export function updateSchoologyMaterial(unit, lesson, type, materialData, period
       verifiedAt: null, reconciledAt: null, materials: {}
     };
   }
+  // --- Validate before write ---
+  const validation = validateMaterial(type, materialData);
+  if (!validation.valid) {
+    const msg = `[registry] Validation failed for ${unitNum}.${lessonNum} ${period}.${type}:\n` +
+      validation.errors.map(e => `  - ${e}`).join('\n');
+    throw new Error(msg);
+  }
   // Arrays (e.g. videos) must be assigned directly, not spread into an object
   if (Array.isArray(materialData)) {
+    for (let i = 0; i < materialData.length; i++) {
+      const v = materialData[i];
+      if (v && typeof v === 'object' && !v.contentHash) {
+        const disambig = v.targetUrl || normalizeTitle(v.title) || `untitled-${i}`;
+        v.contentHash = computeContentHash(unitNum, lessonNum, 'video', disambig);
+      }
+    }
     registry[key].schoology[period].materials[type] = materialData;
   } else {
+    if (!materialData.contentHash) {
+      materialData.contentHash = computeContentHash(unitNum, lessonNum, type);
+    }
     registry[key].schoology[period].materials[type] = {
       ...(registry[key].schoology[period].materials[type] || {}),
       ...materialData,

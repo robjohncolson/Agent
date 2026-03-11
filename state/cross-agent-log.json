@@ -72,15 +72,284 @@
         "scripts/lesson-prep.mjs"
       ],
       "depth": 0
+    },
+    {
+      "call_id": "d29ede43870a",
+      "direction": "cc-to-codex",
+      "task_type": "review",
+      "prompt_summary": "Review the spec at design/agent-hub-v2-scaffolds-spec.md. This defines three scaffolds for making th",
+      "status": "timeout",
+      "duration_seconds": 180.116,
+      "timestamp": "2026-03-10T18:57:52Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "ac0c85705291",
+      "direction": "cc-to-codex",
+      "task_type": "review",
+      "prompt_summary": "Review design/agent-hub-v2-scaffolds-spec.md. Focus on:\n\n1. Over-engineering risks \u2014 is Scaffold 3 (",
+      "status": "timeout",
+      "duration_seconds": 300.15,
+      "timestamp": "2026-03-10T19:03:12Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "5aabaae554f9",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read the spec at design/animation-upload-robustness-spec.md. Create a dependency graph document at d",
+      "status": "completed",
+      "duration_seconds": 93.308,
+      "timestamp": "2026-03-10T20:50:28Z",
+      "files_changed": [
+        "design/animation-robustness-dep-graph.md"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "630ccc95c401",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read the spec at design/task-defs-completion-spec.md. Create a dependency graph document at design/t",
+      "status": "timeout",
+      "duration_seconds": 120.057,
+      "timestamp": "2026-03-10T20:50:51Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "e75515b1ab7e",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read the spec at design/agent-hub-v4-dashboard-spec.md. Create a dependency graph document at design",
+      "status": "timeout",
+      "duration_seconds": 120.051,
+      "timestamp": "2026-03-10T20:50:53Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "4886d30729bd",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read design/task-defs-completion-spec.md and design/task-defs-dep-graph.md. Also read the 3 existing",
+      "status": "timeout",
+      "duration_seconds": 180.047,
+      "timestamp": "2026-03-10T20:54:36Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "81b51af409b4",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read design/agent-hub-v4-dashboard-spec.md and design/dashboard-dep-graph.md. Create a file design/d",
+      "status": "timeout",
+      "duration_seconds": 180.037,
+      "timestamp": "2026-03-10T20:54:40Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "47be342cd09f",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read design/animation-upload-robustness-spec.md and design/animation-robustness-dep-graph.md. Also r",
+      "status": "timeout",
+      "duration_seconds": 180.039,
+      "timestamp": "2026-03-10T20:54:43Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "8973f1a220a2",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read design/dashboard-prompts.md. Implement Waves 1 through 7. Create these files exactly as specifi",
+      "status": "refused",
+      "duration_seconds": 88.841,
+      "timestamp": "2026-03-10T21:00:04Z",
+      "files_changed": [
+        "state/cross-agent/8973f1a220a2.result.json"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "86b8b15aaf31",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read design/task-defs-prompts.md. Execute ALL of Wave 2 (2A, 2B, 2C, 2D) plus Wave 3 (pipeline updat",
+      "status": "timeout",
+      "duration_seconds": 180.038,
+      "timestamp": "2026-03-10T21:01:32Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "be4de2b0e660",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Read design/animation-robustness-prompts.md. Implement Waves 1 through 4 (skip Wave 5 validation). C",
+      "status": "timeout",
+      "duration_seconds": 180.043,
+      "timestamp": "2026-03-10T21:01:40Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "591385b47f7d",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 1: Extract Classification Helpers\r\n\r\n## Task\r\nExtract `parseTopicFromTitle()` and `classifyMa",
+      "status": "timeout",
+      "duration_seconds": 180.063,
+      "timestamp": "2026-03-11T02:03:59Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "46301b9ac9ff",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 3: Registry Migration Script\r\n\r\n## Task\r\nCreate `scripts/migrate-registry-schoology.mjs` that",
+      "status": "timeout",
+      "duration_seconds": 180.057,
+      "timestamp": "2026-03-11T02:04:01Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "eebbc39e3751",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 3.4: Add stale_material Issue Type to Reconciler\r\n\r\n## Task\r\nAdd a `stale_material` issue typ",
+      "status": "completed",
+      "duration_seconds": 59.618,
+      "timestamp": "2026-03-11T22:29:01Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "0865c8e40056",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 2.1: Create content-hash.mjs\r\n\r\n## Task\r\nCreate `scripts/lib/content-hash.mjs` \u2014 a content-ad",
+      "status": "completed",
+      "duration_seconds": 86.96,
+      "timestamp": "2026-03-11T22:29:27Z",
+      "files_changed": [
+        "scripts/lib/content-hash.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "a42038bdcfc0",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 1.1: Create registry-validator.mjs\r\n\r\n## Task\r\nCreate `scripts/lib/registry-validator.mjs` \u2014 ",
+      "status": "timeout",
+      "duration_seconds": 120.037,
+      "timestamp": "2026-03-11T22:29:58Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "0ff66d679510",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 2.2: Create backfill-content-hashes.mjs\r\n\r\n## Task\r\nCreate `scripts/backfill-content-hashes.m",
+      "status": "completed",
+      "duration_seconds": 73.747,
+      "timestamp": "2026-03-11T22:32:13Z",
+      "files_changed": [
+        "scripts/backfill-content-hashes.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "94b0b8475f26",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 1.2: Add --validate Flag to schoology-reconcile.mjs\r\n\r\n## Task\r\nAdd a `--validate` CLI flag t",
+      "status": "timeout",
+      "duration_seconds": 180.043,
+      "timestamp": "2026-03-11T22:33:57Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "72fa72236ad6",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 1.4: Wire Validation into lesson-registry.mjs Write Functions\r\n\r\n## Task\r\nAdd schema validati",
+      "status": "completed",
+      "duration_seconds": 85.854,
+      "timestamp": "2026-03-11T22:35:56Z",
+      "files_changed": [
+        "scripts/lib/lesson-registry.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "0b6e8157684c",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 2.4: Auto-compute contentHash in updateSchoologyMaterial()\r\n\r\n## Task\r\nMake `updateSchoologyM",
+      "status": "completed",
+      "duration_seconds": 68.969,
+      "timestamp": "2026-03-11T22:37:23Z",
+      "files_changed": [
+        "scripts/lib/lesson-registry.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "c5f05d083318",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 2.5 + 3.1: Update sync-tree-to-registry.mjs (Hash + Liveness)\r\n\r\n## Task\r\nUpdate `scripts/syn",
+      "status": "timeout",
+      "duration_seconds": 180.031,
+      "timestamp": "2026-03-11T22:39:15Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "de7a92b0943a",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 2.6 + 3.3: Update catch-up-diff.mjs (Hash + Staleness)\r\n\r\n## Task\r\nUpdate `scripts/lib/catch-",
+      "status": "completed",
+      "duration_seconds": 56.786,
+      "timestamp": "2026-03-11T22:41:45Z",
+      "files_changed": [
+        "scripts/lib/catch-up-diff.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "5851a8c662a7",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Step 2.7 + 3.2: Update batch-copy-to-period-e.mjs (Hash + Staleness)\r\n\r\n## Task\r\nUpdate `scripts/b",
+      "status": "completed",
+      "duration_seconds": 174.542,
+      "timestamp": "2026-03-11T22:43:44Z",
+      "files_changed": [
+        "scripts/batch-copy-to-period-e.mjs"
+      ],
+      "depth": 0
     }
   ],
   "summary": {
-    "total_calls": 6,
-    "cc_to_codex": 3,
+    "total_calls": 29,
+    "cc_to_codex": 26,
     "codex_to_cc": 3,
-    "completed": 4,
-    "failed": 2,
-    "refused": 0,
-    "avg_duration_seconds": 52.362
+    "completed": 12,
+    "failed": 16,
+    "refused": 1,
+    "avg_duration_seconds": 122.883
   }
 }

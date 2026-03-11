@@ -20,6 +20,7 @@ export const ISSUE_TYPES = {
   duplicate_materials: 'warning',
   folder_path_mismatch: 'warning',
   url_target_mismatch: 'error',
+  stale_material: 'warning',
   status_drift: 'warning',
 };
 
@@ -321,6 +322,35 @@ export function reconcileLesson(unit, lesson, registryEntry, tree, period = 'B')
           materialType: t,
           schoologyTarget: mat.targetUrl,
           registryTarget: urlTypeMap[t],
+        });
+      }
+    }
+  }
+
+  // 10. Stale material check — materials marked stale by sync-tree
+  if (schoologyPeriod?.materials) {
+    for (const [type, mat] of Object.entries(schoologyPeriod.materials)) {
+      if (type === 'videos' && Array.isArray(mat)) {
+        for (const v of mat) {
+          if (v?.stale === true) {
+            issues.push({
+              lesson: key,
+              severity: ISSUE_TYPES.stale_material,
+              type: 'stale_material',
+              detail: `Video "${v.title}" (${v.schoologyId}) marked stale — not seen in last scrape`,
+              materialType: 'video',
+              schoologyId: v.schoologyId,
+            });
+          }
+        }
+      } else if (mat?.stale === true) {
+        issues.push({
+          lesson: key,
+          severity: ISSUE_TYPES.stale_material,
+          type: 'stale_material',
+          detail: `${type} (${mat.schoologyId}) marked stale — not seen in last scrape`,
+          materialType: type,
+          schoologyId: mat.schoologyId,
         });
       }
     }

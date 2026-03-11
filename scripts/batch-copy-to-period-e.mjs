@@ -84,6 +84,13 @@ for (const key of lessons) {
     for (const type of MATERIAL_TYPES) {
       if (onlyType && type !== onlyType) continue;
       if (!bMats[type]?.schoologyId) continue;
+      if (bMats[type]?.stale === true) {
+        console.log(`  [skip-stale] ${key} ${type}: stale since last scrape`);
+        continue;
+      }
+      if (bMats[type]?.contentHash && eMats[type]?.contentHash === bMats[type]?.contentHash) {
+        continue;
+      }
       if (eMats[type]?.schoologyId || eMats[type]?.copiedFromId) continue;
       missing.push(type);
     }
@@ -91,10 +98,25 @@ for (const key of lessons) {
 
   // Check videos
   if (!onlyType || onlyType === 'videos') {
-    const bVids = Array.isArray(bMats.videos) ? bMats.videos.filter(v => v.schoologyId) : [];
+    const bVids = Array.isArray(bMats.videos)
+      ? bMats.videos.filter(v => {
+          if (!v?.schoologyId) return false;
+          if (v?.stale === true) {
+            console.log(`  [skip-stale] ${key} video: ${v.title || v.schoologyId} stale since last scrape`);
+            return false;
+          }
+          return true;
+        })
+      : [];
     const eVids = Array.isArray(eMats.videos) ? eMats.videos : [];
+    const eVidHashes = new Set(eVids.map(v => v.contentHash).filter(Boolean));
     const eVidIds = new Set(eVids.map(v => v.copiedFromId || v.schoologyId).filter(Boolean));
-    const missingVids = bVids.filter(v => !eVidIds.has(v.schoologyId));
+    const missingVids = [];
+    for (const v of bVids) {
+      if (v.contentHash && eVidHashes.has(v.contentHash)) continue;
+      if (eVidIds.has(v.schoologyId)) continue;
+      missingVids.push(v);
+    }
     if (missingVids.length > 0) {
       missing.push(`videos(${missingVids.length})`);
     }

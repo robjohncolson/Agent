@@ -165,19 +165,24 @@ function isActionComplete(actionType, entry, unit, lesson) {
       if (!schoology.E?.folderId) return false;
       const eMats = schoology.E?.materials || {};
       const bMats = schoology.B?.materials || {};
+      const bVids = Array.isArray(bMats.videos) ? bMats.videos : [];
 
-      // Check keyed materials (worksheet, drills, quiz, blooket)
+      // If any B material is stale, E cannot be considered complete yet.
       for (const type of ['worksheet', 'drills', 'quiz', 'blooket']) {
-        if (bMats[type]?.schoologyId && !eMats[type]?.schoologyId && !eMats[type]?.copiedFromId) {
-          return false;
-        }
+        if (bMats[type]?.stale === true) return false;
       }
-      // Check videos: every B video should have a matching E video
-      const bVids = Array.isArray(bMats.videos) ? bMats.videos.filter(v => v.schoologyId) : [];
+      if (bVids.some(v => v.stale === true)) return false;
+
+      // Check keyed materials by content hash so re-posts still reconcile.
+      for (const type of ['worksheet', 'drills', 'quiz', 'blooket']) {
+        if (bMats[type]?.contentHash && !eMats[type]?.contentHash) return false;
+      }
+
+      // Check videos: every hashed B video should have a matching E hash.
       const eVids = Array.isArray(eMats.videos) ? eMats.videos : [];
-      const eVidIds = new Set(eVids.map(v => v.copiedFromId || v.schoologyId).filter(Boolean));
+      const eVidHashes = new Set(eVids.map(v => v.contentHash).filter(Boolean));
       for (const v of bVids) {
-        if (!eVidIds.has(v.schoologyId)) return false;
+        if (v.contentHash && !eVidHashes.has(v.contentHash)) return false;
       }
       return true;
     }

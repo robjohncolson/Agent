@@ -25,6 +25,7 @@ import {
 } from './lib/lesson-registry.mjs';
 import { classifyMaterial } from './lib/schoology-classify.mjs';
 import { COURSE_IDS } from './lib/schoology-dom.mjs';
+import { computeContentHash, normalizeTitle } from './lib/content-hash.mjs';
 
 // ── CLI ──────────────────────────────────────────────────────────────────────
 
@@ -72,9 +73,10 @@ console.log('');
 
 // ── Parse tree materials per lesson ──────────────────────────────────────────
 
-function buildTreeMaterials(lessonEntry) {
+function buildTreeMaterials(lessonEntry, unit, lesson) {
   const keyed = {};   // { worksheet: {...}, drills: {...} }
   const videos = [];  // [ {...}, {...} ]
+  const now = new Date().toISOString();
 
   for (const matId of lessonEntry.materials || []) {
     const mat = tree.materials?.[matId];
@@ -91,11 +93,16 @@ function buildTreeMaterials(lessonEntry) {
       title: mat.title,
       href,
       targetUrl: mat.targetUrl || null,
+      lastSeenAt: now,
+      stale: false,
     };
 
     if (type === 'video') {
+      const disambig = mat.targetUrl || normalizeTitle(mat.title) || `untitled-${videos.length}`;
+      entry.contentHash = computeContentHash(unit, lesson, 'video', disambig);
       videos.push(entry);
     } else if (!keyed[type]) {
+      entry.contentHash = computeContentHash(unit, lesson, type);
       keyed[type] = entry;
     }
   }
@@ -120,7 +127,7 @@ if (fullMode) {
     const folderId = entry.primaryFolder || null;
     const folderPath = entry.folderPath || null;
     const folderTitle = (folderId && tree.folders?.[folderId]?.title) || null;
-    const { keyed, videos } = buildTreeMaterials(entry);
+    const { keyed, videos } = buildTreeMaterials(entry, unit, lesson);
 
     const materials = { ...keyed };
     if (videos.length > 0) materials.videos = videos;
@@ -156,18 +163,25 @@ const changes = [];
 for (const [key, entry] of Object.entries(tree.lessonIndex || {})) {
   if (!registry[key]) continue;
 
+  const [unitNum, lessonNum] = key.split('.').map(Number);
   const regSch = registry[key].schoology?.[period];
   if (!regSch) continue;
 
   const regMats = regSch.materials || {};
-  const { keyed: treeMats, videos: treeVids } = buildTreeMaterials(entry);
+  const { keyed: treeMats, videos: treeVids } = buildTreeMaterials(entry, unitNum, lessonNum);
   let lessonChanged = false;
+  const now = new Date().toISOString();
+
+  // Track which registry keyed types were seen in the tree
+  const seenKeyedTypes = new Set();
 
   // Keyed materials
   for (const type of ['worksheet', 'drills', 'quiz', 'blooket']) {
     const tm = treeMats[type];
     const rm = regMats[type];
     if (!tm) continue;
+
+    seenKeyedTypes.add(type);
 
     if (!rm) {
       changes.push({ lesson: key, type, action: 'ADD', id: tm.schoologyId, title: tm.title });
@@ -189,23 +203,33 @@ for (const [key, entry] of Object.entries(tree.lessonIndex || {})) {
           title: tm.title,
           href: tm.href,
           targetUrl: tm.targetUrl,
+          contentHash: tm.contentHash,
           previousId: rm.schoologyId,
-          syncedAt: new Date().toISOString(),
+          syncedAt: now,
+          lastSeenAt: now,
+          stale: false,
         };
       }
       updated++;
       lessonChanged = true;
     } else {
+      // IDs match — stamp liveness
+      if (execute && rm) {
+        rm.lastSeenAt = now;
+        rm.stale = false;
+        if (!rm.contentHash) rm.contentHash = tm.contentHash;
+        lessonChanged = true;
+      }
       unchanged++;
     }
   }
 
   // Videos array
   const regVids = Array.isArray(regMats.videos) ? regMats.videos : [];
+  const treeVidIds = new Set(treeVids.map(v => v.schoologyId));
 
   if (treeVids.length > 0) {
     const regVidIds = new Set(regVids.map(v => v.schoologyId).filter(Boolean));
-    const treeVidIds = new Set(treeVids.map(v => v.schoologyId));
     const matchCount = regVids.filter(v => treeVidIds.has(v.schoologyId)).length;
 
     if (regVids.length > 0 && matchCount === 0) {
@@ -219,13 +243,13 @@ for (const [key, entry] of Object.entries(tree.lessonIndex || {})) {
       if (execute) {
         regSch.materials.videos = treeVids.map(v => ({
           ...v,
-          syncedAt: new Date().toISOString(),
+          syncedAt: now,
         }));
       }
       updated += treeVids.length;
       lessonChanged = true;
     } else {
-      // Add individually missing videos
+      // Add individually missing videos; stamp liveness on matched
       for (const tv of treeVids) {
         if (!regVidIds.has(tv.schoologyId)) {
           changes.push({
@@ -234,19 +258,47 @@ for (const [key, entry] of Object.entries(tree.lessonIndex || {})) {
           });
           if (execute) {
             if (!Array.isArray(regSch.materials.videos)) regSch.materials.videos = [];
-            regSch.materials.videos.push({ ...tv, syncedAt: new Date().toISOString() });
+            regSch.materials.videos.push({ ...tv, syncedAt: now });
           }
           added++;
           lessonChanged = true;
         } else {
+          // Stamp liveness on matched video
+          if (execute) {
+            const rv = regVids.find(v => v.schoologyId === tv.schoologyId);
+            if (rv) {
+              rv.lastSeenAt = now;
+              rv.stale = false;
+              if (!rv.contentHash) rv.contentHash = tv.contentHash;
+            }
+          }
           unchanged++;
         }
       }
     }
   }
 
+  // Mark unmatched registry materials as stale
+  if (execute) {
+    for (const type of ['worksheet', 'drills', 'quiz', 'blooket']) {
+      const rm = regMats[type];
+      if (rm?.schoologyId && !seenKeyedTypes.has(type)) {
+        rm.stale = true;
+        lessonChanged = true;
+      }
+    }
+    if (Array.isArray(regMats.videos)) {
+      for (const v of regMats.videos) {
+        if (v.schoologyId && !treeVidIds.has(v.schoologyId)) {
+          v.stale = true;
+          lessonChanged = true;
+        }
+      }
+    }
+  }
+
   if (lessonChanged && execute) {
-    regSch.reconciledAt = new Date().toISOString();
+    regSch.reconciledAt = now;
   }
 }
 

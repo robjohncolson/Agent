@@ -42,6 +42,7 @@ const { values: args } = parseArgs({
     unit:   { type: 'string',  short: 'u', default: '' },
     lesson: { type: 'string',  short: 'l', default: '' },
     fix:    { type: 'boolean', default: false },
+    validate: { type: 'boolean', default: false },
     json:   { type: 'boolean', default: false },
     tree:   { type: 'string',  short: 't', default: '' },
     help:   { type: 'boolean', short: 'h', default: false },
@@ -56,6 +57,7 @@ Options:
   --unit, -u     Unit number (use with --lesson for single-lesson mode)
   --lesson, -l   Lesson number (use with --unit for single-lesson mode)
   --fix          Auto-fix safe issues in the registry
+  --validate     Run schema validation on the entire registry (no tree needed)
   --json         Output raw JSON report (skip human-readable formatting)
   --tree, -t     Path to scraped tree JSON (default: state/schoology-tree.json)
   --help, -h     Show this help message
@@ -64,6 +66,71 @@ Options:
 }
 
 // ── Severity helpers ──────────────────────────────────────────────────────────
+
+// ── Validate mode (no tree needed) ─────────────────────────────────────────
+
+if (args.validate) {
+  const { validateEntireRegistry } = await import('./lib/registry-validator.mjs');
+  const registry = loadRegistry();
+  const result = validateEntireRegistry(registry);
+
+  console.log('');
+  console.log('=== Registry Validation ===');
+  console.log('');
+
+  if (result.errors.length === 0) {
+    const entryCount = Object.keys(registry).length;
+    console.log(`[OK] All ${entryCount} lessons passed schema validation`);
+  } else {
+    // Group errors by lesson
+    const byLesson = {};
+    for (const err of result.errors) {
+      const key = err.lesson || 'unknown';
+      if (!byLesson[key]) byLesson[key] = [];
+      byLesson[key].push(err);
+    }
+
+    for (const [lesson, errors] of Object.entries(byLesson).sort((a, b) =>
+      a[0].localeCompare(b[0], undefined, { numeric: true })
+    )) {
+      for (const err of errors) {
+        console.log(`[FAIL] ${lesson}: ${err.message || err.error || JSON.stringify(err)}`);
+      }
+    }
+
+    // Print OK lessons too
+    for (const key of Object.keys(registry).sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true })
+    )) {
+      if (!byLesson[key]) {
+        const entry = registry[key];
+        const matCount = countMaterials(entry);
+        console.log(`[OK]   ${key}: ${matCount} materials valid`);
+      }
+    }
+  }
+
+  console.log('');
+  console.log(`Summary: ${result.errorCount} error${result.errorCount !== 1 ? 's' : ''} in ${Object.keys(result.errors.reduce((m, e) => { m[e.lesson || '?'] = 1; return m; }, {})).length} lessons, ${Object.keys(registry).length - Object.keys(result.errors.reduce((m, e) => { m[e.lesson || '?'] = 1; return m; }, {})).length} lessons valid`);
+  console.log('');
+  process.exit(result.errorCount > 0 ? 1 : 0);
+}
+
+function countMaterials(entry) {
+  let count = 0;
+  for (const period of ['B', 'E']) {
+    const mats = entry?.schoology?.[period]?.materials;
+    if (!mats) continue;
+    for (const [type, mat] of Object.entries(mats)) {
+      if (type === 'videos' && Array.isArray(mat)) {
+        count += mat.length;
+      } else if (mat && typeof mat === 'object') {
+        count++;
+      }
+    }
+  }
+  return count;
+}
 
 function severityLabel(severity) {
   switch (severity) {
@@ -254,6 +321,7 @@ if (args.fix) {
       case 'extra_material':
       case 'duplicate_materials':
       case 'url_target_mismatch':
+      case 'stale_material':
         break;
 
       default:
