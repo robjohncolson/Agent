@@ -1,0 +1,2523 @@
+[
+  {
+    "timestamp": "2026-03-11T03:02:20.912Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": false,
+    "totalRenames": 52,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "972045721",
+        "oldTitle": "friday 1/9/25",
+        "newTitle": "Friday 1/9/25"
+      },
+      {
+        "folderId": "948168199",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25"
+      },
+      {
+        "folderId": "948538471",
+        "oldTitle": "Tuesday(September 23th, 2025) apstat",
+        "newTitle": "Tuesday 9/23/25"
+      },
+      {
+        "folderId": "949081768",
+        "oldTitle": "Thursday(September 25th, 2025) apstat",
+        "newTitle": "Thursday 9/25/25"
+      },
+      {
+        "folderId": "949296571",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25"
+      },
+      {
+        "folderId": "949903740",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25"
+      },
+      {
+        "folderId": "950173574",
+        "oldTitle": "Tuesday(September 30th, 2025) apstat B",
+        "newTitle": "Tuesday 9/30/25"
+      },
+      {
+        "folderId": "950580926",
+        "oldTitle": "Thursday (October 2nd, 2025) apstat",
+        "newTitle": "Thursday 10/2/25"
+      },
+      {
+        "folderId": "950856151",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25"
+      },
+      {
+        "folderId": "951165049",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25"
+      },
+      {
+        "folderId": "951666708",
+        "oldTitle": "Tuesday (October 7th, 2025)",
+        "newTitle": "Tuesday 10/7/25"
+      },
+      {
+        "folderId": "952378943",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25"
+      },
+      {
+        "folderId": "954330871",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25"
+      },
+      {
+        "folderId": "954636359",
+        "oldTitle": "Tuesday (October 21, 2025)",
+        "newTitle": "Tuesday 10/21/25"
+      },
+      {
+        "folderId": "955309456",
+        "oldTitle": "Thursday (October 23rd, 2025)",
+        "newTitle": "Thursday 10/23/25"
+      },
+      {
+        "folderId": "956049467",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25"
+      },
+      {
+        "folderId": "956976136",
+        "oldTitle": "Tuesday (October 28, 2025)",
+        "newTitle": "Tuesday 10/28/25"
+      },
+      {
+        "folderId": "957152830",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25"
+      },
+      {
+        "folderId": "958530930",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25"
+      },
+      {
+        "folderId": "958739412",
+        "oldTitle": "Friday (November 7 2025)",
+        "newTitle": "Friday 11/7/25"
+      },
+      {
+        "folderId": "959200382",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25"
+      },
+      {
+        "folderId": "959850965",
+        "oldTitle": "THURSDAY NOV 13 2025",
+        "newTitle": "Thursday 11/13/25"
+      },
+      {
+        "folderId": "960099957",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25"
+      },
+      {
+        "folderId": "960407580",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25"
+      },
+      {
+        "folderId": "960978946",
+        "oldTitle": "tuesday nov 18 2025",
+        "newTitle": "Tuesday 11/18/25"
+      },
+      {
+        "folderId": "961457155",
+        "oldTitle": "thursday nov 20 2025",
+        "newTitle": "Thursday 11/20/25"
+      },
+      {
+        "folderId": "961689140",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25"
+      },
+      {
+        "folderId": "961916576",
+        "oldTitle": "Tuesday nov 25 2025",
+        "newTitle": "Tuesday 11/25/25"
+      },
+      {
+        "folderId": "963550724",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25"
+      },
+      {
+        "folderId": "965817084",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25"
+      },
+      {
+        "folderId": "966296293",
+        "oldTitle": "Tuesday dec 16 2025",
+        "newTitle": "Tuesday 12/16/25"
+      },
+      {
+        "folderId": "970432845",
+        "oldTitle": "tuesday 1/6/26",
+        "newTitle": "Tuesday 1/6/26"
+      },
+      {
+        "folderId": "971289382",
+        "oldTitle": "thursday 1/8/26",
+        "newTitle": "Thursday 1/8/26"
+      },
+      {
+        "folderId": "973032021",
+        "oldTitle": "monday 1/12/2026",
+        "newTitle": "Monday 1/12/26"
+      },
+      {
+        "folderId": "973403724",
+        "oldTitle": "tuesday 1/13/26",
+        "newTitle": "Tuesday 1/13/26"
+      },
+      {
+        "folderId": "973460096",
+        "oldTitle": "friday 1/16/26",
+        "newTitle": "Friday 1/16/26"
+      },
+      {
+        "folderId": "976366874",
+        "oldTitle": "Tuesday (1/20/26)",
+        "newTitle": "Tuesday 1/20/26"
+      },
+      {
+        "folderId": "977326408",
+        "oldTitle": "Friday (1/23/26)",
+        "newTitle": "Friday 1/23/26"
+      },
+      {
+        "folderId": "978369747",
+        "oldTitle": "Thursday (jan 29 2026)",
+        "newTitle": "Thursday 1/29/26"
+      },
+      {
+        "folderId": "979189351",
+        "oldTitle": "friday 1/30/26",
+        "newTitle": "Friday 1/30/26"
+      },
+      {
+        "folderId": "979668726",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26"
+      },
+      {
+        "folderId": "980217880",
+        "oldTitle": "tuesday 2/2/26",
+        "newTitle": "Tuesday 2/2/26"
+      },
+      {
+        "folderId": "980335378",
+        "oldTitle": "thursday (2/5/26)",
+        "newTitle": "Thursday 2/5/26"
+      },
+      {
+        "folderId": "980334396",
+        "oldTitle": "Friday 2/6",
+        "newTitle": "Friday 2/6/26"
+      },
+      {
+        "folderId": "981293561",
+        "oldTitle": "monday 2/9/26",
+        "newTitle": "Monday 2/9/26"
+      },
+      {
+        "folderId": "981564763",
+        "oldTitle": "tuesday 2/10/26",
+        "newTitle": "Tuesday 2/10/26"
+      },
+      {
+        "folderId": "981770601",
+        "oldTitle": "friday (2/13)",
+        "newTitle": "Friday 2/13/26"
+      },
+      {
+        "folderId": "982382766",
+        "oldTitle": "Thursday (2/26)",
+        "newTitle": "Thursday 2/26/26"
+      },
+      {
+        "folderId": "984565607",
+        "oldTitle": "Friday (2/27/26)",
+        "newTitle": "Friday 2/27/26"
+      },
+      {
+        "folderId": "985597961",
+        "oldTitle": "tuesday (3/2/26)",
+        "newTitle": "Tuesday 3/2/26"
+      },
+      {
+        "folderId": "985937488",
+        "oldTitle": "thursday (3/5/26)",
+        "newTitle": "Thursday 3/5/26"
+      },
+      {
+        "folderId": "986218661",
+        "oldTitle": "friday (3/6/26)",
+        "newTitle": "Friday 3/6/26"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "974409945",
+        "title": "Thursday 1/15/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976933461",
+        "title": "Thursday 1/22/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "985196978",
+        "title": "Monday 3/2/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986330787",
+        "title": "Monday 3/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986400679",
+        "title": "Tuesday 3/10/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986444841",
+        "title": "Thursday 3/12/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986454317",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986588515",
+        "title": "Tuesday 3/17/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986721319",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986796249",
+        "title": "Thursday 3/19/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986892084",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "987073401",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-11T03:12:04.001Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": false,
+    "aiEnabled": false,
+    "course": "B",
+    "totalRenames": 52,
+    "regexRenames": 52,
+    "aiRenames": 0,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "972045721",
+        "oldTitle": "friday 1/9/25",
+        "newTitle": "Friday 1/9/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948168199",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948538471",
+        "oldTitle": "Tuesday(September 23th, 2025) apstat",
+        "newTitle": "Tuesday 9/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949081768",
+        "oldTitle": "Thursday(September 25th, 2025) apstat",
+        "newTitle": "Thursday 9/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949296571",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949903740",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950173574",
+        "oldTitle": "Tuesday(September 30th, 2025) apstat B",
+        "newTitle": "Tuesday 9/30/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950580926",
+        "oldTitle": "Thursday (October 2nd, 2025) apstat",
+        "newTitle": "Thursday 10/2/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950856151",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951165049",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951666708",
+        "oldTitle": "Tuesday (October 7th, 2025)",
+        "newTitle": "Tuesday 10/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "952378943",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954330871",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954636359",
+        "oldTitle": "Tuesday (October 21, 2025)",
+        "newTitle": "Tuesday 10/21/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "955309456",
+        "oldTitle": "Thursday (October 23rd, 2025)",
+        "newTitle": "Thursday 10/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956049467",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956976136",
+        "oldTitle": "Tuesday (October 28, 2025)",
+        "newTitle": "Tuesday 10/28/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "957152830",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958530930",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958739412",
+        "oldTitle": "Friday (November 7 2025)",
+        "newTitle": "Friday 11/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959200382",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959850965",
+        "oldTitle": "THURSDAY NOV 13 2025",
+        "newTitle": "Thursday 11/13/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960099957",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960407580",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960978946",
+        "oldTitle": "tuesday nov 18 2025",
+        "newTitle": "Tuesday 11/18/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961457155",
+        "oldTitle": "thursday nov 20 2025",
+        "newTitle": "Thursday 11/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961689140",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961916576",
+        "oldTitle": "Tuesday nov 25 2025",
+        "newTitle": "Tuesday 11/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "963550724",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "965817084",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "966296293",
+        "oldTitle": "Tuesday dec 16 2025",
+        "newTitle": "Tuesday 12/16/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "970432845",
+        "oldTitle": "tuesday 1/6/26",
+        "newTitle": "Tuesday 1/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "971289382",
+        "oldTitle": "thursday 1/8/26",
+        "newTitle": "Thursday 1/8/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973032021",
+        "oldTitle": "monday 1/12/2026",
+        "newTitle": "Monday 1/12/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973403724",
+        "oldTitle": "tuesday 1/13/26",
+        "newTitle": "Tuesday 1/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973460096",
+        "oldTitle": "friday 1/16/26",
+        "newTitle": "Friday 1/16/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "976366874",
+        "oldTitle": "Tuesday (1/20/26)",
+        "newTitle": "Tuesday 1/20/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "977326408",
+        "oldTitle": "Friday (1/23/26)",
+        "newTitle": "Friday 1/23/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "978369747",
+        "oldTitle": "Thursday (jan 29 2026)",
+        "newTitle": "Thursday 1/29/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979189351",
+        "oldTitle": "friday 1/30/26",
+        "newTitle": "Friday 1/30/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979668726",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980217880",
+        "oldTitle": "tuesday 2/2/26",
+        "newTitle": "Tuesday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980335378",
+        "oldTitle": "thursday (2/5/26)",
+        "newTitle": "Thursday 2/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980334396",
+        "oldTitle": "Friday 2/6",
+        "newTitle": "Friday 2/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981293561",
+        "oldTitle": "monday 2/9/26",
+        "newTitle": "Monday 2/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981564763",
+        "oldTitle": "tuesday 2/10/26",
+        "newTitle": "Tuesday 2/10/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981770601",
+        "oldTitle": "friday (2/13)",
+        "newTitle": "Friday 2/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982382766",
+        "oldTitle": "Thursday (2/26)",
+        "newTitle": "Thursday 2/26/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "984565607",
+        "oldTitle": "Friday (2/27/26)",
+        "newTitle": "Friday 2/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985597961",
+        "oldTitle": "tuesday (3/2/26)",
+        "newTitle": "Tuesday 3/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985937488",
+        "oldTitle": "thursday (3/5/26)",
+        "newTitle": "Thursday 3/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986218661",
+        "oldTitle": "friday (3/6/26)",
+        "newTitle": "Friday 3/6/26",
+        "source": "regex"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "974409945",
+        "title": "Thursday 1/15/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976933461",
+        "title": "Thursday 1/22/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "985196978",
+        "title": "Monday 3/2/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986330787",
+        "title": "Monday 3/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986400679",
+        "title": "Tuesday 3/10/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986444841",
+        "title": "Thursday 3/12/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986454317",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986588515",
+        "title": "Tuesday 3/17/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986721319",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986796249",
+        "title": "Thursday 3/19/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986892084",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "987073401",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-11T03:12:11.468Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": false,
+    "aiEnabled": true,
+    "course": "B",
+    "totalRenames": 52,
+    "regexRenames": 52,
+    "aiRenames": 0,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "972045721",
+        "oldTitle": "friday 1/9/25",
+        "newTitle": "Friday 1/9/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948168199",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948538471",
+        "oldTitle": "Tuesday(September 23th, 2025) apstat",
+        "newTitle": "Tuesday 9/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949081768",
+        "oldTitle": "Thursday(September 25th, 2025) apstat",
+        "newTitle": "Thursday 9/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949296571",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949903740",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950173574",
+        "oldTitle": "Tuesday(September 30th, 2025) apstat B",
+        "newTitle": "Tuesday 9/30/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950580926",
+        "oldTitle": "Thursday (October 2nd, 2025) apstat",
+        "newTitle": "Thursday 10/2/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950856151",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951165049",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951666708",
+        "oldTitle": "Tuesday (October 7th, 2025)",
+        "newTitle": "Tuesday 10/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "952378943",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954330871",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954636359",
+        "oldTitle": "Tuesday (October 21, 2025)",
+        "newTitle": "Tuesday 10/21/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "955309456",
+        "oldTitle": "Thursday (October 23rd, 2025)",
+        "newTitle": "Thursday 10/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956049467",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956976136",
+        "oldTitle": "Tuesday (October 28, 2025)",
+        "newTitle": "Tuesday 10/28/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "957152830",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958530930",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958739412",
+        "oldTitle": "Friday (November 7 2025)",
+        "newTitle": "Friday 11/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959200382",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959850965",
+        "oldTitle": "THURSDAY NOV 13 2025",
+        "newTitle": "Thursday 11/13/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960099957",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960407580",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960978946",
+        "oldTitle": "tuesday nov 18 2025",
+        "newTitle": "Tuesday 11/18/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961457155",
+        "oldTitle": "thursday nov 20 2025",
+        "newTitle": "Thursday 11/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961689140",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961916576",
+        "oldTitle": "Tuesday nov 25 2025",
+        "newTitle": "Tuesday 11/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "963550724",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "965817084",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "966296293",
+        "oldTitle": "Tuesday dec 16 2025",
+        "newTitle": "Tuesday 12/16/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "970432845",
+        "oldTitle": "tuesday 1/6/26",
+        "newTitle": "Tuesday 1/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "971289382",
+        "oldTitle": "thursday 1/8/26",
+        "newTitle": "Thursday 1/8/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973032021",
+        "oldTitle": "monday 1/12/2026",
+        "newTitle": "Monday 1/12/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973403724",
+        "oldTitle": "tuesday 1/13/26",
+        "newTitle": "Tuesday 1/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973460096",
+        "oldTitle": "friday 1/16/26",
+        "newTitle": "Friday 1/16/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "976366874",
+        "oldTitle": "Tuesday (1/20/26)",
+        "newTitle": "Tuesday 1/20/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "977326408",
+        "oldTitle": "Friday (1/23/26)",
+        "newTitle": "Friday 1/23/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "978369747",
+        "oldTitle": "Thursday (jan 29 2026)",
+        "newTitle": "Thursday 1/29/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979189351",
+        "oldTitle": "friday 1/30/26",
+        "newTitle": "Friday 1/30/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979668726",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980217880",
+        "oldTitle": "tuesday 2/2/26",
+        "newTitle": "Tuesday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980335378",
+        "oldTitle": "thursday (2/5/26)",
+        "newTitle": "Thursday 2/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980334396",
+        "oldTitle": "Friday 2/6",
+        "newTitle": "Friday 2/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981293561",
+        "oldTitle": "monday 2/9/26",
+        "newTitle": "Monday 2/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981564763",
+        "oldTitle": "tuesday 2/10/26",
+        "newTitle": "Tuesday 2/10/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981770601",
+        "oldTitle": "friday (2/13)",
+        "newTitle": "Friday 2/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982382766",
+        "oldTitle": "Thursday (2/26)",
+        "newTitle": "Thursday 2/26/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "984565607",
+        "oldTitle": "Friday (2/27/26)",
+        "newTitle": "Friday 2/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985597961",
+        "oldTitle": "tuesday (3/2/26)",
+        "newTitle": "Tuesday 3/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985937488",
+        "oldTitle": "thursday (3/5/26)",
+        "newTitle": "Thursday 3/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986218661",
+        "oldTitle": "friday (3/6/26)",
+        "newTitle": "Friday 3/6/26",
+        "source": "regex"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "974409945",
+        "title": "Thursday 1/15/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976933461",
+        "title": "Thursday 1/22/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "985196978",
+        "title": "Monday 3/2/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986330787",
+        "title": "Monday 3/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986400679",
+        "title": "Tuesday 3/10/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986444841",
+        "title": "Thursday 3/12/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986454317",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986588515",
+        "title": "Tuesday 3/17/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986721319",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986796249",
+        "title": "Thursday 3/19/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986892084",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "987073401",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-11T03:29:38.073Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": false,
+    "aiEnabled": true,
+    "course": "B",
+    "totalRenames": 52,
+    "regexRenames": 52,
+    "aiRenames": 0,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "972045721",
+        "oldTitle": "friday 1/9/25",
+        "newTitle": "Friday 1/9/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948168199",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948538471",
+        "oldTitle": "Tuesday(September 23th, 2025) apstat",
+        "newTitle": "Tuesday 9/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949081768",
+        "oldTitle": "Thursday(September 25th, 2025) apstat",
+        "newTitle": "Thursday 9/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949296571",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949903740",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950173574",
+        "oldTitle": "Tuesday(September 30th, 2025) apstat B",
+        "newTitle": "Tuesday 9/30/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950580926",
+        "oldTitle": "Thursday (October 2nd, 2025) apstat",
+        "newTitle": "Thursday 10/2/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950856151",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951165049",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951666708",
+        "oldTitle": "Tuesday (October 7th, 2025)",
+        "newTitle": "Tuesday 10/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "952378943",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954330871",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954636359",
+        "oldTitle": "Tuesday (October 21, 2025)",
+        "newTitle": "Tuesday 10/21/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "955309456",
+        "oldTitle": "Thursday (October 23rd, 2025)",
+        "newTitle": "Thursday 10/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956049467",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956976136",
+        "oldTitle": "Tuesday (October 28, 2025)",
+        "newTitle": "Tuesday 10/28/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "957152830",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958530930",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958739412",
+        "oldTitle": "Friday (November 7 2025)",
+        "newTitle": "Friday 11/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959200382",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959850965",
+        "oldTitle": "THURSDAY NOV 13 2025",
+        "newTitle": "Thursday 11/13/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960099957",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960407580",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960978946",
+        "oldTitle": "tuesday nov 18 2025",
+        "newTitle": "Tuesday 11/18/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961457155",
+        "oldTitle": "thursday nov 20 2025",
+        "newTitle": "Thursday 11/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961689140",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961916576",
+        "oldTitle": "Tuesday nov 25 2025",
+        "newTitle": "Tuesday 11/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "963550724",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "965817084",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "966296293",
+        "oldTitle": "Tuesday dec 16 2025",
+        "newTitle": "Tuesday 12/16/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "970432845",
+        "oldTitle": "tuesday 1/6/26",
+        "newTitle": "Tuesday 1/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "971289382",
+        "oldTitle": "thursday 1/8/26",
+        "newTitle": "Thursday 1/8/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973032021",
+        "oldTitle": "monday 1/12/2026",
+        "newTitle": "Monday 1/12/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973403724",
+        "oldTitle": "tuesday 1/13/26",
+        "newTitle": "Tuesday 1/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973460096",
+        "oldTitle": "friday 1/16/26",
+        "newTitle": "Friday 1/16/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "976366874",
+        "oldTitle": "Tuesday (1/20/26)",
+        "newTitle": "Tuesday 1/20/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "977326408",
+        "oldTitle": "Friday (1/23/26)",
+        "newTitle": "Friday 1/23/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "978369747",
+        "oldTitle": "Thursday (jan 29 2026)",
+        "newTitle": "Thursday 1/29/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979189351",
+        "oldTitle": "friday 1/30/26",
+        "newTitle": "Friday 1/30/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979668726",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980217880",
+        "oldTitle": "tuesday 2/2/26",
+        "newTitle": "Tuesday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980335378",
+        "oldTitle": "thursday (2/5/26)",
+        "newTitle": "Thursday 2/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980334396",
+        "oldTitle": "Friday 2/6",
+        "newTitle": "Friday 2/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981293561",
+        "oldTitle": "monday 2/9/26",
+        "newTitle": "Monday 2/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981564763",
+        "oldTitle": "tuesday 2/10/26",
+        "newTitle": "Tuesday 2/10/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981770601",
+        "oldTitle": "friday (2/13)",
+        "newTitle": "Friday 2/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982382766",
+        "oldTitle": "Thursday (2/26)",
+        "newTitle": "Thursday 2/26/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "984565607",
+        "oldTitle": "Friday (2/27/26)",
+        "newTitle": "Friday 2/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985597961",
+        "oldTitle": "tuesday (3/2/26)",
+        "newTitle": "Tuesday 3/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985937488",
+        "oldTitle": "thursday (3/5/26)",
+        "newTitle": "Thursday 3/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986218661",
+        "oldTitle": "friday (3/6/26)",
+        "newTitle": "Friday 3/6/26",
+        "source": "regex"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "974409945",
+        "title": "Thursday 1/15/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976933461",
+        "title": "Thursday 1/22/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "985196978",
+        "title": "Monday 3/2/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986330787",
+        "title": "Monday 3/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986400679",
+        "title": "Tuesday 3/10/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986444841",
+        "title": "Thursday 3/12/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986454317",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986588515",
+        "title": "Tuesday 3/17/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986721319",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986796249",
+        "title": "Thursday 3/19/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986892084",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "987073401",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-11T03:40:50.049Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": true,
+    "aiEnabled": true,
+    "course": "B",
+    "totalRenames": 52,
+    "regexRenames": 52,
+    "aiRenames": 0,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "972045721",
+        "oldTitle": "friday 1/9/25",
+        "newTitle": "Friday 1/9/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948168199",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948538471",
+        "oldTitle": "Tuesday(September 23th, 2025) apstat",
+        "newTitle": "Tuesday 9/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949081768",
+        "oldTitle": "Thursday(September 25th, 2025) apstat",
+        "newTitle": "Thursday 9/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949296571",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949903740",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950173574",
+        "oldTitle": "Tuesday(September 30th, 2025) apstat B",
+        "newTitle": "Tuesday 9/30/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950580926",
+        "oldTitle": "Thursday (October 2nd, 2025) apstat",
+        "newTitle": "Thursday 10/2/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950856151",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951165049",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951666708",
+        "oldTitle": "Tuesday (October 7th, 2025)",
+        "newTitle": "Tuesday 10/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "952378943",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954330871",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954636359",
+        "oldTitle": "Tuesday (October 21, 2025)",
+        "newTitle": "Tuesday 10/21/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "955309456",
+        "oldTitle": "Thursday (October 23rd, 2025)",
+        "newTitle": "Thursday 10/23/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956049467",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956976136",
+        "oldTitle": "Tuesday (October 28, 2025)",
+        "newTitle": "Tuesday 10/28/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "957152830",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958530930",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958739412",
+        "oldTitle": "Friday (November 7 2025)",
+        "newTitle": "Friday 11/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959200382",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959850965",
+        "oldTitle": "THURSDAY NOV 13 2025",
+        "newTitle": "Thursday 11/13/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960099957",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960407580",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960978946",
+        "oldTitle": "tuesday nov 18 2025",
+        "newTitle": "Tuesday 11/18/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961457155",
+        "oldTitle": "thursday nov 20 2025",
+        "newTitle": "Thursday 11/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961689140",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961916576",
+        "oldTitle": "Tuesday nov 25 2025",
+        "newTitle": "Tuesday 11/25/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "963550724",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "965817084",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "966296293",
+        "oldTitle": "Tuesday dec 16 2025",
+        "newTitle": "Tuesday 12/16/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "970432845",
+        "oldTitle": "tuesday 1/6/26",
+        "newTitle": "Tuesday 1/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "971289382",
+        "oldTitle": "thursday 1/8/26",
+        "newTitle": "Thursday 1/8/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973032021",
+        "oldTitle": "monday 1/12/2026",
+        "newTitle": "Monday 1/12/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973403724",
+        "oldTitle": "tuesday 1/13/26",
+        "newTitle": "Tuesday 1/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "973460096",
+        "oldTitle": "friday 1/16/26",
+        "newTitle": "Friday 1/16/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "976366874",
+        "oldTitle": "Tuesday (1/20/26)",
+        "newTitle": "Tuesday 1/20/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "977326408",
+        "oldTitle": "Friday (1/23/26)",
+        "newTitle": "Friday 1/23/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "978369747",
+        "oldTitle": "Thursday (jan 29 2026)",
+        "newTitle": "Thursday 1/29/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979189351",
+        "oldTitle": "friday 1/30/26",
+        "newTitle": "Friday 1/30/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979668726",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980217880",
+        "oldTitle": "tuesday 2/2/26",
+        "newTitle": "Tuesday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980335378",
+        "oldTitle": "thursday (2/5/26)",
+        "newTitle": "Thursday 2/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980334396",
+        "oldTitle": "Friday 2/6",
+        "newTitle": "Friday 2/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981293561",
+        "oldTitle": "monday 2/9/26",
+        "newTitle": "Monday 2/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981564763",
+        "oldTitle": "tuesday 2/10/26",
+        "newTitle": "Tuesday 2/10/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981770601",
+        "oldTitle": "friday (2/13)",
+        "newTitle": "Friday 2/13/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982382766",
+        "oldTitle": "Thursday (2/26)",
+        "newTitle": "Thursday 2/26/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "984565607",
+        "oldTitle": "Friday (2/27/26)",
+        "newTitle": "Friday 2/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985597961",
+        "oldTitle": "tuesday (3/2/26)",
+        "newTitle": "Tuesday 3/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985937488",
+        "oldTitle": "thursday (3/5/26)",
+        "newTitle": "Thursday 3/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986218661",
+        "oldTitle": "friday (3/6/26)",
+        "newTitle": "Friday 3/6/26",
+        "source": "regex"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "974409945",
+        "title": "Thursday 1/15/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976933461",
+        "title": "Thursday 1/22/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "985196978",
+        "title": "Monday 3/2/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986330787",
+        "title": "Monday 3/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986400679",
+        "title": "Tuesday 3/10/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986444841",
+        "title": "Thursday 3/12/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986454317",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986588515",
+        "title": "Tuesday 3/17/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986721319",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986796249",
+        "title": "Thursday 3/19/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986892084",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "987073401",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-11T13:47:50.957Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": false,
+    "aiEnabled": true,
+    "course": "E",
+    "totalRenames": 41,
+    "regexRenames": 40,
+    "aiRenames": 1,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "948538523",
+        "oldTitle": "Wednesday(September 2th, 2025) apstat",
+        "newTitle": "Wednesday 9/2/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948168200",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949296572",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950033948",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950173836",
+        "oldTitle": "Wednesday(October 1st, 2025) apstat",
+        "newTitle": "Wednesday 10/1/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950856519",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951165588",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951959083",
+        "oldTitle": "Wednesday (October 8th, 2025)",
+        "newTitle": "Wednesday 10/8/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "952378990",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954331240",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956052633",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956797952",
+        "oldTitle": "Wednesday (October 29th, 2025)",
+        "newTitle": "Wednesday 10/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "957153206",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958146096",
+        "oldTitle": "Monday (November 3, 2025)",
+        "newTitle": "Monday 11/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958146043",
+        "oldTitle": "Wednesday (November 5, 2025)",
+        "newTitle": "Wednesday 11/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958531274",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959267881",
+        "oldTitle": "friday nov 7 2025",
+        "newTitle": "Friday 11/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959200747",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959852108",
+        "oldTitle": "WEDNESDAY NOV 12 2025",
+        "newTitle": "Wednesday 11/12/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960099958",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960407616",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961337342",
+        "oldTitle": "thursday  november 20 2025",
+        "newTitle": "Thursday 11/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961458392",
+        "oldTitle": "friday nov 21 2025",
+        "newTitle": "Friday 11/21/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961918938",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "963550625",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "965809058",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "970436251",
+        "oldTitle": "wednesday 1/6/26",
+        "newTitle": "Wednesday 1/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "972116314",
+        "oldTitle": "monday 1/12/26",
+        "newTitle": "Monday 1/12/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "976931995",
+        "oldTitle": "Wednesday (1/21/26)",
+        "newTitle": "Wednesday 1/21/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "978751063",
+        "oldTitle": "Wednesday (1/27/26)",
+        "newTitle": "Wednesday 1/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979188743",
+        "oldTitle": "friday (jan 30 2026)",
+        "newTitle": "Friday 1/30/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980116147",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981597867",
+        "oldTitle": "Monday (2/9/26)",
+        "newTitle": "Monday 2/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982198258",
+        "oldTitle": "Friday 2/11",
+        "newTitle": "Friday 2/11/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982494807",
+        "oldTitle": "Monday 2/23",
+        "newTitle": "Monday 2/23/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "984958319",
+        "oldTitle": "friday (2/27/26)",
+        "newTitle": "Friday 2/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985478388",
+        "oldTitle": "Monday (3/2)",
+        "newTitle": "Monday 3/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986225315",
+        "oldTitle": "friday 3/5/26",
+        "newTitle": "Friday 3/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986806670",
+        "oldTitle": "monday (3/9/26)",
+        "newTitle": "Monday 3/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "961107588",
+        "oldTitle": "wednesday nov 19 2026",
+        "newTitle": "Wednesday 11/19/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985895948",
+        "oldTitle": "Wednesday (3/4//26)",
+        "newTitle": "Wednesday 3/4/26",
+        "source": "ai"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "971384795",
+        "title": "Friday 1/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "973451875",
+        "title": "Wednesday 1/14/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "974627877",
+        "title": "Friday 1/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976937016",
+        "title": "Friday 1/23/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "984411860",
+        "title": "Wednesday 2/25/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896839",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896878",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896908",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896948",
+        "title": "Wednesday 3/18/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896988",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986897040",
+        "title": "Monday 3/23/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986897075",
+        "title": "Wednesday 3/25/26",
+        "reason": "already standardized"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-11T13:57:33.354Z",
+    "treePath": "C:\\Users\\ColsonR\\Agent\\state\\schoology-tree.json",
+    "executed": true,
+    "aiEnabled": true,
+    "course": "E",
+    "totalRenames": 41,
+    "regexRenames": 40,
+    "aiRenames": 1,
+    "totalSkipped": 12,
+    "renames": [
+      {
+        "folderId": "948538523",
+        "oldTitle": "Wednesday(September 2th, 2025) apstat",
+        "newTitle": "Wednesday 9/2/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "948168200",
+        "oldTitle": "Monday (September 22th, 2025) apstat",
+        "newTitle": "Monday 9/22/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "949296572",
+        "oldTitle": "Friday(September 26th, 2025) apstat",
+        "newTitle": "Friday 9/26/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950033948",
+        "oldTitle": "Monday(September 29th, 2025) apstat",
+        "newTitle": "Monday 9/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950173836",
+        "oldTitle": "Wednesday(October 1st, 2025) apstat",
+        "newTitle": "Wednesday 10/1/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "950856519",
+        "oldTitle": "Friday (October 3rd, 2025) apstat",
+        "newTitle": "Friday 10/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951165588",
+        "oldTitle": "Monday (October 6th, 2025)",
+        "newTitle": "Monday 10/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "951959083",
+        "oldTitle": "Wednesday (October 8th, 2025)",
+        "newTitle": "Wednesday 10/8/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "952378990",
+        "oldTitle": "Friday (October 10th, 2025)",
+        "newTitle": "Friday 10/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "954331240",
+        "oldTitle": "Monday (October 20, 2025)",
+        "newTitle": "Monday 10/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956052633",
+        "oldTitle": "Monday (October 27th, 2025)",
+        "newTitle": "Monday 10/27/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "956797952",
+        "oldTitle": "Wednesday (October 29th, 2025)",
+        "newTitle": "Wednesday 10/29/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "957153206",
+        "oldTitle": "Friday (October 31, 2025)",
+        "newTitle": "Friday 10/31/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958146096",
+        "oldTitle": "Monday (November 3, 2025)",
+        "newTitle": "Monday 11/3/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958146043",
+        "oldTitle": "Wednesday (November 5, 2025)",
+        "newTitle": "Wednesday 11/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "958531274",
+        "oldTitle": "Thursday (November 6th, 2025)",
+        "newTitle": "Thursday 11/6/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959267881",
+        "oldTitle": "friday nov 7 2025",
+        "newTitle": "Friday 11/7/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959200747",
+        "oldTitle": "monday nov 10 2025",
+        "newTitle": "Monday 11/10/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "959852108",
+        "oldTitle": "WEDNESDAY NOV 12 2025",
+        "newTitle": "Wednesday 11/12/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960099958",
+        "oldTitle": "friday november 14 2025",
+        "newTitle": "Friday 11/14/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "960407616",
+        "oldTitle": "monday nov 17 2025",
+        "newTitle": "Monday 11/17/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961337342",
+        "oldTitle": "thursday  november 20 2025",
+        "newTitle": "Thursday 11/20/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961458392",
+        "oldTitle": "friday nov 21 2025",
+        "newTitle": "Friday 11/21/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "961918938",
+        "oldTitle": "Monday  nov 24 2025",
+        "newTitle": "Monday 11/24/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "963550625",
+        "oldTitle": "friday dec 5 2025",
+        "newTitle": "Friday 12/5/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "965809058",
+        "oldTitle": "monday dec 15 2025",
+        "newTitle": "Monday 12/15/25",
+        "source": "regex"
+      },
+      {
+        "folderId": "970436251",
+        "oldTitle": "wednesday 1/6/26",
+        "newTitle": "Wednesday 1/6/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "972116314",
+        "oldTitle": "monday 1/12/26",
+        "newTitle": "Monday 1/12/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "976931995",
+        "oldTitle": "Wednesday (1/21/26)",
+        "newTitle": "Wednesday 1/21/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "978751063",
+        "oldTitle": "Wednesday (1/27/26)",
+        "newTitle": "Wednesday 1/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "979188743",
+        "oldTitle": "friday (jan 30 2026)",
+        "newTitle": "Friday 1/30/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "980116147",
+        "oldTitle": "monday 2/2/26",
+        "newTitle": "Monday 2/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "981597867",
+        "oldTitle": "Monday (2/9/26)",
+        "newTitle": "Monday 2/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982198258",
+        "oldTitle": "Friday 2/11",
+        "newTitle": "Friday 2/11/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "982494807",
+        "oldTitle": "Monday 2/23",
+        "newTitle": "Monday 2/23/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "984958319",
+        "oldTitle": "friday (2/27/26)",
+        "newTitle": "Friday 2/27/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985478388",
+        "oldTitle": "Monday (3/2)",
+        "newTitle": "Monday 3/2/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986225315",
+        "oldTitle": "friday 3/5/26",
+        "newTitle": "Friday 3/5/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "986806670",
+        "oldTitle": "monday (3/9/26)",
+        "newTitle": "Monday 3/9/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "961107588",
+        "oldTitle": "wednesday nov 19 2026",
+        "newTitle": "Wednesday 11/19/26",
+        "source": "regex"
+      },
+      {
+        "folderId": "985895948",
+        "oldTitle": "Wednesday (3/4//26)",
+        "newTitle": "Wednesday 3/4/26",
+        "source": "ai"
+      }
+    ],
+    "skipped": [
+      {
+        "folderId": "971384795",
+        "title": "Friday 1/9/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "973451875",
+        "title": "Wednesday 1/14/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "974627877",
+        "title": "Friday 1/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "976937016",
+        "title": "Friday 1/23/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "984411860",
+        "title": "Wednesday 2/25/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896839",
+        "title": "Wednesday 3/11/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896878",
+        "title": "Friday 3/13/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896908",
+        "title": "Monday 3/16/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896948",
+        "title": "Wednesday 3/18/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986896988",
+        "title": "Friday 3/20/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986897040",
+        "title": "Monday 3/23/26",
+        "reason": "already standardized"
+      },
+      {
+        "folderId": "986897075",
+        "title": "Wednesday 3/25/26",
+        "reason": "already standardized"
+      }
+    ]
+  }
+]
