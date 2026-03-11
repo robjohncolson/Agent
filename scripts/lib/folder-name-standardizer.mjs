@@ -420,6 +420,136 @@ export function shouldSkipFolder(title) {
 }
 
 /**
+ * Use DeepSeek to parse folder titles that regex couldn't handle.
+ * Batches all unparseable day-folder titles into a single API call.
+ *
+ * @param {string[]} titles - Folder titles that start with a day-of-week but failed regex parsing
+ * @returns {Promise<Map<string, { dayOfWeek: string, month: number, day: number, year: string }>>}
+ */
+export async function batchResolveUnparseableWithAI(titles) {
+  const resultMap = new Map();
+  if (!titles || titles.length === 0) return resultMap;
+
+  // Dynamic import to avoid hard dependency
+  let callDeepSeekRaw;
+  try {
+    const mod = await import('./schoology-classify-ai.mjs');
+    // We need to reuse the .env loading and fetch logic, so we'll build our own prompt
+    // and use the module's cache infrastructure
+    callDeepSeekRaw = async (prompt) => {
+      // Load .env for API key (the module does this on import)
+      const apiKey = process.env.DEEPSEEK_API_KEY;
+      if (!apiKey) {
+        console.warn('[folder-ai] DEEPSEEK_API_KEY not set — skipping AI lookup');
+        return null;
+      }
+      try {
+        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0,
+            max_tokens: 2000,
+          }),
+        });
+        if (!response.ok) {
+          console.error(`[folder-ai] DeepSeek API error: ${response.status}`);
+          return null;
+        }
+        const data = await response.json();
+        return data?.choices?.[0]?.message?.content?.trim() || null;
+      } catch (err) {
+        console.error(`[folder-ai] DeepSeek API call failed: ${err.message}`);
+        return null;
+      }
+    };
+  } catch {
+    console.warn('[folder-ai] Could not load AI module');
+    return resultMap;
+  }
+
+  // Ensure .env is loaded for API key
+  if (!process.env.DEEPSEEK_API_KEY) {
+    try {
+      const { readFileSync } = await import('node:fs');
+      const { join } = await import('node:path');
+      const { AGENT_ROOT } = await import('./paths.mjs');
+      const envPath = join(AGENT_ROOT, '.env');
+      const envContent = readFileSync(envPath, 'utf-8');
+      for (const rawLine of envContent.split('\n')) {
+        const line = rawLine.replace(/\r$/, '');
+        const m = line.match(/^([^#=]+)=(.*)$/);
+        if (m && !process.env[m[1].trim()]) {
+          process.env[m[1].trim()] = m[2].trim();
+        }
+      }
+    } catch { /* .env missing */ }
+  }
+
+  const numbered = titles.map((t, i) => `${i + 1}. "${t}"`).join('\n');
+
+  const prompt = `You are a date parser for Schoology course folder names from an AP Statistics class (2025-2026 school year, Aug 2025 - Jun 2026).
+
+Each folder title below starts with a day of the week but has a non-standard date format that automated regex couldn't parse. Extract the date from each.
+
+For each title, return a JSON object: {"dayOfWeek": "Monday", "month": 3, "day": 9, "year": "26"} or null if genuinely not a date.
+
+Rules:
+- dayOfWeek should be properly capitalized (e.g., "Monday" not "monday")
+- month is 1-12 integer
+- day is 1-31 integer
+- year is 2-digit string: "25" for 2025, "26" for 2026
+- School year: Aug-Dec = 2025, Jan-Jul = 2026
+- If a title has "apstat" or similar suffix, ignore it — focus on the date
+
+Titles:
+${numbered}
+
+Return ONLY a JSON array, e.g.: [{"dayOfWeek":"Monday","month":9,"day":29,"year":"25"}, null, ...]`;
+
+  const raw = await callDeepSeekRaw(prompt);
+  if (!raw) return resultMap;
+
+  try {
+    const jsonMatch = raw.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) {
+      console.warn('[folder-ai] No JSON array found in AI response');
+      return resultMap;
+    }
+
+    const parsed = JSON.parse(jsonMatch[0]);
+    if (!Array.isArray(parsed)) return resultMap;
+
+    for (let i = 0; i < Math.min(parsed.length, titles.length); i++) {
+      const entry = parsed[i];
+      if (!entry) continue;
+
+      // Validate
+      if (typeof entry.dayOfWeek === 'string' &&
+          typeof entry.month === 'number' && entry.month >= 1 && entry.month <= 12 &&
+          typeof entry.day === 'number' && entry.day >= 1 && entry.day <= 31 &&
+          (typeof entry.year === 'string' || typeof entry.year === 'number')) {
+        resultMap.set(titles[i], {
+          dayOfWeek: entry.dayOfWeek.charAt(0).toUpperCase() + entry.dayOfWeek.slice(1).toLowerCase(),
+          month: entry.month,
+          day: entry.day,
+          year: String(entry.year).length > 2 ? normalizeYear(entry.year) : String(entry.year),
+        });
+      }
+    }
+  } catch (err) {
+    console.warn(`[folder-ai] Failed to parse AI response: ${err.message}`);
+  }
+
+  return resultMap;
+}
+
+/**
  * Batch standardize all day-level folders in the tree.
  * Only targets leaf-level day folders (depth >= 3 typically), skips quarter/week/topic folders.
  * @param {object} tree - scraped schoology-tree.json

@@ -332,6 +332,38 @@ export async function getMoveOptions(page) {
 }
 
 /**
+ * Click the "Edit" option in an already-open gear dropdown for a folder row.
+ * @param {string} rowId - The full row ID (e.g. "f-986796249")
+ */
+export async function clickEditFolder(page, rowId) {
+  // Try class-based selector first, then fall back to text matching
+  const clicked = await page.evaluate((rid) => {
+    const row = document.getElementById(rid);
+    if (!row) return false;
+
+    // Try common Schoology edit link selectors
+    const byClass = row.querySelector('a.edit-folder, a.action-edit, a[href*="/edit"]');
+    if (byClass) { byClass.click(); return true; }
+
+    // Fallback: text-match "Edit" in the action links area
+    const links = row.querySelectorAll('.action-links a, .operations a, a');
+    for (const a of links) {
+      const text = a.textContent.trim().toLowerCase();
+      if (text === 'edit' || text === 'edit folder') {
+        a.click();
+        return true;
+      }
+    }
+    return false;
+  }, rowId);
+
+  if (!clicked) {
+    throw new Error(`Could not find Edit option in gear menu for ${rowId}`);
+  }
+  await sleep(1500);
+}
+
+/**
  * Submit the move popup (same as submitPopup but semantically distinct).
  */
 export async function submitMovePopup(page) {
