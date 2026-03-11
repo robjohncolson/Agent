@@ -130,10 +130,23 @@ function executeUploadBlooket(unit, lesson) {
 
 /**
  * 6. Post materials to Schoology.
- *    Period B uses the default course; Period E overrides with --course.
+ *    Period B: posts fresh via post-to-schoology.mjs
+ *    Period E: copies from B via copy-material-to-course.mjs (faster, no re-upload)
  *    Timeout: 3 min.
  */
 function executePostSchoology(unit, lesson, period) {
+  if (period === 'E') {
+    // Copy from B → E using Schoology's "Copy to Course" dialog
+    const copyScript = join(SCRIPTS_DIR, 'copy-material-to-course.mjs');
+    if (existsSync(copyScript)) {
+      return run(
+        `node "${copyScript}" --unit ${unit} --lesson ${lesson} --to-period E --no-prompt`,
+        180_000,
+      );
+    }
+    // Fallback: post fresh if copy script missing
+  }
+
   const script = join(SCRIPTS_DIR, 'post-to-schoology.mjs');
   const base = `node "${script}" --unit ${unit} --lesson ${lesson} --auto-urls --no-prompt --heal`;
   const cmd = period === 'E' ? `${base} --course 7945275798` : base;

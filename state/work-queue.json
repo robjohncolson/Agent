@@ -1,15 +1,15 @@
 {
   "version": 1,
-  "lastRun": "2026-03-11T14:51:40.589Z",
+  "lastRun": "2026-03-11T16:14:42.533Z",
   "stats": {
     "totalActions": 300,
-    "completed": 56,
+    "completed": 57,
     "pending": 44,
     "failed": 0,
     "rateLimited": 0,
     "skipped": 0,
     "running": 0,
-    "blocked": 200
+    "blocked": 199
   },
   "actions": [
     {
@@ -528,7 +528,7 @@
       "lesson": 8,
       "period": "E",
       "type": "post-schoology-E",
-      "status": "pending",
+      "status": "completed",
       "dependsOn": [
         "6.8-content-gen-worksheet",
         "6.8-upload-blooket"
@@ -538,8 +538,8 @@
       "retryAfter": null,
       "lastError": null,
       "createdAt": "2026-03-11T14:51:40.584Z",
-      "updatedAt": "2026-03-11T14:51:40.584Z",
-      "completedAt": null,
+      "updatedAt": "2026-03-11T16:14:42.523Z",
+      "completedAt": "2026-03-11T16:14:42.523Z",
       "date": "2026-03-12"
     },
     {

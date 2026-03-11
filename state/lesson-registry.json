@@ -3366,7 +3366,7 @@
       "worksheet": "done",
       "drills": "done",
       "blooketCsv": "running",
-      "blooketUpload": "pending",
+      "blooketUpload": "failed",
       "animations": "pending",
       "animationUpload": "pending",
       "schoology": "scraped",
@@ -3374,10 +3374,6 @@
       "urlsGenerated": "pending",
       "registryExported": "pending",
       "committed": "pending"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.698Z",
-      "lastUpdated": "2026-03-11T14:22:02.459Z"
     },
     "schoology": {
       "B": {
@@ -3442,9 +3438,20 @@
             "title": "Quiz — 6.5",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288285295",
             "targetUrl": null
+          },
+          "blooket": {
+            "schoologyId": "8290620237",
+            "title": "Topic 6.5 — Blooket Review",
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8290620237",
+            "targetUrl": null,
+            "copiedFrom": "B"
           }
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.698Z",
+      "lastUpdated": "2026-03-11T16:00:27.717Z"
     }
   },
   "6.6": {
@@ -3588,7 +3595,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.702Z",
-      "lastUpdated": "2026-03-11T14:22:02.476Z"
+      "lastUpdated": "2026-03-11T16:14:34.233Z"
     },
     "schoology": {
       "B": {
@@ -3666,6 +3673,13 @@
             "title": "Quiz — 6.8",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288286675",
             "targetUrl": null
+          },
+          "blooket": {
+            "title": "Topic 6.8 — Blooket Review",
+            "copiedFrom": "B",
+            "copiedFromId": "8285521972",
+            "copiedAt": "2026-03-11T16:14:34.217Z",
+            "status": "done"
           }
         }
       }

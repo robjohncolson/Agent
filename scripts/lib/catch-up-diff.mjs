@@ -92,13 +92,16 @@ function buildLessonActions(unit, lesson, periods, date) {
 
   // Per-period actions
   for (const period of periods) {
+    // Period E copies from B (depends on B being posted first)
+    // Period B depends on content being generated
+    const postDeps = period === 'E'
+      ? [`${prefix}-post-schoology-B`]
+      : [`${prefix}-content-gen-worksheet`, `${prefix}-upload-blooket`];
+
     actions.push({
       id: `${prefix}-post-schoology-${period}`,
       unit, lesson, period, type: `post-schoology-${period}`,
-      dependsOn: [
-        `${prefix}-content-gen-worksheet`,
-        `${prefix}-upload-blooket`,
-      ],
+      dependsOn: postDeps,
       date,
     });
 

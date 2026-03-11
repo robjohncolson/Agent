@@ -363,6 +363,88 @@ export async function clickEditFolder(page, rowId) {
   await sleep(1500);
 }
 
+// ── Copy to Course ──────────────────────────────────────────────────────────
+
+/**
+ * Click "Copy to Course" in an already-open gear dropdown.
+ * @param {string} rowId - The full row ID (e.g. "n-8284383200")
+ */
+export async function clickCopyToCourse(page, rowId) {
+  const clicked = await page.evaluate((rid) => {
+    const row = document.getElementById(rid);
+    if (!row) return false;
+    const link = row.querySelector('a[href*="/copy"]');
+    if (link) { link.click(); return true; }
+    // Fallback: text match
+    const links = row.querySelectorAll('.action-links a, a');
+    for (const a of links) {
+      if (a.textContent.trim() === 'Copy to Course') {
+        a.click();
+        return true;
+      }
+    }
+    return false;
+  }, rowId);
+  if (!clicked) throw new Error(`Copy to Course link not found for ${rowId}`);
+  await sleep(500);
+}
+
+/**
+ * In the Copy to Course popup, check a course checkbox and select the target folder.
+ * @param {string} targetCourseId - e.g. "7945275798"
+ * @param {string} targetFolderId - e.g. "986896839"
+ * @returns {{ success: boolean, error?: string }}
+ */
+export async function selectCopyTarget(page, targetCourseId, targetFolderId) {
+  return page.evaluate(({ courseId, folderId }) => {
+    const cb = document.getElementById(`edit-addl-realms-${courseId}-selected`);
+    if (!cb) return { success: false, error: `Checkbox for course ${courseId} not found` };
+
+    // Check the checkbox
+    cb.checked = true;
+    cb.dispatchEvent(new Event('change', { bubbles: true }));
+
+    // Show the advanced options wrapper (folder dropdown)
+    const wrapper = cb.closest('.addl-course')?.querySelector('.advanced-options-wrapper');
+    if (wrapper) wrapper.style.display = '';
+
+    // Select the folder
+    const select = document.getElementById(`edit-addl-realms-${courseId}-destination-folder`);
+    if (!select) return { success: false, error: `Folder dropdown for course ${courseId} not found` };
+
+    // Verify the option exists
+    let found = false;
+    for (const opt of select.options) {
+      if (opt.value === folderId) { found = true; break; }
+    }
+    if (!found) {
+      const available = [...select.options].slice(0, 10).map(o => `${o.value}:${o.text.trim()}`);
+      return { success: false, error: `Folder ${folderId} not in dropdown. First 10: ${available.join('; ')}` };
+    }
+
+    select.value = folderId;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    return { success: true };
+  }, { courseId: targetCourseId, folderId: targetFolderId });
+}
+
+/**
+ * Submit the Copy to Course popup form.
+ */
+export async function submitCopyPopup(page) {
+  await page.evaluate(() => {
+    const popup = document.querySelector('.popups-box');
+    if (!popup) return;
+    const btn = popup.querySelector('input[type="submit"], button[type="submit"], .form-submit');
+    if (btn) btn.click();
+  });
+  await waitForPopupClose(page);
+  try {
+    await page.waitForLoadState("networkidle", { timeout: 10000 });
+  } catch { /* may already be idle */ }
+  await sleep(1500);
+}
+
 /**
  * Submit the move popup (same as submitPopup but semantically distinct).
  */
