@@ -10,158 +10,131 @@ You are the **Agent** — an LLM routing intelligence layer and **cross-machine 
 
 ### Current State (as of 2026-03-11)
 
-**Completed:**
-1. **Task runner integration** — ALL 4 PHASES COMPLETE
-2. **Dashboard** — LIVE ON RAILWAY
-3. **Schoology-Registry Hardening v1** — COMPLETE (7-step implementation)
-4. **Reconciliation v2** — 3 features IMPLEMENTED (AI parsing, folder standardization, orphan repair)
-5. **Folder rename execution (Period B)** — 52/52 folders renamed, 0 failures
-6. **Period B cleanup** — re-scraped, 4 orphans repaired, 5 cosmetic errors
-7. **Period E scrape** — 86 folders, 225 materials, 46 lessons, 0 orphans
-8. **Multi-period registry migration** — COMPLETE (Steps 1-7)
-   - Registry API: `period` param on `getSchoologyState()`, `setSchoologyState()`, `updateSchoologyMaterial()`
-   - Data migration: 43 entries converted from flat `schoology` to `{ B: {...} }`
-   - Reconciler, orphan repair, poster, sync, scrape — all period-aware
-   - Commits: `f0753a1` (code), `1d94744` (migration), `c87447e` (E renames), `a3c50ca` (E sync)
-9. **Period E folder renames** — 41/41 folders renamed to `DayOfWeek M/D/YY` format, 0 failures
-10. **Period E tree → registry sync** — 42 lessons synced into `schoology.E`
-    - Reconciliation: 0 errors, 0 orphans (was 42 `wrong_folder` errors before migration)
-    - Remaining: 36 warnings (missing materials — worksheets/quizzes not posted to E), 44 info (extras)
+**ACTIVE TASK: Registry Hardening v2 — Implementation**
+
+The lesson registry (`state/lesson-registry.json`) tracks materials posted to Schoology across two course periods (B and E). A session today exposed critical fragility:
+
+- Materials re-posted with new schoologyIds → batch copy times out (30s) looking for deleted DOM elements
+- Registry folder IDs point to wrong folders → navigation fails silently
+- `updateSchoologyMaterial()` was spreading arrays into objects (`videos` corruption)
+- B↔E compliance check depends on fragile `copiedFromId` lineage that breaks on re-post
+- No way to detect stale entries without re-scraping
+
+**Fixes already shipped (commit `f23a9d9`):**
+- `updateSchoologyMaterial()` — array detection before spread (prevents videos corruption)
+- `navigateToFolder()` — JS-based navigation (`window.location.href`) to bypass Schoology SPA redirect
+- `sync-tree-to-registry.mjs` — rewritten with `--ids-only` (default) and `--full` modes, proper video array handling
+- 5 wrong folder IDs corrected, 14 corrupted video entries fixed, stale IDs refreshed for 6.3/6.4
+- Unit 6 Period E fully in sync with Period B
+
+**Spec and dep graph are COMPLETE and ready for implementation:**
+- Spec: `design/registry-hardening-spec.md` (916 lines, 3 features, migration plan)
+- Dep graph: `design/registry-hardening-dep-graph.md` (5 waves, 10 agents)
 
 ---
 
 ## What to do NOW
 
-### Option A: v5 Realtime (previously deferred)
+**Implement the registry hardening spec via Codex agent dispatch.**
 
-User indicated low priority earlier but recently expressed interest. Scope TBD — ask user what they want.
-
-### Option B: Period E material gap closure
-
-The reconciler shows 36 `missing_material` warnings for Period E. These are worksheets, quizzes, and drills that exist in the registry URL layer but haven't been posted to Period E's Schoology course. The poster (`post-to-schoology.mjs`) is now period-aware and can post to E via `--course E` (or by passing the E course ID).
-
-### Option C: Registry URL backfill for Period E
-
-The `extra_material` info items (44) indicate Schoology has materials the registry `urls` object doesn't track. Running `sync-tree-to-registry.mjs` populated `schoology.E` folder data, but the `urls` layer still only has B's URLs for worksheets/drills/quizzes. The same URLs work for both periods (they're external links), so this is cosmetic.
-
----
-
-## Key Architecture
-
-### Schoology Pipeline
-- **Deep scraper**: `scripts/schoology-deep-scrape.mjs` — CDP recursive scraper, outputs `state/schoology-tree.json`
-- **Reconciler lib**: `scripts/lib/schoology-reconcile.mjs` — pure functions, period-aware (10 issue types)
-- **Reconciler CLI**: `scripts/schoology-reconcile.mjs` — human-readable report + `--fix` mode
-- **AI classifier**: `scripts/lib/schoology-classify-ai.mjs` — regex first, DeepSeek API fallback, persistent cache
-- **Folder standardizer**: `scripts/lib/folder-name-standardizer.mjs` — 12 regex patterns + AI fallback
-- **Rename CLI**: `scripts/schoology-rename-folders.mjs` — `--execute` for CDP, `--ai` for DeepSeek
-- **Orphan repair**: `scripts/schoology-repair-orphans.mjs` — `--execute` for CDP moves, period-aware
-- **Registry API**: `scripts/lib/lesson-registry.mjs` — per-period `schoology[period]`, URL validation
-- **DOM helpers**: `scripts/lib/schoology-dom.mjs` — all Schoology CDP interactions, COURSE_IDS
-- **Poster**: `scripts/post-to-schoology.mjs` — creates folders + posts links, period-aware
-- **Tree sync**: `scripts/sync-tree-to-registry.mjs` — sync lessonIndex → registry `schoology[period]`
-- **Migration**: `scripts/migrate-registry-multi-period.mjs` — one-time flat → per-period migration
-
-### Lesson Registry
-- `state/lesson-registry.json` — 43 entries
-- Per-period `schoology` map: `schoology.B` and `schoology.E` with folder IDs, paths, materials
-- `urls.schoologyFolder` (B) and `urls.schoologyFolderE` (E) in URL_KEYS
-- Folder URL validation auto-fixes double `?f=` params
-- Backup: `state/lesson-registry.pre-multiperiod.json`
-
-### DeepSeek Integration
-- API key in `.env` (gitignored): `DEEPSEEK_API_KEY`
-- Used for: title parsing (material → unit.lesson), folder name parsing (date extraction)
-- Cache: `state/ai-parse-cache.json` (persistent, keyed by title)
-- Cost: ~$0.001 per batch call, negligible
-
-### Specs
-- `design/multi-period-registry-spec.md` — per-period schoology data (COMPLETE)
-- `design/multi-period-dep-graph.md` — implementation dependency graph
-- `design/schoology-registry-hardening-spec.md` — original 7-step spec
-- `design/reconciliation-v2-spec.md` — AI parsing, orphan repair, folder standardization
-
----
-
-## Consumer Inventory (10 files, all period-aware)
-
-| # | File | Period-Aware |
-|---|------|-------------|
-| 1 | `scripts/lib/lesson-registry.mjs` | `period` param on 3 functions + auto-detect |
-| 2 | `scripts/post-to-schoology.mjs` | `detectPeriod()` from course ID |
-| 3 | `scripts/sync-schoology-to-registry.mjs` | `--course` flag |
-| 4 | `scripts/lib/schoology-reconcile.mjs` | `period` param on `reconcileLesson()` + `reconcile()` |
-| 5 | `scripts/schoology-reconcile.mjs` | Reads period from tree metadata |
-| 6 | `scripts/schoology-repair-orphans.mjs` | Reads period from tree metadata |
-| 7 | `scripts/scrape-schoology-urls.mjs` | `--course` flag |
-| 8 | `scripts/sync-tree-to-registry.mjs` | Reads period from tree metadata |
-| 9 | `scripts/migrate-registry-multi-period.mjs` | One-time migration (done) |
-| 10 | `scripts/lesson-prep.mjs` | No change needed (defaults to B) |
-
----
-
-## Task Queue
-
-1. ~~Lesson prep~~ — DONE
-2. ~~Task runner integration~~ — DONE (4 phases)
-3. ~~Dashboard go-live~~ — DONE (Railway)
-4. ~~Schoology-registry hardening v1~~ — DONE (7 steps)
-5. ~~Reconciliation v2~~ — DONE (3 features)
-6. ~~Folder rename execution (B)~~ — DONE (52/52)
-7. ~~Period B re-scrape + orphan repair~~ — DONE
-8. ~~Period E scrape~~ — DONE (86 folders, 225 materials)
-9. ~~Multi-period registry migration~~ — DONE (Steps 1-7, all code + data)
-10. ~~Period E folder renames~~ — DONE (41/41)
-11. ~~Period E tree → registry sync~~ — DONE (42 lessons)
-12. v5 Realtime — LOW PRIORITY (user recently expressed interest)
-
-## Key Paths
+### Step 1: Read the spec and dep graph
 ```
-design/multi-period-registry-spec.md       # Migration spec (COMPLETE)
-design/multi-period-dep-graph.md           # Dependency graph
-scripts/lib/lesson-registry.mjs            # Registry API (period-aware)
-scripts/lib/schoology-reconcile.mjs        # Reconciliation library (period-aware)
-scripts/schoology-reconcile.mjs            # Reconciliation CLI
-scripts/schoology-repair-orphans.mjs       # Orphan repair CLI (period-aware)
-scripts/post-to-schoology.mjs             # Schoology poster (period-aware)
-scripts/sync-schoology-to-registry.mjs     # Registry sync (--course flag)
-scripts/scrape-schoology-urls.mjs          # URL scraper (--course flag)
-scripts/sync-tree-to-registry.mjs          # Tree → registry sync (period-aware)
-scripts/migrate-registry-multi-period.mjs  # One-time migration (done)
-scripts/schoology-deep-scrape.mjs          # CDP recursive scraper
-scripts/schoology-rename-folders.mjs       # Folder rename CLI (CDP + AI)
-scripts/lib/schoology-classify-ai.mjs      # AI title parser (DeepSeek)
-scripts/lib/folder-name-standardizer.mjs   # Folder name normalizer
-scripts/lib/schoology-dom.mjs              # CDP DOM helpers + COURSE_IDS
-scripts/lib/cdp-connect.mjs               # CDP connector
-state/lesson-registry.json                 # Lesson registry (43 entries, B+E)
-state/schoology-tree.json                  # Scraped tree (currently Period E)
-state/ai-parse-cache.json                  # DeepSeek cache
-state/lesson-registry.pre-multiperiod.json # Pre-migration backup
+design/registry-hardening-spec.md
+design/registry-hardening-dep-graph.md
 ```
 
-## Pipeline Commands
+### Step 2: Create implementation prompts
+
+Create one prompt file per Codex agent in `dispatch/prompts/registry-hardening/`:
+
+**Wave 1 (3 parallel agents — no dependencies):**
+- `step1.1-registry-validator.md` — Create `scripts/lib/registry-validator.mjs`
+- `step2.1-content-hash.md` — Create `scripts/lib/content-hash.mjs`
+- `step3.4-stale-material-issue.md` — Add `stale_material` issue type to reconciler
+
+**Wave 2 (2 parallel agents):**
+- `step1.2-validate-cli.md` — Add `--validate` to `scripts/schoology-reconcile.mjs`
+- `step2.2-backfill-hashes.md` — Create `scripts/backfill-content-hashes.mjs`
+
+**Wave 3 (1 agent):**
+- `step1.4-wire-validation.md` — Wire validation into `lesson-registry.mjs` write functions
+
+**Wave 4 (2 parallel agents):**
+- `step2.4-auto-hash.md` — Auto-compute contentHash in `updateSchoologyMaterial()`
+- `step2.5-3.1-sync-tree-hash-liveness.md` — Hash + lastSeenAt/stale in `sync-tree-to-registry.mjs`
+
+**Wave 5 (2 parallel agents):**
+- `step2.6-3.3-catchup-diff.md` — Hash-based compliance + staleness in `catch-up-diff.mjs`
+- `step2.7-3.2-batch-copy.md` — Hash skip + stale skip in `batch-copy-to-period-e.mjs`
+
+### Step 3: Dispatch agents wave by wave
+
+Use `runner/cross-agent.py` to dispatch Codex agents. Parallel agents within a wave can run simultaneously. Wait for each wave to complete before starting the next.
+
 ```bash
-# Period B (default)
-node scripts/lesson-prep.mjs --auto                           # Full auto lesson prep
-node scripts/schoology-deep-scrape.mjs --ai                   # Scrape B + AI pass
-node scripts/schoology-reconcile.mjs                          # Reconcile (reads period from tree)
-node scripts/schoology-rename-folders.mjs --execute --ai      # Rename B folders
-node scripts/schoology-repair-orphans.mjs --execute           # Repair B orphans
-node scripts/sync-tree-to-registry.mjs --execute              # Sync tree → registry
+# Example: Wave 1 (3 parallel)
+python runner/cross-agent.py --direction cc-to-codex --task-type implement \
+  --prompt "$(cat dispatch/prompts/registry-hardening/step1.1-registry-validator.md)" \
+  --working-dir "C:/Users/ColsonR/Agent" \
+  --owned-paths "scripts/lib/registry-validator.mjs" --timeout 120
 
-# Period E
-node scripts/schoology-deep-scrape.mjs --course E --ai        # Scrape E
-node scripts/schoology-rename-folders.mjs --course E --ai     # Preview E renames
-node scripts/schoology-reconcile.mjs                          # Reconcile (reads period from tree)
-node scripts/sync-tree-to-registry.mjs --execute              # Sync E tree → registry
+python runner/cross-agent.py --direction cc-to-codex --task-type implement \
+  --prompt "$(cat dispatch/prompts/registry-hardening/step2.1-content-hash.md)" \
+  --working-dir "C:/Users/ColsonR/Agent" \
+  --owned-paths "scripts/lib/content-hash.mjs" --timeout 120
+
+python runner/cross-agent.py --direction cc-to-codex --task-type implement \
+  --prompt "$(cat dispatch/prompts/registry-hardening/step3.4-stale-material-issue.md)" \
+  --working-dir "C:/Users/ColsonR/Agent" \
+  --owned-paths "scripts/lib/schoology-reconcile.mjs" --timeout 120
 ```
+
+### Step 4: Manual steps between waves
+
+After Wave 2:
+- **Step 1.3**: Run `node scripts/schoology-reconcile.mjs --validate`, fix any violations in the registry
+
+After Wave 3:
+- **Step 2.3**: Run `node scripts/backfill-content-hashes.mjs`, spot-check 3 materials
+
+### Step 5: Commit and push after each wave
+
+---
+
+## Key Files Reference
+
+| File | Role |
+|------|------|
+| `scripts/lib/lesson-registry.mjs` | Registry CRUD — `loadRegistry`, `saveRegistry`, `updateSchoologyMaterial`, `setSchoologyState`, `upsertLesson` |
+| `scripts/lib/schoology-dom.mjs` | CDP DOM helpers — `navigateToFolder`, `openGearMenu`, `clickCopyToCourse`, `selectCopyTarget` |
+| `scripts/sync-tree-to-registry.mjs` | Syncs scraped tree → registry (IDs-only or full mode) |
+| `scripts/batch-copy-to-period-e.mjs` | Batch copies all missing B materials to E |
+| `scripts/copy-material-to-course.mjs` | Single-lesson copy via Schoology "Copy to Course" dialog |
+| `scripts/lib/catch-up-diff.mjs` | Diffs calendar against registry, builds dependency graph of actions |
+| `scripts/lib/catch-up-executors.mjs` | Dispatches actions to pipeline scripts |
+| `scripts/schoology-reconcile.mjs` | CLI for registry-tree reconciliation |
+| `scripts/lib/schoology-reconcile.mjs` | Pure reconciliation functions |
+| `scripts/schoology-deep-scrape.mjs` | CDP recursive scraper → `state/schoology-tree.json` |
+| `state/lesson-registry.json` | THE registry — 43 lessons, per-period schoology data |
+
+## Previously Completed
+
+1. Task runner integration (4 phases) — COMPLETE
+2. Dashboard — LIVE ON RAILWAY
+3. Schoology-Registry Hardening v1 (7 steps) — COMPLETE
+4. Reconciliation v2 (AI parsing, folder standardization, orphan repair) — COMPLETE
+5. Multi-period registry migration (Steps 1-7) — COMPLETE
+6. Period E compliance (unit 6) — COMPLETE
+7. LRSL Driller performance optimization (6 commits, 68% bundle reduction) — COMPLETE
+8. Catch-up pipeline (5 files) — COMPLETE
+9. Copy-to-Course CDP flow — COMPLETE
 
 ## Environment
+
 - Platform: Windows 11 Education, no admin (ColsonR)
 - Edge CDP on port 9222 for Schoology automation
 - Node v22.19.0, Python 3.12
 - Codex CLI v0.106.0 (GPT 5.4)
 - Schoology course IDs: Period B = `7945275782`, Period E = `7945275798`
-- Supabase: `https://hgvnytaqmuybzbotosyj.supabase.co`
 - TLS: Corporate proxy requires `NODE_TLS_REJECT_UNAUTHORIZED=0`
+- Cross-agent runner: `runner/cross-agent.py`
