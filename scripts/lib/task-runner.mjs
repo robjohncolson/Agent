@@ -17,7 +17,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { execSync, spawn } from 'child_process';
+import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { pipeline as pipelineEvents } from './event-log.mjs';
 import { getLesson, updateStatus } from './lesson-registry.mjs';
@@ -290,10 +290,25 @@ async function executeTask(task, params, pipelineId, force, forceSteps, context)
       case 'cdp-browser':
       case 'git-operation': {
         const workerPath = path.join(REPO_ROOT, task.worker);
-        const cmd = `node "${workerPath}" ${argsStr}`.trimEnd();
         const timeoutMs = (task.timeout_minutes ?? 10) * 60_000;
-        console.log(`[task-runner] [${stepId}] Running: ${cmd}`);
-        execSync(cmd, { stdio: 'inherit', timeout: timeoutMs, cwd: REPO_ROOT });
+        const workerArgs = ['--', workerPath, ...argsStr.split(/\s+/).filter(Boolean)];
+        console.log(`[task-runner] [${stepId}] Running: node ${workerPath} ${argsStr}`);
+        await new Promise((resolve, reject) => {
+          const proc = spawn(process.execPath, workerArgs, {
+            stdio: 'inherit',
+            cwd: REPO_ROOT,
+          });
+          const timer = setTimeout(() => {
+            proc.kill('SIGTERM');
+            reject(new Error(`Timed out after ${task.timeout_minutes ?? 10}m`));
+          }, timeoutMs);
+          proc.on('error', (err) => { clearTimeout(timer); reject(err); });
+          proc.on('close', (code) => {
+            clearTimeout(timer);
+            if (code === 0) resolve();
+            else reject(new Error(`Worker exited with code ${code}`));
+          });
+        });
         break;
       }
 
@@ -391,6 +406,7 @@ function printDryRun(pipelineDef, waves, taskDefs) {
  * @param {boolean} [options.dryRun=false]   — print plan without executing
  * @param {boolean} [options.force=false]    — force all steps regardless of preconditions
  * @param {Set}    [options.forceSteps]      — step IDs to force even if preconditions say skip
+ * @param {Set}    [options.skipSteps]      — step IDs to unconditionally skip
  * @param {Map}    [options.context]         — initial pipeline context (pre-seeded outputs)
  * @returns {Promise<{ results: Map<string, { status, duration_ms, error? }>, success: boolean, context: Map }>}
  */
@@ -399,6 +415,7 @@ export async function runPipeline(pipelinePath, params, options = {}) {
     dryRun = false,
     force = false,
     forceSteps = new Set(),
+    skipSteps = new Set(),
     context: initialContext = new Map(),
   } = options;
 
@@ -479,6 +496,12 @@ export async function runPipeline(pipelinePath, params, options = {}) {
         if (step.defined === false) {
           console.log(`[task-runner] [${taskId}] Skipped (not yet defined)`);
           results.set(taskId, { status: 'skipped', duration_ms: 0 });
+          return;
+        }
+
+        if (skipSteps.has(taskId)) {
+          console.log(`[task-runner] [${taskId}] Skipped (--skip flag)`);
+          results.set(taskId, { status: 'skipped', duration_ms: 0, reason: 'skip flag' });
           return;
         }
 

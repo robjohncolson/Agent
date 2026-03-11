@@ -32,6 +32,7 @@ function parseArgs(argv) {
   let dryRun = false;
   let force = false;
   const forceSteps = new Set();
+  const skipSteps = new Set();
   const contextEntries = [];
 
   for (let i = 0; i < args.length; i++) {
@@ -43,6 +44,8 @@ function parseArgs(argv) {
       force = true;
     } else if (arg === '--force-step' && args[i + 1]) {
       forceSteps.add(args[++i]);
+    } else if (arg === '--skip-step' && args[i + 1]) {
+      skipSteps.add(args[++i]);
     } else if (arg === '--context' && args[i + 1]) {
       // --context key=value
       const [k, ...vParts] = args[++i].split('=');
@@ -69,6 +72,7 @@ function parseArgs(argv) {
       '  --dry-run           Print execution plan without running\n' +
       '  --force             Force all steps regardless of registry status\n' +
       '  --force-step <id>   Force a specific step (repeatable)\n' +
+      '  --skip-step <id>    Skip a specific step (repeatable)\n' +
       '  --context key=val   Pre-seed pipeline context (repeatable)\n' +
       '  --<key> <value>     Pipeline parameter (e.g. --unit 6 --lesson 5)\n\n' +
       'Available pipelines:\n' +
@@ -77,13 +81,13 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { pipelineName, params, dryRun, force, forceSteps, contextEntries };
+  return { pipelineName, params, dryRun, force, forceSteps, skipSteps, contextEntries };
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const { pipelineName, params, dryRun, force, forceSteps, contextEntries } = parseArgs(process.argv);
+  const { pipelineName, params, dryRun, force, forceSteps, skipSteps, contextEntries } = parseArgs(process.argv);
 
   // Resolve pipeline file
   const pipelinePath = path.join(REPO_ROOT, 'pipelines', `${pipelineName}.json`);
@@ -99,6 +103,7 @@ async function main() {
   if (dryRun) console.log('  Mode: DRY RUN');
   if (force) console.log('  Mode: FORCE ALL');
   if (forceSteps.size > 0) console.log(`  Force steps: ${[...forceSteps].join(', ')}`);
+  if (skipSteps.size > 0) console.log(`  Skip steps: ${[...skipSteps].join(', ')}`);
   console.log(`========================================\n`);
 
   const startTime = Date.now();
@@ -107,6 +112,7 @@ async function main() {
     dryRun,
     force,
     forceSteps,
+    skipSteps,
     context,
   });
 

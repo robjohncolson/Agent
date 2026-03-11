@@ -84,7 +84,7 @@ function parseArgs(argv) {
   let force = false;
   let strictLlm = false;
   let skipLlm = false;
-  let useTaskRunner = false;
+  let useTaskRunner = true;  // default: use declarative task runner
   const forceSteps = new Set();
 
   for (let i = 0; i < args.length; i++) {
@@ -121,6 +121,8 @@ function parseArgs(argv) {
       forceSteps.add(args[++i]);
     } else if (arg === "--task-runner") {
       useTaskRunner = true;
+    } else if (arg === "--legacy") {
+      useTaskRunner = false;
     } else if (arg === "--drive-ids") {
       // Collect all subsequent args until the next flag or end of args
       i++;
@@ -155,7 +157,8 @@ function parseArgs(argv) {
         "  --force-step <key>  Force re-run of a specific step (repeatable). Keys: ingest, worksheet, blooketCsv, drills, animations, blooketUpload, schoology\n" +
         "  --strict-llm        Make LLM validation failures fatal (abort pipeline)\n" +
         "  --skip-llm          Skip all LLM semantic checks\n" +
-        "  --task-runner       Use the declarative task runner instead of inline orchestration"
+        "  --task-runner       Use the declarative task runner (default)\n" +
+        "  --legacy            Use inline orchestration instead of task runner"
     );
     process.exit(1);
   }
@@ -1798,9 +1801,18 @@ async function main() {
       context.set('schoologyFolder', existingEntry.urls.schoologyFolder);
     }
 
+    // Map --skip-* flags to task runner skipSteps
+    const skipSteps = new Set();
+    if (opts.skipIngest)    skipSteps.add('ingest');
+    if (opts.skipRender)    skipSteps.add('render-animations');
+    if (opts.skipUpload)    skipSteps.add('upload-animations');
+    if (opts.skipBlooket)   skipSteps.add('upload-blooket');
+    if (opts.skipSchoology) skipSteps.add('schoology-post');
+
     const { results: taskResults, success } = await runPipeline(pipelinePath, { unit, lesson }, {
       force: opts.force,
       forceSteps: opts.forceSteps,
+      skipSteps,
       context,
     });
 
