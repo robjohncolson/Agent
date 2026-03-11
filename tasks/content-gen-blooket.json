@@ -2,12 +2,12 @@
   "$schema": "../schema/task.schema.json",
   "id": "content-gen-blooket",
   "name": "Generate Blooket quiz CSV via Codex",
-  "type": "codex-agent",
-  "worker": "codex",
+  "type": "node-script",
+  "worker": "scripts/workers/codex-content-gen.mjs",
   "inputs": {
+    "task": "blooket",
     "unit": "{{unit}}",
-    "lesson": "{{lesson}}",
-    "video_context_dir": "u{{unit}}"
+    "lesson": "{{lesson}}"
   },
   "outputs": {
     "files": "u{{unit}}_l{{lesson}}_blooket.csv",
