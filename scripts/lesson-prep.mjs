@@ -1829,6 +1829,33 @@ async function main() {
       console.log(`  ${icon} ${stepId}: ${result.status}${duration}${detail ? ` — ${detail}` : ''}`);
     }
     console.log(`\n  ${success ? 'SUCCESS' : 'FAILED'}\n`);
+
+    // Post-pipeline reconciliation check
+    if (success) {
+      console.log('\n  Running post-pipeline reconciliation...');
+      try {
+        const treePath = path.join(AGENT_ROOT, 'state', 'schoology-tree.json');
+        if (existsSync(treePath)) {
+          const { reconcileLesson } = await import('./lib/schoology-reconcile.mjs');
+          const tree = JSON.parse(readFileSync(treePath, 'utf-8'));
+          const entry = getLesson(unit, lesson);
+          const report = reconcileLesson(unit, lesson, entry, tree);
+          if (report.issues.length === 0) {
+            console.log(`  [ok] Lesson ${unit}.${lesson} reconciled — no issues`);
+          } else {
+            console.log(`  [!!] ${report.issues.length} reconciliation issue(s):`);
+            for (const issue of report.issues) {
+              console.log(`       [${issue.severity.toUpperCase()}] ${issue.type}: ${issue.detail}`);
+            }
+          }
+        } else {
+          console.log('  [--] No schoology-tree.json — skipping reconciliation');
+        }
+      } catch (err) {
+        console.warn(`  [!!] Reconciliation failed: ${err.message}`);
+      }
+    }
+
     return;
   }
 

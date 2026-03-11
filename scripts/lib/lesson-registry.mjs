@@ -15,6 +15,7 @@ const URL_KEYS = new Set([
   "quiz",
   "blooket",
   "schoologyFolder",
+  "schoologyFolderE",
   "videos",
 ]);
 
@@ -128,6 +129,14 @@ function createDefaultEntry(unit, lesson) {
       urlsGenerated: "pending",
       registryExported: "pending",
       committed: "pending",
+    },
+    schoology: {
+      folderId: null,
+      folderPath: null,
+      folderTitle: null,
+      verifiedAt: null,
+      reconciledAt: null,
+      materials: {},
     },
     timestamps: {
       created: null,
@@ -276,6 +285,18 @@ export function updateUrl(unit, lesson, urlKey, urlValue) {
     );
   }
 
+  // Reject malformed Schoology folder URLs
+  if ((urlKey === 'schoologyFolder' || urlKey === 'schoologyFolderE') && urlValue) {
+    const fCount = (urlValue.match(/[?&]f=/g) || []).length;
+    if (fCount > 1) {
+      const lastF = urlValue.match(/[?&]f=(\d+)/g).pop();
+      const folderId = lastF.replace(/[?&]f=/, '');
+      const baseUrl = urlValue.split('?')[0];
+      urlValue = `${baseUrl}?f=${folderId}`;
+      console.warn(`[registry] Auto-fixed malformed folder URL for ${unit}.${lesson}: extracted f=${folderId}`);
+    }
+  }
+
   return upsertLesson(unit, lesson, {
     urls: {
       [urlKey]: urlValue,
@@ -304,6 +325,7 @@ export function updateStatus(unit, lesson, stepKey, statusValue) {
 }
 
 export function updateSchoologyLink(unit, lesson, linkKey, statusObj) {
+  console.warn('[registry] DEPRECATED: updateSchoologyLink() — use updateSchoologyMaterial() instead');
   if (typeof linkKey !== "string" || !linkKey.trim()) {
     throw new Error(`Invalid linkKey: "${linkKey}". Must be a non-empty string.`);
   }
@@ -320,11 +342,59 @@ export function updateSchoologyLink(unit, lesson, linkKey, statusObj) {
 }
 
 export function getSchoologyLinks(unit, lesson) {
+  console.warn('[registry] DEPRECATED: getSchoologyLinks() — use getSchoologyState() instead');
   const entry = getLesson(unit, lesson);
   if (!entry || !isPlainObject(entry.schoologyLinks)) {
     return null;
   }
   return entry.schoologyLinks;
+}
+
+export function setSchoologyState(unit, lesson, state) {
+  const unitNum = toPositiveInt(unit, "unit");
+  const lessonNum = toPositiveInt(lesson, "lesson");
+  const key = lessonKey(unitNum, lessonNum);
+  const registry = loadRegistry();
+  if (!registry[key]) {
+    registry[key] = createDefaultEntry(unitNum, lessonNum);
+  }
+  registry[key].schoology = {
+    folderId: state.folderId ?? null,
+    folderPath: state.folderPath ?? null,
+    folderTitle: state.folderTitle ?? null,
+    verifiedAt: state.verifiedAt ?? null,
+    reconciledAt: state.reconciledAt ?? null,
+    materials: state.materials ?? {},
+  };
+  registry[key].timestamps.lastUpdated = nowIso();
+  saveRegistry(registry);
+}
+
+export function getSchoologyState(unit, lesson) {
+  const entry = getLesson(unit, lesson);
+  return entry?.schoology ?? null;
+}
+
+export function updateSchoologyMaterial(unit, lesson, type, materialData) {
+  const unitNum = toPositiveInt(unit, "unit");
+  const lessonNum = toPositiveInt(lesson, "lesson");
+  const key = lessonKey(unitNum, lessonNum);
+  const registry = loadRegistry();
+  if (!registry[key]) {
+    registry[key] = createDefaultEntry(unitNum, lessonNum);
+  }
+  if (!registry[key].schoology) {
+    registry[key].schoology = {
+      folderId: null, folderPath: null, folderTitle: null,
+      verifiedAt: null, reconciledAt: null, materials: {}
+    };
+  }
+  registry[key].schoology.materials[type] = {
+    ...(registry[key].schoology.materials[type] || {}),
+    ...materialData,
+  };
+  registry[key].timestamps.lastUpdated = nowIso();
+  saveRegistry(registry);
 }
 
 export function computeUrls(unit, lesson) {

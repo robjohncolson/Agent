@@ -31,7 +31,7 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
 import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
-import { getLesson, updateStatus, updateUrl, updateSchoologyLink } from "./lib/lesson-registry.mjs";
+import { getLesson, updateStatus, updateUrl, updateSchoologyLink, updateSchoologyMaterial, setSchoologyState } from "./lib/lesson-registry.mjs";
 import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
@@ -674,11 +674,29 @@ async function main() {
         await createFolder(page, opts.createFolder, opts.folderDesc, parentUrl);
         materialsUrl = await extractFolderUrl(page, opts.createFolder, parentUrl);
         updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+        const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
+        setSchoologyState(unit, lesson, {
+          folderId: folderIdMatch ? folderIdMatch[1] : null,
+          folderPath: [...pathSegments, opts.createFolder],
+          folderTitle: opts.createFolder,
+          verifiedAt: null,
+          reconciledAt: null,
+          materials: {},
+        });
         console.log(`  Day folder created inside path: ${materialsUrl}`);
       } else {
         // Post directly into the resolved parent folder
         materialsUrl = parentUrl;
         updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+        const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
+        setSchoologyState(unit, lesson, {
+          folderId: folderIdMatch ? folderIdMatch[1] : null,
+          folderPath: pathSegments,
+          folderTitle: pathSegments[pathSegments.length - 1] || null,
+          verifiedAt: null,
+          reconciledAt: null,
+          materials: {},
+        });
         console.log(`  Posting into: ${materialsUrl}`);
       }
     } catch (err) {
@@ -693,6 +711,15 @@ async function main() {
       materialsUrl = await extractFolderUrl(page, opts.createFolder, rootMaterialsUrl);
       // Persist the folder URL to the registry
       updateUrl(unit, lesson, "schoologyFolder", materialsUrl);
+      const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
+      setSchoologyState(unit, lesson, {
+        folderId: folderIdMatch ? folderIdMatch[1] : null,
+        folderPath: [opts.createFolder],
+        folderTitle: opts.createFolder,
+        verifiedAt: null,
+        reconciledAt: null,
+        materials: {},
+      });
       console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);
@@ -801,20 +828,32 @@ async function main() {
       successCount++;
 
       // --heal mode: verify and update per-link registry
+      let verifiedOk = false;
       if (opts.heal) {
-        const verified = await verifyPostedLink(page, link.title, materialsUrl);
+        verifiedOk = await verifyPostedLink(page, link.title, materialsUrl);
         updateSchoologyLink(unit, lesson, link.key, {
-          status: verified ? "done" : "failed",
+          status: verifiedOk ? "done" : "failed",
           postedAt: new Date().toISOString(),
           title: link.title,
-          verified,
+          verified: verifiedOk,
         });
-        if (verified) {
+        if (verifiedOk) {
           console.log(`  [heal] ✓ Verified: "${link.title}" appears in folder`);
         } else {
           console.log(`  [heal] ⚠ Posted but not verified: "${link.title}"`);
         }
       }
+
+      // Store material state in unified schoology registry
+      updateSchoologyMaterial(unit, lesson, link.key, {
+        schoologyId: null,
+        title: link.title,
+        href: null,
+        targetUrl: link.url,
+        postedAt: new Date().toISOString(),
+        verified: verifiedOk,
+        status: "done",
+      });
     } catch (err) {
       console.error(`  FAILED: ${err.message}`);
       failCount++;
@@ -828,6 +867,14 @@ async function main() {
           title: link.title,
         });
       }
+
+      // Store material failure in unified schoology registry
+      updateSchoologyMaterial(unit, lesson, link.key, {
+        targetUrl: link.url,
+        status: "failed",
+        error: err.message,
+        attemptedAt: new Date().toISOString(),
+      });
     }
 
     // Delay between posts to avoid overwhelming Schoology
