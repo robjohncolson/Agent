@@ -1,0 +1,16 @@
+{
+  "$schema": "../schema/task.schema.json",
+  "id": "build-roadmap",
+  "name": "Build roadmap data from registry",
+  "type": "node-script",
+  "worker": "scripts/build-roadmap-data.mjs",
+  "inputs": {},
+  "outputs": {
+    "files": "roadmap-data.json"
+  },
+  "preconditions": {},
+  "on_failure": {
+    "strategy": "skip"
+  },
+  "timeout_minutes": 2
+}

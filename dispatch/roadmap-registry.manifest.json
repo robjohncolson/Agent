@@ -1,0 +1,39 @@
+{
+  "spec": "design/roadmap-registry-integration-spec.md",
+  "dep_graph": "design/roadmap-registry-dep-graph.md",
+  "agents": [
+    {
+      "id": "agent-a",
+      "name": "build-script",
+      "prompt": "dispatch/prompts/roadmap-registry/agent-a-build-script.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": ["scripts/build-roadmap-data.mjs"],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 150
+    },
+    {
+      "id": "agent-b",
+      "name": "html-enhancements",
+      "prompt": "dispatch/prompts/roadmap-registry/agent-b-html-enhancements.md",
+      "direction": "cc-direct",
+      "task_type": "implement",
+      "owned_paths": ["C:/Users/ColsonR/apstats-live-worksheet/ap_stats_roadmap.html"],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": null
+    },
+    {
+      "id": "agent-c",
+      "name": "pipeline-step",
+      "prompt": "dispatch/prompts/roadmap-registry/agent-c-pipeline-step.md",
+      "direction": "cc-direct",
+      "task_type": "implement",
+      "owned_paths": ["pipelines/lesson-prep.json"],
+      "depends_on": ["agent-a"],
+      "wave": 2,
+      "timeout": null
+    }
+  ]
+}
