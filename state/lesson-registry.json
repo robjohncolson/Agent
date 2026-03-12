@@ -23,12 +23,13 @@
       "drills": "done",
       "blooketCsv": "done",
       "blooketUpload": "done",
-      "animations": "skipped",
-      "schoology": "done"
-    },
-    "timestamps": {
-      "created": "2026-03-08T01:00:00Z",
-      "lastUpdated": "2026-03-11T14:22:02.486Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -56,10 +57,10 @@
             "schoologyId": "8287012207",
             "title": "Topic 6.10 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8287012207",
-            "targetUrl": null,
-            "status": "failed",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-hypotheses-610",
+            "status": "done",
             "postedAt": "2026-03-08T23:14:27.842Z",
-            "verified": false,
+            "verified": true,
             "contentHash": "19b8f145c8ad",
             "previousId": null,
             "syncedAt": "2026-03-12T00:26:53.210Z",
@@ -142,10 +143,12 @@
             "schoologyId": "8288287130",
             "title": "Drills — 6.10",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288287130",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-hypotheses-610",
             "contentHash": "19b8f145c8ad",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8288287164",
@@ -167,6 +170,10 @@
           }
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T01:00:00Z",
+      "lastUpdated": "2026-03-12T18:59:37.837Z"
     }
   },
   "6.11": {
@@ -191,11 +198,12 @@
       "blooketCsv": "done",
       "blooketUpload": "done",
       "animations": "done",
-      "schoology": "done"
-    },
-    "timestamps": {
-      "created": "2026-03-08T16:25:49.168Z",
-      "lastUpdated": "2026-03-11T14:22:02.491Z"
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "needs-reverify",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -215,13 +223,17 @@
             "contentHash": "06e214553743"
           },
           "drills": {
-            "schoologyId": "8286302261",
+            "schoologyId": "8288418098",
             "title": "Topic 6.11 — Drills",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8286302261",
-            "targetUrl": null,
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8288418098",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l21-test-statistic-611",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
             "stale": false,
-            "contentHash": "cf0e748e7cf5"
+            "contentHash": "cf0e748e7cf5",
+            "verified": false,
+            "status": "partial-dedup",
+            "postedAt": "2026-03-12T18:58:49.687Z",
+            "previousId": "8286302261"
           },
           "quiz": {
             "schoologyId": "8288416219",
@@ -296,15 +308,18 @@
             "stale": false
           },
           "drills": {
-            "schoologyId": "8288287536",
+            "schoologyId": "8288418715",
             "title": "Drills — 6.11",
-            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288287536",
-            "targetUrl": null,
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288418715",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l21-test-statistic-611",
             "contentHash": "cf0e748e7cf5",
-            "previousId": "8288418715",
+            "previousId": "8288287536",
             "syncedAt": "2026-03-12T01:15:31.643Z",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": false,
+            "status": "partial-dedup",
+            "postedAt": "2026-03-12T18:59:12.470Z"
           },
           "quiz": {
             "schoologyId": "8288287584",
@@ -326,6 +341,10 @@
           }
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T16:25:49.168Z",
+      "lastUpdated": "2026-03-12T18:59:37.770Z"
     }
   },
   "6.7": {
@@ -349,12 +368,13 @@
       "drills": "done",
       "blooketCsv": "done",
       "blooketUpload": "done",
-      "animations": "pending",
-      "schoology": "pending"
-    },
-    "timestamps": {
-      "created": "2026-03-08T17:14:27.262Z",
-      "lastUpdated": "2026-03-11T18:23:45.111Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -377,10 +397,12 @@
             "schoologyId": "8285243838",
             "title": "Topic 6.7 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243838",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l35-identify-error-type",
             "contentHash": "13e0eb9cc4fe",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8285521918",
@@ -446,10 +468,12 @@
             "schoologyId": "8288286063",
             "title": "Drills — 6.7",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288286063",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l35-identify-error-type",
             "contentHash": "13e0eb9cc4fe",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8288286115",
@@ -493,6 +517,10 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T17:14:27.262Z",
+      "lastUpdated": "2026-03-12T18:59:37.813Z"
     }
   },
   "1.3": {
@@ -3657,12 +3685,13 @@
       "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
-      "animations": "pending",
-      "schoology": "scraped"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.693Z",
-      "lastUpdated": "2026-03-11T16:46:20.914Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -3673,7 +3702,16 @@
         "reconciledAt": null,
         "materials": {
           "worksheet": null,
-          "drills": null,
+          "drills": {
+            "schoologyId": "8292421400",
+            "title": "Topic 6.1 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l01-identify-evidence",
+            "verified": true,
+            "status": "done",
+            "postedAt": "2026-03-12T18:27:35.476Z",
+            "contentHash": "70c300224657"
+          },
           "quiz": null,
           "blooket": null,
           "videos": [
@@ -3701,11 +3739,14 @@
         "reconciledAt": "2026-03-11T14:22:02.391Z",
         "materials": {
           "drills": {
-            "schoologyId": "8283999525",
-            "title": "drills for 6-1 & 6-2",
-            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8283999525",
-            "targetUrl": null,
-            "contentHash": "70c300224657"
+            "schoologyId": "8292430066",
+            "title": "Topic 6.1 — Drills",
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8292430066",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l01-identify-evidence",
+            "contentHash": "70c300224657",
+            "verified": true,
+            "status": "done",
+            "postedAt": "2026-03-12T18:56:46.639Z"
           },
           "blooket": {
             "schoologyId": "8283999526",
@@ -3732,6 +3773,10 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.693Z",
+      "lastUpdated": "2026-03-12T18:59:37.781Z"
     }
   },
   "6.2": {
@@ -3754,12 +3799,13 @@
       "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
-      "animations": "pending",
-      "schoology": "scraped"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.694Z",
-      "lastUpdated": "2026-03-11T14:22:02.402Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -3770,7 +3816,16 @@
         "reconciledAt": "2026-03-12T00:26:53.210Z",
         "materials": {
           "worksheet": null,
-          "drills": null,
+          "drills": {
+            "schoologyId": "8292423482",
+            "title": "Topic 6.2 — Drills",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8292423482",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l04-identify-procedure",
+            "verified": true,
+            "status": "done",
+            "postedAt": "2026-03-12T18:53:00.386Z",
+            "contentHash": "917a2e1d17e1"
+          },
           "quiz": {
             "schoologyId": "8276401336",
             "title": "quiz 6-2",
@@ -3860,9 +3915,23 @@
               "copiedFrom": "B",
               "contentHash": "b699ae7f539b"
             }
-          ]
+          ],
+          "drills": {
+            "schoologyId": "8292430593",
+            "title": "Topic 6.2 — Drills",
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8292430593",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l04-identify-procedure",
+            "verified": true,
+            "status": "done",
+            "postedAt": "2026-03-12T18:57:04.081Z",
+            "contentHash": "917a2e1d17e1"
+          }
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.694Z",
+      "lastUpdated": "2026-03-12T18:59:37.789Z"
     }
   },
   "6.3": {
@@ -3885,12 +3954,13 @@
       "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
-      "animations": "pending",
-      "schoology": "scraped"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.695Z",
-      "lastUpdated": "2026-03-11T16:48:35.387Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -3910,13 +3980,16 @@
             "stale": false
           },
           "drills": {
-            "schoologyId": "8278732632",
-            "title": "APSTATS 6-3 drills",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278732632",
-            "targetUrl": null,
+            "schoologyId": "8292431131",
+            "title": "Topic 6.3 — Drills",
+            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8292431131",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l12-interpret-ci",
             "contentHash": "9111e8505780",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done",
+            "postedAt": "2026-03-12T18:57:22.259Z"
           },
           "quiz": {
             "schoologyId": "8289707540",
@@ -3960,13 +4033,16 @@
             "stale": false
           },
           "drills": {
-            "schoologyId": "8287569293",
-            "title": "APSTATS 6-3 drills",
-            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8287569293",
-            "targetUrl": null,
+            "schoologyId": "8292431549",
+            "title": "Topic 6.3 — Drills",
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8292431549",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l12-interpret-ci",
             "contentHash": "9111e8505780",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done",
+            "postedAt": "2026-03-12T18:57:39.914Z"
           },
           "worksheet": {
             "schoologyId": "8287569300",
@@ -4002,6 +4078,10 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.695Z",
+      "lastUpdated": "2026-03-12T18:59:37.796Z"
     }
   },
   "6.4": {
@@ -4025,12 +4105,13 @@
       "drills": "done",
       "blooketCsv": "done",
       "blooketUpload": "done",
-      "animations": "failed",
-      "schoology": "done"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.697Z",
-      "lastUpdated": "2026-03-11T18:11:23.149Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -4055,12 +4136,14 @@
             "schoologyId": "8289707242",
             "title": "Topic 6.4 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707242",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-state-null",
             "previousId": "8282276275",
             "syncedAt": "2026-03-11T17:35:06.744Z",
             "contentHash": "ddf6be12a61e",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8283974303",
@@ -4149,15 +4232,18 @@
             "stale": false
           },
           "drills": {
-            "schoologyId": "8289707242",
+            "schoologyId": "8292432235",
             "title": "Topic 6.4 — Drills",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8289707242",
-            "targetUrl": null,
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8292432235",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-state-null",
             "contentHash": "ddf6be12a61e",
             "previousId": "8288285111",
             "syncedAt": "2026-03-12T01:15:31.642Z",
             "lastSeenAt": "2026-03-12T01:15:31.642Z",
-            "stale": false
+            "stale": false,
+            "verified": false,
+            "status": "partial-old-remains",
+            "postedAt": "2026-03-12T18:58:02.301Z"
           },
           "quiz": {
             "schoologyId": "8283974303",
@@ -4205,6 +4291,10 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.697Z",
+      "lastUpdated": "2026-03-12T18:58:02.305Z"
     }
   },
   "6.5": {
@@ -4228,10 +4318,10 @@
       "drills": "done",
       "blooketCsv": "running",
       "blooketUpload": "failed",
-      "animations": "pending",
+      "animations": "done",
       "animationUpload": "pending",
       "schoology": "scraped",
-      "schoologyVerified": "pending",
+      "schoologyVerified": "needs-reverify",
       "urlsGenerated": "pending",
       "registryExported": "pending",
       "committed": "pending"
@@ -4257,10 +4347,12 @@
             "schoologyId": "8283974187",
             "title": "Topic 6.5 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974187",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l24-test-statistic",
             "contentHash": "3abbd1fb9388",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8284787125",
@@ -4306,15 +4398,18 @@
             "stale": false
           },
           "drills": {
-            "schoologyId": "8283974187",
+            "schoologyId": "8292432873",
             "title": "Topic 6.5 — Drills",
-            "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974187",
-            "targetUrl": null,
+            "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8292432873",
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l24-test-statistic",
             "contentHash": "3abbd1fb9388",
             "previousId": "8288285243",
             "syncedAt": "2026-03-12T01:15:31.642Z",
             "lastSeenAt": "2026-03-12T01:15:31.642Z",
-            "stale": false
+            "stale": false,
+            "verified": false,
+            "status": "partial-old-remains",
+            "postedAt": "2026-03-12T18:58:25.518Z"
           },
           "quiz": {
             "schoologyId": "8288285295",
@@ -4342,7 +4437,7 @@
     },
     "timestamps": {
       "created": "2026-03-08T19:58:27.698Z",
-      "lastUpdated": "2026-03-11T16:00:27.717Z"
+      "lastUpdated": "2026-03-12T18:58:25.526Z"
     }
   },
   "6.6": {
@@ -4366,12 +4461,13 @@
       "drills": "done",
       "blooketCsv": "done",
       "blooketUpload": "done",
-      "animations": "pending",
-      "schoology": "scraped"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.699Z",
-      "lastUpdated": "2026-03-11T18:06:53.447Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -4394,10 +4490,12 @@
             "schoologyId": "8284786521",
             "title": "Topic 6.6 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284786521",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l29-compare-pvalue-alpha",
             "contentHash": "c89ae7c41461",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8285244384",
@@ -4463,10 +4561,12 @@
             "schoologyId": "8288285449",
             "title": "Drills — 6.6",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288285449",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l29-compare-pvalue-alpha",
             "contentHash": "c89ae7c41461",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8288285487",
@@ -4510,13 +4610,17 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.699Z",
+      "lastUpdated": "2026-03-12T18:59:37.805Z"
     }
   },
   "6.8": {
     "unit": 6,
     "lesson": 8,
-    "topic": "Topic 6.8",
-    "date": null,
+    "topic": "Thursday 3/12/26",
+    "date": "2026-03-13",
     "period": null,
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson8_live.html",
@@ -4528,17 +4632,18 @@
       "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896948"
     },
     "status": {
-      "ingest": "pending",
+      "ingest": "failed",
       "worksheet": "done",
       "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
-      "animations": "pending",
-      "schoology": "scraped"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.702Z",
-      "lastUpdated": "2026-03-11T18:11:44.576Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -4561,10 +4666,12 @@
             "schoologyId": "8285521907",
             "title": "Topic 6.8 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521907",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l44-identify-two-prop-ci",
             "contentHash": "7091c8129820",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8285585623",
@@ -4630,10 +4737,12 @@
             "schoologyId": "8288286538",
             "title": "Drills — 6.8",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288286538",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l44-identify-two-prop-ci",
             "contentHash": "7091c8129820",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8288286675",
@@ -4682,6 +4791,10 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.702Z",
+      "lastUpdated": "2026-03-12T18:59:37.822Z"
     }
   },
   "6.9": {
@@ -4705,12 +4818,13 @@
       "drills": "done",
       "blooketCsv": "pending",
       "blooketUpload": "pending",
-      "animations": "pending",
-      "schoology": "scraped"
-    },
-    "timestamps": {
-      "created": "2026-03-08T19:58:27.704Z",
-      "lastUpdated": "2026-03-11T18:24:47.169Z"
+      "animations": "done",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "done",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
     },
     "schoology": {
       "B": {
@@ -4733,10 +4847,12 @@
             "schoologyId": "8285585500",
             "title": "Topic 6.9 — Drills",
             "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585500",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l49-interpret-two-prop-claim-interval",
             "contentHash": "0da2e7581f87",
             "lastSeenAt": "2026-03-12T00:26:53.210Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8287013425",
@@ -4802,10 +4918,12 @@
             "schoologyId": "8288286797",
             "title": "Drills — 6.9",
             "href": "https://lynnschools.schoology.com/course/7945275798/materials/link/view/8288286797",
-            "targetUrl": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l49-interpret-two-prop-claim-interval",
             "contentHash": "0da2e7581f87",
             "lastSeenAt": "2026-03-12T01:15:31.643Z",
-            "stale": false
+            "stale": false,
+            "verified": true,
+            "status": "done"
           },
           "quiz": {
             "schoologyId": "8288286846",
@@ -4854,6 +4972,10 @@
           ]
         }
       }
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.704Z",
+      "lastUpdated": "2026-03-12T18:59:37.830Z"
     }
   },
   "7.2": {
@@ -5091,6 +5213,208 @@
           }
         }
       }
+    }
+  },
+  "7.3": {
+    "unit": 7,
+    "lesson": 3,
+    "topic": "Topic 7.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=2",
+      "blooket": "https://dashboard.blooket.com/set/69b23ce2f54efd7ead71c8de",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987263209",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=987263235"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "failed",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {
+      "B": {
+        "folderId": "987263209",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 26",
+          "Monday 3/23/26"
+        ],
+        "folderTitle": "Monday 3/23/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson3_live.html",
+            "postedAt": "2026-03-12T05:12:16.554Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "89dc7eded6c8"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l11-interpret-interval",
+            "postedAt": "2026-03-12T05:12:31.342Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "5db2843bb0ca"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 7.2",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=7&l=2",
+            "postedAt": "2026-03-12T05:12:46.037Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "c5ec35c9141c"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69b23ce2f54efd7ead71c8de",
+            "postedAt": "2026-03-12T05:13:00.747Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "a65cf045ad88"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/b1ywa7d80z?sui=33,7",
+            "postedAt": "2026-03-12T05:13:15.265Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "2f6dbbf5cba3"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/xk5a52ajgk?sui=33,7",
+            "postedAt": "2026-03-12T05:13:29.707Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "a1df7e28f2df"
+          },
+          "video3": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — AP Classroom Video 3",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/lghtcfwy1x?sui=33,7",
+            "postedAt": "2026-03-12T05:13:44.473Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "3b081e76132d"
+          }
+        }
+      },
+      "E": {
+        "folderId": "987263235",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 26",
+          "Friday 3/27/26"
+        ],
+        "folderTitle": "Friday 3/27/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson3_live.html",
+            "postedAt": "2026-03-12T05:14:15.698Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "89dc7eded6c8"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l11-interpret-interval",
+            "postedAt": "2026-03-12T05:14:30.407Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "5db2843bb0ca"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 7.2",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=7&l=2",
+            "postedAt": "2026-03-12T05:14:45.103Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "c5ec35c9141c"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69b23ce2f54efd7ead71c8de",
+            "postedAt": "2026-03-12T05:14:59.961Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "a65cf045ad88"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/b1ywa7d80z?sui=33,7",
+            "postedAt": "2026-03-12T05:15:14.828Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "2f6dbbf5cba3"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/xk5a52ajgk?sui=33,7",
+            "postedAt": "2026-03-12T05:15:29.462Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "a1df7e28f2df"
+          },
+          "video3": {
+            "schoologyId": null,
+            "title": "Topic 7.3 — AP Classroom Video 3",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/lghtcfwy1x?sui=33,7",
+            "postedAt": "2026-03-12T05:15:44.137Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "3b081e76132d"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-12T03:05:34.111Z",
+      "lastUpdated": "2026-03-12T05:15:44.154Z"
     }
   }
 }

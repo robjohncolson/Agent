@@ -202,18 +202,25 @@ export async function navigatePath(page, courseId, pathSegments, { createMissing
 // ── Folder Creation ──────────────────────────────────────────────────────────
 
 /**
- * Click the "Add Materials" button (text-matched span).
+ * Click the "Add Materials" button. Uses Playwright native click to trigger
+ * Schoology's event handlers (JS el.click() doesn't fire them reliably).
  */
 export async function clickAddMaterials(page) {
-  await page.evaluate(() => {
-    const spans = document.querySelectorAll('span');
-    for (const s of spans) {
-      if (s.textContent.trim() === 'Add Materials') {
-        s.click();
-        return;
+  try {
+    // The button wraps a <span> with text "Add Materials"
+    await page.click('span:has-text("Add Materials")', { timeout: 5000 });
+  } catch {
+    // Fallback: JS click
+    await page.evaluate(() => {
+      const spans = document.querySelectorAll('span');
+      for (const s of spans) {
+        if (s.textContent.trim() === 'Add Materials') {
+          s.click();
+          return;
+        }
       }
-    }
-  });
+    });
+  }
   await sleep(1500);
 }
 
@@ -474,36 +481,54 @@ export async function submitMovePopup(page) {
 
 /**
  * Click "Add File/Link/External Tool" in the Add Materials dropdown.
+ * Uses Playwright native click for Schoology event handler compatibility.
  */
 export async function clickAddFileLink(page) {
-  await page.evaluate(() => {
-    const links = document.querySelectorAll('a');
-    for (const a of links) {
-      if (a.textContent.trim().includes('File/Link/External Tool')) {
-        a.click();
-        return;
+  try {
+    await page.click('a:has-text("File/Link/External Tool")', { timeout: 5000 });
+  } catch {
+    // Fallback: JS click
+    await page.evaluate(() => {
+      const links = document.querySelectorAll('a');
+      for (const a of links) {
+        if (a.textContent.trim().includes('File/Link/External Tool')) {
+          a.click();
+          return;
+        }
       }
-    }
-  });
+    });
+  }
   await sleep(1500);
 }
 
 /**
  * Click the "Link" option (a.action-create-link) to open the link creation form.
+ * Must use Playwright's native .click() — Schoology's popups-processed handler
+ * only fires on real mouse events, not JS el.click().
  */
 export async function clickLinkOption(page) {
-  await page.evaluate(() => {
-    const specific = document.querySelector('a.action-create-link');
-    if (specific) { specific.click(); return; }
-    // Fallback: find by text among visible links
-    const links = document.querySelectorAll('a');
-    for (const a of links) {
-      if (a.textContent.trim() === 'Link' && a.offsetParent !== null) {
-        a.click();
-        return;
-      }
+  try {
+    await page.click('a.action-create-link', { timeout: 5000 });
+  } catch {
+    // Fallback: try text-based Playwright click
+    try {
+      await page.click('a:has-text("Link"):visible', { timeout: 3000 });
+    } catch {
+      // Last resort: JS click (may not trigger popup)
+      await page.evaluate(() => {
+        const specific = document.querySelector('a.action-create-link');
+        if (specific) { specific.click(); return; }
+        const links = document.querySelectorAll('a');
+        for (const a of links) {
+          if (a.textContent.trim() === 'Link' && a.offsetParent !== null) {
+            a.click();
+            return;
+          }
+        }
+      });
     }
-  });
+  }
+  await sleep(1500);
 }
 
 /**

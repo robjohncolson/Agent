@@ -164,6 +164,10 @@ export async function discoverLessonFolder(page, unit, lesson, materialsRootUrl)
  * Delete a single Schoology link by its view ID.
  * Uses JS-dispatched clicks because Playwright's .click() hangs on
  * Schoology's div.action-links-unfold gear buttons.
+ *
+ * Fix: scopes the Delete click to the target row's dropdown (not the
+ * whole page) and verifies the link row actually disappeared after
+ * confirmation.
  */
 export async function deleteSchoologyLink(page, linkViewId) {
   // Step 1: Find the link row and click its gear icon via JS
@@ -172,7 +176,8 @@ export async function deleteSchoologyLink(page, linkViewId) {
     if (!anchor) return { ok: false, reason: "link not found on page" };
     const tr = anchor.closest("tr");
     if (!tr) return { ok: false, reason: "no parent row" };
-    const gear = tr.querySelector("div.action-links-unfold");
+    const gear = tr.querySelector("div.action-links-unfold") ||
+                 tr.querySelector("a.action-links-unfold");
     if (!gear) return { ok: false, reason: "no gear button in row" };
     gear.click();
     return { ok: true };
@@ -184,16 +189,33 @@ export async function deleteSchoologyLink(page, linkViewId) {
 
   await page.waitForTimeout(1000);
 
-  // Step 2: Click "Delete" in the dropdown
-  const deleteClicked = await page.evaluate(() => {
-    for (const a of document.querySelectorAll("ul.action-links-content a, .action-links-content a")) {
-      if ((a.textContent || "").trim().toLowerCase() === "delete") {
-        a.click();
-        return true;
+  // Step 2: Click "Delete" — scoped to the target row first, then fall
+  // back to the nearest visible dropdown (Schoology sometimes renders
+  // the menu outside the <tr>).
+  const deleteClicked = await page.evaluate((id) => {
+    // Try within the same row first
+    const anchor = document.querySelector(`a[href*="/link/view/${id}"]`);
+    const tr = anchor?.closest("tr");
+    if (tr) {
+      for (const a of tr.querySelectorAll(".action-links-content a")) {
+        if ((a.textContent || "").trim().toLowerCase() === "delete") {
+          a.click();
+          return true;
+        }
+      }
+    }
+    // Fallback: find the single currently-visible dropdown
+    for (const dd of document.querySelectorAll("ul.action-links-content")) {
+      if (dd.offsetParent === null) continue; // hidden
+      for (const a of dd.querySelectorAll("a")) {
+        if ((a.textContent || "").trim().toLowerCase() === "delete") {
+          a.click();
+          return true;
+        }
       }
     }
     return false;
-  });
+  }, linkViewId);
 
   if (!deleteClicked) {
     await page.keyboard.press("Escape");
@@ -220,6 +242,16 @@ export async function deleteSchoologyLink(page, linkViewId) {
   }
 
   await page.waitForTimeout(2000);
+
+  // Step 4: Verify the link row is actually gone
+  const stillPresent = await page.evaluate((id) => {
+    return !!document.querySelector(`a[href*="/link/view/${id}"]`);
+  }, linkViewId);
+
+  if (stillPresent) {
+    return { deleted: false, reason: "link still present after delete confirmation" };
+  }
+
   return { deleted: true };
 }
 

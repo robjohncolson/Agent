@@ -77,7 +77,7 @@ export function validateMaterial(type, data) {
   // Keyed material completeness: must have schoologyId, copiedFromId, or status
   if (KEYED_TYPES.has(type)) {
     const hasId = data.schoologyId || data.copiedFromId;
-    const hasStatus = data.status === 'failed' || data.status === 'done';
+    const hasStatus = typeof data.status === 'string' && data.status.length > 0;
     if (!hasId && !hasStatus && Object.keys(data).length > 0) {
       errors.push(`${type} must have schoologyId, copiedFromId, or a status — got empty shell`);
     }

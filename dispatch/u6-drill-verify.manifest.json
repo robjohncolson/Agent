@@ -1,0 +1,39 @@
+{
+  "spec": "design/u6-drill-link-verify-spec.md",
+  "dep_graph": "design/u6-drill-verify-dep-graph.md",
+  "agents": [
+    {
+      "id": "agent-a",
+      "name": "url-table",
+      "prompt": "dispatch/prompts/u6-drill-verify/agent-a-url-table.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": ["scripts/lib/drill-url-table.mjs"],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 90
+    },
+    {
+      "id": "agent-b",
+      "name": "report",
+      "prompt": "dispatch/prompts/u6-drill-verify/agent-b-report.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": ["scripts/lib/drill-verify-report.mjs"],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 90
+    },
+    {
+      "id": "agent-c",
+      "name": "main-script",
+      "prompt": "dispatch/prompts/u6-drill-verify/agent-c-main-script.md",
+      "direction": "cc-direct",
+      "task_type": "implement",
+      "owned_paths": ["scripts/verify-u6-drills.mjs"],
+      "depends_on": ["agent-a", "agent-b"],
+      "wave": 2,
+      "timeout": 300
+    }
+  ]
+}
