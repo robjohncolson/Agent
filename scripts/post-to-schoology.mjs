@@ -34,6 +34,7 @@ import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/pa
 import { getLesson, updateStatus, updateUrl, updateSchoologyLink, updateSchoologyMaterial, setSchoologyState } from "./lib/lesson-registry.mjs";
 import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 import { COURSE_IDS } from './lib/schoology-dom.mjs';
+import { resolveFolderPath } from './lib/resolve-folder-path.mjs';
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
@@ -636,14 +637,23 @@ async function main() {
     return;
   }
 
-  // Root-posting guard: refuse to post if no folder destination is specified
+  // Root-posting guard: refuse to post if no folder destination can be determined
   const hasFolderDest = opts.createFolder || opts.targetFolder || opts.folderPath || opts.heal;
   if (!hasFolderDest) {
-    console.error('\nERROR: No folder destination specified. Materials would post to Schoology root.');
-    console.error('  Use --folder-path, --target-folder, or --create-folder.');
-    console.error('  Or run via lesson-prep.mjs which resolves folders automatically.');
-    console.error('  Use --heal to fix previously-posted root materials.');
-    process.exit(1);
+    // Try auto-resolving from topic schedule before giving up
+    let canAutoResolve = false;
+    try {
+      resolveFolderPath(unit, lesson, { period: 'B' });
+      canAutoResolve = true;
+    } catch { /* no schedule entry */ }
+
+    if (!canAutoResolve) {
+      console.error('\nERROR: No folder destination specified. Materials would post to Schoology root.');
+      console.error('  Use --folder-path, --target-folder, or --create-folder.');
+      console.error('  Or add the topic to config/topic-schedule.json.');
+      console.error('  Or run via lesson-prep.mjs which resolves folders automatically.');
+      process.exit(1);
+    }
   }
 
   // Determine which courses to post to
@@ -675,6 +685,21 @@ async function main() {
   let successCount = 0;
   let failCount = 0;
 
+  // Per-course folder resolution: when posting to multiple courses, resolve
+  // folder path per-period since Period B and E have different schedules
+  let courseFolderPath = opts.folderPath;
+  let courseCreateFolder = opts.createFolder;
+  if (courseIds.length > 1 || (!opts.folderPath && !opts.targetFolder && !opts.heal)) {
+    try {
+      const folderInfo = resolveFolderPath(unit, lesson, { period: currentPeriod });
+      courseFolderPath = folderInfo.folderPath.join('::');
+      courseCreateFolder = folderInfo.dayTitle;
+      console.log(`  Folder resolved for Period ${currentPeriod}: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
+    } catch (err) {
+      console.warn(`  WARNING: Could not resolve folder for Period ${currentPeriod}: ${err.message}`);
+    }
+  }
+
   // Determine the materials page URL (root, or folder if creating one)
   let materialsUrl = currentRootMaterialsUrl;
 
@@ -702,24 +727,26 @@ async function main() {
   if (opts.targetFolder) {
     materialsUrl = opts.targetFolder;
     console.log(`  Using existing folder: ${materialsUrl}`);
-  } else if (opts.folderPath) {
+  } else if (courseFolderPath) {
     try {
       const { navigatePath, materialsUrl: buildMaterialsUrl } = await import('./lib/schoology-dom.mjs');
-      const pathSegments = opts.folderPath.split('/').map(s => s.trim()).filter(Boolean);
+      // Split on :: (pipe separator) to preserve folder names containing "/"
+      // e.g., "work-ahead/future::Week 26" → ["work-ahead/future", "Week 26"]
+      const pathSegments = courseFolderPath.split('::').map(s => s.trim()).filter(Boolean);
       console.log(`  Navigating folder path: ${pathSegments.join(' → ')}`);
       const parentFolderId = await navigatePath(page, currentCourseId, pathSegments, { createMissing: true });
       const parentUrl = buildMaterialsUrl(currentCourseId, parentFolderId);
 
       // If --create-folder is also specified, create the day folder inside the resolved parent
-      if (opts.createFolder) {
-        await createFolder(page, opts.createFolder, opts.folderDesc, parentUrl);
-        materialsUrl = await extractFolderUrl(page, opts.createFolder, parentUrl);
+      if (courseCreateFolder) {
+        await createFolder(page, courseCreateFolder, opts.folderDesc, parentUrl);
+        materialsUrl = await extractFolderUrl(page, courseCreateFolder, parentUrl);
         updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
         const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
         setSchoologyState(unit, lesson, {
           folderId: folderIdMatch ? folderIdMatch[1] : null,
-          folderPath: [...pathSegments, opts.createFolder],
-          folderTitle: opts.createFolder,
+          folderPath: [...pathSegments, courseCreateFolder],
+          folderTitle: courseCreateFolder,
           verifiedAt: null,
           reconciledAt: null,
           materials: {},
@@ -745,18 +772,16 @@ async function main() {
       console.error("  Falling back to posting links at top level.");
       failCount++;
     }
-  } else if (opts.createFolder) {
+  } else if (courseCreateFolder) {
     try {
-      await createFolder(page, opts.createFolder, opts.folderDesc, currentRootMaterialsUrl);
-      // Extract folder ID from DOM and build the scoped URL (?f=ID)
-      materialsUrl = await extractFolderUrl(page, opts.createFolder, currentRootMaterialsUrl);
-      // Persist the folder URL to the registry
+      await createFolder(page, courseCreateFolder, opts.folderDesc, currentRootMaterialsUrl);
+      materialsUrl = await extractFolderUrl(page, courseCreateFolder, currentRootMaterialsUrl);
       updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
       const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
       setSchoologyState(unit, lesson, {
         folderId: folderIdMatch ? folderIdMatch[1] : null,
-        folderPath: [opts.createFolder],
-        folderTitle: opts.createFolder,
+        folderPath: [courseCreateFolder],
+        folderTitle: courseCreateFolder,
         verifiedAt: null,
         reconciledAt: null,
         materials: {},

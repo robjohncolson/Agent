@@ -1335,7 +1335,7 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
       ? determineSchoolWeek(calendarContext.date)
       : null;
     if (weekInfo) {
-      args.push(`--folder-path "${weekInfo.folderPath}"`);
+      args.push(`--folder-path "${weekInfo.folderPath.replace(/\//g, '::')}"`);
       console.log(`  Folder path: ${weekInfo.folderPath} (${weekInfo.quarter}, week ${weekInfo.weekNum})`);
     }
     args.push(`--create-folder "${calendarContext.folderTitle}"`);
@@ -1351,9 +1351,9 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   else {
     try {
       const folderInfo = resolveFolderPath(unit, lesson);
-      args.push(`--folder-path "${folderInfo.folderPath.join('/')}"`);
+      args.push(`--folder-path "${folderInfo.folderPath.join('::')}"`);
       args.push(`--create-folder "${folderInfo.dayTitle}"`);
-      console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join('/')} / ${folderInfo.dayTitle}`);
+      console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
       if (folderInfo.isFuture) {
         console.log(`  (future lesson — routing to work-ahead/future)`);
       }
@@ -1770,7 +1770,7 @@ async function main() {
       }
       if (calendarContext.date) {
         const weekInfo = determineSchoolWeek(calendarContext.date);
-        if (weekInfo) context.set('folder_path', weekInfo.folderPath);
+        if (weekInfo) context.set('folder_path', weekInfo.folderPath.replace(/\//g, '::'));
       }
     }
 
@@ -1780,9 +1780,9 @@ async function main() {
         const folderInfo = resolveFolderPath(unit, lesson, {
           date: opts.targetDate || null,
         });
-        context.set('folder_path', folderInfo.folderPath.join('/'));
+        context.set('folder_path', folderInfo.folderPath.join('::'));
         context.set('folder_title', folderInfo.dayTitle);
-        console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join('/')} / ${folderInfo.dayTitle}`);
+        console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
         if (folderInfo.isFuture) {
           console.log(`  (future lesson — routing to work-ahead/future)`);
         }

@@ -80,11 +80,21 @@ export function formatDayTitle(dateStr) {
 
 /**
  * Load the topic schedule from config/topic-schedule.json.
+ * Schedule is period-aware: { "B": { "7.3": "2026-03-23" }, "E": { "7.3": "2026-03-27" } }
+ * Falls back to flat format { "7.3": "2026-03-23" } for backward compat.
+ *
+ * @param {string} [period] - "B" or "E" (defaults to "B")
  * @returns {Record<string, string>} topic → ISO date
  */
-function loadSchedule() {
+function loadSchedule(period = "B") {
   try {
-    return JSON.parse(readFileSync(SCHEDULE_PATH, "utf-8"));
+    const raw = JSON.parse(readFileSync(SCHEDULE_PATH, "utf-8"));
+    // Period-aware format: { "B": {...}, "E": {...} }
+    if (raw.B || raw.E) {
+      return raw[period] || raw.B || {};
+    }
+    // Flat format (legacy): { "7.3": "2026-03-23" }
+    return raw;
   } catch {
     return {};
   }
@@ -111,17 +121,19 @@ function loadRegistryDate(unit, lesson) {
  * @param {number} lesson
  * @param {object} [options]
  * @param {string} [options.date] - Explicit date override (YYYY-MM-DD)
+ * @param {string} [options.period] - "B" or "E" (defaults to "B")
  * @returns {{ folderPath: string[], dayTitle: string, isFuture: boolean, weekNum: number, quarter: string, date: string }}
  * @throws {Error} if no date can be resolved
  */
 export function resolveFolderPath(unit, lesson, options = {}) {
   const topicKey = `${unit}.${lesson}`;
+  const period = options.period || "B";
 
   // Step 1: Resolve date (priority: explicit > schedule > registry).
   let date = options.date || null;
 
   if (!date) {
-    const schedule = loadSchedule();
+    const schedule = loadSchedule(period);
     date = schedule[topicKey] || null;
   }
 
