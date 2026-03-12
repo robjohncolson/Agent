@@ -62,6 +62,7 @@ import {
   DOWNSTREAM_REPOS,
 } from "./lib/paths.mjs";
 import { runPipeline } from "./lib/task-runner.mjs";
+import { resolveFolderPath, determineSchoolWeek as sharedDetermineSchoolWeek } from './lib/resolve-folder-path.mjs';
 
 
 
@@ -192,43 +193,10 @@ const CALENDAR_BASE_URL = "https://robjohncolson.github.io/apstats-live-workshee
 
 /**
  * Determine the Schoology quarter folder and week number for a given date.
- * Uses known anchor: week 23 = Monday Mar 2, 2026 (inside Q3).
- * Returns { quarter: "Q3", weekNum: 24, folderPath: "Q3/week 24" } or null.
+ * Delegates to shared resolve-folder-path.mjs module.
  */
 function determineSchoolWeek(targetDate) {
-  if (!targetDate) return null;
-  const [y, m, d] = targetDate.split("-").map(Number);
-  const target = new Date(y, m - 1, d);
-
-  // Get Monday of target week
-  const dow = target.getDay(); // 0=Sun
-  const targetMonday = new Date(target);
-  targetMonday.setDate(target.getDate() - ((dow + 6) % 7));
-  targetMonday.setHours(0, 0, 0, 0);
-
-  // Known anchor: week 23 starts Monday March 2, 2026
-  const anchorMonday = new Date(2026, 2, 2); // Mar 2, 2026
-  anchorMonday.setHours(0, 0, 0, 0);
-  const anchorWeek = 23;
-
-  const msDiff = targetMonday.getTime() - anchorMonday.getTime();
-  const weekDiff = Math.round(msDiff / (7 * 24 * 60 * 60 * 1000));
-  const weekNum = anchorWeek + weekDiff;
-
-  // Determine quarter from approximate week ranges
-  // S1: weeks 1-20, Q3: weeks 21-30, S2/Q4: weeks 31+
-  let quarter;
-  if (weekNum <= 20) quarter = "S2";
-  else if (weekNum <= 30) quarter = "Q3";
-  else quarter = "Q4";
-
-  if (weekNum < 1) return null;
-
-  return {
-    quarter,
-    weekNum,
-    folderPath: `${quarter}/week ${weekNum}`,
-  };
+  return sharedDetermineSchoolWeek(targetDate);
 }
 
 /**
@@ -1361,7 +1329,7 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   if (regEntry?.urls?.schoologyFolder) {
     args.push(`--target-folder "${regEntry.urls.schoologyFolder}"`);
   }
-  // Navigate into quarter/week hierarchy, create day folder inside
+  // Use calendar context if available (from --auto mode)
   else if (calendarContext && calendarContext.folderTitle) {
     const weekInfo = calendarContext.date
       ? determineSchoolWeek(calendarContext.date)
@@ -1372,12 +1340,26 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
     }
     args.push(`--create-folder "${calendarContext.folderTitle}"`);
     if (calendarContext.folderDesc) {
-      // Escape newlines and quotes for shell transport
       const desc = calendarContext.folderDesc
         .replace(/\\/g, '\\\\')
         .replace(/"/g, '\\"')
         .replace(/\n/g, '\\n');
       args.push(`--folder-desc "${desc}"`);
+    }
+  }
+  // Fallback: resolve folder from topic schedule (works without --auto)
+  else {
+    try {
+      const folderInfo = resolveFolderPath(unit, lesson);
+      args.push(`--folder-path "${folderInfo.folderPath.join('/')}"`);
+      args.push(`--create-folder "${folderInfo.dayTitle}"`);
+      console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join('/')} / ${folderInfo.dayTitle}`);
+      if (folderInfo.isFuture) {
+        console.log(`  (future lesson — routing to work-ahead/future)`);
+      }
+    } catch (err) {
+      console.warn(`  WARNING: Could not resolve folder: ${err.message}`);
+      console.warn(`  Links will post to root unless --no-folder is set.`);
     }
   }
 
@@ -1789,6 +1771,23 @@ async function main() {
       if (calendarContext.date) {
         const weekInfo = determineSchoolWeek(calendarContext.date);
         if (weekInfo) context.set('folder_path', weekInfo.folderPath);
+      }
+    }
+
+    // Fallback: resolve folder from topic schedule when no calendar context
+    if (!calendarContext || !calendarContext.folderTitle) {
+      try {
+        const folderInfo = resolveFolderPath(unit, lesson, {
+          date: opts.targetDate || null,
+        });
+        context.set('folder_path', folderInfo.folderPath.join('/'));
+        context.set('folder_title', folderInfo.dayTitle);
+        console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join('/')} / ${folderInfo.dayTitle}`);
+        if (folderInfo.isFuture) {
+          console.log(`  (future lesson — routing to work-ahead/future)`);
+        }
+      } catch (err) {
+        console.warn(`  WARNING: Could not resolve folder: ${err.message}`);
       }
     }
 

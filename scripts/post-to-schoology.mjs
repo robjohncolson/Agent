@@ -83,6 +83,7 @@ function parseArgs(argv) {
   let targetFolder = null;
   let folderPath = null;
   let heal = false;
+  let courses = null;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -125,6 +126,8 @@ function parseArgs(argv) {
       folderPath = args[++i];
     } else if (arg === "--heal") {
       heal = true;
+    } else if (arg === "--courses") {
+      courses = args[++i];
     }
   }
 
@@ -150,12 +153,13 @@ function parseArgs(argv) {
         "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n" +
         "  --target-folder   Post into an existing folder URL (skip folder creation)\n" +
         "  --folder-path     Navigate into nested folder hierarchy (e.g. \"Q3/week 24\"), create missing folders\n" +
-        "  --heal            Heal mode: audit folder, post only missing links, verify\n"
+        "  --heal            Heal mode: audit folder, post only missing links, verify\n" +
+        "  --courses         Comma-separated course IDs to post to all (e.g. '7945275782,7945275798')\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder, folderPath, heal };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder, folderPath, heal, courses };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -478,11 +482,8 @@ async function main() {
   }
 
   const { unit, lesson, courseId, dryRun, autoUrls } = opts;
-  const period = detectPeriod(courseId);
-  const folderUrlKey = period === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
   let blooketUrl = opts.blooketUrl;
   const titles = buildLinkTitles(unit, lesson);
-  const rootMaterialsUrl = `${CONFIG.baseUrl}/course/${courseId}/materials`;
 
   // Build the list of links to post
   let links = [];
@@ -635,32 +636,64 @@ async function main() {
     return;
   }
 
-  // Connect to browser via CDP
+  // Root-posting guard: refuse to post if no folder destination is specified
+  const hasFolderDest = opts.createFolder || opts.targetFolder || opts.folderPath || opts.heal;
+  if (!hasFolderDest) {
+    console.error('\nERROR: No folder destination specified. Materials would post to Schoology root.');
+    console.error('  Use --folder-path, --target-folder, or --create-folder.');
+    console.error('  Or run via lesson-prep.mjs which resolves folders automatically.');
+    console.error('  Use --heal to fix previously-posted root materials.');
+    process.exit(1);
+  }
+
+  // Determine which courses to post to
+  const courseIds = opts.courses
+    ? opts.courses.split(',').map(c => c.trim()).filter(Boolean)
+    : [opts.courseId];
+
+  // Connect to browser via CDP (once, shared across courses)
   console.log(`Connecting to browser via CDP...`);
   const { browser, page } = await connectCDP(chromium, { preferUrl: "schoology.com" });
+
+  let totalSuccess = 0;
+  let totalFail = 0;
+
+  for (const currentCourseId of courseIds) {
+  const currentPeriod = detectPeriod(currentCourseId);
+  const currentFolderUrlKey = currentPeriod === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
+  const currentRootMaterialsUrl = `${CONFIG.baseUrl}/course/${currentCourseId}/materials`;
+
+  if (courseIds.length > 1) {
+    console.log(`\n${"=".repeat(50)}`);
+    console.log(`  Posting to Period ${currentPeriod} (course ${currentCourseId})`);
+    console.log("=".repeat(50));
+  }
+
+  // Reset per-course links (clone from master list)
+  let courseLinks = links.map(l => ({ ...l }));
 
   let successCount = 0;
   let failCount = 0;
 
   // Determine the materials page URL (root, or folder if creating one)
-  let materialsUrl = rootMaterialsUrl;
+  let materialsUrl = currentRootMaterialsUrl;
 
   // --heal mode: determine materialsUrl from registry if not explicit
   if (opts.heal && !opts.targetFolder) {
     const regEntry = getLesson(unit, lesson);
-    if (regEntry?.urls?.[folderUrlKey]) {
-      materialsUrl = regEntry.urls[folderUrlKey];
+    if (regEntry?.urls?.[currentFolderUrlKey]) {
+      materialsUrl = regEntry.urls[currentFolderUrlKey];
       console.log(`  [heal] Using folder from registry: ${materialsUrl}`);
     }
   }
 
   // --heal mode: DOM discovery fallback when registry had no folder URL
-  if (opts.heal && materialsUrl === rootMaterialsUrl && !opts.targetFolder) {
+  if (opts.heal && materialsUrl === currentRootMaterialsUrl && !opts.targetFolder) {
     console.log(`  [heal] No folder in registry — scanning Schoology folders...`);
-    const discovered = await discoverLessonFolder(page, unit, lesson, rootMaterialsUrl);
+    const discovered = await discoverLessonFolder(page, unit, lesson, currentRootMaterialsUrl);
     if (discovered) {
       materialsUrl = discovered.folderUrl;
-      updateUrl(unit, lesson, folderUrlKey, discovered.folderUrl);
+      updateUrl(unit, lesson, currentFolderUrlKey, discovered.folderUrl);
       console.log(`  [heal] Discovered folder: "${discovered.folderTitle}" → ${discovered.folderUrl}`);
     }
   }
@@ -674,14 +707,14 @@ async function main() {
       const { navigatePath, materialsUrl: buildMaterialsUrl } = await import('./lib/schoology-dom.mjs');
       const pathSegments = opts.folderPath.split('/').map(s => s.trim()).filter(Boolean);
       console.log(`  Navigating folder path: ${pathSegments.join(' → ')}`);
-      const parentFolderId = await navigatePath(page, courseId, pathSegments, { createMissing: true });
-      const parentUrl = buildMaterialsUrl(courseId, parentFolderId);
+      const parentFolderId = await navigatePath(page, currentCourseId, pathSegments, { createMissing: true });
+      const parentUrl = buildMaterialsUrl(currentCourseId, parentFolderId);
 
       // If --create-folder is also specified, create the day folder inside the resolved parent
       if (opts.createFolder) {
         await createFolder(page, opts.createFolder, opts.folderDesc, parentUrl);
         materialsUrl = await extractFolderUrl(page, opts.createFolder, parentUrl);
-        updateUrl(unit, lesson, folderUrlKey, materialsUrl);
+        updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
         const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
         setSchoologyState(unit, lesson, {
           folderId: folderIdMatch ? folderIdMatch[1] : null,
@@ -690,12 +723,12 @@ async function main() {
           verifiedAt: null,
           reconciledAt: null,
           materials: {},
-        }, period);
+        }, currentPeriod);
         console.log(`  Day folder created inside path: ${materialsUrl}`);
       } else {
         // Post directly into the resolved parent folder
         materialsUrl = parentUrl;
-        updateUrl(unit, lesson, folderUrlKey, materialsUrl);
+        updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
         const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
         setSchoologyState(unit, lesson, {
           folderId: folderIdMatch ? folderIdMatch[1] : null,
@@ -704,7 +737,7 @@ async function main() {
           verifiedAt: null,
           reconciledAt: null,
           materials: {},
-        }, period);
+        }, currentPeriod);
         console.log(`  Posting into: ${materialsUrl}`);
       }
     } catch (err) {
@@ -714,11 +747,11 @@ async function main() {
     }
   } else if (opts.createFolder) {
     try {
-      await createFolder(page, opts.createFolder, opts.folderDesc, rootMaterialsUrl);
+      await createFolder(page, opts.createFolder, opts.folderDesc, currentRootMaterialsUrl);
       // Extract folder ID from DOM and build the scoped URL (?f=ID)
-      materialsUrl = await extractFolderUrl(page, opts.createFolder, rootMaterialsUrl);
+      materialsUrl = await extractFolderUrl(page, opts.createFolder, currentRootMaterialsUrl);
       // Persist the folder URL to the registry
-      updateUrl(unit, lesson, folderUrlKey, materialsUrl);
+      updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
       const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
       setSchoologyState(unit, lesson, {
         folderId: folderIdMatch ? folderIdMatch[1] : null,
@@ -727,7 +760,7 @@ async function main() {
         verifiedAt: null,
         reconciledAt: null,
         materials: {},
-      }, period);
+      }, currentPeriod);
       console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);
@@ -737,11 +770,11 @@ async function main() {
   }
 
   // --heal mode: audit folder and filter out existing links
-  if (opts.heal && materialsUrl === rootMaterialsUrl) {
+  if (opts.heal && materialsUrl === currentRootMaterialsUrl) {
     console.warn(`  [heal] ⚠ No folder found for ${unit}.${lesson}. Use --create-folder or --target-folder.`);
-  } else if (opts.heal && materialsUrl !== rootMaterialsUrl) {
+  } else if (opts.heal && materialsUrl !== currentRootMaterialsUrl) {
     console.log(`\n[heal] Auditing Schoology folder...`);
-    const expectedLinks = links.length > 0 ? links : buildExpectedLinks(unit, lesson, { blooketUrl });
+    const expectedLinks = courseLinks.length > 0 ? courseLinks : buildExpectedLinks(unit, lesson, { blooketUrl });
     const audit = await auditSchoologyFolder(page, materialsUrl, expectedLinks);
 
     console.log(`  Found ${audit.existing.length} existing link(s) in folder`);
@@ -759,42 +792,34 @@ async function main() {
     }
 
     // Replace links array with only the missing ones
-    links = audit.missing;
+    courseLinks = audit.missing;
 
-    if (links.length === 0) {
+    if (courseLinks.length === 0) {
       console.log(`\n[heal] All links already present. Nothing to post.`);
-      // Update overall status
       updateStatus(unit, lesson, "schoology", "done");
-      if (browser) await browser.close();
-      return;
+      totalSuccess += successCount;
+      totalFail += failCount;
+      continue; // next course
     }
 
-    console.log(`\n[heal] Will post ${links.length} missing link(s):`);
-    for (const link of links) {
+    console.log(`\n[heal] Will post ${courseLinks.length} missing link(s):`);
+    for (const link of courseLinks) {
       console.log(`  [${link.key}] "${link.title}"`);
     }
     console.log();
 
     // --heal mode: scan root for orphaned links and delete them
     console.log(`\n[heal] Scanning root for orphaned links...`);
-    const orphans = await findOrphanedLinks(page, unit, lesson, rootMaterialsUrl);
+    const orphans = await findOrphanedLinks(page, unit, lesson, currentRootMaterialsUrl);
 
     if (orphans.length > 0) {
       console.log(`  Found ${orphans.length} orphan(s) at root level:`);
-
-      // Build set of titles that are safe to delete:
-      // - already confirmed in folder (audit.matched)
-      // - will be posted to folder (audit.missing / links)
-      const safeTitles = new Set([
-        ...audit.matched.map((m) => m.title.toLowerCase().trim()),
-        ...links.map((l) => l.title.toLowerCase().trim()),
-      ]);
 
       let deletedCount = 0;
       for (const orphan of orphans) {
         const orphanLower = orphan.title.toLowerCase().trim();
         const inFolder = audit.matched.some((m) => m.title.toLowerCase().trim() === orphanLower);
-        const willPost = links.some((l) => l.title.toLowerCase().trim() === orphanLower);
+        const willPost = courseLinks.some((l) => l.title.toLowerCase().trim() === orphanLower);
 
         if (!inFolder && !willPost) {
           console.log(`    [orphan] "${orphan.title}" (${orphan.linkViewId}) — no folder copy, skipping`);
@@ -804,8 +829,7 @@ async function main() {
         const reason = inFolder ? "already in folder" : "will be posted to folder";
         console.log(`    [orphan] "${orphan.title}" (${orphan.linkViewId}) — ${reason}, deleting`);
 
-        // Navigate back to root for deletion
-        await page.goto(rootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+        await page.goto(currentRootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
         await page.waitForTimeout(2000);
 
         const result = await deleteSchoologyLink(page, orphan.linkViewId);
@@ -825,9 +849,9 @@ async function main() {
   }
 
   // Post each link (inside folder if we navigated into one, else at top level)
-  for (let i = 0; i < links.length; i++) {
-    const link = links[i];
-    console.log(`\n[${i + 1}/${links.length}] Posting: ${link.title}`);
+  for (let i = 0; i < courseLinks.length; i++) {
+    const link = courseLinks[i];
+    console.log(`\n[${i + 1}/${courseLinks.length}] Posting: ${link.title}`);
     console.log(`  URL: ${link.url}`);
 
     try {
@@ -861,12 +885,11 @@ async function main() {
         postedAt: new Date().toISOString(),
         verified: verifiedOk,
         status: "done",
-      }, period);
+      }, currentPeriod);
     } catch (err) {
       console.error(`  FAILED: ${err.message}`);
       failCount++;
 
-      // --heal mode: record failure in per-link registry
       if (opts.heal) {
         updateSchoologyLink(unit, lesson, link.key, {
           status: "failed",
@@ -876,17 +899,16 @@ async function main() {
         });
       }
 
-      // Store material failure in unified schoology registry
       updateSchoologyMaterial(unit, lesson, link.key, {
         targetUrl: link.url,
         status: "failed",
         error: err.message,
         attemptedAt: new Date().toISOString(),
-      }, period);
+      }, currentPeriod);
     }
 
     // Delay between posts to avoid overwhelming Schoology
-    if (i < links.length - 1) {
+    if (i < courseLinks.length - 1) {
       console.log("  Waiting 3 seconds before next post...");
       await page.waitForTimeout(3000);
     }
@@ -897,17 +919,14 @@ async function main() {
     const calTitle = opts.calendarTitle || "Weekly Calendar";
     console.log(`\nChecking for existing calendar link: "${calTitle}"...`);
 
-    // Navigate to root materials and check for a link with matching title
-    await page.goto(rootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.goto(currentRootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
     await page.waitForTimeout(2000);
 
     const alreadyExists = await page.evaluate((title) => {
-      // Material links appear as anchors inside material rows
       const links = document.querySelectorAll('.material-row a, .item-title a, a.sExtlink-processed, td.item-title a');
       for (const a of links) {
         if (a.textContent.trim() === title) return true;
       }
-      // Also check plain text content in material rows
       const rows = document.querySelectorAll('.material-row, tr[id^="s-"]');
       for (const row of rows) {
         if (row.textContent.includes(title)) return true;
@@ -920,7 +939,7 @@ async function main() {
     } else {
       console.log(`  Posting calendar link at top level: "${calTitle}"`);
       try {
-        await postLink(page, opts.calendarLink, calTitle, rootMaterialsUrl);
+        await postLink(page, opts.calendarLink, calTitle, currentRootMaterialsUrl);
         console.log(`  SUCCESS: Calendar link posted.`);
         successCount++;
       } catch (err) {
@@ -930,14 +949,19 @@ async function main() {
     }
   }
 
-  // Summary
-  console.log(`\n${"=".repeat(50)}`);
-  console.log(`Done. ${successCount} posted, ${failCount} failed.`);
-  console.log("=".repeat(50));
-
   if (failCount === 0) {
     updateStatus(unit, lesson, "schoology", "done");
   }
+
+  totalSuccess += successCount;
+  totalFail += failCount;
+
+  } // end course loop
+
+  // Summary
+  console.log(`\n${"=".repeat(50)}`);
+  console.log(`Done. ${totalSuccess} posted, ${totalFail} failed.`);
+  console.log("=".repeat(50));
 
   // Disconnect without closing the browser
   console.log("\nDisconnecting from browser (CDP). Your browser remains open.");
