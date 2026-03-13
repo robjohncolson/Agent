@@ -57,7 +57,6 @@ import {
   SCRIPTS,
   WORKING_DIRS,
   DRIVE_VIDEO_INDEX_PATH,
-  CALENDAR_DIR,
   WORKSHEET_REPO,
   DOWNSTREAM_REPOS,
 } from "./lib/paths.mjs";
@@ -189,7 +188,6 @@ function canResume(registryEntry, stepKey, artifactPath, force, forceSteps) {
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 
-const CALENDAR_BASE_URL = "https://robjohncolson.github.io/apstats-live-worksheet";
 
 /**
  * Determine the Schoology quarter folder and week number for a given date.
@@ -204,51 +202,6 @@ function determineSchoolWeek(targetDate) {
  */
 function scriptExists(path) {
   return existsSync(path);
-}
-
-/**
- * Find the calendar HTML file URL for a given date.
- * Scans calendar files matching week*calendar*.html and checks for the target date.
- */
-function findCalendarUrl(targetDate, monthAbbr, dayNum) {
-  // Strategy: construct filename from the Monday of the target week
-  // Files are named like week_mar9_calendar.html where mar9 is the Monday's date
-  if (monthAbbr && dayNum) {
-    let d;
-    if (targetDate) {
-      const [y, m, day] = targetDate.split("-").map(Number);
-      d = new Date(y, m - 1, day);
-    } else {
-      d = new Date();
-      d.setDate(d.getDate() + 1); // tomorrow
-    }
-    const dow = d.getDay(); // 0=Sun
-    const monday = new Date(d);
-    monday.setDate(d.getDate() - (dow === 0 ? 6 : dow - 1));
-
-    const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-    const monStr = months[monday.getMonth()];
-    const monDay = monday.getDate();
-    const filename = `week_${monStr}${monDay}_calendar.html`;
-
-    if (existsSync(`${CALENDAR_DIR}/${filename}`)) {
-      return `${CALENDAR_BASE_URL}/${filename}`;
-    }
-  }
-
-  // Fallback: find the most recently modified calendar file
-  try {
-    const files = readdirSync(CALENDAR_DIR);
-    const calendars = files
-      .filter((f) => /^week.*calendar.*\.html$/i.test(f))
-      .sort()
-      .reverse();
-    if (calendars.length > 0) {
-      return `${CALENDAR_BASE_URL}/${calendars[0]}`;
-    }
-  } catch { /* no calendar files found */ }
-
-  return null;
 }
 
 /**
@@ -339,12 +292,8 @@ function step0_detectFromCalendar(targetDate) {
     folderTitle = `${dayName} ${monthNum}/${dayNum}/${year}`;
   }
 
-  // Find calendar file URL
-  const calendarUrl = findCalendarUrl(targetDate, monthAbbr, dayNum);
-
   console.log(`Detected: Unit ${unit}, Lesson ${lesson}`);
   if (folderTitle) console.log(`Folder: "${folderTitle}"`);
-  if (calendarUrl) console.log(`Calendar: ${calendarUrl}`);
   console.log();
 
   // Compute ISO date string for downstream use (quarter/week detection)
@@ -357,7 +306,7 @@ function step0_detectFromCalendar(targetDate) {
     isoDate = `${yr}-${monthMap2[monthAbbr] || '01'}-${String(dayNum).padStart(2, '0')}`;
   }
 
-  return { unit, lesson, folderTitle, folderDesc, calendarUrl, date: isoDate };
+  return { unit, lesson, folderTitle, folderDesc, date: isoDate };
 }
 
 // ── Step 0.5: Drive video lookup ─────────────────────────────────────────────
@@ -1363,14 +1312,7 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
     }
   }
 
-  // Calendar link at top level
-  if (calendarContext && calendarContext.calendarUrl) {
-    args.push(`--calendar-link "${calendarContext.calendarUrl}"`);
-    // Compute week number from calendar URL filename for title
-    const weekMatch = calendarContext.calendarUrl.match(/week[_]?(\w+)_calendar/);
-    const calTitle = weekMatch ? `Week Calendar (${weekMatch[1]})` : "Weekly Calendar";
-    args.push(`--calendar-title "${calTitle}"`);
-  }
+  // Calendar link deprecated — replaced by ap_stats_roadmap.html
 
   const postSpinner = createSpinner("Posting to Schoology");
   try {
@@ -1693,7 +1635,6 @@ async function main() {
       calendarContext = {
         folderTitle: detected.folderTitle,
         folderDesc: detected.folderDesc,
-        calendarUrl: detected.calendarUrl,
         date: resolvedDate,
       };
     }
@@ -1763,11 +1704,7 @@ async function main() {
       if (calendarContext.folderDesc) {
         context.set('folder_desc', calendarContext.folderDesc.replace(/\n/g, '\\n'));
       }
-      if (calendarContext.calendarUrl) {
-        context.set('calendar_url', calendarContext.calendarUrl);
-        const weekMatch = calendarContext.calendarUrl.match(/week[_]?(\w+)_calendar/);
-        context.set('calendar_title', weekMatch ? `Week Calendar (${weekMatch[1]})` : 'Weekly Calendar');
-      }
+      // Calendar URL deprecated — replaced by ap_stats_roadmap.html
       if (calendarContext.date) {
         const weekInfo = determineSchoolWeek(calendarContext.date);
         if (weekInfo) context.set('folder_path', weekInfo.folderPath.replace(/\//g, '::'));

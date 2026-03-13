@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-03-11T03:05:45.779Z",
+  "lastRun": "2026-03-11T04:21:02.351Z",
   "repairs": [
     {
       "materialId": "8289741848",
@@ -264,6 +264,121 @@
       "status": "skipped",
       "reason": "Could not determine lesson from title",
       "timestamp": "2026-03-11T03:05:45.779Z"
+    },
+    {
+      "materialId": "8289741848",
+      "title": "Topic 6.4 — Follow-Along Worksheet",
+      "lesson": "6.4",
+      "fromFolder": "__root__",
+      "toFolder": "987073401",
+      "toFolderPath": [
+        "Q3",
+        "week 24",
+        "Wednesday 3/11/26"
+      ],
+      "status": "moved",
+      "error": null,
+      "timestamp": "2026-03-11T04:21:17.355Z"
+    },
+    {
+      "materialId": "8289741944",
+      "title": "Topic 6.4 — Drills",
+      "lesson": "6.4",
+      "fromFolder": "__root__",
+      "toFolder": "987073401",
+      "toFolderPath": [
+        "Q3",
+        "week 24",
+        "Wednesday 3/11/26"
+      ],
+      "status": "moved",
+      "error": null,
+      "timestamp": "2026-03-11T04:21:33.012Z"
+    },
+    {
+      "materialId": "8289742019",
+      "title": "Quiz 6.3",
+      "lesson": "6.3",
+      "fromFolder": "__root__",
+      "toFolder": "985937488",
+      "toFolderPath": [
+        "Q3",
+        "week 23",
+        "Thursday 3/5/26"
+      ],
+      "status": "moved",
+      "error": null,
+      "timestamp": "2026-03-11T04:21:48.579Z"
+    },
+    {
+      "materialId": "8289742118",
+      "title": "Topic 6.4 — Blooket Review",
+      "lesson": "6.4",
+      "fromFolder": "__root__",
+      "toFolder": "987073401",
+      "toFolderPath": [
+        "Q3",
+        "week 24",
+        "Wednesday 3/11/26"
+      ],
+      "status": "moved",
+      "error": null,
+      "timestamp": "2026-03-11T04:22:04.286Z"
+    },
+    {
+      "materialId": "8285631546",
+      "title": "CALENDAR (now to end of year)",
+      "lesson": null,
+      "fromFolder": "__root__",
+      "toFolder": null,
+      "toFolderPath": null,
+      "status": "skipped",
+      "reason": "Could not determine lesson from title",
+      "timestamp": "2026-03-11T04:21:02.351Z"
+    },
+    {
+      "materialId": "8190047403",
+      "title": "Math Practice Website",
+      "lesson": null,
+      "fromFolder": "__root__",
+      "toFolder": null,
+      "toFolderPath": null,
+      "status": "skipped",
+      "reason": "Could not determine lesson from title",
+      "timestamp": "2026-03-11T04:21:02.351Z"
+    },
+    {
+      "materialId": "8030207900",
+      "title": "apStat Consensus-based quizzes!",
+      "lesson": null,
+      "fromFolder": "__root__",
+      "toFolder": null,
+      "toFolderPath": null,
+      "status": "skipped",
+      "reason": "Could not determine lesson from title",
+      "timestamp": "2026-03-11T04:21:02.351Z"
+    },
+    {
+      "materialId": "8046218933",
+      "title": "After School Help",
+      "lesson": null,
+      "fromFolder": "__root__",
+      "toFolder": null,
+      "toFolderPath": null,
+      "status": "skipped",
+      "reason": "Could not determine lesson from title",
+      "timestamp": "2026-03-11T04:21:02.351Z"
+    },
+    {
+      "materialId": "8289708015",
+      "title": "Week Calendar (mar9)",
+      "lesson": null,
+      "fromFolder": "__root__",
+      "toFolder": null,
+      "toFolderPath": null,
+      "status": "skipped",
+      "reason": "Could not determine lesson from title",
+      "timestamp": "2026-03-11T04:21:02.351Z"
     }
   ]
 }

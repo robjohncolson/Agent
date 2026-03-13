@@ -110,12 +110,24 @@ function lintAnimationFile(filepath) {
   return warnings;
 }
 
-// Render a single file
+// Render a single file — uses inline Python to set config.ffmpeg_executable
+// directly, because Manim CLI ignores manim.cfg on this system.
 function renderFile(filepath, qualityFlag, repo, env) {
+  const ffmpegExe = join(FFMPEG_DIR, "ffmpeg.exe").replace(/\\/g, "/");
+  const pyFile = filepath.replace(/\\/g, "/");
+  const inlineScript = [
+    "import sys",
+    `sys.argv = ['manim', 'render', '${qualityFlag}', '${pyFile}']`,
+    "from manim._config import config",
+    `config.ffmpeg_executable = '${ffmpegExe}'`,
+    "from manim.__main__ import main",
+    "main()",
+  ].join("; ");
+
   return new Promise((resolve) => {
     const proc = spawn(
       PYTHON,
-      ["-m", "manim", "render", qualityFlag, filepath],
+      ["-c", inlineScript],
       {
         cwd: repo,
         env,

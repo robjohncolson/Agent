@@ -5579,5 +5579,107 @@
       "created": "2026-03-13T03:28:25.177Z",
       "lastUpdated": "2026-03-13T12:48:46.401Z"
     }
+  },
+  "7.5": {
+    "unit": 7,
+    "lesson": 5,
+    "topic": "Topic 7.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson5_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=4",
+      "blooket": "https://dashboard.blooket.com/set/69b43541958376ccb014ba86",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987537901",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=987538858"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "failed",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {
+      "B": {
+        "folderId": "987537901",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 26",
+          "Thursday 3/26/26"
+        ],
+        "folderTitle": "Thursday 3/26/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.5 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/6vq538ni85?sui=33,7",
+            "postedAt": "2026-03-13T16:20:06.102Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ee4c7bffa39f"
+          }
+        }
+      },
+      "E": {
+        "folderId": "987538858",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 27",
+          "Wednesday 4/1/26"
+        ],
+        "folderTitle": "Wednesday 4/1/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.5 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/6vq538ni85?sui=33,7",
+            "postedAt": "2026-03-13T16:20:50.259Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ee4c7bffa39f"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 7.5 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/pc2evx8bvr?sui=33,7",
+            "postedAt": "2026-03-13T16:21:05.237Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "34cfb550f52b"
+          },
+          "video3": {
+            "schoologyId": null,
+            "title": "Topic 7.5 — AP Classroom Video 3",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/n1c6957pbw?sui=33,7",
+            "postedAt": "2026-03-13T16:21:20.259Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "62d4b8571984"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-13T14:31:01.328Z",
+      "lastUpdated": "2026-03-13T16:21:20.268Z"
+    }
   }
 }

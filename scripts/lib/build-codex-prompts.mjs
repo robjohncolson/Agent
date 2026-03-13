@@ -234,7 +234,21 @@ ${buildFrameworkBlock(unit, lesson)}
 - Each rubric has: questionText, expectedElements (with id, description, required), scoringGuide
 - Follow the exact pattern from the previous lesson's grading file
 
-Write both files directly to disk in the current directory.`;
+### File Writing Strategy
+IMPORTANT: The HTML worksheet will be ~1300 lines. Do NOT use apply_patch to create it — it will fail on files this large.
+Instead, write each file using a shell command:
+\`\`\`bash
+cat > u${unit}_lesson${lesson}_live.html << 'HTMLEOF'
+...file content...
+HTMLEOF
+\`\`\`
+\`\`\`bash
+cat > ai-grading-prompts-u${unit}-l${lesson}.js << 'JSEOF'
+...file content...
+JSEOF
+\`\`\`
+If heredoc also fails, split the file into 2-3 shell writes using append (>>).
+Do NOT retry apply_patch more than once — switch to shell commands immediately.`;
 }
 
 export function buildBlooketPrompt(unit, lesson, videoContext, patternCSV) {

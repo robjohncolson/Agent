@@ -409,15 +409,59 @@
       "timestamp": "2026-03-13T01:02:32Z",
       "files_changed": [],
       "depth": 0
+    },
+    {
+      "call_id": "a6bf55d4c7e8",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent A \u2014 Foundation (theme + data-loader)\r\n\r\n## Task\r\nCreate two foundation modules for a `blesse",
+      "status": "timeout",
+      "duration_seconds": 150.056,
+      "timestamp": "2026-03-13T02:16:31Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "26ede15e1691",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent D \u2014 Work Queue Panel\r\n\r\n## Task\r\nCreate a blessed panel module for the work queue display in",
+      "status": "timeout",
+      "duration_seconds": 120.027,
+      "timestamp": "2026-03-13T02:19:03Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "3bad4cecc6bf",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent B \u2014 Pipeline Steps + Log Viewer Panels\r\n\r\n## Task\r\nCreate two blessed panel modules for the ",
+      "status": "timeout",
+      "duration_seconds": 150.036,
+      "timestamp": "2026-03-13T02:19:29Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "61eb85172770",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent C \u2014 Lesson Detail + Registry Overview Panels\r\n\r\n## Task\r\nCreate two blessed panel modules fo",
+      "status": "timeout",
+      "duration_seconds": 150.034,
+      "timestamp": "2026-03-13T02:19:31Z",
+      "files_changed": [],
+      "depth": 0
     }
   ],
   "summary": {
-    "total_calls": 35,
-    "cc_to_codex": 32,
+    "total_calls": 39,
+    "cc_to_codex": 36,
     "codex_to_cc": 3,
     "completed": 13,
-    "failed": 21,
+    "failed": 25,
     "refused": 1,
-    "avg_duration_seconds": 119.848
+    "avg_duration_seconds": 122.176
   }
 }

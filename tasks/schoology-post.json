@@ -14,8 +14,6 @@
     "folder-path": "{{folder_path}}",
     "create-folder": "{{folder_title}}",
     "folder-desc": "{{folder_desc}}",
-    "calendar-link": "{{calendar_url}}",
-    "calendar-title": "{{calendar_title}}",
     "target-folder": "{{schoologyFolder}}",
     "courses": "{{courses}}"
   },

@@ -78,8 +78,6 @@ function parseArgs(argv) {
   let createFolder = null;
   let folderDesc = null;
   let withVideos = false;
-  let calendarLink = null;
-  let calendarTitle = null;
   let noPrompt = false;
   let targetFolder = null;
   let folderPath = null;
@@ -115,10 +113,8 @@ function parseArgs(argv) {
       folderDesc = args[++i].replace(/\\n/g, '\n');
     } else if (arg === "--with-videos") {
       withVideos = true;
-    } else if (arg === "--calendar-link") {
-      calendarLink = args[++i];
-    } else if (arg === "--calendar-title") {
-      calendarTitle = args[++i];
+    } else if (arg === "--calendar-link" || arg === "--calendar-title") {
+      ++i; // skip deprecated arg value
     } else if (arg === "--no-prompt") {
       noPrompt = true;
     } else if (arg === "--target-folder") {
@@ -149,8 +145,6 @@ function parseArgs(argv) {
         "  --create-folder   Create a Schoology folder with this title, post links inside it\n" +
         "  --folder-desc     Description text for the folder\n" +
         "  --with-videos     Include AP Classroom video links from curriculum_render/data/units.js\n" +
-        "  --calendar-link   URL for calendar link (posted at top level, outside folder)\n" +
-        "  --calendar-title  Title for the calendar link\n" +
         "  --no-prompt       Skip interactive prompts (for automated/pipeline use)\n" +
         "  --target-folder   Post into an existing folder URL (skip folder creation)\n" +
         "  --folder-path     Navigate into nested folder hierarchy (e.g. \"Q3/week 24\"), create missing folders\n" +
@@ -160,7 +154,7 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, calendarLink, calendarTitle, noPrompt, targetFolder, folderPath, heal, courses };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, noPrompt, targetFolder, folderPath, heal, courses };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -607,7 +601,7 @@ async function main() {
   }
 
   if (autoUrls && opts.only) {
-    links = links.filter((link) => link.key === opts.only);
+    links = links.filter((link) => link.key === opts.only || link.key.startsWith(opts.only));
     if (links.length === 0) {
       console.error(`Error: --only "${opts.only}" but no matching link was generated.`);
       process.exit(1);
@@ -621,9 +615,6 @@ async function main() {
   if (opts.createFolder) {
     console.log(`Create folder: "${opts.createFolder}"`);
     if (opts.folderDesc) console.log(`  Description: ${opts.folderDesc.substring(0, 80)}...`);
-  }
-  if (opts.calendarLink) {
-    console.log(`Calendar link (top level): ${opts.calendarLink}`);
   }
   console.log(`\nLinks to post (${links.length}):`);
   for (const link of links) {
@@ -939,40 +930,7 @@ async function main() {
     }
   }
 
-  // Post calendar link at top level (outside folder) — skip if already exists
-  if (opts.calendarLink) {
-    const calTitle = opts.calendarTitle || "Weekly Calendar";
-    console.log(`\nChecking for existing calendar link: "${calTitle}"...`);
-
-    await page.goto(currentRootMaterialsUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
-    await page.waitForTimeout(2000);
-
-    const alreadyExists = await page.evaluate((title) => {
-      const links = document.querySelectorAll('.material-row a, .item-title a, a.sExtlink-processed, td.item-title a');
-      for (const a of links) {
-        if (a.textContent.trim() === title) return true;
-      }
-      const rows = document.querySelectorAll('.material-row, tr[id^="s-"]');
-      for (const row of rows) {
-        if (row.textContent.includes(title)) return true;
-      }
-      return false;
-    }, calTitle);
-
-    if (alreadyExists) {
-      console.log(`  SKIPPED: "${calTitle}" already exists on the materials page.`);
-    } else {
-      console.log(`  Posting calendar link at top level: "${calTitle}"`);
-      try {
-        await postLink(page, opts.calendarLink, calTitle, currentRootMaterialsUrl);
-        console.log(`  SUCCESS: Calendar link posted.`);
-        successCount++;
-      } catch (err) {
-        console.error(`  FAILED: ${err.message}`);
-        failCount++;
-      }
-    }
-  }
+  // Calendar link posting removed — replaced by ap_stats_roadmap.html
 
   if (failCount === 0) {
     updateStatus(unit, lesson, "schoology", "done");
