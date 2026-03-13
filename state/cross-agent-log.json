@@ -341,15 +341,83 @@
         "scripts/batch-copy-to-period-e.mjs"
       ],
       "depth": 0
+    },
+    {
+      "call_id": "dadf5799b9d9",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent B: resolve-folder-path.mjs\r\n\r\n## Overview\r\nCreate a new module that determines the correct S",
+      "status": "completed",
+      "duration_seconds": 90.787,
+      "timestamp": "2026-03-12T04:44:07Z",
+      "files_changed": [
+        "scripts/lib/resolve-folder-path.mjs"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "853d47156780",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent A: Topic Schedule + Builder Script\r\n\r\n## Overview\r\nCreate the topic-to-date schedule file an",
+      "status": "timeout",
+      "duration_seconds": 120.065,
+      "timestamp": "2026-03-12T04:44:35Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "aa246f3b9c33",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent A \u2014 Drill URL Truth Table\r\n\r\n## Task\r\n\r\nCreate `scripts/lib/drill-url-table.mjs` \u2014 a self-co",
+      "status": "timeout",
+      "duration_seconds": 90.032,
+      "timestamp": "2026-03-12T16:07:34Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "fbdfd88599d6",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent B \u2014 Drill Verification Report Formatter\r\n\r\n## Task\r\n\r\nCreate `scripts/lib/drill-verify-repor",
+      "status": "timeout",
+      "duration_seconds": 90.022,
+      "timestamp": "2026-03-12T16:07:35Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "8ea72d8a9996",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent A: Build Roadmap Data Script\r\n\r\n## Task\r\nCreate `scripts/build-roadmap-data.mjs` \u2014 a Node.js",
+      "status": "timeout",
+      "duration_seconds": 150.052,
+      "timestamp": "2026-03-12T22:35:44Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "f0716c1e050a",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent A \u2014 Build Script: Add Square Mode BAKED_REGISTRY Injection\r\n\r\n## Task\r\nModify `scripts/build",
+      "status": "timeout",
+      "duration_seconds": 90.135,
+      "timestamp": "2026-03-13T01:02:32Z",
+      "files_changed": [],
+      "depth": 0
     }
   ],
   "summary": {
-    "total_calls": 29,
-    "cc_to_codex": 26,
+    "total_calls": 35,
+    "cc_to_codex": 32,
     "codex_to_cc": 3,
-    "completed": 12,
-    "failed": 16,
+    "completed": 13,
+    "failed": 21,
     "refused": 1,
-    "avg_duration_seconds": 122.883
+    "avg_duration_seconds": 119.848
   }
 }

@@ -19,6 +19,7 @@ const REGISTRY_PATH = join(AGENT_ROOT, "state", "lesson-registry.json");
 const SCHEDULE_PATH = join(AGENT_ROOT, "config", "topic-schedule.json");
 const ROADMAP_JSON  = join(WORKSHEET_REPO, "roadmap-data.json");
 const ROADMAP_HTML  = join(WORKSHEET_REPO, "ap_stats_roadmap.html");
+const SQUARE_HTML   = join(WORKSHEET_REPO, "ap_stats_roadmap_square_mode.html");
 
 // ── Read inputs ─────────────────────────────────────────────────────────────
 
@@ -118,6 +119,23 @@ try {
     });
     writeFileSync(ROADMAP_HTML, html, "utf-8");
     console.log("Injected BAKED_REGISTRY into ap_stats_roadmap.html");
+  } else {
+    console.warn("WARNING: BAKED_REGISTRY placeholder not found in HTML — skipping injection");
+  }
+} catch (err) {
+  console.warn(`WARNING: Could not inject BAKED_REGISTRY: ${err.message}`);
+}
+
+try {
+  let html = readFileSync(SQUARE_HTML, "utf-8");
+  const pattern = /^(\s*)const BAKED_REGISTRY\s*=\s*\{[^;]*\};/m;
+
+  if (pattern.test(html)) {
+    html = html.replace(pattern, (match, indent) => {
+      return `${indent}const BAKED_REGISTRY = ${outputJson};`;
+    });
+    writeFileSync(SQUARE_HTML, html, "utf-8");
+    console.log("Injected BAKED_REGISTRY into ap_stats_roadmap_square_mode.html");
   } else {
     console.warn("WARNING: BAKED_REGISTRY placeholder not found in HTML — skipping injection");
   }
