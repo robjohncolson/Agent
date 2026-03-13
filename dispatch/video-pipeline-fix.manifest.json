@@ -1,0 +1,62 @@
+{
+  "spec": "design/video-pipeline-fix-spec.md",
+  "dep_graph": "design/video-pipeline-fix-dep-graph.md",
+  "agents": [
+    {
+      "id": "agent-a",
+      "name": "extract-video-links",
+      "prompt": "dispatch/prompts/video-pipeline-fix/agent-a-extract-video-links.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/lib/load-video-links.mjs",
+        "scripts/backfill-video-urls.mjs",
+        "scripts/post-to-schoology.mjs"
+      ],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 180
+    },
+    {
+      "id": "agent-b",
+      "name": "roadmap-videos",
+      "prompt": "dispatch/prompts/video-pipeline-fix/agent-b-roadmap-videos.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/build-roadmap-data.mjs"
+      ],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 120
+    },
+    {
+      "id": "agent-c",
+      "name": "backfill-scripts",
+      "prompt": "dispatch/prompts/video-pipeline-fix/agent-c-backfill-scripts.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/backfill-schoology-videos.mjs",
+        "scripts/backfill-period-e.mjs"
+      ],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 180
+    },
+    {
+      "id": "agent-d",
+      "name": "calendar-links",
+      "prompt": "dispatch/prompts/video-pipeline-fix/agent-d-calendar-links.md",
+      "direction": "cc-direct",
+      "task_type": "implement",
+      "owned_paths": [
+        "C:/Users/ColsonR/apstats-live-worksheet/calendar-linker.js",
+        "C:/Users/ColsonR/apstats-live-worksheet/week_*_calendar.html"
+      ],
+      "depends_on": ["agent-a", "agent-b"],
+      "wave": 2,
+      "timeout": 300
+    }
+  ]
+}

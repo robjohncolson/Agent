@@ -46,6 +46,7 @@ for (const [key, entry] of Object.entries(registry)) {
     drills:    entry.urls.drills || null,
     quiz:      entry.urls.quiz || null,
     blooket:   entry.urls.blooket || null,
+    videos:    entry.urls.apVideos || [],
   };
 
   // Posted/verified per period
@@ -85,7 +86,7 @@ function buildPeriodInfo(key, entry, period, sched) {
   // Posted: has materials in schoology data
   const materials = entry.schoology?.[period]?.materials;
   const materialKeys = materials
-    ? Object.keys(materials).filter(k => k !== "videos")
+    ? Object.keys(materials)
     : [];
   const posted = materialKeys.length > 0;
 
