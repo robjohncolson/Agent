@@ -170,16 +170,19 @@ export async function discoverLessonFolder(page, unit, lesson, materialsRootUrl)
  * confirmation.
  */
 export async function deleteSchoologyLink(page, linkViewId) {
-  // Step 1: Find the link row and click its gear icon via JS
+  // Step 1: Find the link row and click its gear icon via dispatchEvent
+  // (Schoology binds via jQuery delegation — synthetic .click() doesn't always fire)
   const gearClicked = await page.evaluate((id) => {
     const anchor = document.querySelector(`a[href*="/link/view/${id}"]`);
     if (!anchor) return { ok: false, reason: "link not found on page" };
     const tr = anchor.closest("tr");
     if (!tr) return { ok: false, reason: "no parent row" };
     const gear = tr.querySelector("div.action-links-unfold") ||
-                 tr.querySelector("a.action-links-unfold");
+                 tr.querySelector(".action-links-unfold");
     if (!gear) return { ok: false, reason: "no gear button in row" };
-    gear.click();
+    gear.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+    gear.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+    gear.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     return { ok: true };
   }, linkViewId);
 
@@ -189,23 +192,21 @@ export async function deleteSchoologyLink(page, linkViewId) {
 
   await page.waitForTimeout(1000);
 
-  // Step 2: Click "Delete" — scoped to the target row first, then fall
-  // back to the nearest visible dropdown (Schoology sometimes renders
-  // the menu outside the <tr>).
+  // Step 2: Click "Delete" — the dropdown is <ul class="action-links"> inside the row.
   const deleteClicked = await page.evaluate((id) => {
-    // Try within the same row first
     const anchor = document.querySelector(`a[href*="/link/view/${id}"]`);
     const tr = anchor?.closest("tr");
     if (tr) {
-      for (const a of tr.querySelectorAll(".action-links-content a")) {
+      // Primary: look in ul.action-links (current Schoology DOM)
+      for (const a of tr.querySelectorAll(".action-links a, .action-links-content a")) {
         if ((a.textContent || "").trim().toLowerCase() === "delete") {
           a.click();
           return true;
         }
       }
     }
-    // Fallback: find the single currently-visible dropdown
-    for (const dd of document.querySelectorAll("ul.action-links-content")) {
+    // Fallback: find any currently-visible dropdown on the page
+    for (const dd of document.querySelectorAll("ul.action-links, ul.action-links-content")) {
       if (dd.offsetParent === null) continue; // hidden
       for (const a of dd.querySelectorAll("a")) {
         if ((a.textContent || "").trim().toLowerCase() === "delete") {
@@ -223,13 +224,19 @@ export async function deleteSchoologyLink(page, linkViewId) {
     return { deleted: false, reason: "no Delete option in dropdown" };
   }
 
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(2000);
 
-  // Step 3: Confirm the deletion dialog
+  // Step 3: Confirm the deletion dialog (Schoology popup form)
   const confirmed = await page.evaluate(() => {
-    for (const el of document.querySelectorAll('input[value="Delete"], button')) {
+    // Try popup confirm buttons — Schoology uses various patterns
+    for (const el of document.querySelectorAll(
+      'input[value="Delete"], input[value="delete"], ' +
+      '.popups-box input[type="submit"], ' +
+      '.popups-buttons input[type="submit"], ' +
+      'button'
+    )) {
       const text = (el.value || el.textContent || "").trim().toLowerCase();
-      if (text === "delete") {
+      if (text === "delete" || text === "confirm") {
         el.click();
         return true;
       }
@@ -241,7 +248,7 @@ export async function deleteSchoologyLink(page, linkViewId) {
     return { deleted: false, reason: "no confirm button found" };
   }
 
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(3000);
 
   // Step 4: Verify the link row is actually gone
   const stillPresent = await page.evaluate((id) => {
