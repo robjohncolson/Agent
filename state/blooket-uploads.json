@@ -46,5 +46,45 @@
     "url": "https://dashboard.blooket.com/set/69ade09c572efa156e0e3402",
     "csvPath": "C:/Users/rober/Downloads/Projects/school/follow-alongs/u6_l11_blooket.csv",
     "createdAt": "2026-03-08T20:48:45.279Z"
+  },
+  {
+    "unit": 7,
+    "lesson": 2,
+    "title": "AP Stats 7.2 Review",
+    "url": "https://dashboard.blooket.com/set/69aee24b0d5874349dbc4469",
+    "csvPath": "C:/Users/ColsonR/apstats-live-worksheet/u7_l2_blooket.csv",
+    "createdAt": "2026-03-09T15:08:13.882Z"
+  },
+  {
+    "unit": 7,
+    "lesson": 1,
+    "title": "AP Stats 7.1 Review",
+    "url": "https://dashboard.blooket.com/set/69aef69b0d5874349dbc4f74",
+    "csvPath": "C:/Users/ColsonR/apstats-live-worksheet/u7_l1_blooket.csv",
+    "createdAt": "2026-03-09T16:34:53.995Z"
+  },
+  {
+    "unit": 6,
+    "lesson": 4,
+    "title": "AP Stats 6.4 Review",
+    "url": "https://dashboard.blooket.com/set/69b09491958376ccb01393d9",
+    "csvPath": "C:/Users/ColsonR/apstats-live-worksheet/u6_l4_blooket.csv",
+    "createdAt": "2026-03-10T22:01:05.360Z"
+  },
+  {
+    "unit": 7,
+    "lesson": 3,
+    "title": "AP Stats 7.3 Review",
+    "url": "https://dashboard.blooket.com/set/69b23ce2f54efd7ead71c8de",
+    "csvPath": "C:/Users/ColsonR/apstats-live-worksheet/u7_l3_blooket.csv",
+    "createdAt": "2026-03-12T04:11:32.575Z"
+  },
+  {
+    "unit": 7,
+    "lesson": 4,
+    "title": "AP Stats 7.4 Review",
+    "url": "https://dashboard.blooket.com/set/69b38a00958376ccb0148f2c",
+    "csvPath": "C:/Users/ColsonR/apstats-live-worksheet/u7_l4_blooket.csv",
+    "createdAt": "2026-03-13T03:52:51.708Z"
   }
 ]

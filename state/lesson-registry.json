@@ -5417,5 +5417,113 @@
       "created": "2026-03-12T03:05:34.111Z",
       "lastUpdated": "2026-03-12T21:37:33.383Z"
     }
+  },
+  "7.4": {
+    "unit": 7,
+    "lesson": 4,
+    "topic": "Topic 7.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson4_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=3",
+      "blooket": "https://dashboard.blooket.com/set/69b38a00958376ccb0148f2c",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987435032",
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "failed",
+      "animationUpload": "done",
+      "schoology": "done",
+      "schoologyVerified": "failed",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {
+      "B": {
+        "folderId": "987435032",
+        "folderPath": [
+          "work-ahead/future",
+          "Week",
+          "Tuesday"
+        ],
+        "folderTitle": "Tuesday",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 7.4 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson4_live.html",
+            "postedAt": "2026-03-13T03:53:56.317Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "9988ed3298b1"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 7.4 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l16-state-null-hypothesis",
+            "postedAt": "2026-03-13T03:54:17.345Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "10edc398e7c8"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 7.3",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=7&l=3",
+            "postedAt": "2026-03-13T03:54:38.185Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "4d24a3a289f3"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 7.4 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69b38a00958376ccb0148f2c",
+            "postedAt": "2026-03-13T03:54:58.287Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "b86928da86cf"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.4 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/kyfddpb99h?sui=33,7",
+            "postedAt": "2026-03-13T03:55:17.935Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "9871ebe03273"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 7.4 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/2ufhcaan1t?sui=33,7",
+            "postedAt": "2026-03-13T03:55:37.517Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "f1515ac27b96"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-13T03:28:25.177Z",
+      "lastUpdated": "2026-03-13T03:55:48.708Z"
+    }
   }
 }
