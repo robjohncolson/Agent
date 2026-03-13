@@ -147,7 +147,7 @@ export const SCRIPTS = {
   whatsTomorrow:    join(SCRIPTS_DIR, "whats-tomorrow.mjs"),
   aistudioIngest:   join(SCRIPTS_DIR, "aistudio-ingest.mjs"),
   renderAnimations: join(SCRIPTS_DIR, "render-animations.mjs"),
-  uploadAnimations: join(DRILLER_REPO, "scripts", "upload-animations.mjs"),
+  uploadAnimations: join(SCRIPTS_DIR, "upload-animations.mjs"),
   uploadBlooket:    join(SCRIPTS_DIR, "upload-blooket.mjs"),
   postSchoology:    join(SCRIPTS_DIR, "post-to-schoology.mjs"),
   indexDriveVideos: join(SCRIPTS_DIR, "index-drive-videos.mjs"),
