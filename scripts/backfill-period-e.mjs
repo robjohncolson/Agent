@@ -81,10 +81,14 @@ function buildWorkList(registry, unitFilter) {
       continue;
     }
 
+    // Get topic title for folder creation
+    const topic = entry.topic || `Topic ${key}`;
+
     workList.push({
       key,
       unit: Number(unit),
       lesson: Number(lesson),
+      topic,
     });
   }
 
@@ -104,7 +108,7 @@ function printWorkList(workList) {
 }
 
 function buildCommand(item) {
-  return `node "${POST_SCRIPT}" --unit ${item.unit} --lesson ${item.lesson} --auto-urls --with-videos --course ${PERIOD_E_COURSE_ID} --no-prompt`;
+  return `node "${POST_SCRIPT}" --unit ${item.unit} --lesson ${item.lesson} --auto-urls --with-videos --course ${PERIOD_E_COURSE_ID} --no-prompt --create-folder "Topic ${item.unit}.${item.lesson}"`;
 }
 
 async function main() {

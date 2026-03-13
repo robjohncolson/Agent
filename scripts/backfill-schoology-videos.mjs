@@ -92,6 +92,7 @@ function buildWorkList(registry, unitFilter) {
       key,
       unit: Number(unit),
       lesson: Number(lesson),
+      folderUrl: entry.urls.schoologyFolder,
     });
   }
 
@@ -111,7 +112,11 @@ function printWorkList(workList) {
 }
 
 function buildCommand(item) {
-  return `node "${POST_SCRIPT}" --unit ${item.unit} --lesson ${item.lesson} --auto-urls --with-videos --only video --no-prompt`;
+  let cmd = `node "${POST_SCRIPT}" --unit ${item.unit} --lesson ${item.lesson} --auto-urls --with-videos --only video --no-prompt`;
+  if (item.folderUrl) {
+    cmd += ` --target-folder "${item.folderUrl}"`;
+  }
+  return cmd;
 }
 
 async function main() {
