@@ -1,0 +1,75 @@
+{
+  "spec": "design/pipeline-commander-spec.md",
+  "dep_graph": "design/pipeline-commander-dep-graph.md",
+  "agents": [
+    {
+      "id": "agent-a",
+      "name": "foundation",
+      "prompt": "dispatch/prompts/pipeline-commander/agent-a-foundation.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/lib/commander/theme.mjs",
+        "scripts/lib/commander/data-loader.mjs"
+      ],
+      "depends_on": [],
+      "wave": 1,
+      "timeout": 150
+    },
+    {
+      "id": "agent-b",
+      "name": "pipeline-panels",
+      "prompt": "dispatch/prompts/pipeline-commander/agent-b-pipeline-panels.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/lib/commander/panels/pipeline-steps.mjs",
+        "scripts/lib/commander/panels/log-viewer.mjs"
+      ],
+      "depends_on": ["agent-a"],
+      "wave": 2,
+      "timeout": 150
+    },
+    {
+      "id": "agent-c",
+      "name": "registry-panels",
+      "prompt": "dispatch/prompts/pipeline-commander/agent-c-registry-panels.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/lib/commander/panels/lesson-detail.mjs",
+        "scripts/lib/commander/panels/registry-overview.mjs"
+      ],
+      "depends_on": ["agent-a"],
+      "wave": 2,
+      "timeout": 150
+    },
+    {
+      "id": "agent-d",
+      "name": "queue-panel",
+      "prompt": "dispatch/prompts/pipeline-commander/agent-d-queue-panel.md",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/lib/commander/panels/work-queue.mjs"
+      ],
+      "depends_on": ["agent-a"],
+      "wave": 2,
+      "timeout": 120
+    },
+    {
+      "id": "agent-e",
+      "name": "integration",
+      "prompt": "keybindings.mjs + pipeline-commander.mjs entry point (CC-direct)",
+      "direction": "cc-direct",
+      "task_type": "implement",
+      "owned_paths": [
+        "scripts/lib/commander/keybindings.mjs",
+        "scripts/pipeline-commander.mjs"
+      ],
+      "depends_on": ["agent-b", "agent-c", "agent-d"],
+      "wave": 3,
+      "timeout": 0
+    }
+  ]
+}
