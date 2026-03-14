@@ -18,6 +18,7 @@ This is NOT a standalone implementation session. You will execute one scoped tas
 - You MUST NOT make git commits or push to any remote
 - You MUST NOT modify files outside the owned_paths listed in constraints (if any are listed)
 - Focus on implementation — do not redesign, do not refactor beyond scope
+- After applying patches, write the result file and exit immediately. Do not run verification commands, tests, or lint checks — the caller will verify.
 
 ## Result File
 

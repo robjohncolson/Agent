@@ -59,9 +59,11 @@ import {
   DRIVE_VIDEO_INDEX_PATH,
   WORKSHEET_REPO,
   DOWNSTREAM_REPOS,
+  CARTRIDGES_DIR,
 } from "./lib/paths.mjs";
 import { runPipeline } from "./lib/task-runner.mjs";
 import { resolveFolderPath, determineSchoolWeek as sharedDetermineSchoolWeek } from './lib/resolve-folder-path.mjs';
+import { loadVideoLinks } from './lib/load-video-links.mjs';
 
 
 
@@ -145,7 +147,7 @@ function parseArgs(argv) {
         "  -l, --lesson        Lesson number (required unless --auto)\n" +
         "  --drive-ids         Space-separated Google Drive file IDs\n" +
         "  --auto              Detect unit+lesson from whats-tomorrow.mjs, auto-lookup Drive IDs\n" +
-        "  --auto-push         Push downstream repo commits in Step 8 (implied by --auto)\n" +
+        "  --auto-push         (deprecated, push is now always on in Step 8)\n" +
         "  --skip-ingest       Skip Step 1 (video context files already exist)\n" +
         "  --skip-render       Skip Step 3 (Manim rendering)\n" +
         "  --skip-upload       Skip Step 4 (Supabase animation upload)\n" +
@@ -1410,18 +1412,13 @@ function commitAndPushRepos(unit, lesson, autoPush) {
       const hash = hashMatch ? hashMatch[1] : "unknown";
       console.log(`  ${repo.name}: committed ${hash}`);
 
-      if (autoPush) {
-        try {
-          execSync("git push", { cwd: repo.path, encoding: "utf-8", timeout: 30000 });
-          console.log(`  ${repo.name}: pushed to origin`);
-          repoResults.push({ name: repo.name, action: "pushed", hash });
-        } catch (pushErr) {
-          console.log(`  ${repo.name}: push failed: ${pushErr.message}`);
-          repoResults.push({ name: repo.name, action: "committed", hash, pushError: pushErr.message });
-        }
-      } else {
-        console.log(`  ${repo.name}: committed locally (use --auto-push to push)`);
-        repoResults.push({ name: repo.name, action: "committed", hash });
+      try {
+        execSync("git push", { cwd: repo.path, encoding: "utf-8", timeout: 30000 });
+        console.log(`  ${repo.name}: pushed to origin`);
+        repoResults.push({ name: repo.name, action: "pushed", hash });
+      } catch (pushErr) {
+        console.log(`  ${repo.name}: push failed: ${pushErr.message}`);
+        repoResults.push({ name: repo.name, action: "committed", hash, pushError: pushErr.message });
       }
     } catch (e) {
       console.error(`  ${repo.name}: error: ${e.message}`);
@@ -1847,6 +1844,15 @@ async function main() {
     updateStatus(unit, lesson, "ingest", step1ok ? "done" : "failed");
   }
 
+  // Fix 5a: Auto-populate apVideos after ingest (array of { key, url, title })
+  if (step1ok) {
+    const videoLinks = loadVideoLinks(unit, lesson);
+    if (videoLinks.length > 0) {
+      upsertLesson(unit, lesson, { urls: { apVideos: videoLinks } });
+      console.log(`  Auto-populated apVideos: ${videoLinks.length} video(s)`);
+    }
+  }
+
   if (!step1ok) {
     console.error("*** Step 1 failed — cannot proceed to content generation. ***");
     console.error("*** Fix the issue above and re-run, or use --skip-ingest. ***\n");
@@ -1928,6 +1934,32 @@ async function main() {
     }
   }
   const step2ok = results.codexResults && results.codexResults.some(r => r.success);
+
+  // Fix 5b: Auto-populate drills URL after content-gen
+  if (step2ok) {
+    const drillsResult = results.codexResults?.find(
+      r => (r.label === "Drills Cartridge" || r.label === "Cartridge + Animations") && r.success
+    );
+    if (drillsResult) {
+      const cartridgeMap = { "5": "apstats-u5-sampling-dist", "6": "apstats-u6-inference-prop", "7": "apstats-u7-mean-ci" };
+      const cartridgeId = cartridgeMap[String(unit)];
+      if (cartridgeId) {
+        try {
+          const manifestPath = path.join(CARTRIDGES_DIR, cartridgeId, "manifest.json");
+          const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+          const prefix = `${unit}.${lesson}`;
+          const match = (manifest.modes || []).find(m => m.name?.startsWith(prefix));
+          if (match) {
+            const drillsUrl = `https://lrsl-driller.vercel.app/platform/app.html?c=${cartridgeId}&level=${match.id}`;
+            updateUrl(unit, lesson, "drills", drillsUrl);
+            console.log(`  Auto-populated drills URL: ${drillsUrl}`);
+          }
+        } catch (e) {
+          console.warn(`  Could not auto-populate drills URL: ${e.message}`);
+        }
+      }
+    }
+  }
 
   if (!step2ok) {
     console.error("*** Step 2 failed — no content was generated. ***");

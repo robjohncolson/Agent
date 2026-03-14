@@ -1,5 +1,7 @@
 # Pipeline Smoothing Spec — Friction Fixes from 2026-03-13 Session
 
+**Status: ALL 7 FIXES COMPLETE (2026-03-13)**
+
 ## Goal
 
 Eliminate recurring friction points in the lesson prep pipeline, Codex dispatch, and Schoology posting workflows. These are all derived from observed failures in a single session.

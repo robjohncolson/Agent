@@ -163,6 +163,17 @@ export const WORKING_DIRS = {
 // ── Downstream repos for commit/push ─────────────────────────────────────────
 export const DOWNSTREAM_REPOS = [
   {
+    name: "Agent",
+    path: AGENT_ROOT,
+    patterns: [
+      "state/lesson-registry.json",
+      "state/work-queue.json",
+      "state/blooket-uploads.json",
+      "state/animation-uploads.json",
+      "config/",
+    ],
+  },
+  {
     name: "apstats-live-worksheet",
     path: WORKSHEET_REPO,
     patterns: [

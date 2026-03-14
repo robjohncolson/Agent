@@ -83,6 +83,7 @@ function parseArgs(argv) {
   let folderPath = null;
   let heal = false;
   let courses = null;
+  let skipMissing = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -125,6 +126,8 @@ function parseArgs(argv) {
       heal = true;
     } else if (arg === "--courses") {
       courses = args[++i];
+    } else if (arg === "--skip-missing") {
+      skipMissing = true;
     }
   }
 
@@ -149,12 +152,13 @@ function parseArgs(argv) {
         "  --target-folder   Post into an existing folder URL (skip folder creation)\n" +
         "  --folder-path     Navigate into nested folder hierarchy (e.g. \"Q3/week 24\"), create missing folders\n" +
         "  --heal            Heal mode: audit folder, post only missing links, verify\n" +
-        "  --courses         Comma-separated course IDs to post to all (e.g. '7945275782,7945275798')\n"
+        "  --courses         Comma-separated course IDs to post to all (e.g. '7945275782,7945275798')\n" +
+        "  --skip-missing    Skip posting worksheet link if local HTML file doesn't exist\n"
     );
     process.exit(1);
   }
 
-  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, noPrompt, targetFolder, folderPath, heal, courses };
+  return { unit, lesson, worksheetUrl, drillsUrl, quizUrl, blooketUrl, autoUrls, only, courseId, dryRun, createFolder, folderDesc, withVideos, noPrompt, targetFolder, folderPath, heal, courses, skipMissing };
 }
 
 // ── Auto-URL generation ─────────────────────────────────────────────────────
@@ -541,6 +545,19 @@ async function main() {
     if (links.length === 0) {
       console.error("Error: No URLs provided. Use --worksheet, --drills, --quiz, --blooket, or --auto-urls.");
       process.exit(1);
+    }
+  }
+
+  // --skip-missing: remove worksheet link if local file doesn't exist
+  if (opts.skipMissing) {
+    const worksheetLink = links.find(l => l.key === "worksheet");
+    if (worksheetLink) {
+      const filename = `u${unit}_lesson${lesson}_live.html`;
+      const localPath = join(WORKSHEET_REPO, filename);
+      if (!existsSync(localPath)) {
+        console.log(`  SKIP: worksheet file not found locally \u2014 ${filename}`);
+        links = links.filter(l => l.key !== "worksheet");
+      }
     }
   }
 

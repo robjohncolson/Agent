@@ -221,6 +221,8 @@ def _fallback_preamble(direction: str) -> str:
             "You are Codex, invoked as a subagent by Claude Code.\n"
             "Do not call Claude Code.\n"
             "Do not make git commits.\n"
+            "After applying patches, write the result file and exit immediately. "
+            "Do not run verification commands, tests, or lint checks.\n"
             "Write your result JSON to: {result_file_path}\n\n"
             "## Your Task\n"
             "{task_payload}\n"

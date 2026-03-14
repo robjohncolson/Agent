@@ -10,12 +10,13 @@ const POST_SCRIPT = join(AGENT_ROOT, "scripts", "post-to-schoology.mjs");
 const PAUSE_MS = 3000;
 
 function printUsage() {
-  console.log(`Usage: node scripts/backfill-schoology-videos.mjs [--dry-run] [--unit N]
+  console.log(`Usage: node scripts/backfill-schoology-videos.mjs [--dry-run] [--unit N] [--test-one]
 
 Options:
-  --dry-run   List lessons only
-  --unit N    Filter to a specific unit
-  --help, -h  Show this help
+  --dry-run    List lessons only
+  --unit N     Filter to a specific unit
+  --test-one   Process only the first item and exit (smoke test)
+  --help, -h   Show this help
 `);
 }
 
@@ -23,12 +24,15 @@ function parseArgs(argv) {
   const args = argv.slice(2);
   let dryRun = false;
   let unitFilter = null;
+  let testOne = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
     if (arg === "--dry-run") {
       dryRun = true;
+    } else if (arg === "--test-one") {
+      testOne = true;
     } else if (arg === "--unit") {
       unitFilter = Number(args[++i]);
     } else if (arg === "--help" || arg === "-h") {
@@ -46,7 +50,7 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { dryRun, unitFilter };
+  return { dryRun, unitFilter, testOne };
 }
 
 function compareLessonKeys(a, b) {
@@ -120,9 +124,14 @@ function buildCommand(item) {
 }
 
 async function main() {
-  const { dryRun, unitFilter } = parseArgs(process.argv);
+  const { dryRun, unitFilter, testOne } = parseArgs(process.argv);
   const registry = loadRegistry();
-  const workList = buildWorkList(registry, unitFilter);
+  let workList = buildWorkList(registry, unitFilter);
+
+  if (testOne && workList.length > 1) {
+    console.log(`--test-one: trimming work list from ${workList.length} to 1 item`);
+    workList = workList.slice(0, 1);
+  }
 
   printWorkList(workList);
 
