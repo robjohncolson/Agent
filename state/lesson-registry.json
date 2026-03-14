@@ -6792,7 +6792,7 @@
     "period": null,
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson5_live.html",
-      "drills": null,
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l21-calculate-test-statistic",
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=4",
       "blooket": "https://dashboard.blooket.com/set/69b43541958376ccb014ba86",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987537901",
@@ -6911,12 +6911,24 @@
     "period": null,
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson6_live.html",
-      "drills": null,
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l26-identify-diffmeans-procedure",
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=5",
       "blooket": "https://dashboard.blooket.com/set/69b4a8c1e9d56f0ba512d275",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987669283",
       "videos": [],
-      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=987538858"
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=987538858",
+      "apVideos": [
+        {
+          "key": "video1",
+          "url": "https://apclassroom.collegeboard.org/d/9i05oi3975?sui=33,7",
+          "title": "Topic 7.6 — AP Classroom Video 1"
+        },
+        {
+          "key": "video2",
+          "url": "https://apclassroom.collegeboard.org/d/q64qp5gkag?sui=33,7",
+          "title": "Topic 7.6 — AP Classroom Video 2"
+        }
+      ]
     },
     "status": {
       "ingest": "done",
