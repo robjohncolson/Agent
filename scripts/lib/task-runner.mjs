@@ -151,6 +151,117 @@ function loadTask(taskId) {
 }
 
 // ---------------------------------------------------------------------------
+// Artifact-based completion check
+// ---------------------------------------------------------------------------
+
+/**
+ * Known output directories for artifact checks.
+ * Maps step ID prefixes to the base directory where their output files live.
+ */
+const ARTIFACT_DIRS = {
+  'ingest':                path.join(process.env.USERPROFILE || '', 'apstats-live-worksheet'),
+  'content-gen-worksheet': path.join(process.env.USERPROFILE || '', 'apstats-live-worksheet'),
+  'content-gen-blooket':   path.join(process.env.USERPROFILE || '', 'apstats-live-worksheet'),
+  'content-gen-drills':    path.join(process.env.USERPROFILE || '', 'lrsl-driller'),
+};
+
+/**
+ * Minimum file-size thresholds (bytes) per step. Files smaller than this
+ * are treated as incomplete stubs.
+ */
+const ARTIFACT_MIN_SIZE = {
+  'ingest':                500,
+  'content-gen-worksheet': 10_000,
+  'content-gen-blooket':   500,
+  'content-gen-drills':    0,  // checked via manifest, not file size
+};
+
+/**
+ * Check if a task's output artifacts already exist on disk, even if the
+ * registry says "failed" or "pending". This prevents re-running expensive
+ * steps (Gemini ingest, Codex content-gen) when the files are already there
+ * but a downstream timeout marked the step as failed.
+ *
+ * @param {object} task   — task definition
+ * @param {object} params — pipeline params (unit, lesson, drive_ids)
+ * @param {boolean} force — force overrides artifact check
+ * @param {Set} forceSteps
+ * @returns {{ skip: boolean, reason?: string }}
+ */
+function checkArtifactCompletion(task, params, force, forceSteps) {
+  if (force || forceSteps.has(task.id)) return { skip: false };
+  if (!task.outputs?.files || !params.unit || !params.lesson) return { skip: false };
+
+  const stepId = task.id;
+  const baseDir = ARTIFACT_DIRS[stepId];
+  if (!baseDir) return { skip: false };
+
+  const unit = params.unit;
+  const lesson = params.lesson;
+  const minSize = ARTIFACT_MIN_SIZE[stepId] ?? 0;
+
+  // --- Ingest: expect 2 files per video (transcription + slides) ---
+  if (stepId === 'ingest') {
+    const driveIds = params.drive_ids;
+    if (!driveIds || !Array.isArray(driveIds) || driveIds.length === 0) return { skip: false };
+
+    const expectedCount = driveIds.length * 2;
+    const videoDir = path.join(baseDir, `u${unit}`);
+    if (!fs.existsSync(videoDir)) return { skip: false };
+
+    const prefix = `apstat_${unit}-${lesson}-`;
+    const files = fs.readdirSync(videoDir)
+      .filter(f => f.startsWith(prefix) && (f.endsWith('_transcription.txt') || f.endsWith('_slides.txt')));
+
+    const validFiles = files.filter(f => {
+      const stat = fs.statSync(path.join(videoDir, f));
+      return stat.size >= minSize;
+    });
+
+    if (validFiles.length >= expectedCount) {
+      return { skip: true, reason: `${validFiles.length}/${expectedCount} ingest files already on disk` };
+    }
+    return { skip: false };
+  }
+
+  // --- Content-gen-worksheet: check for HTML file ---
+  if (stepId === 'content-gen-worksheet') {
+    const htmlFile = path.join(baseDir, `u${unit}_lesson${lesson}_live.html`);
+    if (fs.existsSync(htmlFile) && fs.statSync(htmlFile).size >= minSize) {
+      return { skip: true, reason: `worksheet exists (${(fs.statSync(htmlFile).size / 1024).toFixed(0)}KB)` };
+    }
+    return { skip: false };
+  }
+
+  // --- Content-gen-blooket: check for CSV file ---
+  if (stepId === 'content-gen-blooket') {
+    const csvFile = path.join(baseDir, `u${unit}_l${lesson}_blooket.csv`);
+    if (fs.existsSync(csvFile) && fs.statSync(csvFile).size >= minSize) {
+      return { skip: true, reason: `blooketCsv already done` };
+    }
+    return { skip: false };
+  }
+
+  // --- Content-gen-drills: check manifest for lesson content ---
+  if (stepId === 'content-gen-drills') {
+    const cartridgeMap = { 6: 'apstats-u6-inference-prop', 7: 'apstats-u7-mean-ci' };
+    const cartridge = cartridgeMap[unit];
+    if (!cartridge) return { skip: false };
+    const manifestPath = path.join(baseDir, 'cartridges', cartridge, 'manifest.json');
+    if (!fs.existsSync(manifestPath)) return { skip: false };
+    try {
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      const lessonKey = `${unit}.${lesson}`;
+      const hasLesson = JSON.stringify(manifest).includes(`"${lessonKey}`);
+      if (hasLesson) return { skip: true, reason: `drills already done` };
+    } catch { /* fall through */ }
+    return { skip: false };
+  }
+
+  return { skip: false };
+}
+
+// ---------------------------------------------------------------------------
 // Registry precondition check
 // ---------------------------------------------------------------------------
 
@@ -256,6 +367,21 @@ async function executeTask(task, params, pipelineId, force, forceSteps, context)
   if (preconditionCheck.skip) {
     console.log(`[task-runner] [${stepId}] Skipped — ${preconditionCheck.reason}`);
     return { status: 'skipped', duration_ms: 0, reason: preconditionCheck.reason };
+  }
+
+  // --- Artifact-based completion check ---
+  // Catches cases where files exist on disk but registry says "failed" (e.g. Codex timeout)
+  const artifactCheck = checkArtifactCompletion(task, params, force, forceSteps);
+  if (artifactCheck.skip) {
+    console.log(`[task-runner] [${stepId}] Skipped — ${artifactCheck.reason}`);
+    // Auto-heal registry: mark step as done since artifacts exist
+    if (task.outputs?.registry_key && params.unit && params.lesson) {
+      try {
+        updateStatus(params.unit, params.lesson, task.outputs.registry_key, 'done');
+        console.log(`[task-runner] [${stepId}] Registry auto-healed: ${task.outputs.registry_key} → done`);
+      } catch { /* non-fatal */ }
+    }
+    return { status: 'completed', duration_ms: 0, reason: artifactCheck.reason };
   }
 
   if (task.preconditions?.requires_cdp) {
