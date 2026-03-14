@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-03-14T18:33:36.825Z",
+  "mode": "dry-run",
+  "courses": {
+    "B": {
+      "courseId": "7945275782",
+      "issues": 0,
+      "duplicateDays": [],
+      "misnamedWeeks": [],
+      "orphanLinks": [],
+      "fixed": false
+    },
+    "E": {
+      "courseId": "7945275798",
+      "issues": 0,
+      "duplicateDays": [],
+      "misnamedWeeks": [],
+      "orphanLinks": [],
+      "fixed": false
+    }
+  }
+}

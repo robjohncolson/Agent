@@ -657,7 +657,10 @@ async function main() {
       courseCreateFolder = folderInfo.dayTitle;
       console.log(`  Folder resolved for Period ${currentPeriod}: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
     } catch (err) {
-      console.warn(`  WARNING: Could not resolve folder for Period ${currentPeriod}: ${err.message}`);
+      console.error(`  FOLDER RESOLUTION FAILED for Period ${currentPeriod}: ${err.message}`);
+      console.error("  ABORTING posting for this course — refusing to post to root.");
+      totalFail += links.length;
+      continue; // skip to next course
     }
   }
 
@@ -700,8 +703,18 @@ async function main() {
 
       // If --create-folder is also specified, create the day folder inside the resolved parent
       if (courseCreateFolder) {
-        await createFolder(page, courseCreateFolder, opts.folderDesc, parentUrl);
-        materialsUrl = await extractFolderUrl(page, courseCreateFolder, parentUrl);
+        // Check if day folder already exists before creating (prevents duplicates on retry)
+        const { findFolderByName, materialsUrl: buildUrl } = await import('./lib/schoology-dom.mjs');
+        await page.goto(parentUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        await page.waitForTimeout(2000);
+        const existingDay = await findFolderByName(page, courseCreateFolder);
+        if (existingDay) {
+          materialsUrl = buildUrl(currentCourseId, existingDay.id);
+          console.log(`  Reusing existing day folder: "${courseCreateFolder}" (id: ${existingDay.id})`);
+        } else {
+          await createFolder(page, courseCreateFolder, opts.folderDesc, parentUrl);
+          materialsUrl = await extractFolderUrl(page, courseCreateFolder, parentUrl);
+        }
         updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
         const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
         setSchoologyState(unit, lesson, {
@@ -730,13 +743,24 @@ async function main() {
       }
     } catch (err) {
       console.error(`  FOLDER PATH NAVIGATION FAILED: ${err.message}`);
-      console.error("  Falling back to posting links at top level.");
-      failCount++;
+      console.error("  ABORTING posting for this course — refusing to post to root.");
+      totalFail += courseLinks.length;
+      continue; // skip to next course
     }
   } else if (courseCreateFolder) {
     try {
-      await createFolder(page, courseCreateFolder, opts.folderDesc, currentRootMaterialsUrl);
-      materialsUrl = await extractFolderUrl(page, courseCreateFolder, currentRootMaterialsUrl);
+      // Check if folder already exists before creating (prevents duplicates on retry)
+      const { findFolderByName, materialsUrl: buildUrl } = await import('./lib/schoology-dom.mjs');
+      await page.goto(currentRootMaterialsUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await page.waitForTimeout(2000);
+      const existingDay = await findFolderByName(page, courseCreateFolder);
+      if (existingDay) {
+        materialsUrl = buildUrl(currentCourseId, existingDay.id);
+        console.log(`  Reusing existing day folder: "${courseCreateFolder}" (id: ${existingDay.id})`);
+      } else {
+        await createFolder(page, courseCreateFolder, opts.folderDesc, currentRootMaterialsUrl);
+        materialsUrl = await extractFolderUrl(page, courseCreateFolder, currentRootMaterialsUrl);
+      }
       updateUrl(unit, lesson, currentFolderUrlKey, materialsUrl);
       const folderIdMatch = materialsUrl.match(/[?&]f=(\d+)/);
       setSchoologyState(unit, lesson, {
@@ -750,14 +774,18 @@ async function main() {
       console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);
-      console.error("  Falling back to posting links at top level.");
-      failCount++;
+      console.error("  ABORTING posting for this course — refusing to post to root.");
+      totalFail += courseLinks.length;
+      continue; // skip to next course
     }
   }
 
   // --heal mode: audit folder and filter out existing links
   if (opts.heal && materialsUrl === currentRootMaterialsUrl) {
-    console.warn(`  [heal] ⚠ No folder found for ${unit}.${lesson}. Use --create-folder or --target-folder.`);
+    console.error(`  [heal] No folder found for ${unit}.${lesson}. ABORTING — refusing to post to root.`);
+    console.error(`  Use --create-folder or --target-folder to specify a destination.`);
+    totalFail += courseLinks.length;
+    continue; // skip to next course
   } else if (opts.heal && materialsUrl !== currentRootMaterialsUrl) {
     console.log(`\n[heal] Auditing Schoology folder...`);
     const expectedLinks = courseLinks.length > 0 ? courseLinks : buildExpectedLinks(unit, lesson, { blooketUrl });
