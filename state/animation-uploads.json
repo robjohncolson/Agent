@@ -1,0 +1,41 @@
+{
+  "unit": "7",
+  "lesson": "4",
+  "files": {
+    "MeanTestConditions.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanTestConditions.mp4",
+      "uploaded_at": "2026-03-13T12:43:41.541Z",
+      "size_bytes": 276958,
+      "retries": 0
+    },
+    "MeanTestDefineParameter.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanTestDefineParameter.mp4",
+      "uploaded_at": "2026-03-13T12:43:42.651Z",
+      "size_bytes": 223881,
+      "retries": 0
+    },
+    "MeanTestProcedure.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanTestProcedure.mp4",
+      "uploaded_at": "2026-03-13T12:43:43.718Z",
+      "size_bytes": 173043,
+      "retries": 0
+    },
+    "MeanTestAlternativeHypothesis.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanTestAlternativeHypothesis.mp4",
+      "uploaded_at": "2026-03-13T12:43:44.462Z",
+      "size_bytes": 232413,
+      "retries": 0
+    },
+    "MeanTestNullHypothesis.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanTestNullHypothesis.mp4",
+      "uploaded_at": "2026-03-13T12:43:45.742Z",
+      "size_bytes": 299274,
+      "retries": 0
+    }
+  }
+}

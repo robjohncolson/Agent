@@ -7289,28 +7289,102 @@
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson8_live.html",
       "drills": null,
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=7",
-      "blooket": null,
-      "schoologyFolder": null,
+      "blooket": "https://dashboard.blooket.com/set/69b60f747e3edc6f469fd91a",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987728262",
       "videos": []
     },
     "status": {
-      "ingest": "pending",
-      "worksheet": "pending",
-      "drills": "pending",
-      "blooketCsv": "pending",
-      "blooketUpload": "pending",
-      "animations": "pending",
-      "animationUpload": "pending",
-      "schoology": "pending",
-      "schoologyVerified": "pending",
-      "urlsGenerated": "pending",
-      "registryExported": "pending",
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "failed",
+      "animationUpload": "done",
+      "schoology": "done",
+      "schoologyVerified": "failed",
+      "urlsGenerated": "done",
+      "registryExported": "done",
       "committed": "pending"
     },
-    "schoology": {},
+    "schoology": {
+      "B": {
+        "folderId": "987728262",
+        "folderPath": [
+          "work-ahead/future",
+          "Week",
+          "Tuesday"
+        ],
+        "folderTitle": "Tuesday",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 7.8 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson8_live.html",
+            "postedAt": "2026-03-15T01:47:42.018Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "cc9c613ec359"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 7.8 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l36-state-diffmeans-null-hypothesis",
+            "postedAt": "2026-03-15T01:47:56.835Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "dc6154e678f5"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 7.7",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=7&l=7",
+            "postedAt": "2026-03-15T01:48:11.756Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "fcb56343db4b"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 7.8 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69b60f747e3edc6f469fd91a",
+            "postedAt": "2026-03-15T01:48:26.604Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "3fa8462434bd"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.8 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/kf1yd6gpdi?sui=33,7",
+            "postedAt": "2026-03-15T01:48:41.470Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "817877b9160c"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 7.8 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/9xskxlobvm?sui=33,7",
+            "postedAt": "2026-03-15T01:48:56.335Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "3b0a4a931b92"
+          }
+        }
+      }
+    },
     "timestamps": {
       "created": "2026-03-14T14:46:48.537Z",
-      "lastUpdated": "2026-03-14T14:46:48.537Z"
+      "lastUpdated": "2026-03-15T01:49:03.015Z"
     }
   }
 }
