@@ -59,14 +59,31 @@ Pipeline step 8 auto-commits+pushes all 3 repos. Manual steps only if pipeline s
 
 ---
 
+## What just happened (2026-03-15, session 2)
+
+All three repos were hard-reset to match their remotes:
+
+- **Agent** — `git reset --hard origin/master` at `9194188`. Was already up to date; only discarded a modified `state/codex-progress.json`.
+- **lrsl-driller** — `git reset --hard origin/main` at `7340495`. Discarded 5 local-only commits (stale AGENTS.md, SKILL.md, registry.json, cross-agent state). Now clean.
+- **follow-alongs** — `git reset --hard origin/master` at `f77cda6`. Removed staged AGENTS.md changes, stash conflicts in u7-l1 files, and ~70 untracked files (Mac-OS-Sounds/, cross-agent state, u6/u7 slide transcriptions, pineapple_sprite.png, etc.). Now clean.
+
+No new code was written this session. This was a repo hygiene / sync session.
+
 ## Session Commits (2026-03-15)
 
+Prior session:
 - `02f4fcd` pipeline: add U8 L1 content (Agent, worksheet `f77cda6`, lrsl-driller `7340495`)
 - `6d1e8ad` feat: store material URLs in Supabase lesson_urls table
 - `2ca818d` feat: Supabase roadmap merge — spec, prompts, link updater
 
+This session: no new commits (reset only).
+
 ## Current State
 
+- **All 3 repos**: clean, HEAD matches remote, 0 ahead / 0 behind
+- **Agent**: `9194188` = `origin/master`
+- **lrsl-driller**: `7340495` = `origin/main`
+- **follow-alongs**: `f77cda6` = `origin/master`
 - **Registry**: 1 lesson key (8.1) — previous units 1–7 were in a prior registry snapshot
 - **Queue**: 300 total, ~120 completed, ~180 pending
 - **Schoology B**: 8.1 posted in `work-ahead/future > Week 28 > Monday 4/6/26`
