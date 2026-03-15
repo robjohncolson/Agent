@@ -8,6 +8,7 @@
  * Exports:
  *   getSchedule(period)                → Map<topic, { date, title, status, schoologyFolderId }> | null
  *   upsertTopic(topic, period, fields) → { ok: true } | { ok: false, error }
+ *   upsertLessonUrls(topic, fields)   → { ok: true } | { ok: false, error }
  *   bulkSync(scheduleJson, period)     → { synced, errors }
  */
 
@@ -169,6 +170,56 @@ export async function upsertTopic(topic, period, fields = {}) {
   } catch (err) {
     const msg = err?.message ?? String(err);
     console.warn(`[supabase-schedule] upsertTopic error: ${msg}`);
+    return { ok: false, error: msg };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// upsertLessonUrls
+// ---------------------------------------------------------------------------
+
+/**
+ * Upsert a single lesson_urls row (topic-global material URLs).
+ * Only sends non-undefined fields — safe for partial poster runs.
+ *
+ * @param {string} topic - e.g. "7.7"
+ * @param {{ worksheetUrl?: string, drillsUrl?: string, quizUrl?: string, blooketUrl?: string }} fields
+ * @returns {Promise<{ ok: true } | { ok: false, error: string }>}
+ */
+export async function upsertLessonUrls(topic, fields = {}) {
+  try {
+    const { url, key } = getSupabaseConfig();
+
+    const payload = { topic, updated_at: new Date().toISOString() };
+    if (fields.worksheetUrl !== undefined) payload.worksheet_url = fields.worksheetUrl;
+    if (fields.drillsUrl !== undefined)    payload.drills_url = fields.drillsUrl;
+    if (fields.quizUrl !== undefined)      payload.quiz_url = fields.quizUrl;
+    if (fields.blooketUrl !== undefined)   payload.blooket_url = fields.blooketUrl;
+
+    const response = await fetch(
+      `${url}/rest/v1/lesson_urls?on_conflict=topic`,
+      {
+        method: 'POST',
+        headers: {
+          ...authHeaders(key),
+          'Content-Type': 'application/json',
+          Prefer: 'resolution=merge-duplicates,return=minimal',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => '(no body)');
+      const msg = `Supabase lesson_urls upsert failed — ${response.status} ${response.statusText}: ${text}`;
+      console.warn(`[supabase-schedule] ${msg}`);
+      return { ok: false, error: msg };
+    }
+
+    return { ok: true };
+  } catch (err) {
+    const msg = err?.message ?? String(err);
+    console.warn(`[supabase-schedule] upsertLessonUrls error: ${msg}`);
     return { ok: false, error: msg };
   }
 }

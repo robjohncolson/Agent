@@ -35,13 +35,13 @@ import { getLesson, updateStatus, updateUrl, updateSchoologyLink, updateSchoolog
 import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 import { COURSE_IDS } from './lib/schoology-dom.mjs';
 import { resolveFolderPath } from './lib/resolve-folder-path.mjs';
-import { upsertTopic } from './lib/supabase-schedule.mjs';
+import { upsertTopic, upsertLessonUrls } from './lib/supabase-schedule.mjs';
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
 let chromium;
 
-async function syncFolderToSupabase(unit, lesson, period, folderId) {
+async function syncFolderToSupabase(unit, lesson, period, folderId, materialUrls) {
   try {
     const topicKey = `${unit}.${lesson}`;
     const result = await upsertTopic(topicKey, period, {
@@ -53,8 +53,17 @@ async function syncFolderToSupabase(unit, lesson, period, folderId) {
     } else {
       console.warn(`  [supabase] Failed to sync folder ID: ${result.error}`);
     }
+    // Sync topic-global material URLs to lesson_urls table (sparse — only non-undefined keys)
+    if (materialUrls && Object.keys(materialUrls).length > 0) {
+      const urlResult = await upsertLessonUrls(topicKey, materialUrls);
+      if (urlResult.ok) {
+        console.log(`  [supabase] Synced material URLs for ${topicKey}`);
+      } else {
+        console.warn(`  [supabase] Failed to sync material URLs: ${urlResult.error}`);
+      }
+    }
   } catch (err) {
-    console.warn(`  [supabase] Failed to sync folder ID: ${err.message}`);
+    console.warn(`  [supabase] Failed to sync: ${err.message}`);
   }
 }
 
@@ -647,6 +656,15 @@ async function main() {
   let totalSuccess = 0;
   let totalFail = 0;
 
+  // Build sparse materialUrls from the canonical links array (topic-global, built once)
+  const materialUrls = {};
+  for (const l of links) {
+    if (l.key === 'worksheet' && l.url) materialUrls.worksheetUrl = l.url;
+    if (l.key === 'drills' && l.url)    materialUrls.drillsUrl = l.url;
+    if (l.key === 'quiz' && l.url)      materialUrls.quizUrl = l.url;
+    if (l.key === 'blooket' && l.url)   materialUrls.blooketUrl = l.url;
+  }
+
   for (const currentCourseId of courseIds) {
   const currentPeriod = detectPeriod(currentCourseId);
   const currentFolderUrlKey = currentPeriod === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
@@ -744,7 +762,7 @@ async function main() {
           materials: {},
         }, currentPeriod);
         const sbFolderId = folderIdMatch ? folderIdMatch[1] : null;
-        if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId);
+        if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId, materialUrls);
         console.log(`  Day folder created inside path: ${materialsUrl}`);
       } else {
         // Post directly into the resolved parent folder
@@ -760,7 +778,7 @@ async function main() {
           materials: {},
         }, currentPeriod);
         const sbFolderId = folderIdMatch ? folderIdMatch[1] : null;
-        if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId);
+        if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId, materialUrls);
         console.log(`  Posting into: ${materialsUrl}`);
       }
     } catch (err) {
@@ -794,7 +812,7 @@ async function main() {
         materials: {},
       }, currentPeriod);
       const sbFolderId = folderIdMatch ? folderIdMatch[1] : null;
-      if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId);
+      if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId, materialUrls);
       console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);

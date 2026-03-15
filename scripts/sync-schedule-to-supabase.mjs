@@ -11,7 +11,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { AGENT_ROOT, UNITS_JS_PATH } from './lib/paths.mjs';
-import { upsertTopic } from './lib/supabase-schedule.mjs';
+import { upsertTopic, upsertLessonUrls } from './lib/supabase-schedule.mjs';
 
 // ---------------------------------------------------------------------------
 // CLI flags
@@ -127,5 +127,48 @@ for (const r of rows) {
   }
 }
 
-console.log(`\nDone. ${ok} upserted, ${errors} errors.`);
-if (errors > 0) process.exit(1);
+console.log(`\nDone. ${ok} topic_schedule rows upserted, ${errors} errors.`);
+
+// ---------------------------------------------------------------------------
+// 4. Backfill lesson_urls (topic-global material URLs)
+// ---------------------------------------------------------------------------
+
+console.log(`\nBackfilling lesson_urls from registry...`);
+const seenTopics = new Set();
+let urlOk = 0;
+let urlErrors = 0;
+
+for (const [topic, entry] of Object.entries(registry)) {
+  if (seenTopics.has(topic)) continue;
+  seenTopics.add(topic);
+
+  const fields = {};
+
+  // Worksheet, quiz, blooket from top-level urls
+  if (entry.urls?.worksheet) fields.worksheetUrl = entry.urls.worksheet;
+  if (entry.urls?.quiz)      fields.quizUrl = entry.urls.quiz;
+  if (entry.urls?.blooket)   fields.blooketUrl = entry.urls.blooket;
+
+  // Drills: top-level first, then fall back to per-material posting data
+  if (entry.urls?.drills) {
+    fields.drillsUrl = entry.urls.drills;
+  } else {
+    const matDrills =
+      entry.schoology?.B?.materials?.drills?.targetUrl ||
+      entry.schoology?.E?.materials?.drills?.targetUrl;
+    if (matDrills) fields.drillsUrl = matDrills;
+  }
+
+  if (Object.keys(fields).length === 0) continue;
+
+  const result = await upsertLessonUrls(topic, fields);
+  if (result.ok) {
+    urlOk++;
+  } else {
+    urlErrors++;
+    console.error(`  [error] lesson_urls ${topic}: ${result.error}`);
+  }
+}
+
+console.log(`lesson_urls: ${urlOk} upserted, ${urlErrors} errors.`);
+if (errors > 0 || urlErrors > 0) process.exit(1);
