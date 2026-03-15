@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "courseId": "7945275782",
+    "coursePeriod": "B",
+    "startFolderId": "986400679",
+    "scrapedAt": "2026-03-11T17:37:28.267Z",
+    "elapsedSeconds": 8.2,
+    "totalFolders": 1,
+    "totalMaterials": 6,
+    "totalLessons": 2,
+    "maxDepth": 0
+  },
+  "folders": {
+    "986400679": {
+      "id": "986400679",
+      "title": "(start)",
+      "path": [],
+      "parentId": null,
+      "depth": 0,
+      "children": [],
+      "materials": [
+        "8285243425",
+        "8285243838",
+        "8285244384",
+        "8285244776",
+        "8285245328",
+        "8285245921"
+      ]
+    }
+  },
+  "materials": {
+    "8285243425": {
+      "id": "8285243425",
+      "title": "Topic 6.7 — Follow-Along Worksheet",
+      "type": "link",
+      "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243425",
+      "targetUrl": null,
+      "folderId": "986400679",
+      "folderPath": [],
+      "parsedLesson": {
+        "unit": 6,
+        "lesson": 7
+      },
+      "parsedType": "worksheet"
+    },
+    "8285243838": {
+      "id": "8285243838",
+      "title": "Topic 6.7 — Drills",
+      "type": "link",
+      "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243838",
+      "targetUrl": null,
+      "folderId": "986400679",
+      "folderPath": [],
+      "parsedLesson": {
+        "unit": 6,
+        "lesson": 7
+      },
+      "parsedType": "drills"
+    },
+    "8285244384": {
+      "id": "8285244384",
+      "title": "Quiz 6.6",
+      "type": "link",
+      "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285244384",
+      "targetUrl": null,
+      "folderId": "986400679",
+      "folderPath": [],
+      "parsedLesson": {
+        "unit": 6,
+        "lesson": 6,
+        "isQuiz": true
+      },
+      "parsedType": "quiz"
+    },
+    "8285244776": {
+      "id": "8285244776",
+      "title": "Topic 6.7 — Blooket Review",
+      "type": "link",
+      "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285244776",
+      "targetUrl": null,
+      "folderId": "986400679",
+      "folderPath": [],
+      "parsedLesson": {
+        "unit": 6,
+        "lesson": 7
+      },
+      "parsedType": "blooket"
+    },
+    "8285245328": {
+      "id": "8285245328",
+      "title": "Topic 6.7 — AP Classroom Video 1",
+      "type": "link",
+      "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285245328",
+      "targetUrl": null,
+      "folderId": "986400679",
+      "folderPath": [],
+      "parsedLesson": {
+        "unit": 6,
+        "lesson": 7
+      },
+      "parsedType": "video"
+    },
+    "8285245921": {
+      "id": "8285245921",
+      "title": "Topic 6.7 — AP Classroom Video 2",
+      "type": "link",
+      "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285245921",
+      "targetUrl": null,
+      "folderId": "986400679",
+      "folderPath": [],
+      "parsedLesson": {
+        "unit": 6,
+        "lesson": 7
+      },
+      "parsedType": "video"
+    }
+  },
+  "lessonIndex": {
+    "6.7": {
+      "folders": [
+        "986400679"
+      ],
+      "materials": [
+        "8285243425",
+        "8285243838",
+        "8285244776",
+        "8285245328",
+        "8285245921"
+      ],
+      "primaryFolder": "986400679",
+      "folderPath": []
+    },
+    "6.6": {
+      "folders": [
+        "986400679"
+      ],
+      "materials": [
+        "8285244384"
+      ],
+      "primaryFolder": "986400679",
+      "folderPath": []
+    }
+  }
+}

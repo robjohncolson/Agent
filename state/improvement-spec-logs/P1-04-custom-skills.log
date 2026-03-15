@@ -1,0 +1,2400 @@
+OpenAI Codex v0.106.0 (research preview)
+--------
+workdir: C:/Users/ColsonR
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019ccac6-d4a5-7dd3-92bd-f738175245f8
+--------
+user
+# Agent: Custom Skills Setup
+
+## Phase
+P1-foundation | No dependencies | Working dir: `C:/Users/ColsonR`
+
+## Objective
+Create 5 custom Claude Code skills in `~/.claude/skills/` for the most-repeated workflows.
+
+## Context: Why These 5 Skills
+Based on 45 sessions:
+- **Commit-push** appeared in 25+ sessions (→ `/push`)
+- **Trading bot debugging** appeared in 22 sessions with recurring friction (→ `/botfix`)
+- **Analysis-only requests** were misunderstood in 5 sessions (→ `/analyze`)
+- **Lesson prep** appeared in 8 sessions with repeated re-explanation (→ `/lessonprep`)
+- **Cartridge creation** appeared in 5 sessions (→ `/cartridge`)
+
+## Owned Paths
+```
+.claude/skills/push/SKILL.md
+.claude/skills/botfix/SKILL.md
+.claude/skills/analyze/SKILL.md
+.claude/skills/lessonprep/SKILL.md
+.claude/skills/cartridge/SKILL.md
+```
+
+## Skill Definitions
+
+### /push — Commit & Push
+```
+~/.claude/skills/push/SKILL.md
+```
+1. `git status` — if no changes, say so and stop
+2. `git diff --stat` for change summary
+3. `git log --oneline -5` to match commit style
+4. Stage changed files BY NAME (not `git add -A`). Exclude .env, credentials, binaries.
+5. Generate concise commit message (what + why)
+6. Commit with Co-Authored-By trailer
+7. `git push`. If diverged: `git pull --rebase` then retry once.
+8. Confirm: commit hash, branch, remote URL.
+
+### /botfix — Trading Bot Bug Fix Protocol
+```
+~/.claude/skills/botfix/SKILL.md
+```
+**Dependency-aware debugging sequence:**
+1. `git pull` to sync with remote
+2. Ask user: observed behavior, expected behavior, log lines
+3. **ANALYSIS PHASE (no code changes):**
+   a. Identify ALL code paths that could produce the behavior
+   b. For each: file:line, trigger condition, data flow
+   c. Mandatory checklist — check these paths:
+      - [ ] Normal fill flow (state_machine.transition → FillEvent)
+      - [ ] Startup reconciliation (main.py init → ledger replay)
+      - [ ] Orphan recovery (RecoveryFillEvent/CancelEvent)
+      - [ ] Degraded modes (S0_long_only, S0_short_only, S1a_short_only, S1b_long_only)
+      - [ ] Governor post-tick (growth snapshots, recovery TTL)
+      - [ ] Fee path (config.MAKER_FEE_PCT → cycle profit → ledger → dashboard)
+   d. Present analysis. **WAIT for user confirmation.**
+4. **TEST PHASE:**
+   a. Write failing test reproducing the bug
+   b. Run pytest to confirm it fails
+5. **FIX PHASE:**
+   a. Implement minimal fix covering ALL identified paths
+   b. Run new test + full suite
+   c. Iterate until green
+6. Ask if user wants to /push
+
+### /analyze — Analysis Only Mode
+```
+~/.claude/skills/analyze/SKILL.md
+```
+**ANALYSIS MODE — NO CODE CHANGES.**
+1. Read relevant source files
+2. Investigate the topic/question
+3. Present structured findings:
+   - Summary
+   - Evidence (file:line references)
+   - Options/recommendations
+   - Risks
+4. Do NOT edit files. Do NOT run state-modifying commands.
+5. Wait for user to decide next steps.
+
+### /lessonprep — Lesson Prep Pipeline
+```
+~/.claude/skills/lessonprep/SKILL.md
+```
+**Dependency-ordered lesson generation:**
+
+Given unit + lesson (e.g., "Unit 6 Lesson 3"):
+
+```
+Step 1: TRANSCRIPT (no dependencies)
+  └─ Check: apstats-live-worksheet/u{N}/ for existing transcripts
+  └─ If missing: warn that Gemini is dormant, offer AI Studio or Whisper
+
+Step 2: RUBRIC (depends on: Step 1 transcript)
+  └─ Check: ai-grading-prompts-u{N}-l{L}.js
+  └─ If missing: generate from curriculum_render/data/frameworks.js
+
+Step 3: WORKSHEET (depends on: Step 1 + Step 2)
+  └─ Check: u{N}_lesson{L}_live.html
+  └─ If missing: generate using live-worksheet skill
+
+Step 4: BLOOKET (depends on: Step 2 rubric)  ← CAN PARALLEL with Step 3
+  └─ Check: u{N}_l{L}_blooket.csv
+  └─ If missing: generate using blooket-quiz skill
+
+Step 5: REPORT
+  └─ List what was created / already existed
+  └─ Ask if user wants to commit and push
+```
+
+### /cartridge — New Cartridge Generator
+```
+~/.claude/skills/cartridge/SKILL.md
+```
+**Dependency-ordered cartridge creation:**
+
+1. Ask for: subject, topic, mode count, difficulty progression
+2. **Generate in order (each depends on previous):**
+   ```
+   Step 1: manifest.json (modes, inputFields, hints, progression gates, animation refs)
+     ↓ defines the contract for all other files
+   Step 2: generator.js (generateProblem per mode, shuffle-bag, template interpolation)
+     ↓ must match manifest.modes[].inputFields
+   Step 3: grading-rules.js (gradeField per fieldId, E/P/I scoring)
+     ↓ must match generator.js field IDs
+   Step 4: ai-grader-prompt.txt ({{placeholders}} matching grading-rules fields)
+   ```
+3. Register in `cartridges/registry.json`
+4. Run `npm test` to verify no regressions
+5. Ask if user wants to commit
+
+## Verification
+```bash
+for skill in push botfix analyze lessonprep cartridge; do
+  test -f ~/.claude/skills/$skill/SKILL.md && echo "$skill: OK" || echo "$skill: MISSING"
+done
+```
+
+mcp startup: no servers
+
+thinking
+**Evaluating tool calls for file access**
+
+I'm considering how to access the file content. I might use `Get-Content` to read limited lines but should also check the current `.claude` directory. It seems like a good idea to try using multi_tool_use.parallel with the shell_command to read the skill creator and list the files in the `.claude` folder. That should help me gather all the needed information efficiently! Let's get started on that.
+codex
+Using `skill-creator` because this is a new custom-skill authoring task. I’m reading its instructions and inspecting the target `.claude/skills` layout before creating the five `SKILL.md` files.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -Path 'C:/Users/ColsonR/.codex/skills/.system/skill-creator/SKILL.md' -TotalCount 250" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Force 'C:/Users/ColsonR/.claude'" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Force 'C:/Users/ColsonR/.claude/skills'" in C:/Users/ColsonR succeeded in 8.44s:
+---
+name: skill-creator
+description: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations.
+metadata:
+  short-description: Create or update a skill
+---
+
+# Skill Creator
+
+This skill provides guidance for creating effective skills.
+
+## About Skills
+
+Skills are modular, self-contained folders that extend Codex's capabilities by providing
+specialized knowledge, workflows, and tools. Think of them as "onboarding guides" for specific
+domains or tasksâ€”they transform Codex from a general-purpose agent into a specialized agent
+equipped with procedural knowledge that no model can fully possess.
+
+### What Skills Provide
+
+ succeeded in 10.76s:
+
+
+    Directory: C:\Users\ColsonR\.claude\skills
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d----l          3/4/2026  10:16 PM                find-skills                                                          
+d-----          3/5/2026   2:13 PM                gitnexus-cli                                                         
+d-----          3/5/2026   2:13 PM                gitnexus-debugging                                                   
+d-----          3/5/2026   2:13 PM                gitnexus-exploring                                                   
+d-----          3/5/2026   2:13 PM                gitnexus-guide                                                       
+d-----          3/5/2026   2:13 PM                gitnexus-impact-analysis                                             
+d-----          3/5/2026   2:13 PM                gitnexus-refactoring                                                 
+d----l          3/4/2026  10:16 PM                manim-composer                                                       
+d----l          3/4/2026  10:16 PM                manimce-best-practices                                               
+d----l          3/4/2026  10:16 PM                manimgl-best-practices                                               
+
+
+ exited 124 in 11.24s:
+
+
+    Directory: C:\Users\ColsonR\.claude
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----          3/7/2026   7:08 PM                backups                                                              
+d-----         1/29/2026  12:07 PM                cache                                                                
+d-----          3/6/2026  11:56 PM                debug                                                                
+d-----         1/29/2026  12:02 PM                downloads                                                            
+d-----          3/7/2026   2:50 PM                file-history                                                         
+d-----          3/5/2026   2:13 PM                hooks                                                                
+d-----          3/7/2026   6:44 PM                paste-cache                                                          
+d-----          3/3/2026  11:35 AM                plans                                                                
+d-----          3/7/2026   2:46 PM                plugins                                                              
+d-----          3/5/2026   2:09 PM                projects                                                             
+d-----          3/7/2026   3:02 PM                shell-snapshots                                                      
+
+thinking
+**Inspecting existing docs**
+
+I'm thinking that to create frontmatter and concise instructions, it might be a good idea to look at the existing skill documentation. I wonder if using a parallel approach could help in this process. That way, I can gather insights and structure my instructions more effectively. It's essential to ensure everything is clear and easy to follow, which makes me want to be thorough in my inspection!
+codex
+The target `.claude/skills` directory exists and already has other skills, so I’m matching the local skill format before writing new ones. Next I’m checking a couple of existing `SKILL.md` files and whether the five target folders already exist.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -Path 'C:/Users/ColsonR/.claude/skills/gitnexus-debugging/SKILL.md' -TotalCount 220" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -Path 'C:/Users/ColsonR/.claude/skills/find-skills/SKILL.md' -TotalCount 160" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -Force 'C:/Users/ColsonR/.claude/skills/push','C:/Users/ColsonR/.claude/skills/botfix','C:/Users/ColsonR/.claude/skills/analyze','C:/Users/ColsonR/.claude/skills/lessonprep','C:/Users/ColsonR/.claude/skills/cartridge'" in C:/Users/ColsonR succeeded in 2.54s:
+---
+name: gitnexus-debugging
+description: "Use when the user is debugging a bug, tracing an error, or asking why something fails. Examples: \"Why is X failing?\", \"Where does this error come from?\", \"Trace this bug\""
+---
+
+# Debugging with GitNexus
+
+## When to Use
+
+- "Why is this function failing?"
+- "Trace where this error comes from"
+- "Who calls this method?"
+- "This endpoint returns 500"
+- Investigating bugs, errors, or unexpected behavior
+
+## Workflow
+
+```
+1. gitnexus_query({query: "<error or symptom>"})            â†’ Find related execution flows
+2. gitnexus_context({name: "<suspect>"})                    â†’ See callers/callees/processes
+ succeeded in 2.30s:
+---
+name: find-skills
+description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
+---
+
+# Find Skills
+
+This skill helps you discover and install skills from the open agent skills ecosystem.
+
+## When to Use This Skill
+
+Use this skill when the user:
+
+- Asks "how do I do X" where X might be a common task with an existing skill
+- Says "find a skill for X" or "is there a skill for X"
+- Asks "can you do X" where X is a specialized capability
+- Expresses interest in extending agent capabilities
+- Wants to search for tools, templates, or workflows
+- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+
+ exited 1 in 2.77s:
+Get-ChildItem : Cannot find path 'C:\Users\ColsonR\.claude\skills\push' because it does not exist.
+At line:2 char:1
++ Get-ChildItem -Force 'C:/Users/ColsonR/.claude/skills/push','C:/Users ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\ColsonR\.claude\skills\push:String) [Get-ChildItem], ItemNotFo 
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+Get-ChildItem : Cannot find path 'C:\Users\ColsonR\.claude\skills\botfix' because it does not exist.
+At line:2 char:1
++ Get-ChildItem -Force 'C:/Users/ColsonR/.claude/skills/push','C:/Users ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\ColsonR\.claude\skills\botfix:String) [Get-ChildItem], ItemNot 
+   FoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+ 
+Get-ChildItem : Cannot find path 'C:\Users\ColsonR\.claude\skills\analyze' because it does not exist.
+At line:2 char:1
++ Get-ChildItem -Force 'C:/Users/ColsonR/.claude/skills/push','C:/Users ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+thinking
+**Planning skill directories**
+
+I need to create directories and files, possibly using an update plan. It might help to provide a longer plan and consider the format for skills. The user didn't specifically ask for agents or the openai.yaml file, but I'll keep it minimal, focusing on what's necessary.
+
+I should craft descriptions that capture triggers and avoid using slashes in folder names. I'll likely include examples or trigger phrases, as the user wants custom Claude Code skills. It’s important to decide if I need to mention explicit stop/wait behavior and include warnings about code changes. References to other skills should be noted too. Finally, I'll use the shell command to create directories.
+thinking
+**Clarifying directory creation**
+
+I’m thinking about creating directories and whether the apply_patch can add files in a non-existing directory. I’m not sure if it can handle nested directories, so it's probably safer to use a shell command instead, especially since the user wants to create directories. Before making any edits, I should include comments explaining what I'm doing. I might also want to use an update plan. So, the plan is to inspect, draft content, create the files, and verify everything afterward.
+codex
+I have the local skill format and the five target folders do not exist yet. Plan:
+1. Create the five skill directories under `.claude/skills`.
+2. Write concise `SKILL.md` files with trigger-focused frontmatter and the exact workflows you specified.
+3. Verify each file exists and spot-check the contents.
+Plan update
+  → Create target skill directories under .claude/skills
+  • Write SKILL.md for push, botfix, analyze, lessonprep, and cartridge
+  • Verify files exist and inspect final contents
+
+thinking
+**Creating directories**
+
+I need to create directories, which means using the shell command. It's a straightforward task, but I want to ensure I get the command right. I'll think carefully about the structure of the directories I need and make sure not to miss anything. Let’s see… I might want to double-check the locations to avoid errors. Once I have it all mapped out, I'll execute the command to create them!
+codex
+I’m creating the five skill directories now, then I’ll add the `SKILL.md` files in one patch so the final shape is easy to review.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "New-Item -ItemType Directory -Force 'C:/Users/ColsonR/.claude/skills/push','C:/Users/ColsonR/.claude/skills/botfix','C:/Users/ColsonR/.claude/skills/analyze','C:/Users/ColsonR/.claude/skills/lessonprep','C:/Users/ColsonR/.claude/skills/cartridge' | Out-Null" in C:/Users/ColsonR succeeded in 1.24s:
+
+
+
+thinking
+**Debugging sequence considerations**
+
+I need to ensure I'm showing the exact files being staged. For the debugging process, I should think about a dependency-aware approach. It might be helpful to ask the user what they observed versus what they expected after running `git pull`. If `git pull` isn’t possible, I should mention that too. According to the skill, the first step is to do `git pull` to sync with the remote repository.
+thinking
+**Planning file management steps**
+
+I need to include contract notes, ensuring field IDs, mode names, and placeholders are consistent across files. I shouldn’t generate later files before the manifest, so maybe I need a verification command. The user asked for file creation, so it’s important to run a check afterward. I’ll consider using PowerShell for verification since the bash loop won’t work here without bash installed. I’ll also look into using apply_patch to add all files at once.
+file update
+A C:/Users/ColsonR/.claude/skills/push/SKILL.md
+---
+name: push
+description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
+---
+
+# Push
+
+Use this skill for requests like:
+
+- `/push`
+- "commit and push this"
+- "save these changes"
+- "ship the current work"
+
+## Workflow
+
+1. Run `git status` first. If there are no changes to commit, say so and stop.
+2. Run `git diff --stat` to summarize the scope of changes.
+3. Run `git log --oneline -5` to match the repository's recent commit style.
+4. Stage changed files by explicit filename only. Do not use `git add -A`.
+5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
+6. Generate a concise commit message that says what changed and why.
+7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
+
+```text
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+8. Run `git push`.
+9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
+10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
+11. Confirm the result with the commit hash, current branch, and remote URL.
+
+## Guardrails
+
+- Show or summarize the files being staged before committing.
+- Never stage everything blindly.
+- Never include secrets or credentials by default.
+- Prefer the smallest safe commit that matches the user's requested work.
+A C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+---
+name: lessonprep
+description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
+---
+
+# Lessonprep
+
+Use this skill to generate lesson assets in dependency order.
+
+If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
+
+## Workflow
+
+### Step 1: Transcript
+
+This step has no dependencies.
+
+- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
+- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
+
+### Step 2: Rubric
+
+This step depends on the transcript.
+
+- Check for `ai-grading-prompts-u{N}-l{L}.js`.
+- If missing, generate it from `curriculum_render/data/frameworks.js`.
+
+### Step 3: Worksheet
+
+This step depends on the transcript and rubric.
+
+- Check for `u{N}_lesson{L}_live.html`.
+- If missing, generate it using the live-worksheet skill or workflow.
+
+### Step 4: Blooket
+
+This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
+
+- Check for `u{N}_l{L}_blooket.csv`.
+- If missing, generate it using the blooket-quiz skill or workflow.
+
+### Step 5: Report
+
+- List what already existed.
+- List what was created.
+- Call out anything blocked by missing prerequisites.
+- Ask if the user wants to commit and push.
+
+## Guardrails
+
+- Do not generate downstream assets before their dependencies exist.
+- Reuse existing files when they are already present and valid.
+- Make the final report explicit about created versus pre-existing artifacts.
+A C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+---
+name: cartridge
+description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
+---
+
+# Cartridge
+
+Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
+
+## Required Inputs
+
+Ask the user for:
+
+- Subject
+- Topic
+- Mode count
+- Difficulty progression
+
+## Workflow
+
+### Step 1: `manifest.json`
+
+Define the contract first:
+
+- Modes
+- `inputFields`
+- Hints
+- Progression gates
+- Animation references
+
+This file defines the shape every later file must follow.
+
+### Step 2: `generator.js`
+
+Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
+
+Include:
+
+- `generateProblem` logic for each mode
+- Shuffle-bag or equivalent anti-repetition logic
+- Template interpolation matching the manifest contract
+
+### Step 3: `grading-rules.js`
+
+Grade each field defined by the generator and manifest.
+
+Include:
+
+- `gradeField` logic per `fieldId`
+- `E`, `P`, and `I` scoring
+
+Field IDs must match `generator.js` exactly.
+
+### Step 4: `ai-grader-prompt.txt`
+
+Create placeholders that match the grading rules and generated fields exactly.
+
+## Finalization
+
+1. Register the new cartridge in `cartridges/registry.json`.
+2. Run `npm test` to check for regressions.
+3. Summarize what was created and any validation results.
+4. Ask whether the user wants to commit the new cartridge.
+
+## Guardrails
+
+- Do not start later files before the manifest contract is stable.
+- Keep names, field IDs, modes, and placeholders consistent across all four files.
+- Prefer the minimal complete cartridge over speculative extra features.
+A C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+---
+name: botfix
+description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
+---
+
+# Botfix
+
+Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
+
+## Required Inputs
+
+Ask the user for:
+
+- Observed behavior
+- Expected behavior
+- Relevant log lines, timestamps, or screenshots of logs
+
+## Workflow
+
+1. Run `git pull` to sync with remote before starting analysis.
+2. Collect the user's observed behavior, expected behavior, and log evidence.
+3. Enter the analysis phase. Do not change code yet.
+
+## Analysis Phase
+
+Identify all code paths that could produce the reported behavior.
+
+For each candidate path, report:
+
+- `file:line`
+- Trigger condition
+- Data flow into and out of the path
+
+Mandatory checklist:
+
+- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
+- [ ] Startup reconciliation (`main.py` init -> ledger replay)
+- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
+- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
+- [ ] Governor post-tick (growth snapshots, recovery TTL)
+- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
+
+Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
+
+## Test Phase
+
+After user confirmation:
+
+1. Write a failing test that reproduces the bug.
+2. Run `pytest` and confirm the new test fails for the expected reason.
+
+## Fix Phase
+
+1. Implement the minimal fix that covers every identified path, not just the easiest one.
+2. Run the new test and the relevant broader test suite.
+3. Iterate until the new test and the suite are green.
+4. Summarize the root cause, the fix, and any paths that were validated.
+
+## Finish
+
+Ask whether the user wants to run `/push`.
+A C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+---
+name: analyze
+description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
+---
+
+# Analyze
+
+This is analysis-only mode.
+
+## Rules
+
+- Do not edit files.
+- Do not run state-modifying commands.
+- Do not make commits, apply fixes, or change configuration.
+- Read source and inspect the current state only.
+
+## Workflow
+
+1. Read the relevant source files and supporting context.
+2. Investigate the question, bug, or design topic.
+3. Present structured findings with these sections:
+   - Summary
+   - Evidence with `file:line` references
+   - Options or recommendations
+   - Risks
+4. Stop after presenting findings and wait for the user to choose next steps.
+
+## Output Standard
+
+Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+apply_patch(auto_approved=true) exited 0 in 489ms:
+Success. Updated the following files:
+A C:/Users/ColsonR/.claude/skills/push/SKILL.md
+A C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+A C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+A C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+A C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+file update:
+diff --git a/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbc1686c40a0733c23b66084b2176c8ba7010c25
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+@@ -0,0 +1,30 @@
++---
++name: analyze
++description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
++---
++
++# Analyze
++
++This is analysis-only mode.
++
++## Rules
++
++- Do not edit files.
++- Do not run state-modifying commands.
++- Do not make commits, apply fixes, or change configuration.
++- Read source and inspect the current state only.
++
++## Workflow
++
++1. Read the relevant source files and supporting context.
++2. Investigate the question, bug, or design topic.
++3. Present structured findings with these sections:
++   - Summary
++   - Evidence with `file:line` references
++   - Options or recommendations
++   - Risks
++4. Stop after presenting findings and wait for the user to choose next steps.
++
++## Output Standard
++
++Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+diff --git a/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..82dc829ddee2401fc28c80aa77006e47a0cbc740
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+@@ -0,0 +1,61 @@
++---
++name: botfix
++description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
++---
++
++# Botfix
++
++Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
++
++## Required Inputs
++
++Ask the user for:
++
++- Observed behavior
++- Expected behavior
++- Relevant log lines, timestamps, or screenshots of logs
++
++## Workflow
++
++1. Run `git pull` to sync with remote before starting analysis.
++2. Collect the user's observed behavior, expected behavior, and log evidence.
++3. Enter the analysis phase. Do not change code yet.
++
++## Analysis Phase
++
++Identify all code paths that could produce the reported behavior.
++
++For each candidate path, report:
++
++- `file:line`
++- Trigger condition
++- Data flow into and out of the path
++
++Mandatory checklist:
++
++- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
++- [ ] Startup reconciliation (`main.py` init -> ledger replay)
++- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
++- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
++- [ ] Governor post-tick (growth snapshots, recovery TTL)
++- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
++
++Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
++
++## Test Phase
++
++After user confirmation:
++
++1. Write a failing test that reproduces the bug.
++2. Run `pytest` and confirm the new test fails for the expected reason.
++
++## Fix Phase
++
++1. Implement the minimal fix that covers every identified path, not just the easiest one.
++2. Run the new test and the relevant broader test suite.
++3. Iterate until the new test and the suite are green.
++4. Summarize the root cause, the fix, and any paths that were validated.
++
++## Finish
++
++Ask whether the user wants to run `/push`.
+diff --git a/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f82fe88ca79b4c28943625ec77d9074f61092441
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+@@ -0,0 +1,69 @@
++---
++name: cartridge
++description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
++---
++
++# Cartridge
++
++Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
++
++## Required Inputs
++
++Ask the user for:
++
++- Subject
++- Topic
++- Mode count
++- Difficulty progression
++
++## Workflow
++
++### Step 1: `manifest.json`
++
++Define the contract first:
++
++- Modes
++- `inputFields`
++- Hints
++- Progression gates
++- Animation references
++
++This file defines the shape every later file must follow.
++
++### Step 2: `generator.js`
++
++Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
++
++Include:
++
++- `generateProblem` logic for each mode
++- Shuffle-bag or equivalent anti-repetition logic
++- Template interpolation matching the manifest contract
++
++### Step 3: `grading-rules.js`
++
++Grade each field defined by the generator and manifest.
++
++Include:
++
++- `gradeField` logic per `fieldId`
++- `E`, `P`, and `I` scoring
++
++Field IDs must match `generator.js` exactly.
++
++### Step 4: `ai-grader-prompt.txt`
++
++Create placeholders that match the grading rules and generated fields exactly.
++
++## Finalization
++
++1. Register the new cartridge in `cartridges/registry.json`.
++2. Run `npm test` to check for regressions.
++3. Summarize what was created and any validation results.
++4. Ask whether the user wants to commit the new cartridge.
++
++## Guardrails
++
++- Do not start later files before the manifest contract is stable.
++- Keep names, field IDs, modes, and placeholders consistent across all four files.
++- Prefer the minimal complete cartridge over speculative extra features.
+diff --git a/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2015904f5192886d4e8f4a8d90d9b42934322c26
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+@@ -0,0 +1,53 @@
++---
++name: lessonprep
++description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
++---
++
++# Lessonprep
++
++Use this skill to generate lesson assets in dependency order.
++
++If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
++
++## Workflow
++
++### Step 1: Transcript
++
++This step has no dependencies.
++
++- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
++- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
++
++### Step 2: Rubric
++
++This step depends on the transcript.
++
++- Check for `ai-grading-prompts-u{N}-l{L}.js`.
++- If missing, generate it from `curriculum_render/data/frameworks.js`.
++
++### Step 3: Worksheet
++
++This step depends on the transcript and rubric.
++
++- Check for `u{N}_lesson{L}_live.html`.
++- If missing, generate it using the live-worksheet skill or workflow.
++
++### Step 4: Blooket
++
++This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
++
++- Check for `u{N}_l{L}_blooket.csv`.
++- If missing, generate it using the blooket-quiz skill or workflow.
++
++### Step 5: Report
++
++- List what already existed.
++- List what was created.
++- Call out anything blocked by missing prerequisites.
++- Ask if the user wants to commit and push.
++
++## Guardrails
++
++- Do not generate downstream assets before their dependencies exist.
++- Reuse existing files when they are already present and valid.
++- Make the final report explicit about created versus pre-existing artifacts.
+diff --git a/C:/Users/ColsonR/.claude/skills/push/SKILL.md b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d17609a80cb8a429c6d9e3f14e4b65cc566834ff
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+@@ -0,0 +1,39 @@
++---
++name: push
++description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
++---
++
++# Push
++
++Use this skill for requests like:
++
++- `/push`
++- "commit and push this"
++- "save these changes"
++- "ship the current work"
++
++## Workflow
++
++1. Run `git status` first. If there are no changes to commit, say so and stop.
++2. Run `git diff --stat` to summarize the scope of changes.
++3. Run `git log --oneline -5` to match the repository's recent commit style.
++4. Stage changed files by explicit filename only. Do not use `git add -A`.
++5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
++6. Generate a concise commit message that says what changed and why.
++7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
++
++```text
++Co-Authored-By: Claude <noreply@anthropic.com>
++```
++
++8. Run `git push`.
++9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
++10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
++11. Confirm the result with the commit hash, current branch, and remote URL.
++
++## Guardrails
++
++- Show or summarize the files being staged before committing.
++- Never stage everything blindly.
++- Never include secrets or credentials by default.
++- Prefer the smallest safe commit that matches the user's requested work.
+
+file update:
+diff --git a/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbc1686c40a0733c23b66084b2176c8ba7010c25
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+@@ -0,0 +1,30 @@
++---
++name: analyze
++description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
++---
++
++# Analyze
++
++This is analysis-only mode.
++
++## Rules
++
++- Do not edit files.
++- Do not run state-modifying commands.
++- Do not make commits, apply fixes, or change configuration.
++- Read source and inspect the current state only.
++
++## Workflow
++
++1. Read the relevant source files and supporting context.
++2. Investigate the question, bug, or design topic.
++3. Present structured findings with these sections:
++   - Summary
++   - Evidence with `file:line` references
++   - Options or recommendations
++   - Risks
++4. Stop after presenting findings and wait for the user to choose next steps.
++
++## Output Standard
++
++Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+diff --git a/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..82dc829ddee2401fc28c80aa77006e47a0cbc740
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+@@ -0,0 +1,61 @@
++---
++name: botfix
++description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
++---
++
++# Botfix
++
++Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
++
++## Required Inputs
++
++Ask the user for:
++
++- Observed behavior
++- Expected behavior
++- Relevant log lines, timestamps, or screenshots of logs
++
++## Workflow
++
++1. Run `git pull` to sync with remote before starting analysis.
++2. Collect the user's observed behavior, expected behavior, and log evidence.
++3. Enter the analysis phase. Do not change code yet.
++
++## Analysis Phase
++
++Identify all code paths that could produce the reported behavior.
++
++For each candidate path, report:
++
++- `file:line`
++- Trigger condition
++- Data flow into and out of the path
++
++Mandatory checklist:
++
++- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
++- [ ] Startup reconciliation (`main.py` init -> ledger replay)
++- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
++- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
++- [ ] Governor post-tick (growth snapshots, recovery TTL)
++- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
++
++Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
++
++## Test Phase
++
++After user confirmation:
++
++1. Write a failing test that reproduces the bug.
++2. Run `pytest` and confirm the new test fails for the expected reason.
++
++## Fix Phase
++
++1. Implement the minimal fix that covers every identified path, not just the easiest one.
++2. Run the new test and the relevant broader test suite.
++3. Iterate until the new test and the suite are green.
++4. Summarize the root cause, the fix, and any paths that were validated.
++
++## Finish
++
++Ask whether the user wants to run `/push`.
+diff --git a/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f82fe88ca79b4c28943625ec77d9074f61092441
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+@@ -0,0 +1,69 @@
++---
++name: cartridge
++description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
++---
++
++# Cartridge
++
++Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
++
++## Required Inputs
++
++Ask the user for:
++
++- Subject
++- Topic
++- Mode count
++- Difficulty progression
++
++## Workflow
++
++### Step 1: `manifest.json`
++
++Define the contract first:
++
++- Modes
++- `inputFields`
++- Hints
++- Progression gates
++- Animation references
++
++This file defines the shape every later file must follow.
++
++### Step 2: `generator.js`
++
++Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
++
++Include:
++
++- `generateProblem` logic for each mode
++- Shuffle-bag or equivalent anti-repetition logic
++- Template interpolation matching the manifest contract
++
++### Step 3: `grading-rules.js`
++
++Grade each field defined by the generator and manifest.
++
++Include:
++
++- `gradeField` logic per `fieldId`
++- `E`, `P`, and `I` scoring
++
++Field IDs must match `generator.js` exactly.
++
++### Step 4: `ai-grader-prompt.txt`
++
++Create placeholders that match the grading rules and generated fields exactly.
++
++## Finalization
++
++1. Register the new cartridge in `cartridges/registry.json`.
++2. Run `npm test` to check for regressions.
++3. Summarize what was created and any validation results.
++4. Ask whether the user wants to commit the new cartridge.
++
++## Guardrails
++
++- Do not start later files before the manifest contract is stable.
++- Keep names, field IDs, modes, and placeholders consistent across all four files.
++- Prefer the minimal complete cartridge over speculative extra features.
+diff --git a/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2015904f5192886d4e8f4a8d90d9b42934322c26
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+@@ -0,0 +1,53 @@
++---
++name: lessonprep
++description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
++---
++
++# Lessonprep
++
++Use this skill to generate lesson assets in dependency order.
++
++If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
++
++## Workflow
++
++### Step 1: Transcript
++
++This step has no dependencies.
++
++- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
++- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
++
++### Step 2: Rubric
++
++This step depends on the transcript.
++
++- Check for `ai-grading-prompts-u{N}-l{L}.js`.
++- If missing, generate it from `curriculum_render/data/frameworks.js`.
++
++### Step 3: Worksheet
++
++This step depends on the transcript and rubric.
++
++- Check for `u{N}_lesson{L}_live.html`.
++- If missing, generate it using the live-worksheet skill or workflow.
++
++### Step 4: Blooket
++
++This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
++
++- Check for `u{N}_l{L}_blooket.csv`.
++- If missing, generate it using the blooket-quiz skill or workflow.
++
++### Step 5: Report
++
++- List what already existed.
++- List what was created.
++- Call out anything blocked by missing prerequisites.
++- Ask if the user wants to commit and push.
++
++## Guardrails
++
++- Do not generate downstream assets before their dependencies exist.
++- Reuse existing files when they are already present and valid.
++- Make the final report explicit about created versus pre-existing artifacts.
+diff --git a/C:/Users/ColsonR/.claude/skills/push/SKILL.md b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d17609a80cb8a429c6d9e3f14e4b65cc566834ff
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+@@ -0,0 +1,39 @@
++---
++name: push
++description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
++---
++
++# Push
++
++Use this skill for requests like:
++
++- `/push`
++- "commit and push this"
++- "save these changes"
++- "ship the current work"
++
++## Workflow
++
++1. Run `git status` first. If there are no changes to commit, say so and stop.
++2. Run `git diff --stat` to summarize the scope of changes.
++3. Run `git log --oneline -5` to match the repository's recent commit style.
++4. Stage changed files by explicit filename only. Do not use `git add -A`.
++5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
++6. Generate a concise commit message that says what changed and why.
++7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
++
++```text
++Co-Authored-By: Claude <noreply@anthropic.com>
++```
++
++8. Run `git push`.
++9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
++10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
++11. Confirm the result with the commit hash, current branch, and remote URL.
++
++## Guardrails
++
++- Show or summarize the files being staged before committing.
++- Never stage everything blindly.
++- Never include secrets or credentials by default.
++- Prefer the smallest safe commit that matches the user's requested work.
+
+codex
+The five skill files are written. I’m verifying existence and frontmatter now so I can confirm the paths and names match what Claude’s skill loader expects.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$skills = '"'push','botfix','analyze','lessonprep','cartridge'; foreach ("'$skill in $skills) { Write-Output "--- $skill ---"; Get-Content -Path "C:/Users/ColsonR/.claude/skills/$skill/SKILL.md" -TotalCount 6 }' in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$skills = '"'push','botfix','analyze','lessonprep','cartridge'; foreach ("'$skill in $skills) { $path = "C:/Users/ColsonR/.claude/skills/$skill/SKILL.md"; if (Test-Path $path) { Write-Output "$skill: OK" } else { Write-Output "$skill: MISSING" } }' in C:/Users/ColsonR exited 1 in 1.00s:
+At line:2 char:189
++ ... skill/SKILL.md"; if (Test-Path $path) { Write-Output "$skill: OK" } e ...
++                                                           ~~~~~~~
+Variable reference is not valid. ':' was not followed by a valid variable name character. Consider using ${} to 
+delimit the name.
+At line:2 char:224
++ ... h) { Write-Output "$skill: OK" } else { Write-Output "$skill: MISSING ...
++                                                           ~~~~~~~
+Variable reference is not valid. ':' was not followed by a valid variable name character. Consider using ${} to 
+delimit the name.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : InvalidVariableReferenceWithDrive
+ 
+ succeeded in 1.30s:
+--- push ---
+---
+name: push
+description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
+---
+
+# Push
+--- botfix ---
+---
+name: botfix
+description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
+---
+
+# Botfix
+--- analyze ---
+---
+name: analyze
+description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
+---
+
+file update:
+diff --git a/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbc1686c40a0733c23b66084b2176c8ba7010c25
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+@@ -0,0 +1,30 @@
++---
++name: analyze
++description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
++---
++
++# Analyze
++
++This is analysis-only mode.
++
++## Rules
++
++- Do not edit files.
++- Do not run state-modifying commands.
++- Do not make commits, apply fixes, or change configuration.
++- Read source and inspect the current state only.
++
++## Workflow
++
++1. Read the relevant source files and supporting context.
++2. Investigate the question, bug, or design topic.
++3. Present structured findings with these sections:
++   - Summary
++   - Evidence with `file:line` references
++   - Options or recommendations
++   - Risks
++4. Stop after presenting findings and wait for the user to choose next steps.
++
++## Output Standard
++
++Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+diff --git a/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..82dc829ddee2401fc28c80aa77006e47a0cbc740
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+@@ -0,0 +1,61 @@
++---
++name: botfix
++description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
++---
++
++# Botfix
++
++Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
++
++## Required Inputs
++
++Ask the user for:
++
++- Observed behavior
++- Expected behavior
++- Relevant log lines, timestamps, or screenshots of logs
++
++## Workflow
++
++1. Run `git pull` to sync with remote before starting analysis.
++2. Collect the user's observed behavior, expected behavior, and log evidence.
++3. Enter the analysis phase. Do not change code yet.
++
++## Analysis Phase
++
++Identify all code paths that could produce the reported behavior.
++
++For each candidate path, report:
++
++- `file:line`
++- Trigger condition
++- Data flow into and out of the path
++
++Mandatory checklist:
++
++- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
++- [ ] Startup reconciliation (`main.py` init -> ledger replay)
++- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
++- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
++- [ ] Governor post-tick (growth snapshots, recovery TTL)
++- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
++
++Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
++
++## Test Phase
++
++After user confirmation:
++
++1. Write a failing test that reproduces the bug.
++2. Run `pytest` and confirm the new test fails for the expected reason.
++
++## Fix Phase
++
++1. Implement the minimal fix that covers every identified path, not just the easiest one.
++2. Run the new test and the relevant broader test suite.
++3. Iterate until the new test and the suite are green.
++4. Summarize the root cause, the fix, and any paths that were validated.
++
++## Finish
++
++Ask whether the user wants to run `/push`.
+diff --git a/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f82fe88ca79b4c28943625ec77d9074f61092441
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+@@ -0,0 +1,69 @@
++---
++name: cartridge
++description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
++---
++
++# Cartridge
++
++Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
++
++## Required Inputs
++
++Ask the user for:
++
++- Subject
++- Topic
++- Mode count
++- Difficulty progression
++
++## Workflow
++
++### Step 1: `manifest.json`
++
++Define the contract first:
++
++- Modes
++- `inputFields`
++- Hints
++- Progression gates
++- Animation references
++
++This file defines the shape every later file must follow.
++
++### Step 2: `generator.js`
++
++Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
++
++Include:
++
++- `generateProblem` logic for each mode
++- Shuffle-bag or equivalent anti-repetition logic
++- Template interpolation matching the manifest contract
++
++### Step 3: `grading-rules.js`
++
++Grade each field defined by the generator and manifest.
++
++Include:
++
++- `gradeField` logic per `fieldId`
++- `E`, `P`, and `I` scoring
++
++Field IDs must match `generator.js` exactly.
++
++### Step 4: `ai-grader-prompt.txt`
++
++Create placeholders that match the grading rules and generated fields exactly.
++
++## Finalization
++
++1. Register the new cartridge in `cartridges/registry.json`.
++2. Run `npm test` to check for regressions.
++3. Summarize what was created and any validation results.
++4. Ask whether the user wants to commit the new cartridge.
++
++## Guardrails
++
++- Do not start later files before the manifest contract is stable.
++- Keep names, field IDs, modes, and placeholders consistent across all four files.
++- Prefer the minimal complete cartridge over speculative extra features.
+diff --git a/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2015904f5192886d4e8f4a8d90d9b42934322c26
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+@@ -0,0 +1,53 @@
++---
++name: lessonprep
++description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
++---
++
++# Lessonprep
++
++Use this skill to generate lesson assets in dependency order.
++
++If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
++
++## Workflow
++
++### Step 1: Transcript
++
++This step has no dependencies.
++
++- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
++- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
++
++### Step 2: Rubric
++
++This step depends on the transcript.
++
++- Check for `ai-grading-prompts-u{N}-l{L}.js`.
++- If missing, generate it from `curriculum_render/data/frameworks.js`.
++
++### Step 3: Worksheet
++
++This step depends on the transcript and rubric.
++
++- Check for `u{N}_lesson{L}_live.html`.
++- If missing, generate it using the live-worksheet skill or workflow.
++
++### Step 4: Blooket
++
++This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
++
++- Check for `u{N}_l{L}_blooket.csv`.
++- If missing, generate it using the blooket-quiz skill or workflow.
++
++### Step 5: Report
++
++- List what already existed.
++- List what was created.
++- Call out anything blocked by missing prerequisites.
++- Ask if the user wants to commit and push.
++
++## Guardrails
++
++- Do not generate downstream assets before their dependencies exist.
++- Reuse existing files when they are already present and valid.
++- Make the final report explicit about created versus pre-existing artifacts.
+diff --git a/C:/Users/ColsonR/.claude/skills/push/SKILL.md b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d17609a80cb8a429c6d9e3f14e4b65cc566834ff
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+@@ -0,0 +1,39 @@
++---
++name: push
++description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
++---
++
++# Push
++
++Use this skill for requests like:
++
++- `/push`
++- "commit and push this"
++- "save these changes"
++- "ship the current work"
++
++## Workflow
++
++1. Run `git status` first. If there are no changes to commit, say so and stop.
++2. Run `git diff --stat` to summarize the scope of changes.
++3. Run `git log --oneline -5` to match the repository's recent commit style.
++4. Stage changed files by explicit filename only. Do not use `git add -A`.
++5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
++6. Generate a concise commit message that says what changed and why.
++7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
++
++```text
++Co-Authored-By: Claude <noreply@anthropic.com>
++```
++
++8. Run `git push`.
++9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
++10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
++11. Confirm the result with the commit hash, current branch, and remote URL.
++
++## Guardrails
++
++- Show or summarize the files being staged before committing.
++- Never stage everything blindly.
++- Never include secrets or credentials by default.
++- Prefer the smallest safe commit that matches the user's requested work.
+
+codex
+The content shape is correct; the only issue was a PowerShell string interpolation mistake in the verification command. I’m rerunning the existence check with explicit formatting to finish verification cleanly.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$skills = '"'push','botfix','analyze','lessonprep','cartridge'; foreach ("'$skill in $skills) { $path = "C:/Users/ColsonR/.claude/skills/$skill/SKILL.md"; if (Test-Path $path) { Write-Output ('"'{0}: OK' -f "'$skill) } else { Write-Output ('"'{0}: MISSING' -f "'$skill) } }' in C:/Users/ColsonR succeeded in 957ms:
+push: OK
+botfix: OK
+analyze: OK
+lessonprep: OK
+cartridge: OK
+file update:
+diff --git a/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbc1686c40a0733c23b66084b2176c8ba7010c25
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+@@ -0,0 +1,30 @@
++---
++name: analyze
++description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
++---
++
++# Analyze
++
++This is analysis-only mode.
++
++## Rules
++
++- Do not edit files.
++- Do not run state-modifying commands.
++- Do not make commits, apply fixes, or change configuration.
++- Read source and inspect the current state only.
++
++## Workflow
++
++1. Read the relevant source files and supporting context.
++2. Investigate the question, bug, or design topic.
++3. Present structured findings with these sections:
++   - Summary
++   - Evidence with `file:line` references
++   - Options or recommendations
++   - Risks
++4. Stop after presenting findings and wait for the user to choose next steps.
++
++## Output Standard
++
++Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+diff --git a/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..82dc829ddee2401fc28c80aa77006e47a0cbc740
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+@@ -0,0 +1,61 @@
++---
++name: botfix
++description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
++---
++
++# Botfix
++
++Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
++
++## Required Inputs
++
++Ask the user for:
++
++- Observed behavior
++- Expected behavior
++- Relevant log lines, timestamps, or screenshots of logs
++
++## Workflow
++
++1. Run `git pull` to sync with remote before starting analysis.
++2. Collect the user's observed behavior, expected behavior, and log evidence.
++3. Enter the analysis phase. Do not change code yet.
++
++## Analysis Phase
++
++Identify all code paths that could produce the reported behavior.
++
++For each candidate path, report:
++
++- `file:line`
++- Trigger condition
++- Data flow into and out of the path
++
++Mandatory checklist:
++
++- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
++- [ ] Startup reconciliation (`main.py` init -> ledger replay)
++- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
++- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
++- [ ] Governor post-tick (growth snapshots, recovery TTL)
++- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
++
++Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
++
++## Test Phase
++
++After user confirmation:
++
++1. Write a failing test that reproduces the bug.
++2. Run `pytest` and confirm the new test fails for the expected reason.
++
++## Fix Phase
++
++1. Implement the minimal fix that covers every identified path, not just the easiest one.
++2. Run the new test and the relevant broader test suite.
++3. Iterate until the new test and the suite are green.
++4. Summarize the root cause, the fix, and any paths that were validated.
++
++## Finish
++
++Ask whether the user wants to run `/push`.
+diff --git a/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f82fe88ca79b4c28943625ec77d9074f61092441
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+@@ -0,0 +1,69 @@
++---
++name: cartridge
++description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
++---
++
++# Cartridge
++
++Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
++
++## Required Inputs
++
++Ask the user for:
++
++- Subject
++- Topic
++- Mode count
++- Difficulty progression
++
++## Workflow
++
++### Step 1: `manifest.json`
++
++Define the contract first:
++
++- Modes
++- `inputFields`
++- Hints
++- Progression gates
++- Animation references
++
++This file defines the shape every later file must follow.
++
++### Step 2: `generator.js`
++
++Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
++
++Include:
++
++- `generateProblem` logic for each mode
++- Shuffle-bag or equivalent anti-repetition logic
++- Template interpolation matching the manifest contract
++
++### Step 3: `grading-rules.js`
++
++Grade each field defined by the generator and manifest.
++
++Include:
++
++- `gradeField` logic per `fieldId`
++- `E`, `P`, and `I` scoring
++
++Field IDs must match `generator.js` exactly.
++
++### Step 4: `ai-grader-prompt.txt`
++
++Create placeholders that match the grading rules and generated fields exactly.
++
++## Finalization
++
++1. Register the new cartridge in `cartridges/registry.json`.
++2. Run `npm test` to check for regressions.
++3. Summarize what was created and any validation results.
++4. Ask whether the user wants to commit the new cartridge.
++
++## Guardrails
++
++- Do not start later files before the manifest contract is stable.
++- Keep names, field IDs, modes, and placeholders consistent across all four files.
++- Prefer the minimal complete cartridge over speculative extra features.
+diff --git a/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2015904f5192886d4e8f4a8d90d9b42934322c26
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+@@ -0,0 +1,53 @@
++---
++name: lessonprep
++description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
++---
++
++# Lessonprep
++
++Use this skill to generate lesson assets in dependency order.
++
++If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
++
++## Workflow
++
++### Step 1: Transcript
++
++This step has no dependencies.
++
++- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
++- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
++
++### Step 2: Rubric
++
++This step depends on the transcript.
++
++- Check for `ai-grading-prompts-u{N}-l{L}.js`.
++- If missing, generate it from `curriculum_render/data/frameworks.js`.
++
++### Step 3: Worksheet
++
++This step depends on the transcript and rubric.
++
++- Check for `u{N}_lesson{L}_live.html`.
++- If missing, generate it using the live-worksheet skill or workflow.
++
++### Step 4: Blooket
++
++This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
++
++- Check for `u{N}_l{L}_blooket.csv`.
++- If missing, generate it using the blooket-quiz skill or workflow.
++
++### Step 5: Report
++
++- List what already existed.
++- List what was created.
++- Call out anything blocked by missing prerequisites.
++- Ask if the user wants to commit and push.
++
++## Guardrails
++
++- Do not generate downstream assets before their dependencies exist.
++- Reuse existing files when they are already present and valid.
++- Make the final report explicit about created versus pre-existing artifacts.
+diff --git a/C:/Users/ColsonR/.claude/skills/push/SKILL.md b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d17609a80cb8a429c6d9e3f14e4b65cc566834ff
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+@@ -0,0 +1,39 @@
++---
++name: push
++description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
++---
++
++# Push
++
++Use this skill for requests like:
++
++- `/push`
++- "commit and push this"
++- "save these changes"
++- "ship the current work"
++
++## Workflow
++
++1. Run `git status` first. If there are no changes to commit, say so and stop.
++2. Run `git diff --stat` to summarize the scope of changes.
++3. Run `git log --oneline -5` to match the repository's recent commit style.
++4. Stage changed files by explicit filename only. Do not use `git add -A`.
++5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
++6. Generate a concise commit message that says what changed and why.
++7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
++
++```text
++Co-Authored-By: Claude <noreply@anthropic.com>
++```
++
++8. Run `git push`.
++9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
++10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
++11. Confirm the result with the commit hash, current branch, and remote URL.
++
++## Guardrails
++
++- Show or summarize the files being staged before committing.
++- Never stage everything blindly.
++- Never include secrets or credentials by default.
++- Prefer the smallest safe commit that matches the user's requested work.
+
+Plan update
+All five skill directories and SKILL.md files were created under .claude/skills, and existence/frontmatter checks passed.
+  ✓ Create target skill directories under .claude/skills
+  ✓ Write SKILL.md for push, botfix, analyze, lessonprep, and cartridge
+  ✓ Verify files exist and inspect final contents
+file update:
+diff --git a/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbc1686c40a0733c23b66084b2176c8ba7010c25
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+@@ -0,0 +1,30 @@
++---
++name: analyze
++description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
++---
++
++# Analyze
++
++This is analysis-only mode.
++
++## Rules
++
++- Do not edit files.
++- Do not run state-modifying commands.
++- Do not make commits, apply fixes, or change configuration.
++- Read source and inspect the current state only.
++
++## Workflow
++
++1. Read the relevant source files and supporting context.
++2. Investigate the question, bug, or design topic.
++3. Present structured findings with these sections:
++   - Summary
++   - Evidence with `file:line` references
++   - Options or recommendations
++   - Risks
++4. Stop after presenting findings and wait for the user to choose next steps.
++
++## Output Standard
++
++Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+diff --git a/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..82dc829ddee2401fc28c80aa77006e47a0cbc740
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+@@ -0,0 +1,61 @@
++---
++name: botfix
++description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
++---
++
++# Botfix
++
++Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
++
++## Required Inputs
++
++Ask the user for:
++
++- Observed behavior
++- Expected behavior
++- Relevant log lines, timestamps, or screenshots of logs
++
++## Workflow
++
++1. Run `git pull` to sync with remote before starting analysis.
++2. Collect the user's observed behavior, expected behavior, and log evidence.
++3. Enter the analysis phase. Do not change code yet.
++
++## Analysis Phase
++
++Identify all code paths that could produce the reported behavior.
++
++For each candidate path, report:
++
++- `file:line`
++- Trigger condition
++- Data flow into and out of the path
++
++Mandatory checklist:
++
++- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
++- [ ] Startup reconciliation (`main.py` init -> ledger replay)
++- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
++- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
++- [ ] Governor post-tick (growth snapshots, recovery TTL)
++- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
++
++Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
++
++## Test Phase
++
++After user confirmation:
++
++1. Write a failing test that reproduces the bug.
++2. Run `pytest` and confirm the new test fails for the expected reason.
++
++## Fix Phase
++
++1. Implement the minimal fix that covers every identified path, not just the easiest one.
++2. Run the new test and the relevant broader test suite.
++3. Iterate until the new test and the suite are green.
++4. Summarize the root cause, the fix, and any paths that were validated.
++
++## Finish
++
++Ask whether the user wants to run `/push`.
+diff --git a/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f82fe88ca79b4c28943625ec77d9074f61092441
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+@@ -0,0 +1,69 @@
++---
++name: cartridge
++description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
++---
++
++# Cartridge
++
++Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
++
++## Required Inputs
++
++Ask the user for:
++
++- Subject
++- Topic
++- Mode count
++- Difficulty progression
++
++## Workflow
++
++### Step 1: `manifest.json`
++
++Define the contract first:
++
++- Modes
++- `inputFields`
++- Hints
++- Progression gates
++- Animation references
++
++This file defines the shape every later file must follow.
++
++### Step 2: `generator.js`
++
++Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
++
++Include:
++
++- `generateProblem` logic for each mode
++- Shuffle-bag or equivalent anti-repetition logic
++- Template interpolation matching the manifest contract
++
++### Step 3: `grading-rules.js`
++
++Grade each field defined by the generator and manifest.
++
++Include:
++
++- `gradeField` logic per `fieldId`
++- `E`, `P`, and `I` scoring
++
++Field IDs must match `generator.js` exactly.
++
++### Step 4: `ai-grader-prompt.txt`
++
++Create placeholders that match the grading rules and generated fields exactly.
++
++## Finalization
++
++1. Register the new cartridge in `cartridges/registry.json`.
++2. Run `npm test` to check for regressions.
++3. Summarize what was created and any validation results.
++4. Ask whether the user wants to commit the new cartridge.
++
++## Guardrails
++
++- Do not start later files before the manifest contract is stable.
++- Keep names, field IDs, modes, and placeholders consistent across all four files.
++- Prefer the minimal complete cartridge over speculative extra features.
+diff --git a/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2015904f5192886d4e8f4a8d90d9b42934322c26
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+@@ -0,0 +1,53 @@
++---
++name: lessonprep
++description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
++---
++
++# Lessonprep
++
++Use this skill to generate lesson assets in dependency order.
++
++If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
++
++## Workflow
++
++### Step 1: Transcript
++
++This step has no dependencies.
++
++- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
++- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
++
++### Step 2: Rubric
++
++This step depends on the transcript.
++
++- Check for `ai-grading-prompts-u{N}-l{L}.js`.
++- If missing, generate it from `curriculum_render/data/frameworks.js`.
++
++### Step 3: Worksheet
++
++This step depends on the transcript and rubric.
++
++- Check for `u{N}_lesson{L}_live.html`.
++- If missing, generate it using the live-worksheet skill or workflow.
++
++### Step 4: Blooket
++
++This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
++
++- Check for `u{N}_l{L}_blooket.csv`.
++- If missing, generate it using the blooket-quiz skill or workflow.
++
++### Step 5: Report
++
++- List what already existed.
++- List what was created.
++- Call out anything blocked by missing prerequisites.
++- Ask if the user wants to commit and push.
++
++## Guardrails
++
++- Do not generate downstream assets before their dependencies exist.
++- Reuse existing files when they are already present and valid.
++- Make the final report explicit about created versus pre-existing artifacts.
+diff --git a/C:/Users/ColsonR/.claude/skills/push/SKILL.md b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d17609a80cb8a429c6d9e3f14e4b65cc566834ff
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+@@ -0,0 +1,39 @@
++---
++name: push
++description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
++---
++
++# Push
++
++Use this skill for requests like:
++
++- `/push`
++- "commit and push this"
++- "save these changes"
++- "ship the current work"
++
++## Workflow
++
++1. Run `git status` first. If there are no changes to commit, say so and stop.
++2. Run `git diff --stat` to summarize the scope of changes.
++3. Run `git log --oneline -5` to match the repository's recent commit style.
++4. Stage changed files by explicit filename only. Do not use `git add -A`.
++5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
++6. Generate a concise commit message that says what changed and why.
++7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
++
++```text
++Co-Authored-By: Claude <noreply@anthropic.com>
++```
++
++8. Run `git push`.
++9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
++10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
++11. Confirm the result with the commit hash, current branch, and remote URL.
++
++## Guardrails
++
++- Show or summarize the files being staged before committing.
++- Never stage everything blindly.
++- Never include secrets or credentials by default.
++- Prefer the smallest safe commit that matches the user's requested work.
+
+codex
+Created the five skill definitions under `C:/Users/ColsonR/.claude/skills`:
+
+- [push/SKILL.md](C:/Users/ColsonR/.claude/skills/push/SKILL.md)
+- [botfix/SKILL.md](C:/Users/ColsonR/.claude/skills/botfix/SKILL.md)
+- [analyze/SKILL.md](C:/Users/ColsonR/.claude/skills/analyze/SKILL.md)
+- [lessonprep/SKILL.md](C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md)
+- [cartridge/SKILL.md](C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md)
+
+Each file includes YAML frontmatter plus concise workflow instructions matching the behaviors you specified. I kept the scope to the requested `SKILL.md` files only; no extra metadata or support files were added.
+
+Verification passed:
+
+- `push: OK`
+- `botfix: OK`
+- `analyze: OK`
+- `lessonprep: OK`
+- `cartridge: OK`
+
+If you want, I can do a second pass to tighten any trigger descriptions for Claude’s auto-activation behavior.
+file update:
+diff --git a/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbc1686c40a0733c23b66084b2176c8ba7010c25
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/analyze/SKILL.md
+@@ -0,0 +1,30 @@
++---
++name: analyze
++description: "Use when the user wants investigation only with no code changes, asks for /analyze, wants a root-cause analysis, code reading, design review, or structured findings without modifying files."
++---
++
++# Analyze
++
++This is analysis-only mode.
++
++## Rules
++
++- Do not edit files.
++- Do not run state-modifying commands.
++- Do not make commits, apply fixes, or change configuration.
++- Read source and inspect the current state only.
++
++## Workflow
++
++1. Read the relevant source files and supporting context.
++2. Investigate the question, bug, or design topic.
++3. Present structured findings with these sections:
++   - Summary
++   - Evidence with `file:line` references
++   - Options or recommendations
++   - Risks
++4. Stop after presenting findings and wait for the user to choose next steps.
++
++## Output Standard
++
++Keep the analysis grounded in evidence. If something is uncertain, label it as an inference and explain what would verify it.
+diff --git a/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..82dc829ddee2401fc28c80aa77006e47a0cbc740
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/botfix/SKILL.md
+@@ -0,0 +1,61 @@
++---
++name: botfix
++description: "Use when the user wants to debug or fix a trading bot bug, especially around fills, reconciliation, degraded modes, fees, ledger state, governor behavior, or dashboard mismatches. Examples: /botfix, 'why is cycle profit wrong?', 'trace this fill bug'."
++---
++
++# Botfix
++
++Use this skill for trading bot debugging and bug-fix work that needs disciplined analysis before code changes.
++
++## Required Inputs
++
++Ask the user for:
++
++- Observed behavior
++- Expected behavior
++- Relevant log lines, timestamps, or screenshots of logs
++
++## Workflow
++
++1. Run `git pull` to sync with remote before starting analysis.
++2. Collect the user's observed behavior, expected behavior, and log evidence.
++3. Enter the analysis phase. Do not change code yet.
++
++## Analysis Phase
++
++Identify all code paths that could produce the reported behavior.
++
++For each candidate path, report:
++
++- `file:line`
++- Trigger condition
++- Data flow into and out of the path
++
++Mandatory checklist:
++
++- [ ] Normal fill flow (`state_machine.transition` -> `FillEvent`)
++- [ ] Startup reconciliation (`main.py` init -> ledger replay)
++- [ ] Orphan recovery (`RecoveryFillEvent` and `CancelEvent`)
++- [ ] Degraded modes (`S0_long_only`, `S0_short_only`, `S1a_short_only`, `S1b_long_only`)
++- [ ] Governor post-tick (growth snapshots, recovery TTL)
++- [ ] Fee path (`config.MAKER_FEE_PCT` -> cycle profit -> ledger -> dashboard)
++
++Present the analysis clearly, then stop and wait for explicit user confirmation before writing code.
++
++## Test Phase
++
++After user confirmation:
++
++1. Write a failing test that reproduces the bug.
++2. Run `pytest` and confirm the new test fails for the expected reason.
++
++## Fix Phase
++
++1. Implement the minimal fix that covers every identified path, not just the easiest one.
++2. Run the new test and the relevant broader test suite.
++3. Iterate until the new test and the suite are green.
++4. Summarize the root cause, the fix, and any paths that were validated.
++
++## Finish
++
++Ask whether the user wants to run `/push`.
+diff --git a/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f82fe88ca79b4c28943625ec77d9074f61092441
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md
+@@ -0,0 +1,69 @@
++---
++name: cartridge
++description: "Use when the user wants a new educational cartridge created, asks for /cartridge, or needs the full manifest -> generator -> grading rules -> AI prompt workflow for a new cartridge."
++---
++
++# Cartridge
++
++Use this skill to create a new cartridge in dependency order so every generated file matches the same contract.
++
++## Required Inputs
++
++Ask the user for:
++
++- Subject
++- Topic
++- Mode count
++- Difficulty progression
++
++## Workflow
++
++### Step 1: `manifest.json`
++
++Define the contract first:
++
++- Modes
++- `inputFields`
++- Hints
++- Progression gates
++- Animation references
++
++This file defines the shape every later file must follow.
++
++### Step 2: `generator.js`
++
++Generate problems per mode and keep it aligned with `manifest.modes[].inputFields`.
++
++Include:
++
++- `generateProblem` logic for each mode
++- Shuffle-bag or equivalent anti-repetition logic
++- Template interpolation matching the manifest contract
++
++### Step 3: `grading-rules.js`
++
++Grade each field defined by the generator and manifest.
++
++Include:
++
++- `gradeField` logic per `fieldId`
++- `E`, `P`, and `I` scoring
++
++Field IDs must match `generator.js` exactly.
++
++### Step 4: `ai-grader-prompt.txt`
++
++Create placeholders that match the grading rules and generated fields exactly.
++
++## Finalization
++
++1. Register the new cartridge in `cartridges/registry.json`.
++2. Run `npm test` to check for regressions.
++3. Summarize what was created and any validation results.
++4. Ask whether the user wants to commit the new cartridge.
++
++## Guardrails
++
++- Do not start later files before the manifest contract is stable.
++- Keep names, field IDs, modes, and placeholders consistent across all four files.
++- Prefer the minimal complete cartridge over speculative extra features.
+diff --git a/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2015904f5192886d4e8f4a8d90d9b42934322c26
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md
+@@ -0,0 +1,53 @@
++---
++name: lessonprep
++description: "Use when the user wants lesson materials prepared for a specific unit and lesson, especially transcripts, grading rubrics, live worksheets, or Blooket exports. Examples: /lessonprep, 'prepare Unit 6 Lesson 3', 'build the worksheet and Blooket for this lesson'."
++---
++
++# Lessonprep
++
++Use this skill to generate lesson assets in dependency order.
++
++If the user does not provide the lesson identifier, ask for it in the form `Unit N Lesson L`.
++
++## Workflow
++
++### Step 1: Transcript
++
++This step has no dependencies.
++
++- Check `apstats-live-worksheet/u{N}/` for existing transcripts.
++- If a transcript is missing, warn that Gemini is dormant and offer AI Studio or Whisper as the fallback path.
++
++### Step 2: Rubric
++
++This step depends on the transcript.
++
++- Check for `ai-grading-prompts-u{N}-l{L}.js`.
++- If missing, generate it from `curriculum_render/data/frameworks.js`.
++
++### Step 3: Worksheet
++
++This step depends on the transcript and rubric.
++
++- Check for `u{N}_lesson{L}_live.html`.
++- If missing, generate it using the live-worksheet skill or workflow.
++
++### Step 4: Blooket
++
++This step depends on the rubric and can run in parallel with Step 3 once the rubric exists.
++
++- Check for `u{N}_l{L}_blooket.csv`.
++- If missing, generate it using the blooket-quiz skill or workflow.
++
++### Step 5: Report
++
++- List what already existed.
++- List what was created.
++- Call out anything blocked by missing prerequisites.
++- Ask if the user wants to commit and push.
++
++## Guardrails
++
++- Do not generate downstream assets before their dependencies exist.
++- Reuse existing files when they are already present and valid.
++- Make the final report explicit about created versus pre-existing artifacts.
+diff --git a/C:/Users/ColsonR/.claude/skills/push/SKILL.md b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d17609a80cb8a429c6d9e3f14e4b65cc566834ff
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/skills/push/SKILL.md
+@@ -0,0 +1,39 @@
++---
++name: push
++description: "Use when the user wants to commit and push current work, asks for /push, or wants a standard git commit workflow with safe staging by filename and a final push."
++---
++
++# Push
++
++Use this skill for requests like:
++
++- `/push`
++- "commit and push this"
++- "save these changes"
++- "ship the current work"
++
++## Workflow
++
++1. Run `git status` first. If there are no changes to commit, say so and stop.
++2. Run `git diff --stat` to summarize the scope of changes.
++3. Run `git log --oneline -5` to match the repository's recent commit style.
++4. Stage changed files by explicit filename only. Do not use `git add -A`.
++5. Exclude `.env` files, credentials, secrets, tokens, binaries, and unrelated generated artifacts unless the user explicitly asks to include them.
++6. Generate a concise commit message that says what changed and why.
++7. Commit with a `Co-Authored-By` trailer. If the repo already uses a preferred Claude trailer format, follow it. Otherwise use:
++
++```text
++Co-Authored-By: Claude <noreply@anthropic.com>
++```
++
++8. Run `git push`.
++9. If push fails because the branch diverged, run `git pull --rebase` and retry `git push` once.
++10. If rebase conflicts or the second push fails, stop and report the issue instead of forcing anything.
++11. Confirm the result with the commit hash, current branch, and remote URL.
++
++## Guardrails
++
++- Show or summarize the files being staged before committing.
++- Never stage everything blindly.
++- Never include secrets or credentials by default.
++- Prefer the smallest safe commit that matches the user's requested work.
+
+tokens used
+32,585
+Created the five skill definitions under `C:/Users/ColsonR/.claude/skills`:
+
+- [push/SKILL.md](C:/Users/ColsonR/.claude/skills/push/SKILL.md)
+- [botfix/SKILL.md](C:/Users/ColsonR/.claude/skills/botfix/SKILL.md)
+- [analyze/SKILL.md](C:/Users/ColsonR/.claude/skills/analyze/SKILL.md)
+- [lessonprep/SKILL.md](C:/Users/ColsonR/.claude/skills/lessonprep/SKILL.md)
+- [cartridge/SKILL.md](C:/Users/ColsonR/.claude/skills/cartridge/SKILL.md)
+
+Each file includes YAML frontmatter plus concise workflow instructions matching the behaviors you specified. I kept the scope to the requested `SKILL.md` files only; no extra metadata or support files were added.
+
+Verification passed:
+
+- `push: OK`
+- `botfix: OK`
+- `analyze: OK`
+- `lessonprep: OK`
+- `cartridge: OK`
+
+If you want, I can do a second pass to tighten any trigger descriptions for Claude’s auto-activation behavior.

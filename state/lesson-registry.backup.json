@@ -1,0 +1,2590 @@
+{
+  "6.10": {
+    "unit": 6,
+    "lesson": 10,
+    "topic": "Monday 3/16/26",
+    "date": "2026-03-16",
+    "period": "B",
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson10_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-hypotheses-610",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=9",
+      "blooket": "https://dashboard.blooket.com/set/69ad1cce0d5874349dbbf688",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986721319",
+      "videos": [
+        "1dIRMyHdePpkx7pCJFcAkRHIPj2Q8RtqG",
+        "1SDYELDZa9kcJldq_qf1DsOOMhrjzfkio"
+      ],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896988"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "skipped",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-08T01:00:00Z",
+      "lastUpdated": "2026-03-09T14:08:13.162Z"
+    },
+    "schoologyLinks": {
+      "worksheet": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:14:10.430Z",
+        "title": "Topic 6.10 — Follow-Along Worksheet",
+        "verified": false
+      },
+      "drills": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:14:27.842Z",
+        "title": "Topic 6.10 — Drills",
+        "verified": false
+      },
+      "quiz": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:14:45.124Z",
+        "title": "Quiz 6.9",
+        "verified": false
+      },
+      "blooket": {
+        "status": "failed",
+        "postedAt": "2026-03-08T23:15:02.616Z",
+        "title": "Topic 6.10 — Blooket Review",
+        "verified": false
+      }
+    }
+  },
+  "6.11": {
+    "unit": 6,
+    "lesson": 11,
+    "topic": "Topic 6.11",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson11_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l21-test-statistic-611",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=10",
+      "blooket": "https://dashboard.blooket.com/set/69ade09c572efa156e0e3402",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986588515",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986897040"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "done",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-08T16:25:49.168Z",
+      "lastUpdated": "2026-03-10T11:49:03.843Z"
+    }
+  },
+  "6.7": {
+    "unit": 6,
+    "lesson": 7,
+    "topic": "Topic 6.7",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson7_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l35-identify-error-type",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=6",
+      "blooket": "https://dashboard.blooket.com/set/69ab32e0d721c5ea7bb4c56e",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986400679",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896908"
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "pending",
+      "schoology": "pending"
+    },
+    "timestamps": {
+      "created": "2026-03-08T17:14:27.262Z",
+      "lastUpdated": "2026-03-09T04:40:47.513Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Topic 6.7 — Follow-Along Worksheet",
+          "type": "worksheet",
+          "schoologyId": "8285243425",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243425"
+        },
+        {
+          "title": "Topic 6.7 — Drills",
+          "type": "drills",
+          "schoologyId": "8285243838",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243838"
+        },
+        {
+          "title": "Topic 6.7 — Blooket Review",
+          "type": "blooket",
+          "schoologyId": "8285244776",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285244776"
+        },
+        {
+          "title": "Topic 6.7 — AP Classroom Video 1",
+          "type": "video",
+          "schoologyId": "8285245328",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285245328"
+        },
+        {
+          "title": "Topic 6.7 — AP Classroom Video 2",
+          "type": "video",
+          "schoologyId": "8285245921",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285245921"
+        },
+        {
+          "title": "Quiz 6.7",
+          "type": "quiz",
+          "schoologyId": "8285521918",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521918"
+        }
+      ],
+      "folderIds": [
+        "986400679",
+        "986444841"
+      ],
+      "dayFolders": [
+        "Tuesday 3/10/26",
+        "Thursday 3/12/26"
+      ],
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243425",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285243838",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285244776",
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521918",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285245328",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285245921"
+      ]
+    }
+  },
+  "1.3": {
+    "unit": 1,
+    "lesson": 3,
+    "topic": "Topic 1.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=2",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.668Z",
+      "lastUpdated": "2026-03-09T04:30:32.399Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 3 Quiz",
+          "type": "quiz",
+          "schoologyId": "8036656492",
+          "href": "https://lynnschools.schoology.com/assignment/8036656492"
+        }
+      ],
+      "folderIds": [
+        "947992805"
+      ],
+      "dayFolders": [
+        "Weeks 1 - 3"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8036656492",
+      "schoologyVideos": []
+    }
+  },
+  "1.4": {
+    "unit": 1,
+    "lesson": 4,
+    "topic": "Topic 1.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson4_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=3",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.670Z",
+      "lastUpdated": "2026-03-09T04:30:32.404Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 4 Quiz",
+          "type": "quiz",
+          "schoologyId": "8039347534",
+          "href": "https://lynnschools.schoology.com/assignment/8039347534"
+        }
+      ],
+      "folderIds": [
+        "947992805"
+      ],
+      "dayFolders": [
+        "Weeks 1 - 3"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8039347534",
+      "schoologyVideos": []
+    }
+  },
+  "1.5": {
+    "unit": 1,
+    "lesson": 5,
+    "topic": "Topic 1.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson5_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=4",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.670Z",
+      "lastUpdated": "2026-03-09T04:30:32.407Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 5 Quiz",
+          "type": "quiz",
+          "schoologyId": "8039356742",
+          "href": "https://lynnschools.schoology.com/assignment/8039356742"
+        }
+      ],
+      "folderIds": [
+        "947992805"
+      ],
+      "dayFolders": [
+        "Weeks 1 - 3"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8039356742",
+      "schoologyVideos": []
+    }
+  },
+  "1.6": {
+    "unit": 1,
+    "lesson": 6,
+    "topic": "Topic 1.6",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson6_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=5",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=947992805",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.671Z",
+      "lastUpdated": "2026-03-09T04:30:32.409Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 6 Quiz",
+          "type": "quiz",
+          "schoologyId": "8042291977",
+          "href": "https://lynnschools.schoology.com/assignment/8042291977"
+        }
+      ],
+      "folderIds": [
+        "947992805"
+      ],
+      "dayFolders": [
+        "Weeks 1 - 3"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8042291977",
+      "schoologyVideos": []
+    }
+  },
+  "1.7": {
+    "unit": 1,
+    "lesson": 7,
+    "topic": "Topic 1.7",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson7_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=6",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=948168199",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.672Z",
+      "lastUpdated": "2026-03-09T04:30:32.411Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 7 video (1 of 2) AP Classroom",
+          "type": "video",
+          "schoologyId": "8049255156",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8049255156"
+        },
+        {
+          "title": "Unit 1 Lesson 7 video (2 of 2) AP Classroom",
+          "type": "video",
+          "schoologyId": "8049253512",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8049253512"
+        },
+        {
+          "title": "Unit 1 Lesson 7 Quiz",
+          "type": "quiz",
+          "schoologyId": "8053341913",
+          "href": "https://lynnschools.schoology.com/assignment/8053341913"
+        }
+      ],
+      "folderIds": [
+        "948168199",
+        "948538471",
+        "949081768"
+      ],
+      "dayFolders": [
+        "Monday (September 22th, 2025) apstat",
+        "Tuesday(September 23th, 2025) apstat",
+        "Thursday(September 25th, 2025) apstat"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8053341913",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8049255156",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8049253512"
+      ]
+    }
+  },
+  "1.8": {
+    "unit": 1,
+    "lesson": 8,
+    "topic": "Topic 1.8",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson8_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=7",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=949296571",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.673Z",
+      "lastUpdated": "2026-03-09T04:30:32.412Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 8 Quiz",
+          "type": "quiz",
+          "schoologyId": "8055167062",
+          "href": "https://lynnschools.schoology.com/assignment/8055167062"
+        },
+        {
+          "title": "Unit 1 Lesson 8 video AP Classroom",
+          "type": "video",
+          "schoologyId": "8053341874",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Frm76rrgb3t%3Fsui%3D33%2C1&nid=8053341874"
+        }
+      ],
+      "folderIds": [
+        "949296571",
+        "949081768"
+      ],
+      "dayFolders": [
+        "Friday(September 26th, 2025) apstat",
+        "Thursday(September 25th, 2025) apstat"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8055167062",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Frm76rrgb3t%3Fsui%3D33%2C1&nid=8053341874"
+      ]
+    }
+  },
+  "1.9": {
+    "unit": 1,
+    "lesson": 9,
+    "topic": "Topic 1.9",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson9_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=8",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=949903740",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.673Z",
+      "lastUpdated": "2026-03-09T04:30:32.413Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 9 Video (apclassroom)",
+          "type": "video",
+          "schoologyId": "8060349035",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8060349035"
+        },
+        {
+          "title": "Unit 1 Lesson 9 Quiz",
+          "type": "quiz",
+          "schoologyId": "8058673930",
+          "href": "https://lynnschools.schoology.com/assignment/8058673930"
+        }
+      ],
+      "folderIds": [
+        "949903740"
+      ],
+      "dayFolders": [
+        "Monday(September 29th, 2025) apstat"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8058673930",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8060349035"
+      ]
+    }
+  },
+  "1.10": {
+    "unit": 1,
+    "lesson": 10,
+    "topic": "Topic 1.10",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson10_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=9",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=950173574",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.674Z",
+      "lastUpdated": "2026-03-09T04:30:32.415Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 1 Lesson 10 Video 1 of 3 (apclassroom)",
+          "type": "video",
+          "schoologyId": "8060359697",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F0ps3pcvbfn%3Fsui%3D33%2C1&nid=8060359697"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Video 2 of 3 (apclassroom)",
+          "type": "video",
+          "schoologyId": "8064557081",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fwualxc69hl%3Fsui%3D33%2C1&nid=8064557081"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Video 3 of 3 (apclassroom)",
+          "type": "video",
+          "schoologyId": "8064557075",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F3fev7ihoms%3Fsui%3D33%2C1&nid=8064557075"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Video 2 of 3 (apclassroom)",
+          "type": "video",
+          "schoologyId": "8065722293",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fwualxc69hl%3Fsui%3D33%2C1&nid=8065722293"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Quiz",
+          "type": "quiz",
+          "schoologyId": "8065722304",
+          "href": "https://lynnschools.schoology.com/assignment/8065722304"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Video 3 of 3 (apclassroom)",
+          "type": "video",
+          "schoologyId": "8065722294",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F3fev7ihoms%3Fsui%3D33%2C1&nid=8065722294"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Quiz",
+          "type": "quiz",
+          "schoologyId": "8070625642",
+          "href": "https://lynnschools.schoology.com/assignment/8070625642"
+        },
+        {
+          "title": "Unit 1 Lesson 10 Quiz",
+          "type": "quiz",
+          "schoologyId": "8060359693",
+          "href": "https://lynnschools.schoology.com/assignment/8060359693"
+        }
+      ],
+      "folderIds": [
+        "950173574",
+        "950580926",
+        "950856151",
+        "951165049",
+        "951666708",
+        "952378943"
+      ],
+      "dayFolders": [
+        "Tuesday(September 30th, 2025) apstat B",
+        "Thursday (October 2nd, 2025) apstat",
+        "Friday (October 3rd, 2025) apstat",
+        "Monday (October 6th, 2025)",
+        "Tuesday (October 7th, 2025)",
+        "Friday (October 10th, 2025)"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8060359693",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F0ps3pcvbfn%3Fsui%3D33%2C1&nid=8060359697",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fwualxc69hl%3Fsui%3D33%2C1&nid=8064557081",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F3fev7ihoms%3Fsui%3D33%2C1&nid=8064557075",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fwualxc69hl%3Fsui%3D33%2C1&nid=8065722293",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F3fev7ihoms%3Fsui%3D33%2C1&nid=8065722294"
+      ]
+    }
+  },
+  "2.1": {
+    "unit": 2,
+    "lesson": 1,
+    "topic": "Topic 2.1",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson1_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=954330871",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.675Z",
+      "lastUpdated": "2026-03-09T04:30:32.417Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "U2 L1 Blooket",
+          "type": "blooket",
+          "schoologyId": "8087613422",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8087613422"
+        },
+        {
+          "title": "Unit 2 Lesson 1 Video",
+          "type": "video",
+          "schoologyId": "8087612554",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8087612554"
+        }
+      ],
+      "folderIds": [
+        "954330871"
+      ],
+      "dayFolders": [
+        "Monday (October 20, 2025)"
+      ],
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8087613422",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8087612554"
+      ]
+    }
+  },
+  "2.2": {
+    "unit": 2,
+    "lesson": 2,
+    "topic": "Topic 2.2",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson2_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=1",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=954636359",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.676Z",
+      "lastUpdated": "2026-03-09T04:30:32.419Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "u2 l2 blooket",
+          "type": "blooket",
+          "schoologyId": "8089289205",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8089289205"
+        },
+        {
+          "title": "Unit 2 Lesson 2 Quiz",
+          "type": "quiz",
+          "schoologyId": "8093922594",
+          "href": "https://lynnschools.schoology.com/assignment/8093922594"
+        }
+      ],
+      "folderIds": [
+        "954636359",
+        "955781766"
+      ],
+      "dayFolders": [
+        "Tuesday (October 21, 2025)",
+        "Week 7"
+      ],
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8089289205",
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8093922594",
+      "schoologyVideos": []
+    }
+  },
+  "2.3": {
+    "unit": 2,
+    "lesson": 3,
+    "topic": "Topic 2.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=2",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=955309456",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.676Z",
+      "lastUpdated": "2026-03-09T04:30:32.420Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "U2L3 Blooket",
+          "type": "blooket",
+          "schoologyId": "8093904667",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8093904667"
+        },
+        {
+          "title": "Unit 2 Lesson 3 Quiz",
+          "type": "quiz",
+          "schoologyId": "8100925322",
+          "href": "https://lynnschools.schoology.com/assignment/8100925322"
+        }
+      ],
+      "folderIds": [
+        "955309456",
+        "956976136"
+      ],
+      "dayFolders": [
+        "Thursday (October 23rd, 2025)",
+        "Tuesday (October 28, 2025)"
+      ],
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8093904667",
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8100925322",
+      "schoologyVideos": []
+    }
+  },
+  "2.4": {
+    "unit": 2,
+    "lesson": 4,
+    "topic": "Topic 2.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson4_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=3",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=957153701",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.677Z",
+      "lastUpdated": "2026-03-09T04:30:32.422Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 2 Lesson 4 Quiz",
+          "type": "quiz",
+          "schoologyId": "8108796958",
+          "href": "https://lynnschools.schoology.com/assignment/8108796958"
+        }
+      ],
+      "folderIds": [
+        "957153701"
+      ],
+      "dayFolders": [
+        "week 9"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8108796958",
+      "schoologyVideos": []
+    }
+  },
+  "2.5": {
+    "unit": 2,
+    "lesson": 5,
+    "topic": "Topic 2.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson5_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=4",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=959200382",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.677Z",
+      "lastUpdated": "2026-03-09T04:30:32.423Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit 2 L5 Video 1 (of 2)",
+          "type": "video",
+          "schoologyId": "8119377463",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8119377463"
+        },
+        {
+          "title": "Unit 2 Lesson 5 Quiz",
+          "type": "quiz",
+          "schoologyId": "8124908180",
+          "href": "https://lynnschools.schoology.com/assignment/8124908180"
+        },
+        {
+          "title": "U2L5 BLOOKET",
+          "type": "blooket",
+          "schoologyId": "8120965294",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8120965294"
+        },
+        {
+          "title": "Unit 2 L5 Video 2 (of 2)",
+          "type": "video",
+          "schoologyId": "8124923319",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fxz46lkcplm%3Fsui%3D33%2C2&nid=8124923319"
+        }
+      ],
+      "folderIds": [
+        "959200382",
+        "959850965"
+      ],
+      "dayFolders": [
+        "monday nov 10 2025",
+        "THURSDAY NOV 13 2025"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8124908180",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8120965294",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8119377463",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fxz46lkcplm%3Fsui%3D33%2C2&nid=8124923319"
+      ]
+    }
+  },
+  "2.6": {
+    "unit": 2,
+    "lesson": 6,
+    "topic": "Topic 2.6",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson6_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=5",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=960099957",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.678Z",
+      "lastUpdated": "2026-03-09T04:30:32.425Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "u2l6 blooket",
+          "type": "blooket",
+          "schoologyId": "8126027904",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8126027904"
+        },
+        {
+          "title": "Unit 2 L6 Video 1 (of 2)",
+          "type": "video",
+          "schoologyId": "8125316757",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F8dyu2x687t%3Fsui%3D33%2C2&nid=8125316757"
+        },
+        {
+          "title": "Unit 2 Lesson 6 Quiz",
+          "type": "quiz",
+          "schoologyId": "8127678981",
+          "href": "https://lynnschools.schoology.com/assignment/8127678981"
+        },
+        {
+          "title": "Unit 2 L6 Video 2 (of 2)",
+          "type": "video",
+          "schoologyId": "8127678441",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F5hphawrnfm%3Fsui%3D33%2C2&nid=8127678441"
+        }
+      ],
+      "folderIds": [
+        "960099957",
+        "960407580"
+      ],
+      "dayFolders": [
+        "friday november 14 2025",
+        "monday nov 17 2025"
+      ],
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8126027904",
+      "schoologyQuiz": "https://lynnschools.schoology.com/assignment/8127678981",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F8dyu2x687t%3Fsui%3D33%2C2&nid=8125316757",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F5hphawrnfm%3Fsui%3D33%2C2&nid=8127678441"
+      ]
+    }
+  },
+  "2.7": {
+    "unit": 2,
+    "lesson": 7,
+    "topic": "Topic 2.7",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson7_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=6",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=961457155",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.679Z",
+      "lastUpdated": "2026-03-09T04:30:32.426Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "u2l7 vid 2 of 2",
+          "type": "video",
+          "schoologyId": "8135032166",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fgqn51yxt67%3Fsui%3D33%2C2&nid=8135032166"
+        },
+        {
+          "title": "u2l7 vid 1 of 2",
+          "type": "video",
+          "schoologyId": "8127678247",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8127678247"
+        },
+        {
+          "title": "u2l7 blooket",
+          "type": "blooket",
+          "schoologyId": "8126991973",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8126991973"
+        }
+      ],
+      "folderIds": [
+        "961457155",
+        "960978946"
+      ],
+      "dayFolders": [
+        "thursday nov 20 2025",
+        "tuesday nov 18 2025"
+      ],
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8126991973",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fgqn51yxt67%3Fsui%3D33%2C2&nid=8135032166",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8127678247"
+      ]
+    }
+  },
+  "3.4": {
+    "unit": 3,
+    "lesson": 4,
+    "topic": "Topic 3.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson4_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=3",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945312398/materials?f=986581863",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.679Z",
+      "lastUpdated": "2026-03-09T04:30:32.428Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "U3 L4 follow-along worksheet",
+          "type": "worksheet",
+          "schoologyId": "8184994838",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8184994838"
+        }
+      ],
+      "folderIds": [
+        "970432845"
+      ],
+      "dayFolders": [
+        "tuesday 1/6/26"
+      ],
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8184994838",
+      "schoologyVideos": []
+    }
+  },
+  "3.5": {
+    "unit": 3,
+    "lesson": 5,
+    "topic": "Topic 3.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson5_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=4",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=971289382",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.680Z",
+      "lastUpdated": "2026-03-09T04:30:32.429Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Math Practice Website (experimental design (u3l5))",
+          "type": "drills",
+          "schoologyId": "8190039081",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8190039081"
+        }
+      ],
+      "folderIds": [
+        "971289382"
+      ],
+      "dayFolders": [
+        "thursday 1/8/26"
+      ],
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8190039081",
+      "schoologyVideos": []
+    }
+  },
+  "4.3": {
+    "unit": 4,
+    "lesson": 3,
+    "topic": "Topic 4.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=2",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=976933461",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.680Z",
+      "lastUpdated": "2026-03-09T04:30:32.431Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Unit4 Lesson3 Video (Ap classroom)",
+          "type": "video",
+          "schoologyId": "8221153332",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8221153332"
+        },
+        {
+          "title": "math practice website (unit 4 lesson 3)",
+          "type": "drills",
+          "schoologyId": "8221154184",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8221154184"
+        }
+      ],
+      "folderIds": [
+        "976933461"
+      ],
+      "dayFolders": [
+        "Thursday 1/22/26"
+      ],
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8221154184",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8221153332"
+      ]
+    }
+  },
+  "4.6": {
+    "unit": 4,
+    "lesson": 6,
+    "topic": "Topic 4.6",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson6_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=5",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=978369747",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.681Z",
+      "lastUpdated": "2026-03-09T04:30:32.432Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apStat Consensus Quiz (Unit 4 Lesson 6)",
+          "type": "quiz",
+          "schoologyId": "8234748918",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8234748918"
+        }
+      ],
+      "folderIds": [
+        "978369747"
+      ],
+      "dayFolders": [
+        "Thursday (jan 29 2026)"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8234748918",
+      "schoologyVideos": []
+    }
+  },
+  "4.7": {
+    "unit": 4,
+    "lesson": 7,
+    "topic": "Topic 4.7",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson7_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=6",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=979189351",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.681Z",
+      "lastUpdated": "2026-03-09T04:30:32.435Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apStat Consensus Quiz (Unit 4 Lesson 7)",
+          "type": "quiz",
+          "schoologyId": "8236681431",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D4%26l%3D7&nid=8236681431"
+        }
+      ],
+      "folderIds": [
+        "979189351"
+      ],
+      "dayFolders": [
+        "friday 1/30/26"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D4%26l%3D7&nid=8236681431",
+      "schoologyVideos": []
+    }
+  },
+  "4.8": {
+    "unit": 4,
+    "lesson": 8,
+    "topic": "Topic 4.8",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson8_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=7",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=979189351",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.682Z",
+      "lastUpdated": "2026-03-09T04:30:32.436Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apStat Consensus Quiz (Unit 4 Lesson 8)",
+          "type": "quiz",
+          "schoologyId": "8236681563",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D4%26l%3D8&nid=8236681563"
+        }
+      ],
+      "folderIds": [
+        "979189351"
+      ],
+      "dayFolders": [
+        "friday 1/30/26"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D4%26l%3D8&nid=8236681563",
+      "schoologyVideos": []
+    }
+  },
+  "4.9": {
+    "unit": 4,
+    "lesson": 9,
+    "topic": "Topic 4.9",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson9_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=8",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=979189351",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.683Z",
+      "lastUpdated": "2026-03-09T04:30:32.437Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Math Practice Website unit 4 lesson 9 drills",
+          "type": "drills",
+          "schoologyId": "8236672576",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8236672576"
+        },
+        {
+          "title": "apStat Consensus Quiz (Unit 4 Lesson 9)",
+          "type": "quiz",
+          "schoologyId": "8239180830",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D4%26l%3D9&nid=8239180830"
+        }
+      ],
+      "folderIds": [
+        "979189351",
+        "979668726"
+      ],
+      "dayFolders": [
+        "friday 1/30/26",
+        "monday 2/2/26"
+      ],
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8236672576",
+      "schoologyQuiz": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D4%26l%3D9&nid=8239180830",
+      "schoologyVideos": []
+    }
+  },
+  "5.1": {
+    "unit": 5,
+    "lesson": 1,
+    "topic": "Topic 5.1",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson1_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l01-sample-variability",
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=980335378",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.683Z",
+      "lastUpdated": "2026-03-09T04:30:32.439Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "math practice website (unit 5 lesson 1)",
+          "type": "drills",
+          "schoologyId": "8245540865",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8245540865"
+        }
+      ],
+      "folderIds": [
+        "980335378"
+      ],
+      "dayFolders": [
+        "thursday (2/5/26)"
+      ],
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8245540865",
+      "schoologyVideos": []
+    }
+  },
+  "5.2": {
+    "unit": 5,
+    "lesson": 2,
+    "topic": "Topic 5.2",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l03-z-score-calc",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=1",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=980334396",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.684Z",
+      "lastUpdated": "2026-03-09T04:30:32.442Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apstat unit 5 lesson 2 quiz",
+          "type": "quiz",
+          "schoologyId": "8247282838",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247282838"
+        }
+      ],
+      "folderIds": [
+        "980334396"
+      ],
+      "dayFolders": [
+        "Friday 2/6"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247282838",
+      "schoologyVideos": []
+    }
+  },
+  "5.3": {
+    "unit": 5,
+    "lesson": 3,
+    "topic": "Topic 5.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson3_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l11-clt-concept",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=2",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=981293561",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.685Z",
+      "lastUpdated": "2026-03-09T04:30:32.444Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "quiz 5-3",
+          "type": "quiz",
+          "schoologyId": "8249811561",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8249811561"
+        },
+        {
+          "title": "apstat unit 5 lesson 3 blooket",
+          "type": "blooket",
+          "schoologyId": "8247283578",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247283578"
+        },
+        {
+          "title": "apstats unit 5 lesson 3 video follow-along",
+          "type": "worksheet",
+          "schoologyId": "8247282104",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247282104"
+        },
+        {
+          "title": "apstat unit 5 lesson 3 video 1",
+          "type": "video",
+          "schoologyId": "8247282615",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247282615"
+        },
+        {
+          "title": "Math Practice Website (apstat u5 l3)",
+          "type": "drills",
+          "schoologyId": "8247277014",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247277014"
+        }
+      ],
+      "folderIds": [
+        "981293561",
+        "980334396"
+      ],
+      "dayFolders": [
+        "monday 2/9/26",
+        "Friday 2/6"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8249811561",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247283578",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247282104",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247277014",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8247282615"
+      ]
+    }
+  },
+  "5.4": {
+    "unit": 5,
+    "lesson": 4,
+    "topic": "Topic 5.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson4_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l16-point-estimate-terminology",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=3",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=981564763",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.686Z",
+      "lastUpdated": "2026-03-09T04:30:32.446Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Quiz 5-4",
+          "type": "quiz",
+          "schoologyId": "8252096419",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252096419"
+        },
+        {
+          "title": "apstat 5-4 follow-along",
+          "type": "worksheet",
+          "schoologyId": "8249799904",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fapstats-live-worksheet%2Fu5_lesson4_live.html&nid=8249799904"
+        },
+        {
+          "title": "apstats 5-4 blooket",
+          "type": "blooket",
+          "schoologyId": "8249807512",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8249807512"
+        },
+        {
+          "title": "Math Practice Website (u5l4 drills)",
+          "type": "drills",
+          "schoologyId": "8249866494",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Flrsl-driller.vercel.app%2Fplatform%2Fapp.html%3Fc%3Du5%26start%3D15&nid=8249866494"
+        }
+      ],
+      "folderIds": [
+        "981564763",
+        "981293561"
+      ],
+      "dayFolders": [
+        "tuesday 2/10/26",
+        "monday 2/9/26"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252096419",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fapstats-live-worksheet%2Fu5_lesson4_live.html&nid=8249799904",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8249807512",
+      "schoologyDrills": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Flrsl-driller.vercel.app%2Fplatform%2Fapp.html%3Fc%3Du5%26start%3D15&nid=8249866494",
+      "schoologyVideos": []
+    }
+  },
+  "5.5": {
+    "unit": 5,
+    "lesson": 5,
+    "topic": "Topic 5.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson5_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l20-prop-dist-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=4",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=981770601",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.687Z",
+      "lastUpdated": "2026-03-09T04:30:32.448Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Quiz 5-5",
+          "type": "quiz",
+          "schoologyId": "8255712459",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255712459"
+        },
+        {
+          "title": "5-5 video 2",
+          "type": "video",
+          "schoologyId": "8252096798",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252096798"
+        },
+        {
+          "title": "5-5 video 1",
+          "type": "video",
+          "schoologyId": "8252096727",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252096727"
+        },
+        {
+          "title": "MathPracticeWebsite(u5l5 drills)",
+          "type": "drills",
+          "schoologyId": "8252095914",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252095914"
+        },
+        {
+          "title": "apstats u5 l5 follow along",
+          "type": "worksheet",
+          "schoologyId": "8252082315",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252082315"
+        },
+        {
+          "title": "unit5 lesson5 blooket",
+          "type": "blooket",
+          "schoologyId": "8252081879",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252081879"
+        }
+      ],
+      "folderIds": [
+        "981770601",
+        "981564763"
+      ],
+      "dayFolders": [
+        "friday (2/13)",
+        "tuesday 2/10/26"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255712459",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252095914",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252082315",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252081879",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252096798",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8252096727"
+      ]
+    }
+  },
+  "5.6": {
+    "unit": 5,
+    "lesson": 6,
+    "topic": "Topic 5.6",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson6_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l25-diff-prop-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=5",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=982382766",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.689Z",
+      "lastUpdated": "2026-03-09T04:30:32.450Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "quiz 5-6",
+          "type": "quiz",
+          "schoologyId": "8257278622",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278622"
+        },
+        {
+          "title": "apstats u5l6 follow-along",
+          "type": "worksheet",
+          "schoologyId": "8255706022",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255706022"
+        },
+        {
+          "title": "apstats u5l6 blooket",
+          "type": "blooket",
+          "schoologyId": "8255706435",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255706435"
+        },
+        {
+          "title": "apstat 5-6 video 1",
+          "type": "video",
+          "schoologyId": "8255709381",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255709381"
+        },
+        {
+          "title": "apstats 5-6 video 2",
+          "type": "video",
+          "schoologyId": "8255709449",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255709449"
+        },
+        {
+          "title": "math practice website (u5l6 drills)",
+          "type": "drills",
+          "schoologyId": "8255719398",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255719398"
+        }
+      ],
+      "folderIds": [
+        "982382766",
+        "981770601"
+      ],
+      "dayFolders": [
+        "Thursday (2/26)",
+        "friday (2/13)"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278622",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255706022",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255706435",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255719398",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255709381",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8255709449"
+      ]
+    }
+  },
+  "5.7": {
+    "unit": 5,
+    "lesson": 7,
+    "topic": "Topic 5.7",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson7_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l31-mean-dist-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=6",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=982382766",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.690Z",
+      "lastUpdated": "2026-03-09T04:30:32.452Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apstats 5-7 blooket",
+          "type": "blooket",
+          "schoologyId": "8257278053",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278053"
+        },
+        {
+          "title": "apstats 5-7 follow along",
+          "type": "worksheet",
+          "schoologyId": "8257278781",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278781"
+        },
+        {
+          "title": "apstats 5-7-1 video",
+          "type": "video",
+          "schoologyId": "8257278254",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278254"
+        },
+        {
+          "title": "apstats 5-7-2 video",
+          "type": "video",
+          "schoologyId": "8257278376",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278376"
+        },
+        {
+          "title": "quiz 5-7",
+          "type": "quiz",
+          "schoologyId": "8274061117",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D5%26amp%253Bamp%253Bamp%253Bl%3D3%26amp%253Bamp%253Bl%3D4%26amp%253Bl%3D5%26l%3D7&nid=8274061117"
+        }
+      ],
+      "folderIds": [
+        "982382766",
+        "984565607"
+      ],
+      "dayFolders": [
+        "Thursday (2/26)",
+        "Friday (2/27/26)"
+      ],
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278053",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278781",
+      "schoologyQuiz": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fcurriculum_render%2F%3Fu%3D5%26amp%253Bamp%253Bamp%253Bl%3D3%26amp%253Bamp%253Bl%3D4%26amp%253Bl%3D5%26l%3D7&nid=8274061117",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278254",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8257278376"
+      ]
+    }
+  },
+  "5.8": {
+    "unit": 5,
+    "lesson": 8,
+    "topic": "Topic 5.8",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson8_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u5-sampling-dist&level=l36-diff-mean-params",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=7",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=984565607",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.691Z",
+      "lastUpdated": "2026-03-09T04:30:32.454Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apstats 5-8 follow along",
+          "type": "worksheet",
+          "schoologyId": "8274061114",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fapstats-live-worksheet%2Fu5_lesson8_live.html&nid=8274061114"
+        },
+        {
+          "title": "apstats 5-8 blooket",
+          "type": "blooket",
+          "schoologyId": "8274061113",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fdashboard.blooket.com%2Fset%2F69a121518dca9326f8048ca7&nid=8274061113"
+        },
+        {
+          "title": "apstats 5-8-1 video",
+          "type": "video",
+          "schoologyId": "8274061115",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fvdhw7lx8zh%3Fsui%3D33%2C5&nid=8274061115"
+        },
+        {
+          "title": "apstats 5-8-2 video",
+          "type": "video",
+          "schoologyId": "8274061116",
+          "href": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F8tey1w8y00%3Fsui%3D33%2C5&nid=8274061116"
+        }
+      ],
+      "folderIds": [
+        "984565607"
+      ],
+      "dayFolders": [
+        "Friday (2/27/26)"
+      ],
+      "schoologyWorksheet": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Frobjohncolson.github.io%2Fapstats-live-worksheet%2Fu5_lesson8_live.html&nid=8274061114",
+      "schoologyBlooket": "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fdashboard.blooket.com%2Fset%2F69a121518dca9326f8048ca7&nid=8274061113",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2Fvdhw7lx8zh%3Fsui%3D33%2C5&nid=8274061115",
+        "https://lynnschools.schoology.com/link?a=&path=https%3A%2F%2Fapclassroom.collegeboard.org%2Fd%2F8tey1w8y00%3Fsui%3D33%2C5&nid=8274061116"
+      ]
+    }
+  },
+  "6.1": {
+    "unit": 6,
+    "lesson": 1,
+    "topic": "Topic 6.1",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l01-identify-evidence",
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=985196978",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.693Z",
+      "lastUpdated": "2026-03-09T04:30:32.456Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "apclassroom video 6-1",
+          "type": "video",
+          "schoologyId": "8276378685",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276378685"
+        }
+      ],
+      "folderIds": [
+        "985196978"
+      ],
+      "dayFolders": [
+        "Monday 3/2/26"
+      ],
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276378685"
+      ]
+    }
+  },
+  "6.2": {
+    "unit": 6,
+    "lesson": 2,
+    "topic": "Topic 6.2",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l04-identify-procedure",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=1",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=985597961",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.694Z",
+      "lastUpdated": "2026-03-09T04:30:32.458Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "quiz 6-2",
+          "type": "quiz",
+          "schoologyId": "8276401336",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276401336"
+        },
+        {
+          "title": "apclassroom video 6-2-3",
+          "type": "video",
+          "schoologyId": "8276379617",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276379617"
+        },
+        {
+          "title": "apclassroom video 6-2-2",
+          "type": "video",
+          "schoologyId": "8276379349",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276379349"
+        },
+        {
+          "title": "apclassroom video 6-2-1",
+          "type": "video",
+          "schoologyId": "8276379024",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276379024"
+        }
+      ],
+      "folderIds": [
+        "985597961",
+        "985196978"
+      ],
+      "dayFolders": [
+        "tuesday (3/2/26)",
+        "Monday 3/2/26"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276401336",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276379617",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276379349",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8276379024"
+      ]
+    }
+  },
+  "6.3": {
+    "unit": 6,
+    "lesson": 3,
+    "topic": "Topic 6.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson3_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l12-interpret-ci",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=2",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=985937488",
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.695Z",
+      "lastUpdated": "2026-03-09T04:30:32.460Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "quiz 6-3",
+          "type": "quiz",
+          "schoologyId": "8282276571",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282276571"
+        },
+        {
+          "title": "apstats_6-3 blooket",
+          "type": "blooket",
+          "schoologyId": "8278726484",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278726484"
+        },
+        {
+          "title": "APSTATS 6-3 drills",
+          "type": "drills",
+          "schoologyId": "8278732632",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278732632"
+        },
+        {
+          "title": "apstats_6-3 follow along",
+          "type": "worksheet",
+          "schoologyId": "8278729325",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278729325"
+        }
+      ],
+      "folderIds": [
+        "985937488",
+        "985597961"
+      ],
+      "dayFolders": [
+        "thursday (3/5/26)",
+        "tuesday (3/2/26)"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282276571",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278726484",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278732632",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8278729325",
+      "schoologyVideos": []
+    }
+  },
+  "6.4": {
+    "unit": 6,
+    "lesson": 4,
+    "topic": "Wednesday 3/11/26",
+    "date": "2026-03-11",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson4_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-state-null",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=3",
+      "blooket": "https://dashboard.blooket.com/set/69b09491958376ccb01393d9",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987073311?f=987073401",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896839"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "failed",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.697Z",
+      "lastUpdated": "2026-03-10T23:15:02.536Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Quiz 6.4",
+          "type": "quiz",
+          "schoologyId": "8283974303",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974303"
+        },
+        {
+          "title": "apstats 6-4 follow along worksheet",
+          "type": "worksheet",
+          "schoologyId": "8282264090",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282264090"
+        },
+        {
+          "title": "apclassroom video 6-4-1",
+          "type": "video",
+          "schoologyId": "8282740391",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282740391"
+        },
+        {
+          "title": "apstats 6-4 drills",
+          "type": "drills",
+          "schoologyId": "8282276275",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282276275"
+        },
+        {
+          "title": "apclassroom video 6-4-2",
+          "type": "video",
+          "schoologyId": "8282742974",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282742974"
+        },
+        {
+          "title": "apstats 6-4 blooket",
+          "type": "blooket",
+          "schoologyId": "8282263740",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282263740"
+        }
+      ],
+      "folderIds": [
+        "986218661",
+        "985937488"
+      ],
+      "dayFolders": [
+        "friday (3/6/26)",
+        "thursday (3/5/26)"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974303",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282264090",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282276275",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282263740",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282740391",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8282742974"
+      ]
+    }
+  },
+  "6.5": {
+    "unit": 6,
+    "lesson": 5,
+    "topic": "Topic 6.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson5_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l24-test-statistic",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=4",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986218661",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896839"
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "running",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "scraped",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.698Z",
+      "lastUpdated": "2026-03-11T00:20:19.049Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Topic 6.5 — Follow-Along Worksheet",
+          "type": "worksheet",
+          "schoologyId": "8283974090",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974090"
+        },
+        {
+          "title": "Topic 6.5 — Blooket Review",
+          "type": "blooket",
+          "schoologyId": "8284383200",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284383200"
+        },
+        {
+          "title": "Topic 6.5 — Drills",
+          "type": "drills",
+          "schoologyId": "8283974187",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974187"
+        },
+        {
+          "title": "Quiz 6.5",
+          "type": "quiz",
+          "schoologyId": "8284787125",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284787125"
+        }
+      ],
+      "folderIds": [
+        "986218661",
+        "986330787"
+      ],
+      "dayFolders": [
+        "friday (3/6/26)",
+        "Monday 3/9/26"
+      ],
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974090",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284383200",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8283974187",
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284787125",
+      "schoologyVideos": []
+    }
+  },
+  "6.6": {
+    "unit": 6,
+    "lesson": 6,
+    "topic": "Topic 6.6",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson6_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l29-compare-pvalue-alpha",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=5",
+      "blooket": "https://dashboard.blooket.com/set/69ab037ffb99ffa131a2e07d",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986400679",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896878"
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.699Z",
+      "lastUpdated": "2026-03-09T04:30:32.466Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Quiz 6.6",
+          "type": "quiz",
+          "schoologyId": "8285244384",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285244384"
+        },
+        {
+          "title": "Topic 6.6 — AP Classroom Video 2",
+          "type": "video",
+          "schoologyId": "8284789402",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284789402"
+        },
+        {
+          "title": "Topic 6.6 — Blooket Review",
+          "type": "blooket",
+          "schoologyId": "8284787882",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284787882"
+        },
+        {
+          "title": "Topic 6.6 — AP Classroom Video 1",
+          "type": "video",
+          "schoologyId": "8284788741",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284788741"
+        },
+        {
+          "title": "Topic 6.6 — Drills",
+          "type": "drills",
+          "schoologyId": "8284786521",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284786521"
+        },
+        {
+          "title": "Topic 6.6 — Follow-Along Worksheet",
+          "type": "worksheet",
+          "schoologyId": "8284785922",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284785922"
+        }
+      ],
+      "folderIds": [
+        "986400679",
+        "986330787"
+      ],
+      "dayFolders": [
+        "Tuesday 3/10/26",
+        "Monday 3/9/26"
+      ],
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285244384",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284787882",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284786521",
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284785922",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284789402",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8284788741"
+      ]
+    }
+  },
+  "6.8": {
+    "unit": 6,
+    "lesson": 8,
+    "topic": "Topic 6.8",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson8_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l44-identify-two-prop-ci",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=7",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986444841",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896948"
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.702Z",
+      "lastUpdated": "2026-03-09T04:30:32.468Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Topic 6.8 — Follow-Along Worksheet",
+          "type": "worksheet",
+          "schoologyId": "8285521876",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521876"
+        },
+        {
+          "title": "Topic 6.8 — Drills",
+          "type": "drills",
+          "schoologyId": "8285521907",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521907"
+        },
+        {
+          "title": "Topic 6.8 — Blooket Review",
+          "type": "blooket",
+          "schoologyId": "8285521972",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521972"
+        },
+        {
+          "title": "Topic 6.8 — AP Classroom Video 1",
+          "type": "video",
+          "schoologyId": "8285522000",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285522000"
+        },
+        {
+          "title": "Topic 6.8 — AP Classroom Video 2",
+          "type": "video",
+          "schoologyId": "8285522018",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285522018"
+        },
+        {
+          "title": "Quiz 6.8",
+          "type": "quiz",
+          "schoologyId": "8285585623",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585623"
+        }
+      ],
+      "folderIds": [
+        "986444841",
+        "986454317"
+      ],
+      "dayFolders": [
+        "Thursday 3/12/26",
+        "Friday 3/13/26"
+      ],
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521876",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521907",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285521972",
+      "schoologyQuiz": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585623",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285522000",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285522018"
+      ]
+    }
+  },
+  "6.9": {
+    "unit": 6,
+    "lesson": 9,
+    "topic": "Topic 6.9",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson9_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l49-interpret-two-prop-claim-interval",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=8",
+      "blooket": null,
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986454317",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986896948"
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "schoology": "scraped"
+    },
+    "timestamps": {
+      "created": "2026-03-08T19:58:27.704Z",
+      "lastUpdated": "2026-03-09T04:30:32.471Z"
+    },
+    "schoology": {
+      "materials": [
+        {
+          "title": "Topic 6.9 — Follow-Along Worksheet",
+          "type": "worksheet",
+          "schoologyId": "8285585455",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585455"
+        },
+        {
+          "title": "Topic 6.9 — Drills",
+          "type": "drills",
+          "schoologyId": "8285585500",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585500"
+        },
+        {
+          "title": "Topic 6.9 — Blooket Review",
+          "type": "blooket",
+          "schoologyId": "8285585704",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585704"
+        },
+        {
+          "title": "Topic 6.9 — AP Classroom Video 1",
+          "type": "video",
+          "schoologyId": "8285585732",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585732"
+        },
+        {
+          "title": "Topic 6.9 — AP Classroom Video 2",
+          "type": "video",
+          "schoologyId": "8285585782",
+          "href": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585782"
+        }
+      ],
+      "folderIds": [
+        "986454317"
+      ],
+      "dayFolders": [
+        "Friday 3/13/26"
+      ],
+      "schoologyWorksheet": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585455",
+      "schoologyDrills": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585500",
+      "schoologyBlooket": "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585704",
+      "schoologyVideos": [
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585732",
+        "https://lynnschools.schoology.com/course/7945275782/materials/link/view/8285585782"
+      ]
+    }
+  },
+  "7.2": {
+    "unit": 7,
+    "lesson": 2,
+    "topic": "Friday 3/20/26",
+    "date": "2026-03-20",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson2_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l01-identify-procedure",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=1",
+      "blooket": "https://dashboard.blooket.com/set/69aee24b0d5874349dbc4469",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986757072",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986897075"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "done",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-09T14:16:08.903Z",
+      "lastUpdated": "2026-03-09T16:01:32.210Z"
+    }
+  },
+  "7.1": {
+    "unit": 7,
+    "lesson": 1,
+    "topic": "Thursday 3/19/26",
+    "date": "2026-03-19",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson1_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": "https://dashboard.blooket.com/set/69aef69b0d5874349dbc4f74",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=986796249",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=986897075"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "done",
+      "schoology": "done"
+    },
+    "timestamps": {
+      "created": "2026-03-09T16:03:40.080Z",
+      "lastUpdated": "2026-03-09T16:36:38.331Z"
+    }
+  }
+}

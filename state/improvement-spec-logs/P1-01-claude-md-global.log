@@ -1,0 +1,568 @@
+OpenAI Codex v0.106.0 (research preview)
+--------
+workdir: C:/Users/ColsonR
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019ccac6-d388-7500-b74d-a7d7a59b4582
+--------
+user
+# Agent: Global CLAUDE.md Setup
+
+## Phase
+P1-foundation | No dependencies | Working dir: `C:/Users/ColsonR`
+
+## Objective
+Create `~/.claude/CLAUDE.md` with global rules that prevent the top 3 friction patterns observed across 45 sessions.
+
+## Context (Why This Matters)
+- **18% of sessions** had fixes that missed the actual root cause, costing real money on the trading bot
+- **11% of sessions** had Claude acting before understanding intent (coding when analysis was wanted)
+- **9% of sessions** hit environment mismatches (missing tools, wrong PATH)
+
+## Read First
+1. `IMPROVEMENT_SPEC.md` — Section 4.1 for the exact CLAUDE.md content
+2. `.claude/settings.json` — existing config (has GitNexus hooks, effort=high)
+
+## Owned Paths
+- `.claude/CLAUDE.md`
+
+## Implementation
+
+Create `C:/Users/ColsonR/.claude/CLAUDE.md` with these sections:
+
+### 1. Intent Confirmation Gate
+Before starting work, confirm what the user wants: analysis/plan vs. implementation.
+Do not begin coding or exploring the codebase until the scope is clear.
+If resuming from a prior session, ask which task to prioritize — do not assume.
+
+### 2. Debugging Protocol (Mandatory for Bug Fixes)
+```
+1. Enumerate ALL code paths that could produce the observed behavior
+   - List each with file:line references
+   - Include: direct paths, startup/init paths, deep-link/URL restoration paths,
+     companion/secondary trigger paths, degraded/recovery mode paths
+2. Present the audit to the user — do NOT write fix code yet
+3. Only after user confirms, implement fix covering EVERY identified path
+4. For state machine / fill detection / order logic: enumerate ALL trigger paths
+5. Verify root cause before implementing — no diagnostic-only patches
+```
+
+### 3. Git Workflow
+- After committing, always `git push` and confirm success
+- Check for `gh` CLI before attempting PR creation; if missing, provide manual URL
+- Never force-push to main/master without explicit approval
+
+### 4. Environment Awareness
+```
+Platform: Windows 11, Git Bash (Unix syntax)
+Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
+Node: v22.19.0 (nvm)
+Admin: NO (system installs fail — Chocolatey, etc.)
+LaTeX: MiKTeX (may need PATH refresh after install)
+Codex: GPT-5.4, config at ~/.codex/config.toml
+GitNexus: Installed with PreToolUse hooks (8s timeout)
+```
+
+## Constraints
+- Do NOT modify `.claude/settings.json` (hooks are already configured)
+- Keep CLAUDE.md under 200 lines (it's loaded into every conversation context)
+- Use concise, imperative language — these are rules, not suggestions
+
+## Verification
+```bash
+test -f C:/Users/ColsonR/.claude/CLAUDE.md && echo "OK" || echo "MISSING"
+wc -l C:/Users/ColsonR/.claude/CLAUDE.md  # Must be < 200
+```
+
+mcp startup: no servers
+codex
+Reviewing `IMPROVEMENT_SPEC.md` section 4.1 and `.claude/settings.json` first, then I’ll create `C:/Users/ColsonR/.claude/CLAUDE.md` exactly within the stated constraints and verify line count.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Path C:/Users/ColsonR/IMPROVEMENT_SPEC.md | Select-Object -First 260' in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Path C:/Users/ColsonR/.claude/settings.json' in C:/Users/ColsonR succeeded in 2.49s:
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:/Users/ColsonR/.claude/hooks/gitnexus/gitnexus-hook.cjs\"",
+            "timeout": 8000,
+            "statusMessage": "Enriching with GitNexus graph context..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+ succeeded in 3.31s:
+# Developer Workflow & Project Improvement Spec
+
+**Author:** Claude Code (synthesized from usage insights + deep codebase exploration)
+**Date:** 2026-03-07
+**Scope:** All projects in `C:\Users\ColsonR\` â€” trading bots, education platform, animation pipeline, orchestration framework
+**Basis:** 45 analyzed sessions, 566 messages, 186 hours, 81 commits (Feb 6 â€“ Mar 7, 2026)
+
+---
+
+## Table of Contents
+
+1. [Executive Summary](#1-executive-summary)
+2. [Project Inventory](#2-project-inventory)
+3. [Cross-Cutting Friction Analysis](#3-cross-cutting-friction-analysis)
+4. [CLAUDE.md Governance Spec](#4-claudemd-governance-spec)
+5. [Custom Skills Spec](#5-custom-skills-spec)
+6. [Hooks & Automation Spec](#6-hooks--automation-spec)
+7. [Per-Project Improvement Plans](#7-per-project-improvement-plans)
+8. [Testing Strategy](#8-testing-strategy)
+9. [Multi-Agent Orchestration Improvements](#9-multi-agent-orchestration-improvements)
+codex
+I’ve confirmed the existing Claude settings and hooks. Next I’m pulling just the section 4.1 block so the new global rules match the spec rather than a paraphrase.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'if (Test-Path C:/Users/ColsonR/.claude/CLAUDE.md) { Get-Content -Path C:/Users/ColsonR/.claude/CLAUDE.md | Select-Object -First 220 }' in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n \"4\\.1 Root-Level|## Environment Awareness|Node:|GitNexus\" C:/Users/ColsonR/IMPROVEMENT_SPEC.md" in C:/Users/ColsonR succeeded in 3.52s:
+
+ succeeded in 3.71s:
+37:| Orchestration | Agent, fractals, GitNexus | 10 | Experimental (Phase 5-6 of 7) |
+156:### 2.7 GitNexus (`GitNexus/`)
+223:### 4.1 Root-Level `~/.claude/CLAUDE.md` (Global)
+258:## Environment Awareness
+261:- Node: v22.19.0 (via nvm)
+265:- GitNexus: Installed with PreToolUse hooks
+469:      // ... existing GitNexus hook ...
+936:Node:      v22.19.0 (via nvm)
+940:Claude:    Opus 4.6, effort=high, GitNexus hooks enabled
+961:├── GitNexus/                  # Codebase intelligence graph
+964:    ├── settings.json          # GitNexus hooks, effort=high
+
+thinking
+**Retrieving specific lines**
+
+I need to get exact lines 223-266 from a file. I might use Get-Content for that, utilizing the line numbers. Alternatively, I could look into Select-Object to skip some lines or specify which lines to include. It’s important to select the right range to ensure I retrieve the correct content. Hopefully, I can seamlessly execute that without confusion! Let's figure out the best command to make it happen efficiently.
+codex
+I have the section start and the environment lines. Pulling the exact 4.1 block now, then I’ll write only `.claude/CLAUDE.md` and verify the file constraints.
+Plan update
+  ✓ Read the spec and existing Claude settings relevant to the global rules file
+  → Create `C:/Users/ColsonR/.claude/CLAUDE.md` from section 4.1 content with the requested environment details
+  • Verify file existence and line count remain within constraints
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$lines = Get-Content -Path C:/Users/ColsonR/IMPROVEMENT_SPEC.md; for ($i = 222; $i -le 266; $i++) { '"'{0,4}: {1}' -f ("'$i + 1), $lines[$i] }' in C:/Users/ColsonR succeeded in 1.90s:
+ 223: ### 4.1 Root-Level `~/.claude/CLAUDE.md` (Global)
+ 224: 
+ 225: ```markdown
+ 226: # Global Rules
+ 227: 
+ 228: ## Intent Confirmation
+ 229: Before starting work, confirm what the user wants: analysis/plan vs. implementation.
+ 230: Do not begin coding or exploring the codebase until the scope is clear.
+ 231: If resuming from a prior session, ask which task to prioritize â€” do not assume.
+ 232: 
+ 233: ## Debugging Protocol
+ 234: When debugging, follow this sequence strictly:
+ 235: 
+ 236: 1. **Enumerate all code paths** that could produce the observed behavior.
+ 237:    List each path with file:line references. Include: direct paths, startup/init
+ 238:    paths, deep-link/URL restoration paths, companion/secondary trigger paths.
+ 239: 
+ 240: 2. **Present the audit** to the user. Do NOT write any fix code yet.
+ 241: 
+ 242: 3. **Only after user confirms** the analysis, implement the fix covering EVERY
+
+thinking
+**Considering text formatting**
+
+I’m thinking about the usage of non-ASCII characters like the em dash in text. The user prefers concise language, so I should switch to using ASCII hyphens instead, which seem to fit better with their request. But I need to be cautious about preserving meaning, as the conversion might not be exact. Still, editing constraints lean toward ASCII, so I think that will be fine for clarity and consistency.
+codex
+The spec block is enough to draft the file, but your requested environment section is slightly stricter than the spec. I’m writing the file to satisfy the implementation requirements exactly while keeping the rest aligned to section 4.1.
+file update
+A C:/Users/ColsonR/.claude/CLAUDE.md
+# Global Rules
+
+## Intent Confirmation Gate
+Before starting work, confirm what the user wants: analysis/plan vs. implementation.
+Do not begin coding or exploring the codebase until the scope is clear.
+If resuming from a prior session, ask which task to prioritize - do not assume.
+
+## Debugging Protocol
+When debugging, follow this sequence strictly:
+
+1. Enumerate ALL code paths that could produce the observed behavior.
+   List each with file:line references.
+   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
+   companion/secondary trigger paths, degraded/recovery mode paths.
+2. Present the audit to the user. Do NOT write any fix code yet.
+3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
+4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
+5. Verify root cause before implementing. Do not ship diagnostic-only patches.
+   Confirm the actual failing code path is addressed.
+
+## Git Workflow
+- After committing, always run `git push` and confirm success.
+- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
+- Never force-push to main/master without explicit user approval.
+
+## Environment Awareness
+- Platform: Windows 11, Git Bash (Unix syntax)
+- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
+- Node: v22.19.0 (nvm)
+- Admin: NO (system installs fail - Chocolatey, etc.)
+- LaTeX: MiKTeX (may need PATH refresh after install)
+- Codex: GPT-5.4, config at ~/.codex/config.toml
+- GitNexus: Installed with PreToolUse hooks (8s timeout)
+apply_patch(auto_approved=true) exited 0 in 598ms:
+Success. Updated the following files:
+A C:/Users/ColsonR/.claude/CLAUDE.md
+file update:
+diff --git a/C:/Users/ColsonR/.claude/CLAUDE.md b/C:/Users/ColsonR/.claude/CLAUDE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c39cfecf05de13ebf57272b37b954db4a83c681a
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/CLAUDE.md
+@@ -0,0 +1,33 @@
++# Global Rules
++
++## Intent Confirmation Gate
++Before starting work, confirm what the user wants: analysis/plan vs. implementation.
++Do not begin coding or exploring the codebase until the scope is clear.
++If resuming from a prior session, ask which task to prioritize - do not assume.
++
++## Debugging Protocol
++When debugging, follow this sequence strictly:
++
++1. Enumerate ALL code paths that could produce the observed behavior.
++   List each with file:line references.
++   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
++   companion/secondary trigger paths, degraded/recovery mode paths.
++2. Present the audit to the user. Do NOT write any fix code yet.
++3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
++4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
++5. Verify root cause before implementing. Do not ship diagnostic-only patches.
++   Confirm the actual failing code path is addressed.
++
++## Git Workflow
++- After committing, always run `git push` and confirm success.
++- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
++- Never force-push to main/master without explicit user approval.
++
++## Environment Awareness
++- Platform: Windows 11, Git Bash (Unix syntax)
++- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
++- Node: v22.19.0 (nvm)
++- Admin: NO (system installs fail - Chocolatey, etc.)
++- LaTeX: MiKTeX (may need PATH refresh after install)
++- Codex: GPT-5.4, config at ~/.codex/config.toml
++- GitNexus: Installed with PreToolUse hooks (8s timeout)
+
+file update:
+diff --git a/C:/Users/ColsonR/.claude/CLAUDE.md b/C:/Users/ColsonR/.claude/CLAUDE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c39cfecf05de13ebf57272b37b954db4a83c681a
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/CLAUDE.md
+@@ -0,0 +1,33 @@
++# Global Rules
++
++## Intent Confirmation Gate
++Before starting work, confirm what the user wants: analysis/plan vs. implementation.
++Do not begin coding or exploring the codebase until the scope is clear.
++If resuming from a prior session, ask which task to prioritize - do not assume.
++
++## Debugging Protocol
++When debugging, follow this sequence strictly:
++
++1. Enumerate ALL code paths that could produce the observed behavior.
++   List each with file:line references.
++   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
++   companion/secondary trigger paths, degraded/recovery mode paths.
++2. Present the audit to the user. Do NOT write any fix code yet.
++3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
++4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
++5. Verify root cause before implementing. Do not ship diagnostic-only patches.
++   Confirm the actual failing code path is addressed.
++
++## Git Workflow
++- After committing, always run `git push` and confirm success.
++- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
++- Never force-push to main/master without explicit user approval.
++
++## Environment Awareness
++- Platform: Windows 11, Git Bash (Unix syntax)
++- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
++- Node: v22.19.0 (nvm)
++- Admin: NO (system installs fail - Chocolatey, etc.)
++- LaTeX: MiKTeX (may need PATH refresh after install)
++- Codex: GPT-5.4, config at ~/.codex/config.toml
++- GitNexus: Installed with PreToolUse hooks (8s timeout)
+
+codex
+`CLAUDE.md` is written. Running the requested verification now, including the line-count check against the 200-line cap.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "bash -lc 'test -f /c/Users/ColsonR/.claude/CLAUDE.md && echo OK || echo MISSING'" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "bash -lc 'wc -l /c/Users/ColsonR/.claude/CLAUDE.md'" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content -Path C:/Users/ColsonR/.claude/CLAUDE.md' in C:/Users/ColsonR exited 1 in 1.50s:
+      0 [main] bash (39152) C:\Users\ColsonR\AppData\Local\Programs\Git\usr\bin\bash.exe: *** fatal error - couldn't create signal pipe, Win32 error 5
+Stack trace:
+Frame         Function      Args
+0000005FF340  00021005FE8E (00021029477F, 00021026AB81, 000000000000, 0000005FABD0) msys-2.0.dll+0x1FE8E
+0000005FF340  0002100467F9 (0000005FD320, 0000005FF340, 0000005FFAD0, 000210070B80) msys-2.0.dll+0x67F9
+0000005FF340  000210046832 (000000000000, 0000005FBA38, 000000000000, 000210294756) msys-2.0.dll+0x6832
+0000005FF340  0002100C0E27 (000000000002, 000210312760, 0000005FC290, 000000000000) msys-2.0.dll+0x80E27
+0000005FF340  00021004844D (00007FFE0384, 000000000000, 000000000013, 00000066007C) msys-2.0.dll+0x844D
+0000005FF340  000210070C3C (000000000000, 000000000000, 000000000000, 000000000000) msys-2.0.dll+0x30C3C
+0000005FF5D0  7FFFBE63F6FE (000000000000, 000000000000, 000000000000, 000000000000) ntdll.dll+0x15F6FE
+0000005FF5D0  7FFFBE4EBCAE (000210040000, 000000000001, 7FFFBE4FCCA4, 7FFFBE658530) ntdll.dll+0xBCAE
+0000005FF5D0  7FFFBE4E97AC (7FFFBE576100, 7FFF00000000, 00000066F5C0, 0000005FF5D6) ntdll.dll+0x97AC
+0000005FF5D0  7FFFBE5775BA (000000666DA0, 000000666DD0, 7FFFBE6B2730, 000000000040) ntdll.dll+0x975BA
+0000005FF5D0  7FFFBE5775E6 (7FFFBE67B110, 7FFFBE6584B8, 0000003EB000, 7FFFBE67B470) ntdll.dll+0x975E6
+000000000000  7FFFBE59D4CD (000000000000, 000000000000, 0000003EB000, 000000000000) ntdll.dll+0xBD4CD
+000000000000  7FFFBE59B660 (7FFFBE4E0000, 0000003EB000, 0000003EC000, 7FFFBE4E0000) ntdll.dll+0xBB660
+000000000000  7FFFBE59B44A (000000000000, 000000000000, 000000000000, 000000000000) ntdll.dll+0xBB44A
+000000000000  7FFFBE5CB0AE (000000000000, 000000000000, 000000000000, 000000000000) ntdll.dll+0xEB0AE
+End of stack trace
+Loaded modules:
+ exited 1 in 1.46s:
+      0 [main] bash (46636) C:\Users\ColsonR\AppData\Local\Programs\Git\usr\bin\bash.exe: *** fatal error - couldn't create signal pipe, Win32 error 5
+Stack trace:
+Frame         Function      Args
+0000005FF340  00021005FE8E (00021029477F, 00021026AB81, 000000000000, 0000005FABD0) msys-2.0.dll+0x1FE8E
+0000005FF340  0002100467F9 (0000005FD320, 0000005FF340, 0000005FFAD0, 000210070B80) msys-2.0.dll+0x67F9
+0000005FF340  000210046832 (000000000000, 0000005FBA38, 000000000000, 000210294756) msys-2.0.dll+0x6832
+0000005FF340  0002100C0E27 (000000000002, 000210312760, 0000005FC290, 000000000000) msys-2.0.dll+0x80E27
+0000005FF340  00021004844D (00007FFE0384, 000000000000, 000000000007, 00000065007C) msys-2.0.dll+0x844D
+0000005FF340  000210070C3C (000000000000, 000000000000, 000000000000, 000000000000) msys-2.0.dll+0x30C3C
+0000005FF5D0  7FFFBE63F6FE (000000000000, 000000000000, 000000000000, 000000000000) ntdll.dll+0x15F6FE
+0000005FF5D0  7FFFBE4EBCAE (000210040000, 000000000001, 7FFFBE4FCCA4, 7FFFBE658530) ntdll.dll+0xBCAE
+0000005FF5D0  7FFFBE4E97AC (7FFFBE576100, 7FFF00000000, 00000065F560, 0000005FF5D6) ntdll.dll+0x97AC
+0000005FF5D0  7FFFBE5775BA (000000656DA0, 000000656DD0, 7FFFBE6B2730, 000000000040) ntdll.dll+0x975BA
+0000005FF5D0  7FFFBE5775E6 (7FFFBE67B110, 7FFFBE6584B8, 000000318000, 7FFFBE67B470) ntdll.dll+0x975E6
+000000000000  7FFFBE59D4CD (000000000000, 000000000000, 000000318000, 000000000000) ntdll.dll+0xBD4CD
+000000000000  7FFFBE59B660 (7FFFBE4E0000, 000000318000, 000000319000, 7FFFBE4E0000) ntdll.dll+0xBB660
+000000000000  7FFFBE59B44A (000000000000, 000000000000, 000000000000, 000000000000) ntdll.dll+0xBB44A
+000000000000  7FFFBE5CB0AE (000000000000, 000000000000, 000000000000, 000000000000) ntdll.dll+0xEB0AE
+End of stack trace
+Loaded modules:
+ succeeded in 1.58s:
+# Global Rules
+
+## Intent Confirmation Gate
+Before starting work, confirm what the user wants: analysis/plan vs. implementation.
+Do not begin coding or exploring the codebase until the scope is clear.
+If resuming from a prior session, ask which task to prioritize - do not assume.
+
+## Debugging Protocol
+When debugging, follow this sequence strictly:
+
+1. Enumerate ALL code paths that could produce the observed behavior.
+   List each with file:line references.
+   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
+   companion/secondary trigger paths, degraded/recovery mode paths.
+2. Present the audit to the user. Do NOT write any fix code yet.
+3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
+4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
+5. Verify root cause before implementing. Do not ship diagnostic-only patches.
+   Confirm the actual failing code path is addressed.
+
+file update:
+diff --git a/C:/Users/ColsonR/.claude/CLAUDE.md b/C:/Users/ColsonR/.claude/CLAUDE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c39cfecf05de13ebf57272b37b954db4a83c681a
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/CLAUDE.md
+@@ -0,0 +1,33 @@
++# Global Rules
++
++## Intent Confirmation Gate
++Before starting work, confirm what the user wants: analysis/plan vs. implementation.
++Do not begin coding or exploring the codebase until the scope is clear.
++If resuming from a prior session, ask which task to prioritize - do not assume.
++
++## Debugging Protocol
++When debugging, follow this sequence strictly:
++
++1. Enumerate ALL code paths that could produce the observed behavior.
++   List each with file:line references.
++   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
++   companion/secondary trigger paths, degraded/recovery mode paths.
++2. Present the audit to the user. Do NOT write any fix code yet.
++3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
++4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
++5. Verify root cause before implementing. Do not ship diagnostic-only patches.
++   Confirm the actual failing code path is addressed.
++
++## Git Workflow
++- After committing, always run `git push` and confirm success.
++- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
++- Never force-push to main/master without explicit user approval.
++
++## Environment Awareness
++- Platform: Windows 11, Git Bash (Unix syntax)
++- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
++- Node: v22.19.0 (nvm)
++- Admin: NO (system installs fail - Chocolatey, etc.)
++- LaTeX: MiKTeX (may need PATH refresh after install)
++- Codex: GPT-5.4, config at ~/.codex/config.toml
++- GitNexus: Installed with PreToolUse hooks (8s timeout)
+
+
+thinking
+**Considering verification methods**
+
+It seems like the bash verification might have failed due to an environment mismatch. I should retry using PowerShell instead to check for existence and count. I could mention the bash failure due to the Git Bash signal pipe in my final output, but focusing on the equivalent verification seems better. I'll run Test-Path and check the line count without modifying any settings, using parallel processing to optimize.
+codex
+Git Bash failed inside this sandbox with an `msys-2.0` signal-pipe error, so I’m verifying the same conditions with PowerShell instead. The file itself is present and readable.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "if (Test-Path C:/Users/ColsonR/.claude/CLAUDE.md) { 'OK' } else { 'MISSING' }" in C:/Users/ColsonRexec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '(Get-Content -Path C:/Users/ColsonR/.claude/CLAUDE.md).Count' in C:/Users/ColsonR succeeded in 1.12s:
+OK
+ succeeded in 1.19s:
+33
+file update:
+diff --git a/C:/Users/ColsonR/.claude/CLAUDE.md b/C:/Users/ColsonR/.claude/CLAUDE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c39cfecf05de13ebf57272b37b954db4a83c681a
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/CLAUDE.md
+@@ -0,0 +1,33 @@
++# Global Rules
++
++## Intent Confirmation Gate
++Before starting work, confirm what the user wants: analysis/plan vs. implementation.
++Do not begin coding or exploring the codebase until the scope is clear.
++If resuming from a prior session, ask which task to prioritize - do not assume.
++
++## Debugging Protocol
++When debugging, follow this sequence strictly:
++
++1. Enumerate ALL code paths that could produce the observed behavior.
++   List each with file:line references.
++   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
++   companion/secondary trigger paths, degraded/recovery mode paths.
++2. Present the audit to the user. Do NOT write any fix code yet.
++3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
++4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
++5. Verify root cause before implementing. Do not ship diagnostic-only patches.
++   Confirm the actual failing code path is addressed.
++
++## Git Workflow
++- After committing, always run `git push` and confirm success.
++- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
++- Never force-push to main/master without explicit user approval.
++
++## Environment Awareness
++- Platform: Windows 11, Git Bash (Unix syntax)
++- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
++- Node: v22.19.0 (nvm)
++- Admin: NO (system installs fail - Chocolatey, etc.)
++- LaTeX: MiKTeX (may need PATH refresh after install)
++- Codex: GPT-5.4, config at ~/.codex/config.toml
++- GitNexus: Installed with PreToolUse hooks (8s timeout)
+
+Plan update
+  ✓ Read the spec and existing Claude settings relevant to the global rules file
+  ✓ Create `C:/Users/ColsonR/.claude/CLAUDE.md` from section 4.1 content with the requested environment details
+  ✓ Verify file existence and line count remain within constraints
+file update:
+diff --git a/C:/Users/ColsonR/.claude/CLAUDE.md b/C:/Users/ColsonR/.claude/CLAUDE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c39cfecf05de13ebf57272b37b954db4a83c681a
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/CLAUDE.md
+@@ -0,0 +1,33 @@
++# Global Rules
++
++## Intent Confirmation Gate
++Before starting work, confirm what the user wants: analysis/plan vs. implementation.
++Do not begin coding or exploring the codebase until the scope is clear.
++If resuming from a prior session, ask which task to prioritize - do not assume.
++
++## Debugging Protocol
++When debugging, follow this sequence strictly:
++
++1. Enumerate ALL code paths that could produce the observed behavior.
++   List each with file:line references.
++   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
++   companion/secondary trigger paths, degraded/recovery mode paths.
++2. Present the audit to the user. Do NOT write any fix code yet.
++3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
++4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
++5. Verify root cause before implementing. Do not ship diagnostic-only patches.
++   Confirm the actual failing code path is addressed.
++
++## Git Workflow
++- After committing, always run `git push` and confirm success.
++- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
++- Never force-push to main/master without explicit user approval.
++
++## Environment Awareness
++- Platform: Windows 11, Git Bash (Unix syntax)
++- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
++- Node: v22.19.0 (nvm)
++- Admin: NO (system installs fail - Chocolatey, etc.)
++- LaTeX: MiKTeX (may need PATH refresh after install)
++- Codex: GPT-5.4, config at ~/.codex/config.toml
++- GitNexus: Installed with PreToolUse hooks (8s timeout)
+
+
+thinking
+**Finalizing verification details**
+
+Alright, I need to provide a final concise response. I’ll mention the file created with the absolute path and note that it has 33 lines verified successfully. It's important to state that the settings were untouched. I’ll also include that bash verification failed due to a Git Bash msys signal-pipe error, so I used the PowerShell equivalent. There’s no need to modify settings, and I won't include the exact markdown diff for clarity.
+codex
+Created [`.claude/CLAUDE.md`](C:/Users/ColsonR/.claude/CLAUDE.md) with the four requested sections: intent confirmation gate, mandatory debugging protocol, git workflow, and environment awareness. I did not modify [`.claude/settings.json`](C:/Users/ColsonR/.claude/settings.json).
+
+Verification passed: file exists and is `33` lines, so it is under the 200-line limit. The exact `bash` verification commands failed in this environment because Git Bash hit an `msys-2.0` signal-pipe error, so I verified the same conditions with PowerShell instead.
+file update:
+diff --git a/C:/Users/ColsonR/.claude/CLAUDE.md b/C:/Users/ColsonR/.claude/CLAUDE.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c39cfecf05de13ebf57272b37b954db4a83c681a
+--- /dev/null
++++ b/C:/Users/ColsonR/.claude/CLAUDE.md
+@@ -0,0 +1,33 @@
++# Global Rules
++
++## Intent Confirmation Gate
++Before starting work, confirm what the user wants: analysis/plan vs. implementation.
++Do not begin coding or exploring the codebase until the scope is clear.
++If resuming from a prior session, ask which task to prioritize - do not assume.
++
++## Debugging Protocol
++When debugging, follow this sequence strictly:
++
++1. Enumerate ALL code paths that could produce the observed behavior.
++   List each with file:line references.
++   Include: direct paths, startup/init paths, deep-link/URL restoration paths,
++   companion/secondary trigger paths, degraded/recovery mode paths.
++2. Present the audit to the user. Do NOT write any fix code yet.
++3. Only after user confirms the analysis, implement the fix covering EVERY identified path.
++4. For state machine / fill detection / order logic: enumerate ALL trigger paths before implementing.
++5. Verify root cause before implementing. Do not ship diagnostic-only patches.
++   Confirm the actual failing code path is addressed.
++
++## Git Workflow
++- After committing, always run `git push` and confirm success.
++- Check for `gh` CLI before attempting PR creation; if missing, provide the manual GitHub URL immediately.
++- Never force-push to main/master without explicit user approval.
++
++## Environment Awareness
++- Platform: Windows 11, Git Bash (Unix syntax)
++- Python: 3.12 at C:/Users/ColsonR/AppData/Local/Programs/Python/Python312
++- Node: v22.19.0 (nvm)
++- Admin: NO (system installs fail - Chocolatey, etc.)
++- LaTeX: MiKTeX (may need PATH refresh after install)
++- Codex: GPT-5.4, config at ~/.codex/config.toml
++- GitNexus: Installed with PreToolUse hooks (8s timeout)
+
+tokens used
+13,001
+Created [`.claude/CLAUDE.md`](C:/Users/ColsonR/.claude/CLAUDE.md) with the four requested sections: intent confirmation gate, mandatory debugging protocol, git workflow, and environment awareness. I did not modify [`.claude/settings.json`](C:/Users/ColsonR/.claude/settings.json).
+
+Verification passed: file exists and is `33` lines, so it is under the 200-line limit. The exact `bash` verification commands failed in this environment because Git Bash hit an `msys-2.0` signal-pipe error, so I verified the same conditions with PowerShell instead.

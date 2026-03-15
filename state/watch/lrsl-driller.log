@@ -1,0 +1,910 @@
+[20:50:54] Watcher started for lrsl-driller (C:/Users/ColsonR/lrsl-driller)
+[20:50:54] HEAD: 721a15d9585160ad2635b553f08130635670ba90
+[22:40:25] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:41:28] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_state_null.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:42:00] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:42:31] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:42:52] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:43:34] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:44:06] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_test_conditions.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[22:44:27] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? animations/apstat_64_capstone.py
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_test_conditions.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[23:00:24] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_64_capstone.py
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_test_conditions.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[23:02:19] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_64_capstone.py
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_test_conditions.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[23:03:21] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_64_capstone.py
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_test_conditions.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[23:04:24] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_64_capstone.py
+?? animations/apstat_64_hypothesis_errors.py
+?? animations/apstat_64_identify_test.py
+?? animations/apstat_64_state_alt.py
+?? animations/apstat_64_state_null.py
+?? animations/apstat_64_test_conditions.py
+?? animations/apstat_64_write_both.py
+?? cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[23:17:49] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+A  animations/apstat_64_capstone.py
+A  animations/apstat_64_hypothesis_errors.py
+A  animations/apstat_64_identify_test.py
+A  animations/apstat_64_state_alt.py
+A  animations/apstat_64_state_null.py
+A  animations/apstat_64_test_conditions.py
+A  animations/apstat_64_write_both.py
+M  cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+M  cartridges/apstats-u6-inference-prop/generator.js
+M  cartridges/apstats-u6-inference-prop/grading-rules.js
+M  cartridges/apstats-u6-inference-prop/manifest.json
+A  cartridges/apstats-u6-inference-prop/spec-topic-6.4.txt
+?? nul
+---
+[23:18:00] NEW COMMITS:
+73afa2b feat(apstats): add Topic 6.4 to Unit 6 cartridge with 7 Manim animations
+ animations/apstat_64_capstone.py                   | 113 ++++
+ animations/apstat_64_hypothesis_errors.py          | 189 ++++++
+ animations/apstat_64_identify_test.py              | 187 ++++++
+ animations/apstat_64_state_alt.py                  | 230 ++++++++
+ animations/apstat_64_state_null.py                 | 193 ++++++
+ animations/apstat_64_test_conditions.py            | 202 +++++++
+ animations/apstat_64_write_both.py                 | 172 ++++++
+ .../apstats-u6-inference-prop/ai-grader-prompt.txt |  54 +-
+ cartridges/apstats-u6-inference-prop/generator.js  | 352 +++++++++++
+ .../apstats-u6-inference-prop/grading-rules.js     | 179 +++++-
+ cartridges/apstats-u6-inference-prop/manifest.json | 282 ++++++++-
+ .../apstats-u6-inference-prop/spec-topic-6.4.txt   | 649 +++++++++++++++++++++
+ 12 files changed, 2794 insertions(+), 8 deletions(-)
+---
+[23:18:00] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? nul
+---
+[23:32:22] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? .env.example
+?? nul
+?? scripts/
+---
+[23:32:33] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+ M .gitignore
+?? .env.example
+?? nul
+?? scripts/
+---
+[23:35:20] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+A  .env.example
+M  .gitignore
+A  scripts/upload-animations.mjs
+?? nul
+---
+[23:35:41] NEW COMMITS:
+1680c12 Add Supabase animation upload script
+ .env.example                  |   2 +
+ .gitignore                    | Bin 607 -> 637 bytes
+ scripts/upload-animations.mjs | 211 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 213 insertions(+)
+---
+[23:35:41] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? nul
+---
+[14:04:03] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+?? .gitnexus/
+?? nul
+---
+[14:04:14] WORKING TREE CHANGED:
+ M .claude/settings.local.json
+ M .gitignore
+ M CLAUDE.md
+?? .claude/skills/
+?? AGENTS.md
+?? nul
+---
+[14:08:59] WORKING TREE CHANGED:
+M  .claude/settings.local.json
+A  .claude/skills/gitnexus/gitnexus-cli/SKILL.md
+A  .claude/skills/gitnexus/gitnexus-debugging/SKILL.md
+A  .claude/skills/gitnexus/gitnexus-exploring/SKILL.md
+A  .claude/skills/gitnexus/gitnexus-guide/SKILL.md
+A  .claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md
+A  .claude/skills/gitnexus/gitnexus-refactoring/SKILL.md
+M  .gitignore
+A  AGENTS.md
+M  CLAUDE.md
+?? nul
+---
+[14:09:09] NEW COMMITS:
+4c1b399 chore: add GitNexus index and skill files
+ .claude/settings.local.json                        |  14 ++-
+ .claude/skills/gitnexus/gitnexus-cli/SKILL.md      |  82 ++++++++++++++
+ .../skills/gitnexus/gitnexus-debugging/SKILL.md    |  89 +++++++++++++++
+ .../skills/gitnexus/gitnexus-exploring/SKILL.md    |  78 +++++++++++++
+ .claude/skills/gitnexus/gitnexus-guide/SKILL.md    |  64 +++++++++++
+ .../gitnexus/gitnexus-impact-analysis/SKILL.md     |  97 +++++++++++++++++
+ .../skills/gitnexus/gitnexus-refactoring/SKILL.md  | 121 +++++++++++++++++++++
+ .gitignore                                         | Bin 637 -> 648 bytes
+ AGENTS.md                                          |  25 +++++
+ CLAUDE.md                                          |  28 ++++-
+ 10 files changed, 596 insertions(+), 2 deletions(-)
+---
+[14:09:10] WORKING TREE CHANGED:
+?? nul
+---
+[14:27:56] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[14:29:31] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[14:30:23] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[15:03:22] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[15:04:15] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_65_test_statistic.py
+?? nul
+---
+[15:04:58] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_65_calculate_pvalue.py
+?? animations/apstat_65_test_statistic.py
+?? nul
+---
+[15:05:19] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_65_calculate_pvalue.py
+?? animations/apstat_65_interpret_pvalue.py
+?? animations/apstat_65_test_statistic.py
+?? nul
+---
+[15:05:51] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_65_calculate_pvalue.py
+?? animations/apstat_65_interpret_pvalue.py
+?? animations/apstat_65_test_direction.py
+?? animations/apstat_65_test_statistic.py
+?? nul
+---
+[15:06:22] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_65_calculate_pvalue.py
+?? animations/apstat_65_capstone.py
+?? animations/apstat_65_interpret_pvalue.py
+?? animations/apstat_65_test_direction.py
+?? animations/apstat_65_test_statistic.py
+?? nul
+---
+[15:06:44] WORKING TREE CHANGED:
+A  animations/apstat_65_calculate_pvalue.py
+A  animations/apstat_65_capstone.py
+A  animations/apstat_65_interpret_pvalue.py
+A  animations/apstat_65_test_direction.py
+A  animations/apstat_65_test_statistic.py
+M  cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+M  cartridges/apstats-u6-inference-prop/generator.js
+M  cartridges/apstats-u6-inference-prop/grading-rules.js
+M  cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[15:06:54] NEW COMMITS:
+2947eee feat(apstats): add Topic 6.5 to Unit 6 cartridge with Manim animations
+ animations/apstat_65_calculate_pvalue.py           | 239 ++++++++++++
+ animations/apstat_65_capstone.py                   | 138 +++++++
+ animations/apstat_65_interpret_pvalue.py           | 179 +++++++++
+ animations/apstat_65_test_direction.py             | 186 ++++++++++
+ animations/apstat_65_test_statistic.py             | 173 +++++++++
+ .../apstats-u6-inference-prop/ai-grader-prompt.txt |  54 ++-
+ cartridges/apstats-u6-inference-prop/generator.js  | 411 ++++++++++++++++++++-
+ .../apstats-u6-inference-prop/grading-rules.js     | 272 +++++++++++++-
+ cartridges/apstats-u6-inference-prop/manifest.json | 175 ++++++++-
+ 9 files changed, 1815 insertions(+), 12 deletions(-)
+---
+[15:06:55] WORKING TREE CHANGED:
+?? nul
+---
+[18:03:08] WORKING TREE CHANGED:
+?? nul
+?? render_65.py
+---
+[19:52:59] WORKING TREE CHANGED:
+?? nul
+?? render_65.py
+?? upload_65.py
+---
+[20:25:49] WORKING TREE CHANGED:
+ M scripts/upload-animations.mjs
+?? nul
+?? render_65.py
+?? upload_65.py
+---
+[20:26:21] WORKING TREE CHANGED:
+ M scripts/upload-animations.mjs
+?? nul
+?? render_65.py
+?? scripts/_test_discovery.mjs
+?? upload_65.py
+---
+[20:26:31] WORKING TREE CHANGED:
+ M scripts/upload-animations.mjs
+?? nul
+---
+[20:30:35] NEW COMMITS:
+17c41a2 Rewrite upload-animations.mjs for correct Supabase path + manifest mapping
+ scripts/upload-animations.mjs | 277 ++++++++++++++++++++++++++++++++----------
+ 1 file changed, 213 insertions(+), 64 deletions(-)
+---
+[20:30:36] WORKING TREE CHANGED:
+?? nul
+---
+[08:30:00] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[08:31:44] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[08:34:32] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[08:36:16] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[08:37:30] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_66_compare_pvalue_alpha.py
+?? nul
+---
+[08:37:51] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_66_compare_pvalue_alpha.py
+?? animations/apstat_66_reject_decision.py
+?? nul
+---
+[08:38:12] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_66_compare_pvalue_alpha.py
+?? animations/apstat_66_reject_decision.py
+?? animations/apstat_66_write_conclusion.py
+?? nul
+---
+[08:38:33] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_66_compare_pvalue_alpha.py
+?? animations/apstat_66_conclusion_errors.py
+?? animations/apstat_66_reject_decision.py
+?? animations/apstat_66_write_conclusion.py
+?? nul
+---
+[08:38:54] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_66_compare_pvalue_alpha.py
+?? animations/apstat_66_conclusion_errors.py
+?? animations/apstat_66_full_test.py
+?? animations/apstat_66_reject_decision.py
+?? animations/apstat_66_write_conclusion.py
+?? nul
+---
+[08:39:25] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_66_capstone.py
+?? animations/apstat_66_compare_pvalue_alpha.py
+?? animations/apstat_66_conclusion_errors.py
+?? animations/apstat_66_full_test.py
+?? animations/apstat_66_reject_decision.py
+?? animations/apstat_66_write_conclusion.py
+?? nul
+---
+[08:40:49] WORKING TREE CHANGED:
+A  animations/apstat_66_capstone.py
+A  animations/apstat_66_compare_pvalue_alpha.py
+A  animations/apstat_66_conclusion_errors.py
+A  animations/apstat_66_full_test.py
+A  animations/apstat_66_reject_decision.py
+A  animations/apstat_66_write_conclusion.py
+M  cartridges/apstats-u6-inference-prop/ai-grader-prompt.txt
+M  cartridges/apstats-u6-inference-prop/generator.js
+M  cartridges/apstats-u6-inference-prop/grading-rules.js
+M  cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[08:41:00] NEW COMMITS:
+ee80b32 feat(apstats): add Topic 6.6 to Unit 6 cartridge with Manim animations
+ animations/apstat_66_capstone.py                   | 128 ++++
+ animations/apstat_66_compare_pvalue_alpha.py       | 163 +++++
+ animations/apstat_66_conclusion_errors.py          | 111 ++++
+ animations/apstat_66_full_test.py                  | 137 ++++
+ animations/apstat_66_reject_decision.py            | 104 ++++
+ animations/apstat_66_write_conclusion.py           | 106 ++++
+ .../apstats-u6-inference-prop/ai-grader-prompt.txt |  67 +-
+ cartridges/apstats-u6-inference-prop/generator.js  | 688 ++++++++++++++++++++-
+ .../apstats-u6-inference-prop/grading-rules.js     | 338 +++++++++-
+ cartridges/apstats-u6-inference-prop/manifest.json | 246 +++++++-
+ 10 files changed, 2077 insertions(+), 11 deletions(-)
+---
+[08:41:01] WORKING TREE CHANGED:
+?? nul
+---
+[14:04:27] WORKING TREE CHANGED:
+?? .codex-prompt-drills-cartridge-4460-1772823866046-a16c203e30ad5.md
+?? nul
+---
+[14:09:25] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-4460-1772823866046-a16c203e30ad5.md
+?? nul
+---
+[14:12:25] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-4460-1772823866046-a16c203e30ad5.md
+?? nul
+---
+[14:13:27] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-4460-1772823866046-a16c203e30ad5.md
+?? nul
+---
+[14:16:46] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[14:39:42] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-11724-1772825979359-421c18b0a5e91.md
+?? nul
+---
+[14:46:52] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[15:31:20] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_67_identify_error_type.py
+?? nul
+---
+[15:31:41] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_67_identify_error_type.py
+?? animations/apstat_67_interpret_type_errors.py
+?? nul
+---
+[15:32:12] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_67_identify_error_type.py
+?? animations/apstat_67_interpret_type_errors.py
+?? animations/apstat_67_power_error_probs.py
+?? nul
+---
+[15:32:44] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_67_factors_affecting_power.py
+?? animations/apstat_67_identify_error_type.py
+?? animations/apstat_67_interpret_type_errors.py
+?? animations/apstat_67_power_error_probs.py
+?? nul
+---
+[15:33:15] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_67_capstone.py
+?? animations/apstat_67_factors_affecting_power.py
+?? animations/apstat_67_identify_error_type.py
+?? animations/apstat_67_interpret_type_errors.py
+?? animations/apstat_67_power_error_probs.py
+?? nul
+---
+[16:50:54] WORKING TREE CHANGED:
+ M animations/apstat_66_compare_pvalue_alpha.py
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_67_capstone.py
+?? animations/apstat_67_factors_affecting_power.py
+?? animations/apstat_67_identify_error_type.py
+?? animations/apstat_67_interpret_type_errors.py
+?? animations/apstat_67_power_error_probs.py
+?? nul
+---
+[17:43:16] WORKING TREE CHANGED:
+M  animations/apstat_66_compare_pvalue_alpha.py
+A  animations/apstat_67_capstone.py
+A  animations/apstat_67_factors_affecting_power.py
+A  animations/apstat_67_identify_error_type.py
+A  animations/apstat_67_interpret_type_errors.py
+A  animations/apstat_67_power_error_probs.py
+M  cartridges/apstats-u6-inference-prop/generator.js
+M  cartridges/apstats-u6-inference-prop/grading-rules.js
+M  cartridges/apstats-u6-inference-prop/manifest.json
+?? nul
+---
+[17:43:27] NEW COMMITS:
+3cdd66e feat(apstats): add Topic 6.7 animations and cartridge content
+ animations/apstat_66_compare_pvalue_alpha.py       |  11 +-
+ animations/apstat_67_capstone.py                   | 182 ++++++++
+ animations/apstat_67_factors_affecting_power.py    | 225 ++++++++++
+ animations/apstat_67_identify_error_type.py        | 208 +++++++++
+ animations/apstat_67_interpret_type_errors.py      | 170 ++++++++
+ animations/apstat_67_power_error_probs.py          | 186 ++++++++
+ cartridges/apstats-u6-inference-prop/generator.js  | 471 +++++++++++++++++++++
+ .../apstats-u6-inference-prop/grading-rules.js     | 385 ++++++++++++++++-
+ cartridges/apstats-u6-inference-prop/manifest.json | 322 +++++++++++++-
+ 9 files changed, 2150 insertions(+), 10 deletions(-)
+---
+[17:43:28] WORKING TREE CHANGED:
+?? nul
+---
+[18:31:16] WORKING TREE CHANGED:
+ M platform/app.html
+?? nul
+---
+[18:31:26] WORKING TREE CHANGED:
+?? nul
+---
+[23:17:33] WORKING TREE CHANGED:
+?? .codex-prompt-drills-cartridge-31296-1772857042975-c0a082c31aacb.md
+?? nul
+---
+[23:22:27] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-31296-1772857042975-c0a082c31aacb.md
+?? nul
+---
+[23:25:38] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-31296-1772857042975-c0a082c31aacb.md
+?? nul
+---
+[23:27:55] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-31296-1772857042975-c0a082c31aacb.md
+?? nul
+---
+[23:31:05] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-31296-1772857042975-c0a082c31aacb.md
+?? animations/apstat_68_check_two_prop_conditions.py
+?? animations/apstat_68_confidence_interval.py
+?? animations/apstat_68_identify_two_prop_ci.py
+?? animations/apstat_68_interval_estimate.py
+?? animations/apstat_68_margin_of_error.py
+?? nul
+---
+[23:33:36] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_68_check_two_prop_conditions.py
+?? animations/apstat_68_confidence_interval.py
+?? animations/apstat_68_identify_two_prop_ci.py
+?? animations/apstat_68_interval_estimate.py
+?? animations/apstat_68_margin_of_error.py
+?? nul
+---
+[23:46:09] WORKING TREE CHANGED:
+?? nul
+---
+[23:46:21] NEW COMMITS:
+a4618c3 pipeline: add U6 L8 content
+ animations/apstat_68_check_two_prop_conditions.py  |  78 +++++
+ animations/apstat_68_confidence_interval.py        |  66 ++++
+ animations/apstat_68_identify_two_prop_ci.py       |  79 +++++
+ animations/apstat_68_interval_estimate.py          |  67 ++++
+ animations/apstat_68_margin_of_error.py            |  63 ++++
+ cartridges/apstats-u6-inference-prop/generator.js  | 361 +++++++++++++++++++++
+ .../apstats-u6-inference-prop/grading-rules.js     | 254 ++++++++++++++-
+ cartridges/apstats-u6-inference-prop/manifest.json | 161 ++++++++-
+ 8 files changed, 1124 insertions(+), 5 deletions(-)
+---
+[23:52:11] NEW COMMITS:
+2cbdd29 fix: align manifest animation filenames with actual scene class names
+ cartridges/apstats-u6-inference-prop/manifest.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+---
+[00:02:08] WORKING TREE CHANGED:
+?? nul
+?? state/
+---
+[00:02:42] WORKING TREE CHANGED:
+ M scripts/upload-animations.mjs
+?? nul
+?? state/
+---
+[00:04:24] NEW COMMITS:
+03956c7 fix: scene-class-aware animation matching replaces fuzzy fallback
+ scripts/upload-animations.mjs | 86 +++++++++++++++++++------------------------
+ 1 file changed, 37 insertions(+), 49 deletions(-)
+---
+[00:04:25] WORKING TREE CHANGED:
+?? nul
+?? state/
+---
+[11:05:36] WORKING TREE CHANGED:
+?? .codex-prompt-drills-cartridge-49776-1772899535818-88df4859f1541.md
+?? nul
+?? state/
+---
+[11:13:58] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+?? .codex-prompt-drills-cartridge-49776-1772899535818-88df4859f1541.md
+?? nul
+?? state/
+---
+[11:14:41] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-49776-1772899535818-88df4859f1541.md
+?? nul
+?? state/
+---
+[11:15:35] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-49776-1772899535818-88df4859f1541.md
+?? nul
+?? state/
+---
+[11:18:24] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? .codex-prompt-drills-cartridge-49776-1772899535818-88df4859f1541.md
+?? animations/apstat_69_claim_decision.py
+?? animations/apstat_69_claim_reasoning.py
+?? animations/apstat_69_confidence_level_meaning.py
+?? animations/apstat_69_interval_interpretation.py
+?? nul
+?? state/
+---
+[11:20:33] WORKING TREE CHANGED:
+ M cartridges/apstats-u6-inference-prop/generator.js
+ M cartridges/apstats-u6-inference-prop/grading-rules.js
+ M cartridges/apstats-u6-inference-prop/manifest.json
+?? animations/apstat_69_claim_decision.py
+?? animations/apstat_69_claim_reasoning.py
+?? animations/apstat_69_confidence_level_meaning.py
+?? animations/apstat_69_interval_interpretation.py
+?? nul
+?? state/
+---
+[11:30:39] NEW COMMITS:
+33acedc pipeline: add U6 L9 content
+ animations/apstat_69_claim_decision.py             |  57 +++++
+ animations/apstat_69_claim_reasoning.py            |  80 ++++++
+ animations/apstat_69_confidence_level_meaning.py   |  54 ++++
+ animations/apstat_69_interval_interpretation.py    |  91 +++++++
+ cartridges/apstats-u6-inference-prop/generator.js  | 271 +++++++++++++++++++++
+ .../apstats-u6-inference-prop/grading-rules.js     | 156 +++++++++++-
+ cartridges/apstats-u6-inference-prop/manifest.json | 119 ++++++++-
+ 7 files changed, 824 insertions(+), 4 deletions(-)
+---
+[11:30:39] WORKING TREE CHANGED:
+?? nul
+?? state/
+---
+[19:10:21] WORKING TREE CHANGED:
+ M CLAUDE.md
+?? nul
+?? state/
+---
+[19:21:20] WORKING TREE CHANGED:
+ M CLAUDE.md
+?? nul
+?? state/
+?? tests/deep-link-roundtrip.test.js
+---
+[19:40:40] WORKING TREE CHANGED:
+ M CLAUDE.md
+?? nul
+?? state/
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[19:58:52] WORKING TREE CHANGED:
+ M CLAUDE.md
+?? nul
+?? platform/core/url-state.js
+?? state/
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:00:51] WORKING TREE CHANGED:
+ M CLAUDE.md
+ M platform/app.html
+?? nul
+?? platform/core/url-state.js
+?? state/
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:02:39] WORKING TREE CHANGED:
+ M CLAUDE.md
+ M platform/app.html
+ M railway-server/server.js
+?? nul
+?? platform/core/url-state.js
+?? state/
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:05:18] WORKING TREE CHANGED:
+ M CLAUDE.md
+ M platform/app.html
+ M railway-server/server.js
+?? nul
+?? platform/core/url-state.js
+?? state/
+?? tests/core/url-state.test.js
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:07:15] WORKING TREE CHANGED:
+ M .env.example
+ M CLAUDE.md
+ M platform/app.html
+ M railway-server/.env.example
+ M railway-server/server.js
+?? nul
+?? platform/core/url-state.js
+?? state/
+?? tests/core/url-state.test.js
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:08:19] WORKING TREE CHANGED:
+ M .env.example
+ M CLAUDE.md
+ M platform/app.html
+ M platform/core/grading-engine.js
+ M railway-server/.env.example
+ M railway-server/server.js
+?? nul
+?? platform/core/url-state.js
+?? state/
+?? tests/core/url-state.test.js
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:52:37] WORKING TREE CHANGED:
+ M .env.example
+ M CLAUDE.md
+ M platform/app.html
+ M platform/core/grading-engine.js
+ M railway-server/.env.example
+ M railway-server/server.js
+?? platform/core/url-state.js
+?? state/
+?? tests/core/url-state.test.js
+?? tests/deep-link-roundtrip.test.js
+?? tests/progression-regression.test.js
+---
+[20:53:30] NEW COMMITS:
+5664d59 feat: add tests, url-state extraction, and grading proxy wiring
+ .env.example                         |   5 +-
+ CLAUDE.md                            |  24 ++
+ platform/app.html                    | 109 +++++++--
+ platform/core/grading-engine.js      |   3 +-
+ platform/core/url-state.js           | 309 ++++++++++++++++++++++++
+ railway-server/.env.example          |  15 +-
+ railway-server/server.js             | 442 +++++++++++++++++++++++++++--------
+ tests/core/url-state.test.js         | 130 +++++++++++
+ tests/deep-link-roundtrip.test.js    | 355 ++++++++++++++++++++++++++++
+ tests/progression-regression.test.js | 326 ++++++++++++++++++++++++++
+ 10 files changed, 1601 insertions(+), 117 deletions(-)
+---
+[20:53:30] WORKING TREE CHANGED:
+?? state/
+---
+[20:58:05] NEW COMMITS:
+
+---
+[20:58:24] NEW COMMITS:
+
+---
+[23:35:25] NEW COMMITS:
+
+---
+[23:35:28] WORKING TREE CHANGED:
+
+---
+[23:35:38] NEW COMMITS:
+
+---
+[23:35:39] WORKING TREE CHANGED:
+?? state/
+---
+[] WORKING TREE CHANGED:
+
+---
+[23:47:25] NEW COMMITS:
+
+---
+[23:47:26] WORKING TREE CHANGED:
+?? state/
+---
+[23:47:37] NEW COMMITS:
+
+---

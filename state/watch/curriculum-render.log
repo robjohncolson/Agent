@@ -1,0 +1,120 @@
+[20:50:53] Watcher started for curriculum-render (C:/Users/ColsonR/curriculum_render)
+[20:50:53] HEAD: 6e2fb8da1455884eadde3a6af94a7caa7ce24cab
+[14:05:14] WORKING TREE CHANGED:
+?? .gitnexus/
+?? docs/ap-statistics-course-and-exam-description.pdf
+---
+[14:05:25] WORKING TREE CHANGED:
+ M CLAUDE.md
+?? .claude/skills/
+?? .gitignore
+?? AGENTS.md
+?? docs/ap-statistics-course-and-exam-description.pdf
+---
+[14:11:44] NEW COMMITS:
+930bf29 Add GitNexus index config, skills, and AP Stats course description PDF
+ .claude/skills/gitnexus/gitnexus-cli/SKILL.md      |  82 ++++++++++++++
+ .../skills/gitnexus/gitnexus-debugging/SKILL.md    |  89 +++++++++++++++
+ .../skills/gitnexus/gitnexus-exploring/SKILL.md    |  78 +++++++++++++
+ .claude/skills/gitnexus/gitnexus-guide/SKILL.md    |  64 +++++++++++
+ .../gitnexus/gitnexus-impact-analysis/SKILL.md     |  97 +++++++++++++++++
+ .../skills/gitnexus/gitnexus-refactoring/SKILL.md  | 121 +++++++++++++++++++++
+ .gitignore                                         |   1 +
+ AGENTS.md                                          |  25 +++++
+ CLAUDE.md                                          |  26 +++++
+ docs/ap-statistics-course-and-exam-description.pdf | Bin 0 -> 11365472 bytes
+ 10 files changed, 583 insertions(+)
+---
+[14:11:44] WORKING TREE CHANGED:
+
+---
+[14:11:55] NEW COMMITS:
+46f8a86 Add GitNexus index config, skills, and AP Stats course description PDF
+aef0b98 Re-index U6 questions from unit-level to lesson 6.2
+5fcabaa Merge pull request #3 from robjohncolson/codex/analyze-repo-for-soft-spots
+4e7402a Add foundational soft-spots audit plan
+ data/curriculum.js            |  18 ++--
+ docs/soft-spots-audit-plan.md | 195 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 204 insertions(+), 9 deletions(-)
+---
+[18:43:21] NEW COMMITS:
+6c13e34 add 1v1 multiplayer game room management to Railway server
+ railway-server/server.js | 237 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 237 insertions(+)
+---
+[18:58:50] WORKING TREE CHANGED:
+?? state/
+---
+[19:38:52] WORKING TREE CHANGED:
+?? state/
+?? tests/grading/
+---
+[19:41:23] WORKING TREE CHANGED:
+ M railway-server/server.js
+?? state/
+?? tests/grading/
+---
+[20:14:52] WORKING TREE CHANGED:
+ M js/grading/grading-engine.js
+ M railway-server/server.js
+?? state/
+?? tests/grading/
+---
+[20:15:45] WORKING TREE CHANGED:
+ M js/grading/grading-engine.js
+ M railway-server/server.js
+?? state/
+---
+[20:17:09] WORKING TREE CHANGED:
+ M js/grading/grading-engine.js
+ M railway-server/server.js
+?? state/
+?? tests/grading/
+---
+[20:17:30] WORKING TREE CHANGED:
+ M .gitignore
+ M js/grading/grading-engine.js
+ M railway-server/.env.example
+ M railway-server/server.js
+?? state/
+?? tests/grading/
+---
+[20:17:41] WORKING TREE CHANGED:
+ M .gitignore
+ M js/grading/grading-engine.js
+ M railway-server/.env.example
+ M railway-server/README.md
+ M railway-server/server.js
+?? state/
+?? tests/grading/
+---
+[20:49:46] WORKING TREE CHANGED:
+ M .gitignore
+ M js/grading/grading-engine.js
+ M railway-server/.env.example
+ M railway-server/README.md
+ M railway-server/server.js
+ M supabase_config.js
+?? state/
+?? tests/grading/
+---
+[20:53:39] NEW COMMITS:
+8b4fa5b feat: grading escalation tests + wire to shared grading proxy
+ .gitignore                           |   1 +
+ js/grading/grading-engine.js         |  43 ++-
+ railway-server/.env.example          |  16 +-
+ railway-server/README.md             |  12 +-
+ railway-server/server.js             | 599 ++++++----------------------------
+ supabase_config.js                   |  19 +-
+ tests/grading/escalation-e2e.test.js | 600 +++++++++++++++++++++++++++++++++++
+ 7 files changed, 764 insertions(+), 526 deletions(-)
+---
+[20:53:40] WORKING TREE CHANGED:
+?? state/
+---
+[] WORKING TREE CHANGED:
+
+---
+[20:58:15] WORKING TREE CHANGED:
+?? state/
+---

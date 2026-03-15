@@ -1,0 +1,1120 @@
+[20:50:52] Watcher started for apstats-live-worksheet (C:/Users/ColsonR/apstats-live-worksheet)
+[20:50:52] HEAD: 7ac66265752b8c88371870a5a29e3d1c905258e2
+[21:21:19] NEW COMMITS:
+4fd8a9b Add U6 L3 worksheet, grading prompts, and Blooket (Topic 6.3: Justifying a Claim Based on a CI for p)
+baa2a3b Add U6 L1-2 worksheet, grading prompts, and Blooket (Topics 6.1-6.2: Why Be Normal? & Constructing CI for p)
+895478d added transcriptions of the rest of hte unit frameworks
+ CLAUDE.md                                          |   36 +
+ ai-grading-prompts-u6-l1-2.js                      |  133 ++
+ ai-grading-prompts-u6-l3.js                        |  149 +++
+ apstat_1_framework.md                              |  274 ++++
+ apstat_2_framework.md                              |  528 ++++++++
+ apstat_3_framework.md                              |  324 +++++
+ apstat_4_framework.md                              |  310 +++++
+ u5/apstat_5_framework.txt => apstat_5_framework.md |    0
+ apstat_unit6_framework.md => apstat_6_framework.md |    0
+ apstat_unit7_framework.md => apstat_7_framework.md |    0
+ apstat_unit8_framework.md => apstat_8_framework.md |    0
+ apstat_unit9_framework.md => apstat_9_framework.md |    0
+ u6/apstat_6-1_slides.txt                           |   31 +
+ u6/apstat_6-1_transcription.txt                    |   70 +
+ u6/apstat_6-2-1_slides.txt                         |   20 +
+ u6/apstat_6-2-1_transcription.txt                  |  122 ++
+ u6/apstat_6-2-2_slides.txt                         |   18 +
+ u6/apstat_6-2-2_transcription.txt                  |   35 +
+ u6/apstat_6-2-3_slides.txt                         |   18 +
+ u6/apstat_6-2-3_transcription.txt                  |   28 +
+ u6/apstat_6-3-1_slides.txt                         |   38 +
+ u6/apstat_6-3-1_transcription.txt                  |   20 +
+ u6/apstat_6-3-2_slides.txt                         |   21 +
+ u6/apstat_6-3-2_transcription.txt                  |   50 +
+ u6/apstat_6-3-3_slides.txt                         |   50 +
+ u6/apstat_6-3-3_transcription.txt                  |   37 +
+ u6_l1_l2_blooket.csv                               |   42 +
+ u6_l3_blooket.csv                                  |   42 +
+ u6_lesson1-2_live.html                             | 1390 ++++++++++++++++++++
+ u6_lesson3_live.html                               | 1381 +++++++++++++++++++
+ 30 files changed, 5167 insertions(+)
+---
+[21:22:01] WORKING TREE CHANGED:
+?? u6/apstat_6-4-1_transcription.txt
+---
+[21:22:33] WORKING TREE CHANGED:
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+---
+[21:24:28] WORKING TREE CHANGED:
+?? .env
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+---
+[21:24:39] WORKING TREE CHANGED:
+ M .gitignore
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+---
+[21:25:32] WORKING TREE CHANGED:
+ M .gitignore
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+?? video-ingest.mjs
+---
+[21:30:53] WORKING TREE CHANGED:
+ M .gitignore
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+?? u6/apstat_6-4-2_transcription.txt
+?? video-ingest.mjs
+---
+[21:31:03] WORKING TREE CHANGED:
+ M .gitignore
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+?? u6/apstat_6-4-2_slides.txt
+?? u6/apstat_6-4-2_transcription.txt
+?? video-ingest.mjs
+---
+[21:46:08] WORKING TREE CHANGED:
+ M .gitignore
+?? ai-grading-prompts-u6-l4.js
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+?? u6/apstat_6-4-2_slides.txt
+?? u6/apstat_6-4-2_transcription.txt
+?? video-ingest.mjs
+---
+[21:49:27] WORKING TREE CHANGED:
+ M .gitignore
+?? ai-grading-prompts-u6-l4.js
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+?? u6/apstat_6-4-2_slides.txt
+?? u6/apstat_6-4-2_transcription.txt
+?? u6_lesson4_live.html
+?? video-ingest.mjs
+---
+[21:52:15] WORKING TREE CHANGED:
+ M .gitignore
+?? ai-grading-prompts-u6-l4.js
+?? u6/apstat_6-4-1_slides.txt
+?? u6/apstat_6-4-1_transcription.txt
+?? u6/apstat_6-4-2_slides.txt
+?? u6/apstat_6-4-2_transcription.txt
+?? u6_l4_blooket.csv
+?? u6_lesson4_live.html
+?? video-ingest.mjs
+---
+[22:40:05] NEW COMMITS:
+f099278 Add U6 L4 worksheet, grading prompts, and Blooket (Topic 6.4: Setting Up a Test for a Population Proportion)
+ ai-grading-prompts-u6-l4.js       |  205 ++++++
+ u6/apstat_6-4-1_slides.txt        |   27 +
+ u6/apstat_6-4-1_transcription.txt |   40 ++
+ u6/apstat_6-4-2_slides.txt        |   28 +
+ u6/apstat_6-4-2_transcription.txt |   34 +
+ u6_l4_blooket.csv                 |   42 ++
+ u6_lesson4_live.html              | 1276 +++++++++++++++++++++++++++++++++++++
+ 7 files changed, 1652 insertions(+)
+---
+[22:40:05] WORKING TREE CHANGED:
+ M .gitignore
+?? video-ingest.mjs
+---
+[23:35:14] WORKING TREE CHANGED:
+M  .gitignore
+A  video-ingest.mjs
+---
+[23:35:35] NEW COMMITS:
+444bb9c Add video-ingest.mjs for automated Gemini transcription
+ .gitignore       |   3 +
+ video-ingest.mjs | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 202 insertions(+)
+---
+[23:35:35] WORKING TREE CHANGED:
+
+---
+[08:23:01] WORKING TREE CHANGED:
+?? u6/videos/
+---
+[11:46:10] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/videos/
+---
+[12:37:16] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/videos/
+---
+[13:01:25] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[13:02:08] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[14:07:43] WORKING TREE CHANGED:
+?? .gitnexus/
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[14:07:54] WORKING TREE CHANGED:
+ M .gitignore
+ M CLAUDE.md
+?? .claude/skills/
+?? AGENTS.md
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[14:08:36] NEW COMMITS:
+327aadf Add GitNexus index and skills
+ .claude/skills/gitnexus/gitnexus-cli/SKILL.md      |  82 ++++++++++++++
+ .../skills/gitnexus/gitnexus-debugging/SKILL.md    |  89 +++++++++++++++
+ .../skills/gitnexus/gitnexus-exploring/SKILL.md    |  78 +++++++++++++
+ .claude/skills/gitnexus/gitnexus-guide/SKILL.md    |  64 +++++++++++
+ .../gitnexus/gitnexus-impact-analysis/SKILL.md     |  97 +++++++++++++++++
+ .../skills/gitnexus/gitnexus-refactoring/SKILL.md  | 121 +++++++++++++++++++++
+ .gitignore                                         |   1 +
+ AGENTS.md                                          |  25 +++++
+ CLAUDE.md                                          |  26 +++++
+ 9 files changed, 583 insertions(+)
+---
+[14:08:36] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[14:30:43] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+?? u6_lesson5_live.html
+---
+[15:04:26] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l5.js
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+?? u6_lesson5_live.html
+---
+[15:05:51] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l5.js
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+?? u6_l5_blooket.csv
+?? u6_lesson5_live.html
+---
+[15:06:01] NEW COMMITS:
+8784f7b Add U6 L5 worksheet, grading prompts, and Blooket (Topic 6.5: Interpreting p-Values)
+ ai-grading-prompts-u6-l5.js |  206 +++++++
+ u6_l5_blooket.csv           |   45 ++
+ u6_lesson5_live.html        | 1313 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1564 insertions(+)
+---
+[15:06:02] WORKING TREE CHANGED:
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[20:24:17] WORKING TREE CHANGED:
+ M video-ingest.mjs
+?? u6/apstat_6-5-1_slides.txt
+?? u6/apstat_6-5-1_transcription.txt
+?? u6/apstat_6-5-2_slides.txt
+?? u6/apstat_6-5-2_transcription.txt
+?? u6/videos/
+---
+[20:30:26] NEW COMMITS:
+ab5851d Mark video-ingest.mjs dormant + add 6.5 video context files
+ u6/apstat_6-5-1_slides.txt        | 523 ++++++++++++++++++++++++++++++++++++++
+ u6/apstat_6-5-1_transcription.txt |  50 ++++
+ u6/apstat_6-5-2_slides.txt        | 225 ++++++++++++++++
+ u6/apstat_6-5-2_transcription.txt |  28 ++
+ video-ingest.mjs                  |   7 +
+ 5 files changed, 833 insertions(+)
+---
+[20:30:27] WORKING TREE CHANGED:
+?? u6/videos/
+---
+[22:06:54] WORKING TREE CHANGED:
+ M u6_l5_blooket.csv
+?? u6/videos/
+---
+[22:09:23] NEW COMMITS:
+a60303d Regenerate U6 L5 Blooket with conceptual questions (35 questions, no calculations)
+ u6_l5_blooket.csv | 73 ++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 35 insertions(+), 38 deletions(-)
+---
+[22:09:23] WORKING TREE CHANGED:
+?? u6/videos/
+---
+[22:50:00] WORKING TREE CHANGED:
+?? u6/videos/
+?? week_mar9_calendar.html
+---
+[22:58:03] NEW COMMITS:
+221e995 Add week of March 9 calendar
+ week_mar9_calendar.html | 443 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 443 insertions(+)
+---
+[22:58:04] WORKING TREE CHANGED:
+?? u6/videos/
+---
+[00:22:16] WORKING TREE CHANGED:
+?? u6/videos/
+?? u_temp_downloads/
+---
+[00:34:40] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[00:34:51] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[08:12:24] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[08:22:24] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[08:24:20] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[08:25:46] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[08:31:55] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/videos/
+?? u6_lesson6_live.html
+?? u_temp_downloads/
+---
+[08:33:18] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l6.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/videos/
+?? u6_lesson6_live.html
+?? u_temp_downloads/
+---
+[08:34:42] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l6.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/videos/
+?? u6_l6_blooket.csv
+?? u6_lesson6_live.html
+?? u_temp_downloads/
+---
+[08:35:03] NEW COMMITS:
+826c9a0 Add U6 L6 worksheet, grading prompts, and Blooket (Topic 6.6: Concluding a Test for p)
+ ai-grading-prompts-u6-l6.js |  198 +++++++
+ u6_l6_blooket.csv           |   42 ++
+ u6_lesson6_live.html        | 1283 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1523 insertions(+)
+---
+[08:35:04] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[12:35:52] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[12:37:17] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[13:18:16] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[13:19:12] WORKING TREE CHANGED:
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[14:04:27] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-4460-1772823866033-62951dec8c672.md
+?? .codex-prompt-worksheet-grading-4460-1772823866018-dce134598046c.md
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[14:08:11] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-4460-1772823866033-62951dec8c672.md
+?? .codex-prompt-worksheet-grading-4460-1772823866018-dce134598046c.md
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u_temp_downloads/
+---
+[14:08:43] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-4460-1772823866018-dce134598046c.md
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u_temp_downloads/
+---
+[14:13:47] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-4460-1772823866018-dce134598046c.md
+?? ai-grading-prompts-u6-l7.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u_temp_downloads/
+---
+[14:17:57] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-4460-1772823866018-dce134598046c.md
+?? ai-grading-prompts-u6-l7.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u6_lesson7_live.html
+?? u_temp_downloads/
+---
+[14:23:01] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l7.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u6_lesson7_live.html
+?? u_temp_downloads/
+---
+[14:39:44] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-11724-1772825979347-7dada86f4810f.md
+?? .codex-prompt-worksheet-grading-11724-1772825979332-67e3496ca28e.md
+?? ai-grading-prompts-u6-l7.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u6_lesson7_live.html
+?? u_temp_downloads/
+---
+[14:44:58] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-11724-1772825979332-67e3496ca28e.md
+?? ai-grading-prompts-u6-l7.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u6_lesson7_live.html
+?? u_temp_downloads/
+---
+[15:02:36] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l7.js
+?? u6/apstat_6-6-1_slides.txt
+?? u6/apstat_6-6-1_transcription.txt
+?? u6/apstat_6-6-2_slides.txt
+?? u6/apstat_6-6-2_transcription.txt
+?? u6/apstat_6-7-1_slides.txt
+?? u6/apstat_6-7-1_transcription.txt
+?? u6/apstat_6-7-2_slides.txt
+?? u6/apstat_6-7-2_transcription.txt
+?? u6/videos/
+?? u6_l7_blooket.csv
+?? u6_lesson7_live.html
+?? u_temp_downloads/
+---
+[18:33:12] WORKING TREE CHANGED:
+A  ai-grading-prompts-u6-l7.js
+A  u6/apstat_6-6-1_slides.txt
+A  u6/apstat_6-6-1_transcription.txt
+A  u6/apstat_6-6-2_slides.txt
+A  u6/apstat_6-6-2_transcription.txt
+A  u6/apstat_6-7-1_slides.txt
+A  u6/apstat_6-7-1_transcription.txt
+A  u6/apstat_6-7-2_slides.txt
+A  u6/apstat_6-7-2_transcription.txt
+A  u6_l7_blooket.csv
+A  u6_lesson7_live.html
+?? u6/videos/
+?? u_temp_downloads/
+---
+[18:33:23] NEW COMMITS:
+9de7570 Add U6 L7 worksheet, grading prompts, Blooket, and video transcriptions
+ ai-grading-prompts-u6-l7.js       |  204 ++++++
+ u6/apstat_6-6-1_slides.txt        |  329 ++++++++++
+ u6/apstat_6-6-1_transcription.txt |  142 +++++
+ u6/apstat_6-6-2_slides.txt        |   89 +++
+ u6/apstat_6-6-2_transcription.txt |   58 ++
+ u6/apstat_6-7-1_slides.txt        |  315 ++++++++++
+ u6/apstat_6-7-1_transcription.txt |  124 ++++
+ u6/apstat_6-7-2_slides.txt        |  200 ++++++
+ u6/apstat_6-7-2_transcription.txt |  144 +++++
+ u6_l7_blooket.csv                 |   37 ++
+ u6_lesson7_live.html              | 1259 +++++++++++++++++++++++++++++++++++++
+ 11 files changed, 2901 insertions(+)
+---
+[18:33:24] WORKING TREE CHANGED:
+?? u6/videos/
+?? u_temp_downloads/
+---
+[23:13:07] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[23:14:11] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[23:16:19] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[23:17:33] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-31296-1772857042951-5fe7f83e01fc7.md
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[23:21:24] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-31296-1772857042951-5fe7f83e01fc7.md
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u_temp_downloads/
+---
+[23:22:16] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u_temp_downloads/
+---
+[23:31:48] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? test_patch.txt
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u_temp_downloads/
+---
+[23:31:59] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u_temp_downloads/
+---
+[23:35:00] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u6_lesson8_live.html
+?? u_temp_downloads/
+---
+[23:39:17] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-31296-1772857042926-feca7c24ec633.md
+?? ai-grading-prompts-u6-l8.js
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u6_lesson8_live.html
+?? u_temp_downloads/
+---
+[23:40:32] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l8.js
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u6_l8_blooket.csv
+?? u6_lesson8_live.html
+?? u_temp_downloads/
+---
+[23:46:03] WORKING TREE CHANGED:
+A  ai-grading-prompts-u6-l8.js
+A  u6_l8_blooket.csv
+A  u6_lesson8_live.html
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[23:46:14] NEW COMMITS:
+a547d5a pipeline: add U6 L8 content
+ ai-grading-prompts-u6-l8.js |  215 +++++++
+ u6_l8_blooket.csv           |   37 ++
+ u6_lesson8_live.html        | 1313 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1565 insertions(+)
+---
+[23:46:15] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[11:01:07] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[11:02:11] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[11:04:08] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[11:05:43] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-49776-1772899535796-015ad8f2f003f.md
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[11:09:58] WORKING TREE CHANGED:
+?? .codex-prompt-blooket-csv-49776-1772899535796-015ad8f2f003f.md
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u_temp_downloads/
+---
+[11:10:51] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u_temp_downloads/
+---
+[11:18:05] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? patch_test_tmp.txt
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u_temp_downloads/
+---
+[11:18:26] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u_temp_downloads/
+---
+[11:19:53] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u6_lesson9_live.html
+?? u_temp_downloads/
+---
+[11:24:20] WORKING TREE CHANGED:
+?? .codex-prompt-worksheet-grading-49776-1772899535674-a57d68b7e84a8.md
+?? ai-grading-prompts-u6-l9.js
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u6_lesson9_live.html
+?? u_temp_downloads/
+---
+[11:26:05] WORKING TREE CHANGED:
+?? ai-grading-prompts-u6-l9.js
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u6_l9_blooket.csv
+?? u6_lesson9_live.html
+?? u_temp_downloads/
+---
+[11:30:31] NEW COMMITS:
+a2a7868 pipeline: add U6 L9 content
+ ai-grading-prompts-u6-l9.js |  209 +++++++
+ u6_l9_blooket.csv           |   35 ++
+ u6_lesson9_live.html        | 1307 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1551 insertions(+)
+---
+[11:30:31] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+---
+[12:01:07] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+?? week_mar16_calendar.html
+---
+[14:08:31] WORKING TREE CHANGED:
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+?? week_apr13_calendar.html
+?? week_apr27_calendar.html
+?? week_apr6_calendar.html
+?? week_mar16_calendar.html
+?? week_mar23_calendar.html
+?? week_mar30_calendar.html
+?? week_may4_calendar.html
+---
+[14:15:39] WORKING TREE CHANGED:
+?? ap_stats_pacing_mar23_may7.xlsx
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+?? week_apr13_calendar.html
+?? week_apr27_calendar.html
+?? week_apr6_calendar.html
+?? week_mar16_calendar.html
+?? week_mar23_calendar.html
+?? week_mar30_calendar.html
+?? week_may4_calendar.html
+---
+[14:21:14] WORKING TREE CHANGED:
+?? ap_stats_pacing_mar23_may7.xlsx
+?? ap_stats_roadmap.html
+?? u6/apstat_6-8-1_slides.txt
+?? u6/apstat_6-8-1_transcription.txt
+?? u6/apstat_6-8-2_slides.txt
+?? u6/apstat_6-8-2_transcription.txt
+?? u6/apstat_6-9-1_slides.txt
+?? u6/apstat_6-9-1_transcription.txt
+?? u6/apstat_6-9-2_slides.txt
+?? u6/apstat_6-9-2_transcription.txt
+?? u6/videos/
+?? u_temp_downloads/
+?? week_apr13_calendar.html
+?? week_apr27_calendar.html
+?? week_apr6_calendar.html
+?? week_mar16_calendar.html
+?? week_mar23_calendar.html
+?? week_mar30_calendar.html
+?? week_may4_calendar.html
+---
+[14:26:18] WORKING TREE CHANGED:
+A  ap_stats_pacing_mar23_may7.xlsx
+A  ap_stats_roadmap.html
+A  u6/apstat_6-8-1_slides.txt
+A  u6/apstat_6-8-1_transcription.txt
+A  u6/apstat_6-8-2_slides.txt
+A  u6/apstat_6-8-2_transcription.txt
+A  u6/apstat_6-9-1_slides.txt
+A  u6/apstat_6-9-1_transcription.txt
+A  u6/apstat_6-9-2_slides.txt
+A  u6/apstat_6-9-2_transcription.txt
+A  u6/videos/6-5-1.mp4
+A  u6/videos/6-5-2.mp4
+A  u_temp_downloads/drive_1DMt9tQ1_QTmBEQtOZAAukjxirGcMBrUf.mp4
+A  week_apr13_calendar.html
+A  week_apr27_calendar.html
+A  week_apr6_calendar.html
+A  week_mar16_calendar.html
+A  week_mar23_calendar.html
+A  week_mar30_calendar.html
+A  week_may4_calendar.html
+---
+[14:26:30] NEW COMMITS:
+cbb9d85 apstats calendars until end of year
+ ap_stats_pacing_mar23_may7.xlsx                    | Bin 0 -> 16458 bytes
+ ap_stats_roadmap.html                              | 780 +++++++++++++++++++++
+ u6/apstat_6-8-1_slides.txt                         | 407 +++++++++++
+ u6/apstat_6-8-1_transcription.txt                  |  68 ++
+ u6/apstat_6-8-2_slides.txt                         | 118 ++++
+ u6/apstat_6-8-2_transcription.txt                  | 138 ++++
+ u6/apstat_6-9-1_slides.txt                         |  74 ++
+ u6/apstat_6-9-1_transcription.txt                  |  32 +
+ u6/apstat_6-9-2_slides.txt                         | 363 ++++++++++
+ u6/apstat_6-9-2_transcription.txt                  |  86 +++
+ u6/videos/6-5-1.mp4                                |  32 +
+ u6/videos/6-5-2.mp4                                |  32 +
+ .../drive_1DMt9tQ1_QTmBEQtOZAAukjxirGcMBrUf.mp4    | Bin 0 -> 250950586 bytes
+ week_apr13_calendar.html                           | 468 +++++++++++++
+ week_apr27_calendar.html                           | 470 +++++++++++++
+ week_apr6_calendar.html                            | 473 +++++++++++++
+ week_mar16_calendar.html                           | 461 ++++++++++++
+ week_mar23_calendar.html                           | 462 ++++++++++++
+ week_mar30_calendar.html                           | 437 ++++++++++++
+ week_may4_calendar.html                            | 410 +++++++++++
+ 20 files changed, 5311 insertions(+)
+---
+[14:26:31] WORKING TREE CHANGED:
+
+---
+[14:27:04] WORKING TREE CHANGED:
+D  u_temp_downloads/drive_1DMt9tQ1_QTmBEQtOZAAukjxirGcMBrUf.mp4
+---
+[14:27:15] NEW COMMITS:
+8c5ecf1 whoops, don't want that video file
+ .../drive_1DMt9tQ1_QTmBEQtOZAAukjxirGcMBrUf.mp4     | Bin 250950586 -> 0 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+---
+[14:27:16] WORKING TREE CHANGED:
+
+---
+[14:40:42] WORKING TREE CHANGED:
+ M ap_stats_roadmap.html
+---
+[14:41:04] WORKING TREE CHANGED:
+M  ap_stats_roadmap.html
+---
+[14:41:15] NEW COMMITS:
+90c8346 japanese colors to apstats roadmpa
+ ap_stats_roadmap.html | 945 +++++++++++++-------------------------------------
+ 1 file changed, 250 insertions(+), 695 deletions(-)
+---
+[14:41:16] WORKING TREE CHANGED:
+
+---
+[14:42:21] WORKING TREE CHANGED:
+A  ..gitignore.un~
+M  .gitignore
+A  .gitignore~
+---
+[14:42:42] WORKING TREE CHANGED:
+A  ..gitignore.un~
+M  .gitignore
+A  .gitignore~
+D  u6/videos/6-5-1.mp4
+D  u6/videos/6-5-2.mp4
+---
+[14:43:15] NEW COMMITS:
+c465e3f  get rid of videos
+ ..gitignore.un~     | Bin 0 -> 961 bytes
+ .gitignore          |   2 ++
+ .gitignore~         |  26 ++++++++++++++++++++++++++
+ u6/videos/6-5-1.mp4 |  32 --------------------------------
+ u6/videos/6-5-2.mp4 |  32 --------------------------------
+ 5 files changed, 28 insertions(+), 64 deletions(-)
+---
+[14:43:16] WORKING TREE CHANGED:
+
+---
+[14:49:11] WORKING TREE CHANGED:
+?? .git-rewrite/
+---
+[14:49:33] NEW COMMITS:
+83b7a1b  get rid of videos
+f98c250 japanese colors to apstats roadmpa
+10b20f2 apstats calendars until end of year
+---
+[14:49:34] WORKING TREE CHANGED:
+
+---
+[18:43:11] NEW COMMITS:
+3a3ced6 add 1v1 multiplayer, sound engine, and line clear fix to Study Break
+51b17a0 fix Study Break game launch + gameplay polish
+ ap_stats_roadmap_square_mode.html | 2532 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 2532 insertions(+)
+---
+[18:58:54] WORKING TREE CHANGED:
+?? state/
+---
+[19:42:46] WORKING TREE CHANGED:
+?? scripts/
+?? state/
+?? video-ingest-whisper.mjs
+---
+[20:53:42] NEW COMMITS:
+7392393 feat: whisper transcription + lesson-prep orchestrator rewrite
+ scripts/whisper-transcribe.sh |  97 ++++++
+ video-ingest-whisper.mjs      | 756 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 853 insertions(+)
+---
+[20:53:43] WORKING TREE CHANGED:
+?? state/
+---
+[20:54:25] NEW COMMITS:
+c44c694 feat: whisper transcription + lesson-prep orchestrator rewrite
+ba25645 System 7.5 v2: blue-purple chrome borders, Pico Park menu sprite
+4dbb58a Fix System 7.5 polish: revert stripe margins, soften bevel, add image assets
+25fde26 System 7.5 polish: 3D bevels, stripe margins, chamfered corners, doge icon
+d5db8e2 System 7.5 aesthetic polish + Study Break game improvements
+ DOGE6.png                         | Bin 0 -> 461148 bytes
+ Doge-Asset.png                    | Bin 0 -> 158306 bytes
+ ap_stats_roadmap_square_mode.html | 186 ++++++++++++++++++++++++++++++++------
+ sprite.png                        | Bin 0 -> 6401 bytes
+ 4 files changed, 160 insertions(+), 26 deletions(-)
+---
+[23:33:59] WORKING TREE CHANGED:
+
+---
+[23:34:10] WORKING TREE CHANGED:
+?? state/
+---
+[23:35:24] WORKING TREE CHANGED:
+
+---
+[23:35:46] WORKING TREE CHANGED:
+?? state/
+---
+[23:47:30] NEW COMMITS:
+
+---
+[23:47:30] WORKING TREE CHANGED:
+
+---
+[23:47:41] NEW COMMITS:
+
+---
+[23:47:42] WORKING TREE CHANGED:
+?? state/
+---
