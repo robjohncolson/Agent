@@ -1,40 +1,61 @@
 {
   "unit": "7",
-  "lesson": "8",
+  "lesson": "9",
   "files": {
-    "MeanDiffTestAlternativeHypothesis.mp4": {
+    "MeanDiffTestComparePValueAlpha.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestAlternativeHypothesis.mp4",
-      "uploaded_at": "2026-03-15T02:06:08.166Z",
-      "size_bytes": 368571,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestComparePValueAlpha.mp4",
+      "uploaded_at": "2026-03-15T02:48:19.516Z",
+      "size_bytes": 566628,
       "retries": 0
     },
-    "MeanDiffTestAlternativeType.mp4": {
+    "MeanDiffTestPValue.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestAlternativeType.mp4",
-      "uploaded_at": "2026-03-15T02:06:09.215Z",
-      "size_bytes": 255483,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestPValue.mp4",
+      "uploaded_at": "2026-03-15T02:48:20.848Z",
+      "size_bytes": 532410,
       "retries": 0
     },
-    "MeanDiffTestDefineParameters.mp4": {
+    "MeanDiffTestPValueRegion.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestDefineParameters.mp4",
-      "uploaded_at": "2026-03-15T02:06:10.392Z",
-      "size_bytes": 352587,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestPValueRegion.mp4",
+      "uploaded_at": "2026-03-15T02:48:22.139Z",
+      "size_bytes": 468571,
       "retries": 0
     },
-    "MeanDiffTestNullHypothesis.mp4": {
+    "MeanDiffTestInterpretPValue.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestNullHypothesis.mp4",
-      "uploaded_at": "2026-03-15T02:06:11.640Z",
-      "size_bytes": 389042,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestInterpretPValue.mp4",
+      "uploaded_at": "2026-03-15T02:48:23.157Z",
+      "size_bytes": 562856,
       "retries": 0
     },
-    "MeanDiffTestReverseOrder.mp4": {
+    "MeanDiffTestSignificance.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestReverseOrder.mp4",
-      "uploaded_at": "2026-03-15T02:06:12.774Z",
-      "size_bytes": 318771,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestSignificance.mp4",
+      "uploaded_at": "2026-03-15T02:48:24.342Z",
+      "size_bytes": 505298,
+      "retries": 0
+    },
+    "MeanDiffTestDecision.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestDecision.mp4",
+      "uploaded_at": "2026-03-15T02:48:25.512Z",
+      "size_bytes": 425683,
+      "retries": 0
+    },
+    "MeanDiffTestConclusion.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestConclusion.mp4",
+      "uploaded_at": "2026-03-15T02:48:26.717Z",
+      "size_bytes": 471602,
+      "retries": 0
+    },
+    "MeanDiffTestEvidence.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestEvidence.mp4",
+      "uploaded_at": "2026-03-15T02:48:27.971Z",
+      "size_bytes": 515676,
       "retries": 0
     }
   }

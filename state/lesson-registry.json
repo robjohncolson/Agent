@@ -7386,5 +7386,123 @@
       "created": "2026-03-14T14:46:48.537Z",
       "lastUpdated": "2026-03-15T01:59:36.241Z"
     }
+  },
+  "7.9": {
+    "unit": 7,
+    "lesson": 9,
+    "topic": "Topic 7.9",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson9_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=8",
+      "blooket": "https://dashboard.blooket.com/set/69b61c9a2209798f94f1de47",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987729960",
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "done",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "failed",
+      "animationUpload": "done",
+      "schoology": "done",
+      "schoologyVerified": "done",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "pending"
+    },
+    "schoology": {
+      "B": {
+        "folderId": "987729960",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 27",
+          "Thursday 4/2/26"
+        ],
+        "folderTitle": "Thursday 4/2/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 7.9 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson9_live.html",
+            "postedAt": "2026-03-15T02:48:59.185Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "01b71fcaaa65"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 7.9 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u7-mean-ci&level=l41-calculate-diffmeans-test-statistic",
+            "postedAt": "2026-03-15T02:49:14.192Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "13d805544092"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 7.8",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=7&l=8",
+            "postedAt": "2026-03-15T02:49:29.127Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "267f49fae00a"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 7.9 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69b61c9a2209798f94f1de47",
+            "postedAt": "2026-03-15T02:49:44.072Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "9e95a19cc872"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 7.9 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/2kkmkj7ric?sui=33,7",
+            "postedAt": "2026-03-15T02:49:58.950Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "2c146271ebcb"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 7.9 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/j22ffmh28e?sui=33,7",
+            "postedAt": "2026-03-15T02:50:13.939Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "61f425cb7e71"
+          },
+          "video3": {
+            "schoologyId": null,
+            "title": "Topic 7.9 — AP Classroom Video 3",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/ox9np4xfys?sui=33,7",
+            "postedAt": "2026-03-15T02:50:28.983Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ccb3433f95d4"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-15T02:07:53.462Z",
+      "lastUpdated": "2026-03-15T02:50:34.864Z"
+    }
   }
 }
