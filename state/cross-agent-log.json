@@ -453,15 +453,48 @@
       "timestamp": "2026-03-13T02:19:31Z",
       "files_changed": [],
       "depth": 0
+    },
+    {
+      "call_id": "ab0d6ce91386",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent B: Include videos in roadmap data\r\n\r\n## Task\r\n\r\nModify `scripts/build-roadmap-data.mjs` to:\r",
+      "status": "timeout",
+      "duration_seconds": 120.634,
+      "timestamp": "2026-03-13T19:27:24Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "340167023ab8",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent A: Extract loadVideoLinks to shared lib + backfill registry\r\n\r\n## Task\r\n\r\n1. **Extract** the",
+      "status": "timeout",
+      "duration_seconds": 180.046,
+      "timestamp": "2026-03-13T19:28:22Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "4b210a5c0393",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "# Agent C: Batch Schoology backfill scripts\r\n\r\n## Task\r\n\r\nCreate two batch scripts for Schoology bac",
+      "status": "timeout",
+      "duration_seconds": 180.036,
+      "timestamp": "2026-03-13T19:28:25Z",
+      "files_changed": [],
+      "depth": 0
     }
   ],
   "summary": {
-    "total_calls": 39,
-    "cc_to_codex": 36,
+    "total_calls": 42,
+    "cc_to_codex": 39,
     "codex_to_cc": 3,
     "completed": 13,
-    "failed": 25,
+    "failed": 28,
     "refused": 1,
-    "avg_duration_seconds": 122.176
+    "avg_duration_seconds": 124.894
   }
 }
