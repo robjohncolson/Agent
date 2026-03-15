@@ -9,7 +9,8 @@
  *   node scripts/upload-animations.mjs --unit 6 --lesson 11 --dry-run
  *
  * Expects env vars: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
- * Uploads 720p30 renders to: videos/animations/{cartridgeName}/{filename}.mp4
+ * Uploads the best available render quality to:
+ *   videos/animations/{cartridgeName}/{filename}.mp4
  */
 
 import "dotenv/config";
@@ -27,7 +28,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED ??= '0';
 const DRILLER_DIR = "C:/Users/ColsonR/lrsl-driller";
 const MEDIA_DIR = path.join(DRILLER_DIR, "media", "videos");
 const BUCKET = "videos";
-const QUALITY = "720p30";
+const QUALITY_PREFERENCE = ["720p30", "480p15", "1080p60"];
 
 const CARTRIDGE_MAP = {
   "5": "apstats-u5-sampling-dist",
@@ -64,13 +65,18 @@ function findAnimationFiles(unit, lesson) {
   return readdirSync(MEDIA_DIR)
     .filter(dir => dir.startsWith(prefix))
     .flatMap(dir => {
-      const qualityDir = path.join(MEDIA_DIR, dir, QUALITY);
+      const qualityLabel = QUALITY_PREFERENCE.find((label) =>
+        existsSync(path.join(MEDIA_DIR, dir, label))
+      );
+      if (!qualityLabel) return [];
+      const qualityDir = path.join(MEDIA_DIR, dir, qualityLabel);
       if (!existsSync(qualityDir)) return [];
       return readdirSync(qualityDir)
         .filter(f => f.endsWith(".mp4"))
         .map(f => ({
           localPath: path.join(qualityDir, f),
           filename: f,
+          qualityLabel,
           size: statSync(path.join(qualityDir, f)).size,
         }));
     });
@@ -214,7 +220,7 @@ async function main() {
       }
     }
 
-    process.stdout.write(`  ${file.filename} (${sizeKB} KB) → ${storagePath} ... `);
+    process.stdout.write(`  ${file.filename} [${file.qualityLabel}] (${sizeKB} KB) → ${storagePath} ... `);
 
     try {
       const result = await uploadFile(supabaseUrl, serviceKey, storagePath, file.localPath);

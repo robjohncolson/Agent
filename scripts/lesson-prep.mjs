@@ -22,7 +22,7 @@
 
 import "dotenv/config";
 import { pipeline as pipelineEvents } from './lib/event-log.mjs';
-import { execSync, spawn } from "node:child_process";
+import { execFileSync, execSync, spawn } from "node:child_process";
 import {
   existsSync,
   readFileSync,
@@ -1245,7 +1245,7 @@ function step5_uploadBlooket(unit, lesson) {
 
 // ── Step 6: Post to Schoology ────────────────────────────────────────────────
 
-function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
+async function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   if (!scriptExists(SCRIPTS.postSchoology)) {
     console.log("post-to-schoology.mjs not found, skipping Schoology posting.\n");
     return false;
@@ -1253,7 +1253,14 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
 
   console.log(stepBanner(6, "Posting links to Schoology") + "\n");
 
-  const args = [`--unit ${unit}`, `--lesson ${lesson}`, `--auto-urls`, `--with-videos`, `--no-prompt`];
+  const args = [
+    SCRIPTS.postSchoology,
+    "--unit", String(unit),
+    "--lesson", String(lesson),
+    "--auto-urls",
+    "--with-videos",
+    "--no-prompt",
+  ];
 
   // Auto-heal: add --heal when previous run failed or has missing links
   const healEntry = getLesson(unit, lesson);
@@ -1272,13 +1279,13 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   }
 
   if (blooketUrl) {
-    args.push(`--blooket "${blooketUrl}"`);
+    args.push("--blooket", blooketUrl);
   }
 
   // Check if folder already exists in registry (from a previous run)
   const regEntry = getLesson(unit, lesson);
   if (regEntry?.urls?.schoologyFolder) {
-    args.push(`--target-folder "${regEntry.urls.schoologyFolder}"`);
+    args.push("--target-folder", regEntry.urls.schoologyFolder);
   }
   // Use calendar context if available (from --auto mode)
   else if (calendarContext && calendarContext.folderTitle) {
@@ -1286,24 +1293,24 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
       ? determineSchoolWeek(calendarContext.date)
       : null;
     if (weekInfo) {
-      args.push(`--folder-path "${weekInfo.folderPath.replace(/\//g, '::')}"`);
+      args.push("--folder-path", weekInfo.folderPath.replace(/\//g, '::'));
       console.log(`  Folder path: ${weekInfo.folderPath} (${weekInfo.quarter}, week ${weekInfo.weekNum})`);
     }
-    args.push(`--create-folder "${calendarContext.folderTitle}"`);
+    args.push("--create-folder", calendarContext.folderTitle);
     if (calendarContext.folderDesc) {
       const desc = calendarContext.folderDesc
         .replace(/\\/g, '\\\\')
         .replace(/"/g, '\\"')
         .replace(/\n/g, '\\n');
-      args.push(`--folder-desc "${desc}"`);
+      args.push("--folder-desc", desc);
     }
   }
   // Fallback: resolve folder from topic schedule (works without --auto)
   else {
     try {
       const folderInfo = await resolveFolderPath(unit, lesson);
-      args.push(`--folder-path "${folderInfo.folderPath.join('::')}"`);
-      args.push(`--create-folder "${folderInfo.dayTitle}"`);
+      args.push("--folder-path", folderInfo.folderPath.join('::'));
+      args.push("--create-folder", folderInfo.dayTitle);
       console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
       if (folderInfo.isFuture) {
         console.log(`  (future lesson — routing to work-ahead/future)`);
@@ -1319,8 +1326,9 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   const postSpinner = createSpinner("Posting to Schoology");
   try {
     postSpinner.start();
-    execSync(
-      `node "${SCRIPTS.postSchoology}" ${args.join(" ")}`,
+    execFileSync(
+      "node",
+      args,
       { stdio: "inherit", timeout: 300000 }
     );
     postSpinner.succeed("Posted to Schoology");
@@ -2080,7 +2088,7 @@ async function main() {
   } else {
     const step6Start = Date.now();
     pipelineEvents.stepStarted('lesson-prep', 'schoology-post');
-    const schoologyOk = step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
+    const schoologyOk = await step6_postToSchoology(unit, lesson, blooketUrl, calendarContext);
     if (schoologyOk) {
       pipelineEvents.stepCompleted('lesson-prep', 'schoology-post', Date.now() - step6Start);
     } else {

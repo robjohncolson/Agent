@@ -1,40 +1,40 @@
 {
   "unit": "7",
-  "lesson": "4",
+  "lesson": "8",
   "files": {
-    "MeanTestConditions.mp4": {
+    "MeanDiffTestAlternativeHypothesis.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanTestConditions.mp4",
-      "uploaded_at": "2026-03-13T12:43:41.541Z",
-      "size_bytes": 276958,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestAlternativeHypothesis.mp4",
+      "uploaded_at": "2026-03-15T02:06:08.166Z",
+      "size_bytes": 368571,
       "retries": 0
     },
-    "MeanTestDefineParameter.mp4": {
+    "MeanDiffTestAlternativeType.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanTestDefineParameter.mp4",
-      "uploaded_at": "2026-03-13T12:43:42.651Z",
-      "size_bytes": 223881,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestAlternativeType.mp4",
+      "uploaded_at": "2026-03-15T02:06:09.215Z",
+      "size_bytes": 255483,
       "retries": 0
     },
-    "MeanTestProcedure.mp4": {
+    "MeanDiffTestDefineParameters.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanTestProcedure.mp4",
-      "uploaded_at": "2026-03-13T12:43:43.718Z",
-      "size_bytes": 173043,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestDefineParameters.mp4",
+      "uploaded_at": "2026-03-15T02:06:10.392Z",
+      "size_bytes": 352587,
       "retries": 0
     },
-    "MeanTestAlternativeHypothesis.mp4": {
+    "MeanDiffTestNullHypothesis.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanTestAlternativeHypothesis.mp4",
-      "uploaded_at": "2026-03-13T12:43:44.462Z",
-      "size_bytes": 232413,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestNullHypothesis.mp4",
+      "uploaded_at": "2026-03-15T02:06:11.640Z",
+      "size_bytes": 389042,
       "retries": 0
     },
-    "MeanTestNullHypothesis.mp4": {
+    "MeanDiffTestReverseOrder.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanTestNullHypothesis.mp4",
-      "uploaded_at": "2026-03-13T12:43:45.742Z",
-      "size_bytes": 299274,
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestReverseOrder.mp4",
+      "uploaded_at": "2026-03-15T02:06:12.774Z",
+      "size_bytes": 318771,
       "retries": 0
     }
   }

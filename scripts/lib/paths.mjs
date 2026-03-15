@@ -40,6 +40,7 @@ const MACHINES = {
 // ── Registry-based machine resolution ────────────────────────────────────────
 
 function readFromRegistry() {
+  const usernameProfile = MACHINES[os.userInfo().username] ?? {};
   // Determine machine ID: env override takes precedence, then .machine-id file
   let machineId;
   if (process.env.AGENT_MACHINE) {
@@ -69,9 +70,9 @@ function readFromRegistry() {
     worksheetRepo:  machinePaths.repos["apstats-live-worksheet"],
     drillerRepo:    machinePaths.repos["lrsl-driller"],
     curriculumRepo: machinePaths.repos["curriculum-render"],
-    python:         pythonExe,
-    ffmpegDir:      null,
-    miktexDir:      null,
+    python:         pythonExe ?? usernameProfile.python ?? null,
+    ffmpegDir:      machineRecord?.ffmpegDir ?? machineRecord?.ffmpeg_dir ?? usernameProfile.ffmpegDir ?? null,
+    miktexDir:      machineRecord?.miktexDir ?? machineRecord?.miktex_dir ?? usernameProfile.miktexDir ?? null,
     edgeProfile:    join(machinePaths.base_path, ".edge-debug-profile"),
   };
 }

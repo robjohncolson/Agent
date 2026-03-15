@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * schoology-verify.mjs — Verify lesson links exist in both Period B and Period E Schoology folders.
+ * schoology-verify.mjs - Verify lesson links exist in Schoology lesson folders.
  *
  * Usage:
  *   node scripts/schoology-verify.mjs --unit 6 --lesson 11
@@ -11,37 +11,30 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { connectCDP } from "./lib/cdp-connect.mjs";
-import { navigateToFolder, listItems, COURSE_IDS } from "./lib/schoology-dom.mjs";
+import { buildExpectedLinks } from "./lib/schoology-heal.mjs";
+import { COURSE_IDS, listItems, navigateToFolder } from "./lib/schoology-dom.mjs";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const REGISTRY_PATH = resolve(REPO_ROOT, "state", "lesson-registry.json");
 
-const LINK_TYPES = [
-  { key: "worksheet", title: "Live Worksheet" },
-  { key: "drills",    title: "Drills" },
-  { key: "quiz",      title: "Quiz" },
-  { key: "blooket",   title: "Blooket" },
-];
-
-// ── Argument parsing ──────────────────────────────────────────────────────────
-
 function parseArgs() {
   const args = process.argv.slice(2);
   let unit = null;
   let lesson = null;
+
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--unit" && args[i + 1]) unit = args[++i];
     else if (args[i] === "--lesson" && args[i + 1]) lesson = args[++i];
   }
+
   if (!unit || !lesson) {
     console.error("Usage: node scripts/schoology-verify.mjs --unit <U> --lesson <L>");
     process.exit(1);
   }
+
   return { unit, lesson };
 }
-
-// ── Folder ID extraction ──────────────────────────────────────────────────────
 
 function extractFolderId(folderUrl) {
   try {
@@ -55,7 +48,6 @@ function extractFolderId(folderUrl) {
 function extractCourseId(folderUrl) {
   try {
     const u = new URL(folderUrl);
-    // URL pattern: /course/{courseId}/materials
     const match = u.pathname.match(/\/course\/(\d+)\/materials/);
     return match ? match[1] : null;
   } catch {
@@ -63,30 +55,44 @@ function extractCourseId(folderUrl) {
   }
 }
 
-// ── Verification logic ────────────────────────────────────────────────────────
+function normalizeTitle(value) {
+  return (value || "").replace(/\s+/g, " ").trim().toLowerCase();
+}
 
-/**
- * Verify links in a single folder.
- * Returns array of { title, found } for each expected link type.
- */
 async function verifyFolder(page, courseId, folderId, expectedLinks) {
   await navigateToFolder(page, courseId, folderId);
   const items = await listItems(page);
-  const itemNames = new Set(items.map(i => i.name));
+  const itemNames = new Set(items.map((item) => normalizeTitle(item.name)));
 
   return expectedLinks.map(({ title }) => ({
     title,
-    found: itemNames.has(title),
+    found: itemNames.has(normalizeTitle(title)),
   }));
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+function getFolderUrl(entry, periodKey) {
+  if (periodKey === "B") {
+    return entry.urls?.schoologyFolder || null;
+  }
+  return entry.urls?.schoologyFolderE || null;
+}
+
+function buildExpectedLinksForPeriod(entry, unit, lesson, periodKey) {
+  const materials = entry.schoology?.[periodKey]?.materials;
+  if (materials && Object.keys(materials).length > 0) {
+    return Object.values(materials)
+      .filter((material) => material && material.title && (material.targetUrl || material.href || material.status === "done"))
+      .map((material) => ({ title: material.title }));
+  }
+
+  return buildExpectedLinks(unit, lesson, { blooketUrl: entry.urls?.blooket })
+    .map(({ title }) => ({ title }));
+}
 
 async function main() {
   const { unit, lesson } = parseArgs();
   const key = `${unit}.${lesson}`;
 
-  // Load registry
   let registry;
   try {
     registry = JSON.parse(readFileSync(REGISTRY_PATH, "utf8"));
@@ -101,23 +107,14 @@ async function main() {
     process.exit(1);
   }
 
-  const urls = entry.urls || {};
-
-  // Determine which link types are expected (non-null URLs in registry)
-  const expectedLinks = LINK_TYPES
-    .filter(lt => urls[lt.key])
-    .map(lt => ({ key: lt.key, title: `${lt.title} \u2014 ${unit}.${lesson}` }));
-
   console.log(`Verifying Schoology links for ${key}`);
   console.log("");
 
-  // Periods to check: B and E
   const periods = [
-    { label: "Period B", urlKey: "schoologyFolder",  courseIdKey: "B" },
-    { label: "Period E", urlKey: "schoologyFolderE", courseIdKey: "E" },
+    { label: "Period B", periodKey: "B", courseIdKey: "B" },
+    { label: "Period E", periodKey: "E", courseIdKey: "E" },
   ];
 
-  // Connect CDP once
   const { browser, page } = await connectCDP(chromium, { preferUrl: "schoology" });
 
   let totalExpected = 0;
@@ -125,10 +122,17 @@ async function main() {
   let anyMissing = false;
 
   for (const period of periods) {
-    const folderUrl = urls[period.urlKey];
+    const folderUrl = getFolderUrl(entry, period.periodKey);
+    const expectedLinks = buildExpectedLinksForPeriod(entry, unit, lesson, period.periodKey);
 
     if (!folderUrl) {
-      console.log(`${period.label}: no folder URL — skipping`);
+      console.log(`${period.label}: no folder URL - skipping`);
+      console.log("");
+      continue;
+    }
+
+    if (expectedLinks.length === 0) {
+      console.log(`${period.label}: no expected links recorded - skipping`);
       console.log("");
       continue;
     }
@@ -137,7 +141,7 @@ async function main() {
     const courseId = extractCourseId(folderUrl) || COURSE_IDS[period.courseIdKey];
 
     if (!folderId) {
-      console.log(`${period.label}: could not extract folder ID from URL — skipping`);
+      console.log(`${period.label}: could not extract folder ID from URL - skipping`);
       console.log("");
       continue;
     }
@@ -145,7 +149,6 @@ async function main() {
     console.log(`${period.label} (folder ${folderId}):`);
 
     const results = await verifyFolder(page, courseId, folderId, expectedLinks);
-
     for (const { title, found } of results) {
       totalExpected++;
       if (found) {
@@ -160,17 +163,15 @@ async function main() {
     console.log("");
   }
 
-  // Disconnect CDP (browser stays open)
   await browser.close();
 
-  // Summary
   const missing = totalExpected - totalFound;
   console.log(`Summary: ${totalFound}/${totalExpected} links verified, ${missing} missing`);
 
   process.exit(anyMissing ? 1 : 0);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(`Fatal error: ${err.message}`);
   process.exit(1);
 });

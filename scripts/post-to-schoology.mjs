@@ -44,11 +44,15 @@ let chromium;
 async function syncFolderToSupabase(unit, lesson, period, folderId) {
   try {
     const topicKey = `${unit}.${lesson}`;
-    await upsertTopic(topicKey, period, {
+    const result = await upsertTopic(topicKey, period, {
       status: 'posted',
       schoologyFolderId: folderId,
     });
-    console.log(`  [supabase] Synced folder ID ${folderId} for ${topicKey} Period ${period}`);
+    if (result.ok) {
+      console.log(`  [supabase] Synced folder ID ${folderId} for ${topicKey} Period ${period}`);
+    } else {
+      console.warn(`  [supabase] Failed to sync folder ID: ${result.error}`);
+    }
   } catch (err) {
     console.warn(`  [supabase] Failed to sync folder ID: ${err.message}`);
   }

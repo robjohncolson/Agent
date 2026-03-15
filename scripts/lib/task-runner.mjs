@@ -393,19 +393,21 @@ async function executeTask(task, params, pipelineId, force, forceSteps, context)
   const resolvedInputs = resolveInputs(task.inputs ?? {}, resolvedParams);
 
   // --- Derive CLI args from resolved inputs ---
-  const argPairs = [];
+  const argList = [];
   for (const [k, v] of Object.entries(resolvedInputs)) {
     if (typeof v === 'boolean') {
-      if (v) argPairs.push(`--${k}`);
+      if (v) argList.push(`--${k}`);
     } else if (Array.isArray(v)) {
       for (const item of v) {
-        argPairs.push(`--${k} ${String(item)}`);
+        argList.push(`--${k}`, String(item));
       }
     } else if (v !== '' && v !== null && v !== undefined) {
-      argPairs.push(`--${k} ${String(v)}`);
+      argList.push(`--${k}`, String(v));
     }
   }
-  const argsStr = argPairs.join(' ');
+  const argsStr = argList
+    .map((part) => /\s/.test(part) ? JSON.stringify(part) : part)
+    .join(' ');
 
   // --- Emit step.started ---
   pipelineEvents.stepStarted(pipelineId, stepId, { taskName: task.name, type: task.type });
@@ -417,7 +419,7 @@ async function executeTask(task, params, pipelineId, force, forceSteps, context)
       case 'git-operation': {
         const workerPath = path.join(REPO_ROOT, task.worker);
         const timeoutMs = (task.timeout_minutes ?? 10) * 60_000;
-        const workerArgs = ['--', workerPath, ...argsStr.split(/\s+/).filter(Boolean)];
+        const workerArgs = ['--', workerPath, ...argList];
         console.log(`[task-runner] [${stepId}] Running: node ${workerPath} ${argsStr}`);
         await new Promise((resolve, reject) => {
           const proc = spawn(process.execPath, workerArgs, {

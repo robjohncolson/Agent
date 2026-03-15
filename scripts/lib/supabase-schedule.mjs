@@ -108,17 +108,47 @@ export async function upsertTopic(topic, period, fields = {}) {
   try {
     const { url, key } = getSupabaseConfig();
 
-    const body = { topic, period };
+    const payload = {};
+    if (fields.date !== undefined) payload.date = fields.date;
+    if (fields.title !== undefined) payload.title = fields.title;
+    if (fields.status !== undefined) payload.status = fields.status;
+    if (fields.schoologyFolderId !== undefined) payload.schoology_folder_id = fields.schoologyFolderId;
+    payload.updated_at = new Date().toISOString();
 
-    if (fields.date !== undefined) body.date = fields.date;
-    if (fields.title !== undefined) body.title = fields.title;
-    if (fields.status !== undefined) body.status = fields.status;
-    if (fields.schoologyFolderId !== undefined) body.schoology_folder_id = fields.schoologyFolderId;
+    let response;
+    if (fields.date === undefined) {
+      const filters =
+        `topic=eq.${encodeURIComponent(topic)}&period=eq.${encodeURIComponent(period)}`;
+      response = await fetch(`${url}/rest/v1/topic_schedule?${filters}`, {
+        method: 'PATCH',
+        headers: {
+          ...authHeaders(key),
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    // Set updated_at on every upsert
-    body.updated_at = new Date().toISOString();
+      if (!response.ok) {
+        const text = await response.text().catch(() => '(no body)');
+        const msg = `Supabase patch failed — ${response.status} ${response.statusText}: ${text}`;
+        console.warn(`[supabase-schedule] ${msg}`);
+        return { ok: false, error: msg };
+      }
 
-    const response = await fetch(`${url}/rest/v1/topic_schedule`, {
+      const rows = await response.json().catch(() => null);
+      if (!Array.isArray(rows) || rows.length === 0) {
+        const msg = `Supabase patch matched no existing row for ${topic} Period ${period}`;
+        console.warn(`[supabase-schedule] ${msg}`);
+        return { ok: false, error: msg };
+      }
+
+      return { ok: true };
+    }
+
+    const body = { topic, period, ...payload };
+    const conflictTarget = encodeURIComponent('topic,period');
+    response = await fetch(`${url}/rest/v1/topic_schedule?on_conflict=${conflictTarget}`, {
       method: 'POST',
       headers: {
         ...authHeaders(key),

@@ -6,7 +6,8 @@
   "worker": "scripts/render-animations.mjs",
   "inputs": {
     "unit": "{{unit}}",
-    "lesson": "{{lesson}}"
+    "lesson": "{{lesson}}",
+    "quality": "m"
   },
   "outputs": {
     "registry_key": "animations"
