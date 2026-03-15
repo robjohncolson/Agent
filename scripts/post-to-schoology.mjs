@@ -35,10 +35,24 @@ import { getLesson, updateStatus, updateUrl, updateSchoologyLink, updateSchoolog
 import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 import { COURSE_IDS } from './lib/schoology-dom.mjs';
 import { resolveFolderPath } from './lib/resolve-folder-path.mjs';
+import { upsertTopic } from './lib/supabase-schedule.mjs';
 
 // Playwright is imported dynamically in main() so that arg parsing and --help
 // work even if the package isn't installed yet.
 let chromium;
+
+async function syncFolderToSupabase(unit, lesson, period, folderId) {
+  try {
+    const topicKey = `${unit}.${lesson}`;
+    await upsertTopic(topicKey, period, {
+      status: 'posted',
+      schoologyFolderId: folderId,
+    });
+    console.log(`  [supabase] Synced folder ID ${folderId} for ${topicKey} Period ${period}`);
+  } catch (err) {
+    console.warn(`  [supabase] Failed to sync folder ID: ${err.message}`);
+  }
+}
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
@@ -604,7 +618,7 @@ async function main() {
     // Try auto-resolving from topic schedule before giving up
     let canAutoResolve = false;
     try {
-      resolveFolderPath(unit, lesson, { period: 'B' });
+      await resolveFolderPath(unit, lesson, { period: 'B' });
       canAutoResolve = true;
     } catch { /* no schedule entry */ }
 
@@ -652,7 +666,7 @@ async function main() {
   let courseCreateFolder = opts.createFolder;
   if (courseIds.length > 1 || (!opts.folderPath && !opts.targetFolder && !opts.heal)) {
     try {
-      const folderInfo = resolveFolderPath(unit, lesson, { period: currentPeriod });
+      const folderInfo = await resolveFolderPath(unit, lesson, { period: currentPeriod });
       courseFolderPath = folderInfo.folderPath.join('::');
       courseCreateFolder = folderInfo.dayTitle;
       console.log(`  Folder resolved for Period ${currentPeriod}: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
@@ -725,6 +739,8 @@ async function main() {
           reconciledAt: null,
           materials: {},
         }, currentPeriod);
+        const sbFolderId = folderIdMatch ? folderIdMatch[1] : null;
+        if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId);
         console.log(`  Day folder created inside path: ${materialsUrl}`);
       } else {
         // Post directly into the resolved parent folder
@@ -739,6 +755,8 @@ async function main() {
           reconciledAt: null,
           materials: {},
         }, currentPeriod);
+        const sbFolderId = folderIdMatch ? folderIdMatch[1] : null;
+        if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId);
         console.log(`  Posting into: ${materialsUrl}`);
       }
     } catch (err) {
@@ -771,6 +789,8 @@ async function main() {
         reconciledAt: null,
         materials: {},
       }, currentPeriod);
+      const sbFolderId = folderIdMatch ? folderIdMatch[1] : null;
+      if (sbFolderId) await syncFolderToSupabase(unit, lesson, currentPeriod, sbFolderId);
       console.log(`  Folder URL saved to registry: ${materialsUrl}`);
     } catch (err) {
       console.error(`  FOLDER CREATION FAILED: ${err.message}`);

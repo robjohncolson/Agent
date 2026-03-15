@@ -138,7 +138,7 @@ async function cdpVerify(page, lessons, periods, verbose, fix) {
       let folderId = sState?.folderId || null;
       if (!folderId) {
         try {
-          const fpInfo = resolveFolderPath(6, n, { period: p });
+          const fpInfo = await resolveFolderPath(6, n, { period: p });
           console.log(`  [6.${n} ${p}] Discovering folder: ${fpInfo.folderPath.join(' > ')}`);
           folderId = await navigatePath(page, courseId, fpInfo.folderPath, { createMissing: false });
           discoveredFolders[`${n}-${p}`] = folderId;
@@ -277,7 +277,7 @@ async function repair(page, verifyResults, periods, verbose, discoveredFolders) 
       // Persist discovered folderId to registry now (we're in --fix mode)
       if (!sState?.folderId && discoveredFolders[`${n}-${p}`]) {
         try {
-          const fpInfo = resolveFolderPath(6, n, { period: p });
+          const fpInfo = await resolveFolderPath(6, n, { period: p });
           setSchoologyState(6, n, {
             folderId,
             folderPath: fpInfo.folderPath,

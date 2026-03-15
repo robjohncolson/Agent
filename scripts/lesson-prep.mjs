@@ -1301,7 +1301,7 @@ function step6_postToSchoology(unit, lesson, blooketUrl, calendarContext) {
   // Fallback: resolve folder from topic schedule (works without --auto)
   else {
     try {
-      const folderInfo = resolveFolderPath(unit, lesson);
+      const folderInfo = await resolveFolderPath(unit, lesson);
       args.push(`--folder-path "${folderInfo.folderPath.join('::')}"`);
       args.push(`--create-folder "${folderInfo.dayTitle}"`);
       console.log(`  Folder resolved from schedule: ${folderInfo.folderPath.join(' → ')} / ${folderInfo.dayTitle}`);
@@ -1711,7 +1711,7 @@ async function main() {
     // Fallback: resolve folder from topic schedule when no calendar context
     if (!calendarContext || !calendarContext.folderTitle) {
       try {
-        const folderInfo = resolveFolderPath(unit, lesson, {
+        const folderInfo = await resolveFolderPath(unit, lesson, {
           date: opts.targetDate || null,
         });
         context.set('folder_path', folderInfo.folderPath.join('::'));

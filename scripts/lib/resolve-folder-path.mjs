@@ -11,6 +11,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AGENT_ROOT } from "./paths.mjs";
+import { getSchedule } from './supabase-schedule.mjs';
 
 const SCHEDULE_PATH = join(AGENT_ROOT, "config", "topic-schedule.json");
 const REGISTRY_PATH = join(AGENT_ROOT, "state", "lesson-registry.json");
@@ -101,6 +102,25 @@ function loadSchedule(period = "B") {
 }
 
 /**
+ * Load topic dates from Supabase. Returns null on any failure (callers fall back to local JSON).
+ * @param {string} period - "B" or "E"
+ * @returns {Promise<Record<string, string>|null>} topic → ISO date, or null
+ */
+async function loadScheduleFromSupabase(period) {
+  try {
+    const schedule = await getSchedule(period);
+    if (!schedule) return null;
+    const result = {};
+    for (const [topic, entry] of schedule) {
+      result[topic] = entry.date;
+    }
+    return result;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Load a lesson's date from the registry.
  * @returns {string|null} ISO date or null
  */
@@ -125,12 +145,19 @@ function loadRegistryDate(unit, lesson) {
  * @returns {{ folderPath: string[], dayTitle: string, isFuture: boolean, weekNum: number, quarter: string, date: string }}
  * @throws {Error} if no date can be resolved
  */
-export function resolveFolderPath(unit, lesson, options = {}) {
+export async function resolveFolderPath(unit, lesson, options = {}) {
   const topicKey = `${unit}.${lesson}`;
   const period = options.period || "B";
 
-  // Step 1: Resolve date (priority: explicit > schedule > registry).
+  // Step 1: Resolve date (priority: explicit > Supabase > local schedule > registry).
   let date = options.date || null;
+
+  if (!date) {
+    const supabaseSchedule = await loadScheduleFromSupabase(period);
+    if (supabaseSchedule) {
+      date = supabaseSchedule[topicKey] || null;
+    }
+  }
 
   if (!date) {
     const schedule = loadSchedule(period);
