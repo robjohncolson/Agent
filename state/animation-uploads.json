@@ -57,6 +57,13 @@
       "uploaded_at": "2026-03-15T02:48:27.971Z",
       "size_bytes": 515676,
       "retries": 0
+    },
+    "MeanDiffTestStatistic.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u7-mean-ci/MeanDiffTestStatistic.mp4",
+      "uploaded_at": "2026-03-15T02:53:20.818Z",
+      "size_bytes": 364537,
+      "retries": 0
     }
   }
 }

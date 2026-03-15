@@ -7407,13 +7407,13 @@
       "drills": "done",
       "blooketCsv": "done",
       "blooketUpload": "done",
-      "animations": "failed",
+      "animations": "done",
       "animationUpload": "done",
       "schoology": "done",
       "schoologyVerified": "done",
       "urlsGenerated": "done",
       "registryExported": "done",
-      "committed": "pending"
+      "committed": "done"
     },
     "schoology": {
       "B": {
@@ -7502,7 +7502,7 @@
     },
     "timestamps": {
       "created": "2026-03-15T02:07:53.462Z",
-      "lastUpdated": "2026-03-15T02:50:34.864Z"
+      "lastUpdated": "2026-03-15T02:53:34.855Z"
     }
   }
 }

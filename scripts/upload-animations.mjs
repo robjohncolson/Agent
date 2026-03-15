@@ -65,20 +65,22 @@ function findAnimationFiles(unit, lesson) {
   return readdirSync(MEDIA_DIR)
     .filter(dir => dir.startsWith(prefix))
     .flatMap(dir => {
-      const qualityLabel = QUALITY_PREFERENCE.find((label) =>
-        existsSync(path.join(MEDIA_DIR, dir, label))
-      );
-      if (!qualityLabel) return [];
-      const qualityDir = path.join(MEDIA_DIR, dir, qualityLabel);
-      if (!existsSync(qualityDir)) return [];
-      return readdirSync(qualityDir)
-        .filter(f => f.endsWith(".mp4"))
-        .map(f => ({
+      for (const qualityLabel of QUALITY_PREFERENCE) {
+        const qualityDir = path.join(MEDIA_DIR, dir, qualityLabel);
+        if (!existsSync(qualityDir)) continue;
+
+        const mp4s = readdirSync(qualityDir).filter(f => f.endsWith(".mp4"));
+        if (mp4s.length === 0) continue;
+
+        return mp4s.map(f => ({
           localPath: path.join(qualityDir, f),
           filename: f,
           qualityLabel,
           size: statSync(path.join(qualityDir, f)).size,
         }));
+      }
+
+      return [];
     });
 }
 
