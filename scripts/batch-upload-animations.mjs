@@ -26,6 +26,7 @@ const QUALITY_LABEL = "720p30";
 const CARTRIDGE_MAP = {
   "6": "apstats-u6-inference-prop",
   "7": "apstats-u7-mean-ci",
+  "8": "apstats-u8-unexpected-results",
 };
 
 // Standalone animation dirs (not apstat_*) mapped to their cartridge
@@ -95,7 +96,7 @@ function parseArgs() {
 function findAllMp4s() {
   const results = [];
   for (const lesson of LESSONS) {
-    const unit = lesson.startsWith("7") ? "7" : "6";
+    const unit = lesson.charAt(0);
     const prefix = `apstat_${lesson}_`;
     if (!existsSync(MEDIA_DIR)) continue;
 

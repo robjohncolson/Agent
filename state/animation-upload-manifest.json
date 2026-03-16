@@ -1,115 +1,115 @@
 {
-  "timestamp": "2026-03-14T00:25:52.389Z",
-  "total": 131,
-  "uploaded": 15,
-  "skipped": 116,
+  "timestamp": "2026-03-16T00:17:12.708Z",
+  "total": 144,
+  "uploaded": 144,
+  "skipped": 0,
   "failed": 0,
   "failures": [],
   "files": [
     {
       "filename": "CLTCapstone.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/CLTCapstone.mp4",
+      "storagePath": "animations/undefined/CLTCapstone.mp4",
       "sizeBytes": 1653878,
       "lesson": "53",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "CLTDemonstration.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/CLTDemonstration.mp4",
+      "storagePath": "animations/undefined/CLTDemonstration.mp4",
       "sizeBytes": 1810673,
       "lesson": "53",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "CLTSampleSize.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/CLTSampleSize.mp4",
+      "storagePath": "animations/undefined/CLTSampleSize.mp4",
       "sizeBytes": 808612,
       "lesson": "53",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "RandomizationProcess.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/RandomizationProcess.mp4",
+      "storagePath": "animations/undefined/RandomizationProcess.mp4",
       "sizeBytes": 1311697,
       "lesson": "53",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "RandomizationPValue.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/RandomizationPValue.mp4",
+      "storagePath": "animations/undefined/RandomizationPValue.mp4",
       "sizeBytes": 1253157,
       "lesson": "53",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "BiasedUnbiasedComparison.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/BiasedUnbiasedComparison.mp4",
+      "storagePath": "animations/undefined/BiasedUnbiasedComparison.mp4",
       "sizeBytes": 2141074,
       "lesson": "54",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "EstimatorBiasConcept.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/EstimatorBiasConcept.mp4",
+      "storagePath": "animations/undefined/EstimatorBiasConcept.mp4",
       "sizeBytes": 772587,
       "lesson": "54",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "PointEstimateCapstone.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/PointEstimateCapstone.mp4",
+      "storagePath": "animations/undefined/PointEstimateCapstone.mp4",
       "sizeBytes": 954255,
       "lesson": "54",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "PointEstimateTerminology.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/PointEstimateTerminology.mp4",
+      "storagePath": "animations/undefined/PointEstimateTerminology.mp4",
       "sizeBytes": 1014321,
       "lesson": "54",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "CapstoneMap.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/CapstoneMap.mp4",
+      "storagePath": "animations/undefined/CapstoneMap.mp4",
       "sizeBytes": 909311,
       "lesson": "55",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "InterpretStdDevProp.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/InterpretStdDevProp.mp4",
+      "storagePath": "animations/undefined/InterpretStdDevProp.mp4",
       "sizeBytes": 1029449,
       "lesson": "55",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "LargeCountsCondition.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/LargeCountsCondition.mp4",
+      "storagePath": "animations/undefined/LargeCountsCondition.mp4",
       "sizeBytes": 1182506,
       "lesson": "55",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "ProportionProbability.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/ProportionProbability.mp4",
+      "storagePath": "animations/undefined/ProportionProbability.mp4",
       "sizeBytes": 1809733,
       "lesson": "55",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "SamplingPropFormulas.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/SamplingPropFormulas.mp4",
+      "storagePath": "animations/undefined/SamplingPropFormulas.mp4",
       "sizeBytes": 1898421,
       "lesson": "55",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "DiffPropCapstone.mp4",
-      "storagePath": "animations/apstats-u6-inference-prop/DiffPropCapstone.mp4",
+      "storagePath": "animations/undefined/DiffPropCapstone.mp4",
       "sizeBytes": 823919,
       "lesson": "56",
-      "unit": "6"
+      "unit": "5"
     },
     {
       "filename": "ConvincingEvidence.mp4",
@@ -719,6 +719,97 @@
       "sizeBytes": 150709,
       "lesson": "76",
       "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestComparePValueAlpha.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestComparePValueAlpha.mp4",
+      "sizeBytes": 566628,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestPValue.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestPValue.mp4",
+      "sizeBytes": 532410,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestPValueRegion.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestPValueRegion.mp4",
+      "sizeBytes": 468571,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestInterpretPValue.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestInterpretPValue.mp4",
+      "sizeBytes": 562856,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestSignificance.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestSignificance.mp4",
+      "sizeBytes": 505298,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestDecision.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestDecision.mp4",
+      "sizeBytes": 425683,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestConclusion.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestConclusion.mp4",
+      "sizeBytes": 471602,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "MeanDiffTestEvidence.mp4",
+      "storagePath": "animations/apstats-u7-mean-ci/MeanDiffTestEvidence.mp4",
+      "sizeBytes": 515676,
+      "lesson": "79",
+      "unit": "7"
+    },
+    {
+      "filename": "ChiSquareContribution.mp4",
+      "storagePath": "animations/apstats-u8-unexpected-results/ChiSquareContribution.mp4",
+      "sizeBytes": 390633,
+      "lesson": "81",
+      "unit": "8"
+    },
+    {
+      "filename": "ChiSquareUnexpectedness.mp4",
+      "storagePath": "animations/apstats-u8-unexpected-results/ChiSquareUnexpectedness.mp4",
+      "sizeBytes": 347130,
+      "lesson": "81",
+      "unit": "8"
+    },
+    {
+      "filename": "ExpectedCountsFairDie.mp4",
+      "storagePath": "animations/apstats-u8-unexpected-results/ExpectedCountsFairDie.mp4",
+      "sizeBytes": 353778,
+      "lesson": "81",
+      "unit": "8"
+    },
+    {
+      "filename": "Topic81ObservedExpected.mp4",
+      "storagePath": "animations/apstats-u8-unexpected-results/Topic81ObservedExpected.mp4",
+      "sizeBytes": 450559,
+      "lesson": "81",
+      "unit": "8"
+    },
+    {
+      "filename": "SimulationPValueInterpretation.mp4",
+      "storagePath": "animations/apstats-u8-unexpected-results/SimulationPValueInterpretation.mp4",
+      "sizeBytes": 343419,
+      "lesson": "81",
+      "unit": "8"
     },
     {
       "filename": "CheckConditions610.mp4",

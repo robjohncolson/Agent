@@ -48,6 +48,8 @@ const STATUS_VALUES = new Set([
 const DRILLS_CARTRIDGE_BY_UNIT = {
   5: "apstats-u5-sampling-dist",
   6: "apstats-u6-inference-prop",
+  7: "apstats-u7-mean-ci",
+  8: "apstats-u8-unexpected-results",
 };
 
 function toPositiveInt(value, label) {
