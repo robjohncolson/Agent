@@ -44,6 +44,9 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
  */
 function resolveTemplate(value, params) {
   if (typeof value !== 'string') return value;
+  // If the entire value is a single {{key}}, preserve the original type (e.g. arrays)
+  const singleMatch = value.match(/^\{\{(\w+)\}\}$/);
+  if (singleMatch) return params[singleMatch[1]] ?? '';
   return value.replace(/\{\{(\w+)\}\}/g, (_, key) => params[key] ?? '');
 }
 
@@ -398,8 +401,9 @@ async function executeTask(task, params, pipelineId, force, forceSteps, context)
     if (typeof v === 'boolean') {
       if (v) argList.push(`--${k}`);
     } else if (Array.isArray(v)) {
+      argList.push(`--${k}`);
       for (const item of v) {
-        argList.push(`--${k}`, String(item));
+        argList.push(String(item));
       }
     } else if (v !== '' && v !== null && v !== undefined) {
       argList.push(`--${k}`, String(v));

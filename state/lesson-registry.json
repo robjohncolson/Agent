@@ -133,7 +133,8 @@
       "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=1",
       "blooket": "https://dashboard.blooket.com/set/69b783b70641400d44478430",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987876008",
-      "videos": []
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=987904192"
     },
     "status": {
       "ingest": "done",
@@ -147,7 +148,7 @@
       "schoologyVerified": "done",
       "urlsGenerated": "done",
       "registryExported": "done",
-      "committed": "pending"
+      "committed": "done"
     },
     "schoology": {
       "B": {
@@ -232,11 +233,94 @@
             "contentHash": "56ccfd4653d0"
           }
         }
+      },
+      "E": {
+        "folderId": "987904192",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 29",
+          "Monday 4/13/26"
+        ],
+        "folderTitle": "Monday 4/13/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 8.2 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson2_live.html",
+            "postedAt": "2026-03-16T11:41:06.988Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "0b1a2ebef21f"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 8.2 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l06-chi-square-gof-procedure",
+            "postedAt": "2026-03-16T11:41:21.904Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "d635eee869f3"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 8.1",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=8&l=1",
+            "postedAt": "2026-03-16T11:41:36.594Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "e64de45c5765"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 8.2 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69b783b70641400d44478430",
+            "postedAt": "2026-03-16T11:41:51.481Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "eedb17936ec9"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 8.2 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/y7ikpxw7jp?sui=33,8",
+            "postedAt": "2026-03-16T11:42:06.173Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "fe55be7f9ad9"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 8.2 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/3uua57pe0x?sui=33,8",
+            "postedAt": "2026-03-16T11:42:21.036Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "722a1c6c26f7"
+          },
+          "video3": {
+            "schoologyId": null,
+            "title": "Topic 8.2 — AP Classroom Video 3",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/z0hykwj3ge?sui=33,8",
+            "postedAt": "2026-03-16T11:42:35.805Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "56ccfd4653d0"
+          }
+        }
       }
     },
     "timestamps": {
       "created": "2026-03-16T03:16:15.577Z",
-      "lastUpdated": "2026-03-16T04:18:05.566Z"
+      "lastUpdated": "2026-03-16T11:42:35.811Z"
     }
   }
 }

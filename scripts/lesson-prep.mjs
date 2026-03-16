@@ -1687,8 +1687,9 @@ async function main() {
 
     // Seed pipeline context from pre-pipeline data
     const context = new Map();
+    context.set('courses', '7945275782,7945275798');
     if (opts.driveIds.length > 0) {
-      context.set('drive_ids', opts.driveIds.join(' '));
+      context.set('drive_ids', opts.driveIds);
     }
     if (calendarContext) {
       if (calendarContext.folderTitle) context.set('folder_title', calendarContext.folderTitle);
