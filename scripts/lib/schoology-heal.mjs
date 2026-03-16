@@ -5,9 +5,11 @@
  * and selectively re-post only what's needed.
  */
 
-import { computeUrls, getLesson } from "./lesson-registry.mjs";
+import { buildLinkTitles, computeUrls } from "./course-metadata.mjs";
+import { getLesson } from "./lesson-registry.mjs";
 
-function buildLinkTitles(unit, lesson) {
+/*
+function legacyBuildLinkTitles(unit, lesson) {
   return {
     worksheet: `Topic ${unit}.${lesson} — Follow-Along Worksheet`,
     drills: `Topic ${unit}.${lesson} — Drills`,
@@ -15,6 +17,7 @@ function buildLinkTitles(unit, lesson) {
     blooket: `Topic ${unit}.${lesson} — Blooket Review`,
   };
 }
+*/
 
 export function buildExpectedLinks(unit, lesson, opts = {}) {
   const urls = computeUrls(unit, lesson);
@@ -31,7 +34,7 @@ export function buildExpectedLinks(unit, lesson, opts = {}) {
   if (urls.drills) {
     links.push({ key: "drills", title: titles.drills, url: urls.drills });
   }
-  if (urls.quiz) {
+  if (urls.quiz && titles.quiz) {
     links.push({ key: "quiz", title: titles.quiz, url: urls.quiz });
   }
 
@@ -272,7 +275,9 @@ export async function findOrphanedLinks(page, unit, lesson, materialsRootUrl) {
   await page.waitForTimeout(2000);
 
   const titles = buildLinkTitles(unit, lesson);
-  const exactTitles = Object.values(titles).map((t) => t.toLowerCase());
+  const exactTitles = Object.values(titles)
+    .filter((title) => typeof title === "string" && title.trim())
+    .map((title) => title.toLowerCase());
   const topicPrefix = `Topic ${unit}.${lesson}`.toLowerCase();
 
   const orphans = await page.evaluate(

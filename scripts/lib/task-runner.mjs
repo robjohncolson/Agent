@@ -20,6 +20,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { pipeline as pipelineEvents } from './event-log.mjs';
+import { getCartridgeId } from './course-metadata.mjs';
 import { getLesson, updateStatus } from './lesson-registry.mjs';
 
 // ---------------------------------------------------------------------------
@@ -244,8 +245,7 @@ function checkArtifactCompletion(task, params, force, forceSteps) {
 
   // --- Content-gen-drills: check manifest for lesson content ---
   if (stepId === 'content-gen-drills') {
-    const cartridgeMap = { 6: 'apstats-u6-inference-prop', 7: 'apstats-u7-mean-ci' };
-    const cartridge = cartridgeMap[unit];
+    const cartridge = getCartridgeId(unit);
     if (!cartridge) return { skip: false };
     const manifestPath = path.join(baseDir, 'cartridges', cartridge, 'manifest.json');
     if (!fs.existsSync(manifestPath)) return { skip: false };

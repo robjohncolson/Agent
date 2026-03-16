@@ -39,6 +39,40 @@ function authHeaders(key) {
   };
 }
 
+const STATUS_RANK = Object.freeze({
+  scheduled: 0,
+  posted: 1,
+  taught: 2,
+});
+
+export function isStatusDowngrade(current, incoming) {
+  return (STATUS_RANK[incoming] ?? -1) < (STATUS_RANK[current] ?? -1);
+}
+
+async function fetchCurrentTopic(url, key, topic, period) {
+  const filters =
+    `topic=eq.${encodeURIComponent(topic)}` +
+    `&period=eq.${encodeURIComponent(period)}` +
+    `&select=status&limit=1`;
+
+  const response = await fetch(`${url}/rest/v1/topic_schedule?${filters}`, {
+    method: 'GET',
+    headers: authHeaders(key),
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => '(no body)');
+    throw new Error(`${response.status} ${response.statusText}: ${text}`);
+  }
+
+  const rows = await response.json();
+  if (!Array.isArray(rows) || rows.length === 0) {
+    return null;
+  }
+
+  return rows[0] ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // getSchedule
 // ---------------------------------------------------------------------------
@@ -114,6 +148,26 @@ export async function upsertTopic(topic, period, fields = {}) {
     if (fields.title !== undefined) payload.title = fields.title;
     if (fields.status !== undefined) payload.status = fields.status;
     if (fields.schoologyFolderId !== undefined) payload.schoology_folder_id = fields.schoologyFolderId;
+
+    if (payload.status !== undefined) {
+      try {
+        const currentRow = await fetchCurrentTopic(url, key, topic, period);
+        const currentStatus = currentRow?.status ?? null;
+        if (currentStatus && isStatusDowngrade(currentStatus, payload.status)) {
+          console.warn(
+            `[supabase-schedule] Refusing status downgrade for ${topic} Period ${period}: ${currentStatus} -> ${payload.status}`
+          );
+          delete payload.status;
+        }
+      } catch (err) {
+        const msg = err?.message ?? String(err);
+        console.warn(
+          `[supabase-schedule] Status lookup failed for ${topic} Period ${period}, omitting status field: ${msg}`
+        );
+        delete payload.status;
+      }
+    }
+
     payload.updated_at = new Date().toISOString();
 
     let response;

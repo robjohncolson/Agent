@@ -15,7 +15,6 @@
     { "task": "verify-schoology", "depends_on": ["schoology-post"], "defined": true },
     { "task": "generate-urls", "depends_on": ["schoology-post", "upload-animations"], "defined": true },
     { "task": "export-registry", "depends_on": ["generate-urls"], "defined": true },
-    { "task": "build-roadmap", "depends_on": ["export-registry"], "defined": true },
-    { "task": "commit-push", "depends_on": ["export-registry", "build-roadmap"], "defined": true }
+    { "task": "commit-push", "depends_on": ["export-registry"], "defined": true }
   ]
 }

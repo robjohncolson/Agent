@@ -1,22 +1,11 @@
 #!/usr/bin/env node
-// lesson-urls.mjs — Generate student-facing URLs for a lesson and copy to clipboard.
+// lesson-urls.mjs - Generate student-facing URLs for a lesson and copy to clipboard.
 // Usage: node scripts/lesson-urls.mjs --unit 6 --lesson 4
 
-import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { join } from "node:path";
-import { CARTRIDGES_DIR } from "./lib/paths.mjs";
-import { getLesson, computeUrls } from "./lib/lesson-registry.mjs";
+import { computeUrls, resolveDrillsLink } from "./lib/course-metadata.mjs";
+import { getLesson } from "./lib/lesson-registry.mjs";
 
-// ── Cartridge mapping ──────────────────────────────────────────────────────────
-const CARTRIDGE_MAP = {
-  "5": "apstats-u5-sampling-dist",
-  "6": "apstats-u6-inference-prop",
-  "7": "apstats-u7-mean-ci",
-  // extend as new cartridges are added
-};
-
-// ── Arg parsing ────────────────────────────────────────────────────────────────
 function parseArgs(argv) {
   const args = argv.slice(2);
   let unit = null;
@@ -40,78 +29,30 @@ function parseArgs(argv) {
   return { unit, lesson };
 }
 
-// ── Drill deep-link detection ──────────────────────────────────────────────────
-// Reads the cartridge manifest and finds the first mode whose name starts with
-// the pattern "<unit>.<lesson>" (e.g. "6.4").
-function findFirstDrillMode(unit, lesson) {
-  const cartridgeId = CARTRIDGE_MAP[String(unit)];
-  if (!cartridgeId) {
-    return { cartridgeId: null, modeId: null };
-  }
-
-  const manifestPath = join(
-    CARTRIDGES_DIR,
-    cartridgeId,
-    "manifest.json"
-  );
-
-  let manifest;
-  try {
-    manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
-  } catch {
-    return { cartridgeId, modeId: null };
-  }
-
-  const prefix = `${unit}.${lesson}`;
-  const modes = manifest.modes || [];
-
-  // Primary: mode name starts with "<unit>.<lesson>" (e.g. "6.4a: ...")
-  const match = modes.find((m) => m.name && m.name.startsWith(prefix));
-
-  if (match) {
-    return { cartridgeId, modeId: match.id };
-  }
-
-  return { cartridgeId, modeId: null };
-}
-
-// ── Main ───────────────────────────────────────────────────────────────────────
 const { unit, lesson } = parseArgs(process.argv);
 const computedUrls = computeUrls(unit, lesson);
+const drillsLink = resolveDrillsLink(unit, lesson);
 
-// 1. Worksheet
-const worksheetUrl = computedUrls.worksheet ||
+const worksheetUrl =
+  computedUrls.worksheet ||
   `https://robjohncolson.github.io/apstats-live-worksheet/u${unit}_lesson${lesson}_live.html`;
 
-// 2. Drills
 let drillsUrl;
-const { cartridgeId, modeId } = findFirstDrillMode(unit, lesson);
-if (cartridgeId && modeId) {
-  drillsUrl =
-    `https://lrsl-driller.vercel.app/platform/app.html?c=${cartridgeId}&level=${modeId}`;
-} else if (cartridgeId) {
-  drillsUrl =
-    `https://lrsl-driller.vercel.app/platform/app.html?c=${cartridgeId}  [mode not auto-detected]`;
+if (drillsLink.status === "resolved" || drillsLink.status === "no-manifest") {
+  drillsUrl = drillsLink.url;
+} else if (drillsLink.status === "no-mode") {
+  drillsUrl = `${drillsLink.url}  [mode not auto-detected]`;
 } else {
-  drillsUrl = computedUrls.drills || "[no cartridge mapped for unit " + unit + "]";
+  drillsUrl = `[no cartridge mapped for unit ${unit}]`;
 }
 
-// 3. Quiz (previous lesson)
-let quizUrl;
-if (lesson > 1) {
-  quizUrl = computedUrls.quiz ||
-    `https://robjohncolson.github.io/curriculum_render/?u=${unit}&l=${lesson - 1}`;
-} else {
-  quizUrl = "[no quiz — lesson 1 has no previous lesson]";
-}
+const quizUrl = computedUrls.quiz || "[no quiz]";
 
-// 4. Blooket
-// Check registry for Blooket URL
 const registryEntry = getLesson(unit, lesson);
-const blooketUrl = registryEntry?.urls?.blooket
-  || "[upload CSV to blooket.com and paste URL here]";
+const blooketUrl =
+  registryEntry?.urls?.blooket ||
+  "[upload CSV to blooket.com and paste URL here]";
 
-// ── Format output ──────────────────────────────────────────────────────────────
 const output = `=== Lesson ${unit}.${lesson} URLs ===
 
 Worksheet:  ${worksheetUrl}
@@ -120,13 +61,11 @@ Quiz:       ${quizUrl}
 Blooket:    ${blooketUrl}
 `;
 
-// Print to stdout
 process.stdout.write(output);
 
-// Copy to clipboard on Windows via clip.exe
 try {
   execSync("clip.exe", { input: output });
   console.log("\n(Copied to clipboard)");
 } catch {
-  console.error("\n(Could not copy to clipboard — clip.exe not available)");
+  console.error("\n(Could not copy to clipboard - clip.exe not available)");
 }

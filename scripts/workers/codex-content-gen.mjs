@@ -21,6 +21,7 @@ import {
   buildNewCartridgePrompt,
 } from "../lib/build-codex-prompts.mjs";
 import { WORKING_DIRS } from "../lib/paths.mjs";
+import { findCartridgePath } from "../lib/course-metadata.mjs";
 import { updateStatus } from "../lib/lesson-registry.mjs";
 import { validateBlooketCsv, autoFixBlooketCsv } from "../lib/validate-blooket-csv.mjs";
 
@@ -216,18 +217,6 @@ function takeCsvRows(csvText, rowCount) {
   }
 
   return rows.join("\n").trim();
-}
-
-function findCartridgePath(unit) {
-  const cartridgesDir = path.join(WORKING_DIRS.driller, "cartridges");
-  if (!existsSync(cartridgesDir)) return null;
-  const entries = readdirSync(cartridgesDir);
-  const match = entries.find(
-    (e) =>
-      e.startsWith(`apstats-u${unit}`) &&
-      statSync(path.join(cartridgesDir, e)).isDirectory(),
-  );
-  return match || null;
 }
 
 function extractLastCaseBlock(fileContent) {

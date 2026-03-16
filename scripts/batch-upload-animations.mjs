@@ -15,6 +15,7 @@ import "dotenv/config";
 import { readFileSync, readdirSync, statSync, existsSync, writeFileSync } from "fs";
 import path from "path";
 import { fetchWithRetry } from "./lib/fetch-retry.mjs";
+import { CARTRIDGE_MAP } from "./lib/course-metadata.mjs";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED ??= "0";
 
@@ -22,12 +23,6 @@ const DRILLER_DIR = "C:/Users/ColsonR/lrsl-driller";
 const MEDIA_DIR = path.join(DRILLER_DIR, "media", "videos");
 const BUCKET = "videos";
 const QUALITY_LABEL = "720p30";
-
-const CARTRIDGE_MAP = {
-  "6": "apstats-u6-inference-prop",
-  "7": "apstats-u7-mean-ci",
-  "8": "apstats-u8-unexpected-results",
-};
 
 // Standalone animation dirs (not apstat_*) mapped to their cartridge
 const STANDALONE_MAP = {

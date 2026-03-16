@@ -26,11 +26,12 @@
  *   npm install playwright
  */
 
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { connectCDP } from "./lib/cdp-connect.mjs";
-import { CARTRIDGES_DIR, UNITS_JS_PATH, WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
+import { WORKSHEET_REPO, SCRIPTS } from "./lib/paths.mjs";
+import { buildLinkTitles, computeUrls, resolveDrillsLink } from "./lib/course-metadata.mjs";
 import { getLesson, updateStatus, updateUrl, updateSchoologyLink, updateSchoologyMaterial, setSchoologyState } from "./lib/lesson-registry.mjs";
 import { auditSchoologyFolder, buildExpectedLinks, deleteSchoologyLink, discoverLessonFolder, findOrphanedLinks, verifyPostedLink } from "./lib/schoology-heal.mjs";
 import { COURSE_IDS } from './lib/schoology-dom.mjs';
@@ -69,19 +70,7 @@ async function syncFolderToSupabase(unit, lesson, period, folderId, materialUrls
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
-const CONFIG = {
-  baseUrl: "https://lynnschools.schoology.com",
-  courses: {
-    "period-b": "7945275782",
-  },
-  cartridgeMap: {
-    "5": "apstats-u5-sampling-dist",
-    "6": "apstats-u6-inference-prop",
-    "7": "apstats-u7-mean-ci",
-    "8": "apstats-u8-unexpected-results",
-  },
-};
-
+const BASE_URL = "https://lynnschools.schoology.com";
 const DEFAULT_COURSE_ID = "7945275782";
 
 function detectPeriod(courseId) {
@@ -194,47 +183,17 @@ function parseArgs(argv) {
 /**
  * Find the first drill mode matching a given unit.lesson from the cartridge manifest.
  */
-function findFirstDrillMode(unit, lesson) {
-  const cartridgeId = CONFIG.cartridgeMap[String(unit)];
-  if (!cartridgeId) {
-    return { cartridgeId: null, modeId: null };
-  }
 
-  const manifestPath = join(
-    CARTRIDGES_DIR,
-    cartridgeId,
-    "manifest.json"
-  );
 
-  let manifest;
-  try {
-    manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
-  } catch {
-    return { cartridgeId, modeId: null };
-  }
-
-  const prefix = `${unit}.${lesson}`;
-  const modes = manifest.modes || [];
-  const match = modes.find((m) => m.name && m.name.startsWith(prefix));
-
-  if (match) {
-    return { cartridgeId, modeId: match.id };
-  }
-
-  return { cartridgeId, modeId: null };
-}
-
-/**
- * Build auto-generated URLs for worksheet, drills, and quiz.
- */
-function buildAutoUrls(unit, lesson) {
+/*
+function legacyBuildAutoUrls(unit, lesson) {
   // Worksheet
   const worksheetUrl =
     `https://robjohncolson.github.io/apstats-live-worksheet/u${unit}_lesson${lesson}_live.html`;
 
   // Drills
   let drillsUrl = null;
-  const { cartridgeId, modeId } = findFirstDrillMode(unit, lesson);
+  const { cartridgeId, modeId } = legacyFindFirstDrillMode(unit, lesson);
   if (cartridgeId && modeId) {
     drillsUrl =
       `https://lrsl-driller.vercel.app/platform/app.html?c=${cartridgeId}&level=${modeId}`;
@@ -257,6 +216,7 @@ function buildAutoUrls(unit, lesson) {
 
   return { worksheetUrl, drillsUrl, quizUrl };
 }
+*/
 
 // ── Interactive prompt ──────────────────────────────────────────────────────
 
@@ -278,7 +238,8 @@ function promptUser(question) {
 
 // ── Link titles ─────────────────────────────────────────────────────────────
 
-function buildLinkTitles(unit, lesson) {
+/*
+function legacyBuildLinkTitles(unit, lesson) {
   return {
     worksheet: `Topic ${unit}.${lesson} — Follow-Along Worksheet`,
     drills: `Topic ${unit}.${lesson} — Drills`,
@@ -288,6 +249,7 @@ function buildLinkTitles(unit, lesson) {
 }
 
 // ── Video links from units.js (shared module) ──────────────────────────────
+*/
 import { loadVideoLinks } from "./lib/load-video-links.mjs";
 
 // ── Folder creation ─────────────────────────────────────────────────────────
@@ -470,30 +432,47 @@ async function main() {
 
   if (autoUrls) {
     // Auto-generate worksheet, drills, quiz URLs
-    const auto = buildAutoUrls(unit, lesson);
+    const auto = computeUrls(unit, lesson);
+    const drillsLink = resolveDrillsLink(unit, lesson);
 
-    if (auto.worksheetUrl) {
-      links.push({ key: "worksheet", url: auto.worksheetUrl, title: titles.worksheet });
+    if (drillsLink.status === "no-mode") {
+      console.warn(`  WARNING: Could not auto-detect drill mode for ${unit}.${lesson}. Cartridge: ${drillsLink.cartridgeId}`);
+    } else if (drillsLink.status === "no-manifest") {
+      console.warn(`  WARNING: Manifest not found for drills cartridge ${drillsLink.cartridgeId}. Using cartridge root.`);
+    } else if (drillsLink.status === "no-cartridge") {
+      console.warn(`  WARNING: No cartridge mapped for unit ${unit}. Skipping drills.`);
     }
-    if (auto.drillsUrl) {
-      links.push({ key: "drills", url: auto.drillsUrl, title: titles.drills });
+
+    if (auto.worksheet) {
+      links.push({ key: "worksheet", url: auto.worksheet, title: titles.worksheet });
     }
-    if (auto.quizUrl) {
-      links.push({ key: "quiz", url: auto.quizUrl, title: titles.quiz });
+    if (drillsLink.url) {
+      links.push({ key: "drills", url: drillsLink.url, title: titles.drills });
+    }
+    if (auto.quiz && titles.quiz) {
+      links.push({ key: "quiz", url: auto.quiz, title: titles.quiz });
     }
 
     // Override with explicit URLs if provided
+    const upsertLink = (key, url, title) => {
+      if (!url) return;
+      const existing = links.find((link) => link.key === key);
+      if (existing) {
+        existing.url = url;
+        if (title) existing.title = title;
+        return;
+      }
+      links.push({ key, url, title });
+    };
+
     if (opts.worksheetUrl) {
-      const existing = links.find(l => l.key === "worksheet");
-      if (existing) existing.url = opts.worksheetUrl;
+      upsertLink("worksheet", opts.worksheetUrl, titles.worksheet);
     }
     if (opts.drillsUrl) {
-      const existing = links.find(l => l.key === "drills");
-      if (existing) existing.url = opts.drillsUrl;
+      upsertLink("drills", opts.drillsUrl, titles.drills);
     }
     if (opts.quizUrl) {
-      const existing = links.find(l => l.key === "quiz");
-      if (existing) existing.url = opts.quizUrl;
+      upsertLink("quiz", opts.quizUrl, titles.quiz);
     }
 
     // Blooket: use explicit URL, or auto-upload CSV, or prompt
@@ -669,7 +648,7 @@ async function main() {
   for (const currentCourseId of courseIds) {
   const currentPeriod = detectPeriod(currentCourseId);
   const currentFolderUrlKey = currentPeriod === 'E' ? 'schoologyFolderE' : 'schoologyFolder';
-  const currentRootMaterialsUrl = `${CONFIG.baseUrl}/course/${currentCourseId}/materials`;
+  const currentRootMaterialsUrl = `${BASE_URL}/course/${currentCourseId}/materials`;
 
   if (courseIds.length > 1) {
     console.log(`\n${"=".repeat(50)}`);

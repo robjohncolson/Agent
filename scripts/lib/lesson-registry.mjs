@@ -5,7 +5,8 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
-import { AGENT_ROOT, CARTRIDGES_DIR } from "./paths.mjs";
+import { AGENT_ROOT } from "./paths.mjs";
+import { computeUrls as courseComputeUrls } from "./course-metadata.mjs";
 import { validateMaterial, validateSchoologyState } from './registry-validator.mjs';
 import { computeContentHash, normalizeTitle } from './content-hash.mjs';
 
@@ -44,13 +45,6 @@ const STATUS_VALUES = new Set([
   "skipped",
   "scraped",
 ]);
-
-const DRILLS_CARTRIDGE_BY_UNIT = {
-  5: "apstats-u5-sampling-dist",
-  6: "apstats-u6-inference-prop",
-  7: "apstats-u7-mean-ci",
-  8: "apstats-u8-unexpected-results",
-};
 
 function toPositiveInt(value, label) {
   const parsed = Number(value);
@@ -173,38 +167,6 @@ function loadJsonObject(pathForRead, fallbackLabel) {
     );
     return {};
   }
-}
-
-function findDrillsUrl(unit, lesson) {
-  const cartridgeId = DRILLS_CARTRIDGE_BY_UNIT[unit];
-  if (!cartridgeId) {
-    return null;
-  }
-
-  const manifestPath = join(CARTRIDGES_DIR, cartridgeId, "manifest.json");
-  if (!existsSync(manifestPath)) {
-    return null;
-  }
-
-  const manifest = loadJsonObject(manifestPath, "drills manifest");
-  const modes = Array.isArray(manifest.modes) ? manifest.modes : [];
-  const pattern = new RegExp(`^${unit}\\.${lesson}(?:\\D|$)`);
-
-  const match = modes.find((mode) => (
-    isPlainObject(mode) &&
-    typeof mode.name === "string" &&
-    pattern.test(mode.name) &&
-    typeof mode.id === "string"
-  ));
-
-  if (!match) {
-    return null;
-  }
-
-  return (
-    "https://lrsl-driller.vercel.app/platform/app.html" +
-    `?c=${cartridgeId}&level=${match.id}`
-  );
 }
 
 export function loadRegistry() {
@@ -438,18 +400,4 @@ export function updateSchoologyMaterial(unit, lesson, type, materialData, period
   saveRegistry(registry);
 }
 
-export function computeUrls(unit, lesson) {
-  const unitNum = toPositiveInt(unit, "unit");
-  const lessonNum = toPositiveInt(lesson, "lesson");
-
-  return {
-    worksheet:
-      `https://robjohncolson.github.io/apstats-live-worksheet/` +
-      `u${unitNum}_lesson${lessonNum}_live.html`,
-    quiz:
-      lessonNum > 1
-        ? `https://robjohncolson.github.io/curriculum_render/?u=${unitNum}&l=${lessonNum - 1}`
-        : null,
-    drills: findDrillsUrl(unitNum, lessonNum),
-  };
-}
+export const computeUrls = courseComputeUrls;

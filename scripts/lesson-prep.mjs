@@ -49,6 +49,7 @@ import {
   getLesson,
   getSchoologyLinks,
 } from "./lib/lesson-registry.mjs";
+import { findCartridgePath, resolveDrillsLink } from "./lib/course-metadata.mjs";
 import { createSpinner, stepBanner, formatStatus as tuiFormatStatus } from "./lib/tui.mjs";
 import { verifySupabaseAssets } from "./lib/verify-supabase.mjs";
 import { checkWithLLM, analyzeError } from "./lib/llm-check.mjs";
@@ -59,7 +60,6 @@ import {
   DRIVE_VIDEO_INDEX_PATH,
   WORKSHEET_REPO,
   DOWNSTREAM_REPOS,
-  CARTRIDGES_DIR,
 } from "./lib/paths.mjs";
 import { runPipeline } from "./lib/task-runner.mjs";
 import { resolveFolderPath, determineSchoolWeek as sharedDetermineSchoolWeek } from './lib/resolve-folder-path.mjs';
@@ -467,20 +467,6 @@ function takeCsvRows(csvText, rowCount) {
   }
 
   return rows.join("\n").trim();
-}
-
-function findCartridgePath(unit) {
-  const cartridgesDir = path.join(WORKING_DIRS.driller, "cartridges");
-  if (!existsSync(cartridgesDir)) {
-    return null;
-  }
-  const entries = readdirSync(cartridgesDir);
-  const match = entries.find(
-    (e) =>
-      e.startsWith(`apstats-u${unit}`) &&
-      statSync(path.join(cartridgesDir, e)).isDirectory()
-  );
-  return match || null;
 }
 
 function extractLastCaseBlock(fileContent) {
@@ -1949,22 +1935,14 @@ async function main() {
       r => (r.label === "Drills Cartridge" || r.label === "Cartridge + Animations") && r.success
     );
     if (drillsResult) {
-      const cartridgeMap = { "5": "apstats-u5-sampling-dist", "6": "apstats-u6-inference-prop", "7": "apstats-u7-mean-ci" };
-      const cartridgeId = cartridgeMap[String(unit)];
-      if (cartridgeId) {
-        try {
-          const manifestPath = path.join(CARTRIDGES_DIR, cartridgeId, "manifest.json");
-          const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
-          const prefix = `${unit}.${lesson}`;
-          const match = (manifest.modes || []).find(m => m.name?.startsWith(prefix));
-          if (match) {
-            const drillsUrl = `https://lrsl-driller.vercel.app/platform/app.html?c=${cartridgeId}&level=${match.id}`;
-            updateUrl(unit, lesson, "drills", drillsUrl);
-            console.log(`  Auto-populated drills URL: ${drillsUrl}`);
-          }
-        } catch (e) {
-          console.warn(`  Could not auto-populate drills URL: ${e.message}`);
+      try {
+        const drillsLink = resolveDrillsLink(unit, lesson);
+        if (drillsLink.url) {
+          updateUrl(unit, lesson, "drills", drillsLink.url);
+          console.log(`  Auto-populated drills URL: ${drillsLink.url}`);
         }
+      } catch (e) {
+        console.warn(`  Could not auto-populate drills URL: ${e.message}`);
       }
     }
   }

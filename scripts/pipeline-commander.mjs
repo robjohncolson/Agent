@@ -77,7 +77,7 @@ const fnBar = blessed.box({
   tags: true,
   style: STYLES.fnBar,
 });
-fnBar.setContent(' F1 Help  F2 Queue  F3 View  F4 Logs  F5 Run  F6 Period  F8 Rebuild  F10 Quit');
+fnBar.setContent(' F1 Help  F2 Queue  F3 View  F4 Logs  F5 Run  F6 Period  F8 Rebuild (manual)  F10 Quit');
 
 // ── Help Overlay ───────────────────────────────────────────────────────
 const helpBox = blessed.box({
@@ -101,7 +101,7 @@ helpBox.setContent([
   '  F4        Toggle pipeline log viewer',
   '  F5        Run pipeline (prompts for unit+lesson)',
   '  F6        Toggle period B ↔ E',
-  '  F8        Rebuild roadmap data',
+  '  F8        Rebuild roadmap data (manual)',
   '  F10 / q   Quit',
   '',
   '  ← →       Navigate lessons',
@@ -265,7 +265,7 @@ function runPipeline() {
 
 // ── Rebuild roadmap ────────────────────────────────────────────────────
 function rebuildRoadmap() {
-  logViewer.update(logPanel, 'Rebuilding roadmap data...');
+  logViewer.update(logPanel, 'Rebuilding roadmap data (manual)...');
   const child = spawn('node', [
     path.join(__dirname, 'build-roadmap-data.mjs'),
   ], { cwd: BASE });

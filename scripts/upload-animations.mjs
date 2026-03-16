@@ -17,6 +17,7 @@ import "dotenv/config";
 import { readFileSync, readdirSync, statSync, existsSync } from "fs";
 import path from "path";
 import { fetchWithRetry } from "./lib/fetch-retry.mjs";
+import { CARTRIDGE_MAP } from "./lib/course-metadata.mjs";
 import { loadState, saveState, updateFileState } from "./lib/upload-state.mjs";
 import { emit } from "./lib/event-log.mjs";
 
@@ -29,13 +30,6 @@ const DRILLER_DIR = "C:/Users/ColsonR/lrsl-driller";
 const MEDIA_DIR = path.join(DRILLER_DIR, "media", "videos");
 const BUCKET = "videos";
 const QUALITY_PREFERENCE = ["720p30", "480p15", "1080p60"];
-
-const CARTRIDGE_MAP = {
-  "5": "apstats-u5-sampling-dist",
-  "6": "apstats-u6-inference-prop",
-  "7": "apstats-u7-mean-ci",
-  "8": "apstats-u8-unexpected-results",
-};
 
 // ── Arg parsing ─────────────────────────────────────────────────────────────
 
@@ -168,7 +162,7 @@ async function main() {
   const cartridgeName = CARTRIDGE_MAP[String(unit)];
   if (!cartridgeName) {
     console.error(`Error: No cartridge mapping for unit ${unit}.`);
-    console.error("Either add it to CARTRIDGE_MAP or pass --cartridge <id>.");
+    console.error("Add the mapping in scripts/lib/course-metadata.mjs.");
     process.exit(1);
   }
 

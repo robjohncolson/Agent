@@ -13,7 +13,6 @@ const TASK_TO_STATUS = {
   'verify-schoology': 'schoologyVerified',
   'generate-urls': 'urlsGenerated',
   'export-registry': 'registryExported',
-  'build-roadmap': 'registryExported',
   'commit-push': 'committed',
 };
 
