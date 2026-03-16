@@ -1,33 +1,26 @@
 {
   "unit": "8",
-  "lesson": "2",
+  "lesson": "3",
   "files": {
-    "CheckGOFConditions.mp4": {
+    "ChiSquareContributionContext.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/CheckGOFConditions.mp4",
-      "uploaded_at": "2026-03-16T04:15:53.304Z",
-      "size_bytes": 435025,
+      "url": "animations/apstats-u8-unexpected-results/ChiSquareContributionContext.mp4",
+      "uploaded_at": "2026-03-16T15:19:33.929Z",
+      "size_bytes": 435770,
       "retries": 0
     },
-    "ChiSquareGoodnessOfFitProcedure.mp4": {
+    "ChiSquareLargestContribution.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/ChiSquareGoodnessOfFitProcedure.mp4",
-      "uploaded_at": "2026-03-16T04:15:54.511Z",
-      "size_bytes": 514855,
+      "url": "animations/apstats-u8-unexpected-results/ChiSquareLargestContribution.mp4",
+      "uploaded_at": "2026-03-16T15:19:35.242Z",
+      "size_bytes": 294232,
       "retries": 0
     },
-    "AlternativeHypothesisWords.mp4": {
+    "ChiSquarePValueInterpretation.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/AlternativeHypothesisWords.mp4",
-      "uploaded_at": "2026-03-16T04:15:55.695Z",
-      "size_bytes": 373529,
-      "retries": 0
-    },
-    "NullHypothesisEquality.mp4": {
-      "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/NullHypothesisEquality.mp4",
-      "uploaded_at": "2026-03-16T04:15:56.990Z",
-      "size_bytes": 423460,
+      "url": "animations/apstats-u8-unexpected-results/ChiSquarePValueInterpretation.mp4",
+      "uploaded_at": "2026-03-16T15:19:36.762Z",
+      "size_bytes": 248797,
       "retries": 0
     }
   }
