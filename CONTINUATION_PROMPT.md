@@ -6,25 +6,11 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ## What to do NOW
 
-**Priority 1: Fix 8.1 remaining items, then continue Unit 8 ingest (8.2–8.6)**
+**Priority 1: Continue Unit 8 ingest (8.2–8.6)**
 
-### 8.1 — Two items still needed
+8.1 is fully complete and verified (green on roadmap). Drive IDs are ready for 8.2–8.6.
 
-1. **Animation upload** — 5 mp4s rendered locally but upload failed because `CARTRIDGE_MAP` in `scripts/upload-animations.mjs` (line 33) and `scripts/batch-upload-animations.mjs` (line 26) has no entry for unit 8. Add:
-   ```js
-   "8": "apstats-u8-unexpected-results",
-   ```
-   Then run: `node scripts/batch-upload-animations.mjs` (or `node scripts/upload-animations.mjs --unit 8 --lesson 1`)
-
-2. **Period E Schoology post** — Only Period B was posted. Run:
-   ```bash
-   node scripts/post-to-schoology.mjs --unit 8 --lesson 1 --auto-urls --with-videos \
-     --course 7945275798 --no-prompt --create-folder "Topic 8.1"
-   ```
-
-### 8.2–8.6 — Drive IDs ready
-
-Run per-lesson (do NOT use `--auto`):
+Run per-lesson (do NOT use `--auto` — it overwrites explicit `--unit`/`--lesson` with calendar detection):
 
 | Lesson | Drive IDs |
 |--------|-----------|
@@ -39,15 +25,11 @@ node scripts/lesson-prep.mjs --unit 8 --lesson 2 \
   --drive-ids 1Aup8w5fYTy69zWogOdtsXCO6kl6UNCCT 1Y7lopnXRCIbckoMM9csk8h1uCixX3LKd 1FMDpI5aNP3UoB4YppkX3ba7llfvfhLba
 ```
 
-**Important:** Do NOT use `--auto` flag — it overwrites `--unit`/`--lesson` with calendar detection.
-
-**Priority 2 (minor): Move CALENDAR links to top of Schoology course materials**
-
-The CALENDAR links point to the roadmap page (`ap_stats_roadmap_square_mode.html?period=B|E`). They're at the bottom of both courses — drag to top in Schoology UI.
+**New in this session:** The shared `scripts/lib/course-metadata.mjs` module now handles cartridge maps, quiz URLs (X.1 → `?u={unit-1}&l=PC`), drills resolution, and link titles. Adding unit 9 later only requires editing one file.
 
 ### Post-pipeline checklist (per lesson)
 
-Pipeline step 8 auto-commits+pushes all 3 repos. Manual steps only if pipeline steps fail:
+Pipeline auto-commits+pushes all 3 repos. Manual steps only if pipeline steps fail:
 
 1. Run pipeline command above
 2. If Schoology step fails, post manually:
@@ -55,70 +37,89 @@ Pipeline step 8 auto-commits+pushes all 3 repos. Manual steps only if pipeline s
    - Period E: `node scripts/post-to-schoology.mjs --unit U --lesson L --auto-urls --with-videos --course 7945275798 --no-prompt --create-folder "Topic U.L"`
 3. Render animations: `cd C:/Users/ColsonR/lrsl-driller && python render_batch.py --lesson NN`
 4. Upload animations: `node scripts/batch-upload-animations.mjs`
-5. **No `build-roadmap-data.mjs` needed** — the poster now writes material URLs to Supabase `lesson_urls` automatically, and the roadmap reads them live.
+5. **No `build-roadmap-data.mjs` needed** — removed from pipeline. Poster writes to Supabase live.
+
+**Priority 2 (manual): Clean up duplicate Schoology links in 8.1 folders**
+
+Both periods have duplicate worksheet and blooket links from re-posts during the fix-up session. Delete the extras in the Schoology UI:
+- Period B: `work-ahead/future > Week 28 > Monday 4/6/26`
+- Period E: `work-ahead/future > Week 28 > Friday 4/10/26`
 
 ---
 
-## What just happened (2026-03-15, session 2)
+## What just happened (2026-03-15/16, session 3)
 
-All three repos were hard-reset to match their remotes:
+### 8.1 fix-ups
+- Added unit 8 to CARTRIDGE_MAP in 4 upload/poster scripts
+- Fixed batch-upload unit detection bug (hardcoded 6/7 → `charAt(0)`)
+- Renamed cartridge mode names to `8.1a:`–`8.1e:` convention
+- Set drills URL, quiz URL (`?u=7&l=PC`), fixed animationUpload status
+- Uploaded 5 animations to correct Supabase path (`apstats-u8-unexpected-results/`)
+- Posted drills + quizzes to both Schoology periods
+- Restored roadmap baked data for units 1-7 (had been wiped by partial registry rebuild)
+- Fixed Supabase `topic_schedule` — restored "posted" status for 6.1–7.9
 
-- **Agent** — `git reset --hard origin/master` at `9194188`. Was already up to date; only discarded a modified `state/codex-progress.json`.
-- **lrsl-driller** — `git reset --hard origin/main` at `7340495`. Discarded 5 local-only commits (stale AGENTS.md, SKILL.md, registry.json, cross-agent state). Now clean.
-- **follow-alongs** — `git reset --hard origin/master` at `f77cda6`. Removed staged AGENTS.md changes, stash conflicts in u7-l1 files, and ~70 untracked files (Mac-OS-Sounds/, cross-agent state, u6/u7 slide transcriptions, pineapple_sprite.png, etc.). Now clean.
+### Course metadata consolidation (refactor)
+- Created `scripts/lib/course-metadata.mjs` — single source of truth for cartridge IDs, `resolveDrillsLink()` with fallback URLs, cross-unit quiz derivation, shared link titles
+- Rewired 9 consumer files, removed 7 duplicate cartridge maps and 4 duplicate functions
+- Removed `build-roadmap` from pipeline (now manual-only via F8 in commander)
+- Added monotonic status guard to `supabase-schedule.mjs` — refuses posted→scheduled downgrades, fail-safe on lookup errors
+- Regression tests for quiz URLs, titles, drills resolution, and status monotonicity
 
-No new code was written this session. This was a repo hygiene / sync session.
+### lrsl-driller cleanup
+- Registered unit 8 cartridge in `cartridges/registry.json`
+- Pruned `package-lock.json` after TF.js removal (-596 lines)
+- Cleaned codex prompt temps and manim logs
 
-## Session Commits (2026-03-15)
+## Session Commits (2026-03-15/16)
 
-Prior session:
-- `02f4fcd` pipeline: add U8 L1 content (Agent, worksheet `f77cda6`, lrsl-driller `7340495`)
-- `6d1e8ad` feat: store material URLs in Supabase lesson_urls table
-- `2ca818d` feat: Supabase roadmap merge — spec, prompts, link updater
+**Agent:**
+- `57892fa` refactor: consolidate course metadata into shared module
+- `34bdf6f` fix: add quiz URL for 8.1 (7.9 review + Unit 7 progress check)
+- `b037f6f` fix: add unit 8 cartridge maps, fix batch upload unit detection
 
-This session: no new commits (reset only).
+**lrsl-driller:**
+- `23c32ea` chore: prune package-lock.json after TF.js removal
+- `6ca8140` chore: register unit 8 cartridge in registry.json
+- `f978278` fix: rename unit 8 cartridge mode names to match convention
+
+**follow-alongs:**
+- `996a7d5` fix: 8.1 now ready — quiz URL added, 24 ready / 27 partial
+- `e344d19` fix: restore full roadmap data for units 1-7, merge 8.1
+- `6364e8e` fix: regenerate exports with 8.1 drills URL and corrected status
 
 ## Current State
 
-- **All 3 repos**: clean, HEAD matches remote, 0 ahead / 0 behind
-- **Agent**: `9194188` = `origin/master`
-- **lrsl-driller**: `7340495` = `origin/main`
-- **follow-alongs**: `f77cda6` = `origin/master`
-- **Registry**: 1 lesson key (8.1) — previous units 1–7 were in a prior registry snapshot
-- **Queue**: 300 total, ~120 completed, ~180 pending
-- **Schoology B**: 8.1 posted in `work-ahead/future > Week 28 > Monday 4/6/26`
-- **Schoology E**: 8.1 NOT yet posted
-- **Supabase**: `topic_schedule` (62 rows) + `lesson_urls` (50 rows) + `videos` bucket + `agent_events` + `agent_checkpoints`
-- **Roadmap**: Live on GitHub Pages, reads from Supabase overlay
-- **Animations**: 5 new mp4s rendered for 8.1, NOT uploaded to Supabase (cartridge map missing)
-- **Drills cartridge**: `apstats-u8-unexpected-results` created in lrsl-driller, 5 levels
+- **All 3 repos**: clean, pushed
+- **Agent**: `57892fa` = `origin/master`
+- **lrsl-driller**: `23c32ea` = `origin/main`
+- **follow-alongs**: `996a7d5` = `origin/master`
+- **Registry**: 1 lesson (8.1) — units 1-7 data in Supabase + baked roadmap, not local registry
+- **Queue**: 300 total, 111 completed, 189 pending (units 7-9)
+- **Roadmap**: 24 ready (green), 27 partial (yellow) across 51 lessons. 8.1 is green.
+- **Schoology**: 8.1 posted to both periods (B + E) with worksheet, drills, quizzes, blooket, AP video
+- **Supabase**: `topic_schedule` (62 rows, 6.1-7.9 + 8.1 = posted), `lesson_urls` (51 rows)
+- **Tests**: `node --experimental-test-isolation=none --test scripts/test/*.test.mjs`
 
 ### Known issues
-
-- **Animation upload CARTRIDGE_MAP**: Missing unit 8 entry in both `upload-animations.mjs` and `batch-upload-animations.mjs`
-- **Post-pipeline reconciliation**: prints false `missing_material` warnings even when schoology-verify passes
+- **Duplicate Schoology links**: 8.1 folders in both periods have extra worksheet/blooket entries (manual cleanup)
 - **`--auto` flag bug**: Overwrites explicit `--unit`/`--lesson` with calendar detection
 - **Gemini rate limit**: ~8-10 video prompts before stalling
-- **Codex worksheet timeout**: 15-minute limit can be tight — task-runner auto-retries
-- **Blooket auto-upload**: Works via CDP now (succeeded for 8.1)
 - **ffmpeg**: Not on PATH. Use `render_batch.py`
 - **Edge CDP**: Close ALL Edge windows before launching debug instance
+- **Node test runner**: Sandbox blocks default spawn; use `--experimental-test-isolation=none`
 
 ## Key Paths
 
+- Shared metadata: `scripts/lib/course-metadata.mjs` (cartridge map, quiz URLs, drills, titles)
 - Pipeline: `scripts/lesson-prep.mjs`
 - Task runner: `scripts/lib/task-runner.mjs`
 - Registry: `state/lesson-registry.json`
-- Supabase CRUD: `scripts/lib/supabase-schedule.mjs` (upsertTopic + upsertLessonUrls)
-- Folder resolver: `scripts/lib/resolve-folder-path.mjs`
+- Supabase CRUD: `scripts/lib/supabase-schedule.mjs` (monotonic status guard)
 - Poster: `scripts/post-to-schoology.mjs`
-- Verify: `scripts/schoology-verify.mjs`
-- Migration: `scripts/sync-schedule-to-supabase.mjs` (topic_schedule + lesson_urls)
+- Tests: `scripts/test/course-metadata.test.mjs`, `scripts/test/supabase-status.test.mjs`
 - Roadmap: `C:/Users/ColsonR/apstats-live-worksheet/ap_stats_roadmap_square_mode.html`
-- Topic schedule: `config/topic-schedule.json`
 - Drive index: `config/drive-video-index.json`
-- Animation upload: `scripts/upload-animations.mjs` (CARTRIDGE_MAP line 33)
-- Batch upload: `scripts/batch-upload-animations.mjs` (CARTRIDGE_MAP line 26)
 
 ## Environment
 
