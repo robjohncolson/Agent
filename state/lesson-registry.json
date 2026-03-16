@@ -341,7 +341,7 @@
     "status": {
       "ingest": "done",
       "worksheet": "done",
-      "drills": "done",
+      "drills": "pending",
       "blooketCsv": "done",
       "blooketUpload": "done",
       "animations": "failed",
@@ -350,7 +350,7 @@
       "schoologyVerified": "done",
       "urlsGenerated": "done",
       "registryExported": "done",
-      "committed": "pending"
+      "committed": "done"
     },
     "schoology": {
       "B": {
@@ -452,77 +452,51 @@
             "title": "Topic 8.3 — Follow-Along Worksheet",
             "href": null,
             "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson3_live.html",
-            "postedAt": "2026-03-16T15:22:18.578Z",
+            "postedAt": "2026-03-16T15:24:49.193Z",
             "verified": false,
             "status": "done",
             "contentHash": "a67863cb8c98"
-          },
-          "drills": {
-            "schoologyId": null,
-            "title": "Topic 8.3 — Drills",
-            "href": null,
-            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results",
-            "postedAt": "2026-03-16T15:22:33.473Z",
-            "verified": false,
-            "status": "done",
-            "contentHash": "fa3d86a79621"
-          },
-          "quiz": {
-            "schoologyId": null,
-            "title": "Quiz 8.2",
-            "href": null,
-            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=8&l=2",
-            "postedAt": "2026-03-16T15:22:48.329Z",
-            "verified": false,
-            "status": "done",
-            "contentHash": "fad6c8ae602f"
-          },
-          "blooket": {
-            "schoologyId": null,
-            "title": "Topic 8.3 — Blooket Review",
-            "href": null,
-            "targetUrl": "https://dashboard.blooket.com/set/69b81f452209798f94f22801",
-            "postedAt": "2026-03-16T15:23:03.131Z",
-            "verified": false,
-            "status": "done",
-            "contentHash": "6d75ee064590"
-          },
-          "video1": {
-            "schoologyId": null,
-            "title": "Topic 8.3 — AP Classroom Video 1",
-            "href": null,
-            "targetUrl": "https://apclassroom.collegeboard.org/d/9fkzxeaa5b?sui=33,8",
-            "postedAt": "2026-03-16T15:23:18.020Z",
-            "verified": false,
-            "status": "done",
-            "contentHash": "53d04fd2e961"
-          },
-          "video2": {
-            "schoologyId": null,
-            "title": "Topic 8.3 — AP Classroom Video 2",
-            "href": null,
-            "targetUrl": "https://apclassroom.collegeboard.org/d/1rm91jvq1n?sui=33,8",
-            "postedAt": "2026-03-16T15:23:32.881Z",
-            "verified": false,
-            "status": "done",
-            "contentHash": "f6d38fb4aece"
-          },
-          "video3": {
-            "schoologyId": null,
-            "title": "Topic 8.3 — AP Classroom Video 3",
-            "href": null,
-            "targetUrl": "https://apclassroom.collegeboard.org/d/nayiwphnlr?sui=33,8",
-            "postedAt": "2026-03-16T15:23:47.546Z",
-            "verified": false,
-            "status": "done",
-            "contentHash": "1d8dc1219428"
           }
         }
       }
     },
     "timestamps": {
       "created": "2026-03-16T12:45:25.739Z",
-      "lastUpdated": "2026-03-16T15:23:55.149Z"
+      "lastUpdated": "2026-03-16T15:24:49.195Z"
+    }
+  },
+  "8.4": {
+    "unit": 8,
+    "lesson": 4,
+    "topic": "Topic 8.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson4_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=3",
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "pending",
+      "worksheet": "pending",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-03-16T15:25:07.535Z",
+      "lastUpdated": "2026-03-16T15:25:07.535Z"
     }
   }
 }
