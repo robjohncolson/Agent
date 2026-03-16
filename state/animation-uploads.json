@@ -1,68 +1,33 @@
 {
-  "unit": "7",
-  "lesson": "9",
+  "unit": "8",
+  "lesson": "2",
   "files": {
-    "MeanDiffTestComparePValueAlpha.mp4": {
+    "CheckGOFConditions.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestComparePValueAlpha.mp4",
-      "uploaded_at": "2026-03-15T02:48:19.516Z",
-      "size_bytes": 566628,
+      "url": "animations/apstats-u8-unexpected-results/CheckGOFConditions.mp4",
+      "uploaded_at": "2026-03-16T04:15:53.304Z",
+      "size_bytes": 435025,
       "retries": 0
     },
-    "MeanDiffTestPValue.mp4": {
+    "ChiSquareGoodnessOfFitProcedure.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestPValue.mp4",
-      "uploaded_at": "2026-03-15T02:48:20.848Z",
-      "size_bytes": 532410,
+      "url": "animations/apstats-u8-unexpected-results/ChiSquareGoodnessOfFitProcedure.mp4",
+      "uploaded_at": "2026-03-16T04:15:54.511Z",
+      "size_bytes": 514855,
       "retries": 0
     },
-    "MeanDiffTestPValueRegion.mp4": {
+    "AlternativeHypothesisWords.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestPValueRegion.mp4",
-      "uploaded_at": "2026-03-15T02:48:22.139Z",
-      "size_bytes": 468571,
+      "url": "animations/apstats-u8-unexpected-results/AlternativeHypothesisWords.mp4",
+      "uploaded_at": "2026-03-16T04:15:55.695Z",
+      "size_bytes": 373529,
       "retries": 0
     },
-    "MeanDiffTestInterpretPValue.mp4": {
+    "NullHypothesisEquality.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestInterpretPValue.mp4",
-      "uploaded_at": "2026-03-15T02:48:23.157Z",
-      "size_bytes": 562856,
-      "retries": 0
-    },
-    "MeanDiffTestSignificance.mp4": {
-      "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestSignificance.mp4",
-      "uploaded_at": "2026-03-15T02:48:24.342Z",
-      "size_bytes": 505298,
-      "retries": 0
-    },
-    "MeanDiffTestDecision.mp4": {
-      "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestDecision.mp4",
-      "uploaded_at": "2026-03-15T02:48:25.512Z",
-      "size_bytes": 425683,
-      "retries": 0
-    },
-    "MeanDiffTestConclusion.mp4": {
-      "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestConclusion.mp4",
-      "uploaded_at": "2026-03-15T02:48:26.717Z",
-      "size_bytes": 471602,
-      "retries": 0
-    },
-    "MeanDiffTestEvidence.mp4": {
-      "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestEvidence.mp4",
-      "uploaded_at": "2026-03-15T02:48:27.971Z",
-      "size_bytes": 515676,
-      "retries": 0
-    },
-    "MeanDiffTestStatistic.mp4": {
-      "status": "uploaded",
-      "url": "animations/apstats-u7-mean-ci/MeanDiffTestStatistic.mp4",
-      "uploaded_at": "2026-03-15T02:53:20.818Z",
-      "size_bytes": 364537,
+      "url": "animations/apstats-u8-unexpected-results/NullHypothesisEquality.mp4",
+      "uploaded_at": "2026-03-16T04:15:56.990Z",
+      "size_bytes": 423460,
       "retries": 0
     }
   }
