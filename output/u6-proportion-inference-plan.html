@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Stats Unit 6 — Proportion Inference Study Plan</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f4f6f9;
+    color: #1a1a2e;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 0.25rem;
+    color: #16213e;
+  }
+  .subtitle {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 1rem;
+  }
+  .big-idea {
+    background: #e8f0fe;
+    border-left: 4px solid #1a73e8;
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+  .big-idea strong { color: #1a73e8; }
+  .phase {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .phase-header {
+    padding: 0.75rem 1.25rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .phase-1 .phase-header { background: #1a73e8; }
+  .phase-2 .phase-header { background: #e8710a; }
+  .phase-3 .phase-header { background: #0d904f; }
+  .phase-4 .phase-header { background: #7b1fa2; }
+  .phase-body { padding: 1rem 1.25rem; }
+  .phase-body p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.75rem;
+  }
+  .link-list { list-style: none; }
+  .link-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .link-list li:last-child { border-bottom: none; }
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .badge-blooket { background: #fce4ec; color: #c62828; }
+  .badge-drill { background: #e3f2fd; color: #1565c0; }
+  .badge-quiz { background: #e8f5e9; color: #2e7d32; }
+  .link-list a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .link-list a:hover { text-decoration: underline; }
+  .key-point {
+    font-size: 0.85rem;
+    color: #c62828;
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Unit 6: Inference for Proportions</h1>
+  <div class="subtitle">Conditions, Assumptions &amp; the p&#x0302; vs p&#x2080; Distinction</div>
+
+  <div class="big-idea">
+    <strong>The Big Idea:</strong> When building a confidence interval, we check the Large Counts condition
+    with <strong>p&#x0302;</strong> (the sample proportion). When running a significance test, we check it
+    with <strong>p&#x2080;</strong> (the hypothesized proportion from H&#x2080;). Mixing these up is the
+    #1 student error on the AP exam.
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase phase-1">
+    <div class="phase-header">Phase 1 — Warm Up (Blooket Review Games)</div>
+    <div class="phase-body">
+      <p>Quick-fire recall to activate what you already know. Play each set at least once.</p>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-blooket">Blooket</span>
+          <a href="https://dashboard.blooket.com/set/69a5060cbabf217ed24a3364" target="_blank">Topics 6.1 &ndash; 6.2: CI Foundations &amp; Conditions</a>
+        </li>
+        <li>
+          <span class="badge badge-blooket">Blooket</span>
+          <a href="https://dashboard.blooket.com/set/69b09491958376ccb01393d9" target="_blank">Topic 6.4: Setting Up a Test for p</a>
+        </li>
+        <li>
+          <span class="badge badge-blooket">Blooket</span>
+          <a href="https://dashboard.blooket.com/set/69ab037ffb99ffa131a2e07d" target="_blank">Topic 6.6: Concluding a Test for p</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase phase-2">
+    <div class="phase-header">Phase 2 — Drills: CI Conditions (uses p&#x0302;)</div>
+    <div class="phase-body">
+      <p>These drills focus on confidence intervals. When you check Large Counts here, you use <strong>p&#x0302;</strong> (the sample proportion).</p>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l04-identify-procedure" target="_blank">6.2a: Identify the Procedure</a>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l05-check-conditions" target="_blank">6.2b: Check Conditions (Random, 10%, Large Counts with p&#x0302;)</a>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l06-standard-error" target="_blank">6.2c: Standard Error</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase phase-3">
+    <div class="phase-header">Phase 3 — Drills: Test Conditions (uses p&#x2080;)</div>
+    <div class="phase-body">
+      <p>Now the switch: significance tests check Large Counts with <strong>p&#x2080;</strong> (the hypothesized value), not p&#x0302;.</p>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l17-state-null" target="_blank">6.4a: State the Null Hypothesis</a>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l22-check-test-conditions" target="_blank">6.4b: Check Test Conditions (Large Counts with p&#x2080;)</a>
+          <br>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l27-parameter-definition-64" target="_blank">6.4c: Define the Parameter in Context</a>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l28-large-counts-64" target="_blank">6.4d: Large Counts — np&#x2080; &ge; 10 and n(1&minus;p&#x2080;) &ge; 10</a>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l29-condition-diagnosis-64" target="_blank">6.4e: Diagnose Which Condition Fails</a>
+        </li>
+      </ul>
+      <p class="key-point">After this phase, you should be able to explain WHY tests use p&#x2080; instead of p&#x0302;.</p>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase phase-4">
+    <div class="phase-header">Phase 4 — Put It All Together</div>
+    <div class="phase-body">
+      <p>Capstone drills and quizzes that combine everything into full inference problems.</p>
+      <ul class="link-list">
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l23-capstone-64" target="_blank">Capstone: Topic 6.4</a>
+        </li>
+        <li>
+          <span class="badge badge-drill">Drill</span>
+          <a href="https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u6-inference-prop&level=l33-full-test" target="_blank">Full Significance Test (6.6)</a>
+        </li>
+        <li>
+          <span class="badge badge-quiz">Quiz</span>
+          <a href="https://robjohncolson.github.io/curriculum_render/?u=6&l=1" target="_blank">Quiz: Topic 6.2 — Constructing a CI for p</a>
+        </li>
+        <li>
+          <span class="badge badge-quiz">Quiz</span>
+          <a href="https://robjohncolson.github.io/curriculum_render/?u=6&l=3" target="_blank">Quiz: Topic 6.4 — Setting Up a Test for p</a>
+        </li>
+        <li>
+          <span class="badge badge-quiz">Quiz</span>
+          <a href="https://robjohncolson.github.io/curriculum_render/?u=6&l=4" target="_blank">Quiz: Topic 6.5 — Interpreting p-Values</a>
+        </li>
+        <li>
+          <span class="badge badge-quiz">Quiz</span>
+          <a href="https://robjohncolson.github.io/curriculum_render/?u=6&l=5" target="_blank">Quiz: Topic 6.6 — Concluding a Test for p</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>AP Statistics &mdash; Mr. Colson &mdash; Unit 6 Targeted Review</footer>
+
+</div>
+</body>
+</html>
