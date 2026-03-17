@@ -49,6 +49,10 @@ for (const unit of allUnits) {
   }
 }
 
+const SPECIAL_TOPIC_TITLES = new Map([
+  ['6.review', 'Unit 6 Review -- Conceptual Driller'],
+]);
+
 // ---------------------------------------------------------------------------
 // 2. Merge and build rows
 // ---------------------------------------------------------------------------
@@ -63,8 +67,12 @@ for (const period of periods) {
   for (const [topic, date] of Object.entries(schedule)) {
     const regEntry = registry[topic];
 
-    // Title from units.js description map
-    let title = descriptionMap.get(topic) ?? null;
+    // Title from special-topic overrides, then units.js, then registry topic
+    let title =
+      SPECIAL_TOPIC_TITLES.get(topic) ??
+      descriptionMap.get(topic) ??
+      regEntry?.topic ??
+      null;
     if (!title) {
       console.warn(`[warn] No description found in units.js for topic ${topic} — using fallback`);
       title = `Topic ${topic}`;

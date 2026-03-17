@@ -498,5 +498,61 @@
       "created": "2026-03-16T15:25:07.535Z",
       "lastUpdated": "2026-03-16T15:25:07.535Z"
     }
+  },
+  "6.review": {
+    "unit": 6,
+    "lesson": 12,
+    "topic": "Unit 6 Review",
+    "note": "Edgar conceptual driller covering Topics 6.1-6.11",
+    "date": "2026-03-17",
+    "period": "B",
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/edgar_u6_conceptual_driller_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "schoologyFolderE": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "skipped",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "skipped",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "done",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "skipped"
+    },
+    "schoology": {
+      "B": {
+        "folderId": null,
+        "folderPath": null,
+        "folderTitle": null,
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Unit 6 Review - Conceptual Driller",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/edgar_u6_conceptual_driller_live.html",
+            "postedAt": "2026-03-17T04:42:27.367Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "d4b430b74c69"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-17T04:42:27.367Z",
+      "lastUpdated": "2026-03-17T04:42:27.367Z"
+    }
   }
 }
