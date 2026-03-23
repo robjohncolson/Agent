@@ -682,5 +682,187 @@
       "created": "2026-03-17T04:42:27.367Z",
       "lastUpdated": "2026-03-17T04:42:27.367Z"
     }
+  },
+  "8.5": {
+    "unit": 8,
+    "lesson": 5,
+    "topic": "Topic 8.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson5_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=4",
+      "blooket": "https://dashboard.blooket.com/set/69c0a4560774a12931de3f76",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989177841",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=989178189"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "failed",
+      "drills": "failed",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {
+      "B": {
+        "folderId": "989177841",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 29",
+          "Monday 4/13/26"
+        ],
+        "folderTitle": "Monday 4/13/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson5_live.html",
+            "postedAt": "2026-03-23T02:25:50.422Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ceee0e968684"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results",
+            "postedAt": "2026-03-23T02:26:12.858Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ef6f08c003a5"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 8.4",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=8&l=4",
+            "postedAt": "2026-03-23T02:26:35.522Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "15825612e5be"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69c0a4560774a12931de3f76",
+            "postedAt": "2026-03-23T02:26:58.178Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "7c3a8ab6372b"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/0bnpabex6u?sui=33,8",
+            "postedAt": "2026-03-23T02:27:20.693Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "329e5fdbf6ec"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/kqfcpu28su?sui=33,8",
+            "postedAt": "2026-03-23T02:27:43.262Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "1ebdcf1bd40e"
+          }
+        }
+      },
+      "E": {
+        "folderId": "989178189",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 29",
+          "Friday 4/17/26"
+        ],
+        "folderTitle": "Friday 4/17/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson5_live.html",
+            "postedAt": "2026-03-23T02:28:42.927Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ceee0e968684"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results",
+            "postedAt": "2026-03-23T02:29:05.375Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "ef6f08c003a5"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Quiz 8.4",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=8&l=4",
+            "postedAt": "2026-03-23T02:29:28.002Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "15825612e5be"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69c0a4560774a12931de3f76",
+            "postedAt": "2026-03-23T02:29:50.673Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "7c3a8ab6372b"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — AP Classroom Video 1",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/0bnpabex6u?sui=33,8",
+            "postedAt": "2026-03-23T02:30:13.304Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "329e5fdbf6ec"
+          },
+          "video2": {
+            "schoologyId": null,
+            "title": "Topic 8.5 — AP Classroom Video 2",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/kqfcpu28su?sui=33,8",
+            "postedAt": "2026-03-23T02:30:35.940Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "1ebdcf1bd40e"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-23T01:50:35.626Z",
+      "lastUpdated": "2026-03-23T02:30:35.941Z"
+    }
   }
 }
