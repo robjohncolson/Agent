@@ -788,6 +788,9 @@ function waitForUserInput() {
  */
 function isRateLimited(responseText) {
   if (!responseText) return false;
+  // Long successful responses (>2000 chars) are almost certainly real content,
+  // not error messages. Rate-limit errors are short.
+  if (responseText.trim().length > 2000) return false;
   const lower = responseText.toLowerCase();
   const patterns = [
     "rate limit",
@@ -798,7 +801,7 @@ function isRateLimited(responseText) {
     "rate_limit_exceeded",
     "429",
     "overloaded",
-    "capacity",
+    "server capacity",
     "temporarily unavailable",
   ];
   return patterns.some((p) => lower.includes(p));

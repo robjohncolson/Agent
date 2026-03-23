@@ -2,6 +2,22 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { CARTRIDGES_DIR } from "./paths.mjs";
 
+/**
+ * Check the lesson registry for a saved drills URL that already contains
+ * a &level= deep link. Returns the URL string or null.
+ */
+function getRegistryDrillsUrl(unit, lesson) {
+  try {
+    const regPath = join(import.meta.dirname, "../../state/lesson-registry.json");
+    if (!existsSync(regPath)) return null;
+    const reg = JSON.parse(readFileSync(regPath, "utf-8"));
+    const key = `${unit}.${lesson}`;
+    const url = reg[key]?.urls?.drills;
+    if (url && url.includes("&level=")) return url;
+  } catch { /* ignore */ }
+  return null;
+}
+
 const DRILLS_BASE = "https://lrsl-driller.vercel.app/platform/app.html";
 
 export const CARTRIDGE_MAP = Object.freeze({
@@ -71,16 +87,29 @@ export function resolveDrillsLink(unit, lesson) {
   const fallbackUrl = `${DRILLS_BASE}?c=${cartridgeId}`;
   const manifestPath = join(CARTRIDGES_DIR, cartridgeId, "manifest.json");
   if (!existsSync(manifestPath)) {
+    // Manifest not on this machine — check registry for a saved deep link
+    const regUrl = getRegistryDrillsUrl(unitNum, lessonNum);
+    if (regUrl) {
+      return { cartridgeId, modeId: null, url: regUrl, status: "registry-fallback" };
+    }
     return { cartridgeId, modeId: null, url: fallbackUrl, status: "no-manifest" };
   }
 
   const manifest = readManifest(manifestPath);
   if (!manifest) {
+    const regUrl = getRegistryDrillsUrl(unitNum, lessonNum);
+    if (regUrl) {
+      return { cartridgeId, modeId: null, url: regUrl, status: "registry-fallback" };
+    }
     return { cartridgeId, modeId: null, url: fallbackUrl, status: "no-manifest" };
   }
 
   const match = findLessonMode(manifest, unitNum, lessonNum);
   if (!match) {
+    const regUrl = getRegistryDrillsUrl(unitNum, lessonNum);
+    if (regUrl) {
+      return { cartridgeId, modeId: null, url: regUrl, status: "registry-fallback" };
+    }
     return { cartridgeId, modeId: null, url: fallbackUrl, status: "no-mode" };
   }
 
