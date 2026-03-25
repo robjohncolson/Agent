@@ -25,6 +25,7 @@ export const CARTRIDGE_MAP = Object.freeze({
   "6": "apstats-u6-inference-prop",
   "7": "apstats-u7-mean-ci",
   "8": "apstats-u8-unexpected-results",
+  "9": "apstats-u9-regression-slopes",
 });
 
 function toPositiveInt(value, label) {

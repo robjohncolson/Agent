@@ -1063,5 +1063,167 @@
       "created": "2026-03-23T02:34:07.221Z",
       "lastUpdated": "2026-03-25T04:02:41.503Z"
     }
+  },
+  "9.1": {
+    "unit": 9,
+    "lesson": 1,
+    "topic": "Topic 9.1",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson1_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-regression-slopes&level=l01-population-vs-sample",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=PC",
+      "blooket": "https://dashboard.blooket.com/set/69c3da020e37da3c048cccf4",
+      "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989947170",
+      "videos": [],
+      "schoologyFolderE": "https://lynnschools.schoology.com/course/7945275798/materials?f=989948070"
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "failed",
+      "blooketCsv": "done",
+      "blooketUpload": "done",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "done",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {
+      "B": {
+        "folderId": "989947170",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 29",
+          "Thursday 4/16/26"
+        ],
+        "folderTitle": "Thursday 4/16/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson1_live.html",
+            "postedAt": "2026-03-25T12:51:51.798Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "2b180d5b175c"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-regression-slopes",
+            "postedAt": "2026-03-25T12:52:06.873Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "9f84d4d2f462"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Unit 8 Progress Check",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=8&l=PC",
+            "postedAt": "2026-03-25T12:52:22.046Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "6e2437cf3ab2"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69c3da020e37da3c048cccf4",
+            "postedAt": "2026-03-25T12:52:37.576Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "3f5146a144c2"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — AP Classroom Video",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/pdddxf5g7m?sui=33,9",
+            "postedAt": "2026-03-25T12:52:52.626Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "d3a3dd4a3d41"
+          }
+        }
+      },
+      "E": {
+        "folderId": "989948070",
+        "folderPath": [
+          "work-ahead/future",
+          "Week 31",
+          "Wednesday 4/29/26"
+        ],
+        "folderTitle": "Wednesday 4/29/26",
+        "verifiedAt": null,
+        "reconciledAt": null,
+        "materials": {
+          "worksheet": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — Follow-Along Worksheet",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson1_live.html",
+            "postedAt": "2026-03-25T12:54:22.579Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "2b180d5b175c"
+          },
+          "drills": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — Drills",
+            "href": null,
+            "targetUrl": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-regression-slopes",
+            "postedAt": "2026-03-25T12:54:37.903Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "9f84d4d2f462"
+          },
+          "quiz": {
+            "schoologyId": null,
+            "title": "Unit 8 Progress Check",
+            "href": null,
+            "targetUrl": "https://robjohncolson.github.io/curriculum_render/?u=8&l=PC",
+            "postedAt": "2026-03-25T12:54:53.396Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "6e2437cf3ab2"
+          },
+          "blooket": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — Blooket Review",
+            "href": null,
+            "targetUrl": "https://dashboard.blooket.com/set/69c3da020e37da3c048cccf4",
+            "postedAt": "2026-03-25T12:55:08.547Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "3f5146a144c2"
+          },
+          "video1": {
+            "schoologyId": null,
+            "title": "Topic 9.1 — AP Classroom Video",
+            "href": null,
+            "targetUrl": "https://apclassroom.collegeboard.org/d/pdddxf5g7m?sui=33,9",
+            "postedAt": "2026-03-25T12:55:23.619Z",
+            "verified": false,
+            "status": "done",
+            "contentHash": "d3a3dd4a3d41"
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "created": "2026-03-25T12:35:57.044Z",
+      "lastUpdated": "2026-03-25T12:55:23.626Z"
+    }
   }
 }
