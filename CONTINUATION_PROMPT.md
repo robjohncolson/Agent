@@ -6,108 +6,112 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ## What to do NOW
 
-Pause Unit 8 ingest for now. As of March 16, 2026, Gemini is stalling after about 5 prompts in one session. We used 6 prompts getting `8.3` through ingest and then hit the wall again on the first `8.4` prompt.
+Resume Unit 9 ingest starting with `9.3`. Lessons 9.1 and 9.2 are fully shipped. The pipeline workflow is well-established — see the workflow section below.
+
+```bash
+node scripts/lesson-prep.mjs --unit 9 --lesson 3 \
+  --drive-ids 1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT
+```
 
 Do not use `--auto`. It still overwrites explicit `--unit` / `--lesson` values with calendar detection.
 
-When Gemini has cooled down, resume with `8.4` only:
+When passing multiple drive IDs, do NOT quote them as a single string. Pass them as separate space-separated arguments after `--drive-ids`.
 
-```bash
-node scripts/lesson-prep.mjs --unit 8 --lesson 4 \
-  --drive-ids 16dgP2zYBVUN2qzFlGRXKZ5aqErJv8FyQ
-```
+## Unit 8 Status — COMPLETE
 
-If `8.4` stalls again, stop instead of hammering more prompts. Start a fresh Gemini session later rather than burning through the remaining Unit 8 lessons.
+All 6 lessons fully shipped: ingest, worksheet, blooket, drills, animations, Schoology (both periods).
 
-## Unit 8 Status
+- Cartridge: `apstats-u8-unexpected-results` — 26 levels (l01-l26)
+- All animations rendered and uploaded to Supabase
+- Minor loose ends:
+  - 8.6 video 3 ingest missing (Gemini timeout) — not critical
+  - 8.6 Period B missing AP Classroom Video 3 link (Schoology timeout)
+  - Drills deep links in Schoology were manually updated for 8.3-8.6
 
-- `8.1`: full. Both periods posted. All three repos have the shipped content.
-- `8.2`: full. Both periods posted. Drive-ids quoting fix and course-context fix are shipped.
-- `8.3`: partial. Ingest done, worksheet done, blooket done, and posted to both periods. Drills are not complete, and one of four new animations did not make it through render/upload cleanly.
-- `8.4`: blocked. Ingest stalled at `0/2` files because Gemini rate-limited.
-- `8.5`: not started.
-- `8.6`: not started.
+## Unit 9 Status
 
-## Remaining Drive IDs
+| Lesson | Topic | Status | Drive IDs |
+|--------|-------|--------|-----------|
+| 9.1 | Do Those Points Align? | full | `1aMPs1uK5H7dvYoVaGh2TQLkdJGBAjoPd` |
+| 9.2 | Confidence Intervals for Slope | full | `18e3wAS58P1SW1ok8tv3mtFPhmM3pCRwN 1LLyG6B71f0kAoo6QHxQPb1JGQ4hVwkKq 1UkOJyY-qEovCHQANK5jtZhzNNpa4iHbK` |
+| 9.3 | Justifying a Claim About Slope | not started | `1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT` |
+| 9.4 | Setting Up a Test for Slope | not started | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
+| 9.5 | Carrying Out a Test for Slope | not started | `1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz` |
 
-| Lesson | Status | Drive IDs |
-|--------|--------|-----------|
-| 8.3 | partial | `1NemHYSwgnig3l3FUeyDYcDdt80aIYfd4 1A3t8-9QW7ubguCrQdApGKf4GkZWb1qBi 1tqgSvs4IHjltdUWtH7WmyqbPWGCMMoXb` |
-| 8.4 | blocked by Gemini cooldown | `16dgP2zYBVUN2qzFlGRXKZ5aqErJv8FyQ` |
-| 8.5 | not started | `1YHP2ipcZ5Vj35OVgZBYwExUjfU-yB2q1 1mDfMU3wJoLUEQY44eNr1d-XnwXl6aRlt` |
-| 8.6 | not started | `1DS_LxyMAABbjaN3VrMjBcDXy0PwbDaP3 1hm-K8vBzjXcx7hTdU2E8-0bIDhdUgiq_ 1v9ENpspNX7MSsuE50ZXoQyizuGOJ35sp` |
+- Cartridge: `apstats-u9-regression-slopes` — 8 levels so far (l01-l08 covering 9.1-9.2)
 
-## 8.3 Reality Check
+## Established Workflow
 
-Treat `8.3` as partial, not full.
+Each lesson follows this pipeline:
 
-- Ingest artifacts exist for all 3 videos: 6 files total under `C:/Users/ColsonR/apstats-live-worksheet/u8/`.
-- Worksheet exists: `C:/Users/ColsonR/apstats-live-worksheet/u8_lesson3_live.html`
-- Blooket exists and upload is recorded.
-- Agent commit `ebdca48` corrected the registry so `8.3` drills are `pending` and the Codex worksheet/drills timeouts are now 20 minutes.
-- The drills cartridge still only contains `8.1-8.2` material in `cartridges/apstats-u8-unexpected-results/`.
-- `lrsl-driller` has 4 new `8.3` scene source files, but only 3 uploaded animation files are recorded in `state/animation-uploads.json`.
-- Registry status for `8.3` Schoology is `done`, but the detailed Period E material list in the registry only shows the worksheet entry. If exact Period E materials matter, verify in the Schoology UI.
+1. **Ingest** — `node scripts/lesson-prep.mjs --unit U --lesson L --drive-ids ID1 ID2 ...`
+   - Gemini rate limit is ~5 prompts per session. 3-video lessons may stall on video 3.
+   - If stalled, retry in a fresh session — the script skips already-saved files.
+   - Pipeline auto-runs worksheet + blooket generation after ingest.
+   - Drills step always fails (Codex timeout) — build manually.
 
-## What shipped in this session
+2. **Drills** — Add levels to the existing cartridge manually:
+   - Read ingest slides to understand the topic
+   - Add scenario banks + generator functions to `generator.js`
+   - Add grading rules to `grading-rules.js`
+   - Add modes, skills, progression tiers to `manifest.json`
+   - Use an Agent to parallelize this work
 
-- `6225d91`: fix pipeline posts to both periods, fix drive-ids array quoting
-- `024a073`: pipeline add U8 L2 content in `Agent`
-- `1f22f17`: pipeline add U8 L2 content in `lrsl-driller`
-- `1bd2778`: pipeline add U8 L3 content in `apstats-live-worksheet`
-- `90e0e7c`: pipeline add U8 L3 content in `lrsl-driller`
-- `1ac3e46`: pipeline add U8 L3 content in `Agent`
-- `ebdca48`: correct `8.3` drills status in registry, bump Codex worksheet/drills timeouts from 15m to 20m
+3. **Animations** — Write 4 manim scenes per lesson:
+   - CRITICAL: Do NOT use `MathTex` or `Tex` — LaTeX is not installed. Use `Text()` with Unicode.
+   - Do NOT use `arrange_in_grid` with mismatched counts or `set_width(stretch=False)`
+   - Render with the inline Python wrapper (ffmpeg at `C:/Users/rober/scoop/shims/ffmpeg`)
+   - Upload via `node scripts/upload-animations.mjs --unit U --lesson L --cartridge CARTRIDGE_ID`
+   - Update manifest animation fields after upload
 
-## Current Repo State
+4. **Blooket Upload** — `node scripts/upload-blooket.mjs --unit U --lesson L` (requires CDP/Edge)
 
-- `Agent`: HEAD `ebdca48`, clean
-- `apstats-live-worksheet`: HEAD `1bd2778`, dirty
-- `lrsl-driller`: HEAD `90e0e7c`, dirty
-
-Do not assume the non-Agent repos are clean after pipeline runs. Check `git status` before making cleanup commits.
-
-## Post-pipeline checklist
-
-Pipeline can commit and push automatically, but verify outcomes instead of trusting the summary blindly.
-
-1. Run only one lesson at a time with explicit `--unit` and `--lesson`.
-2. If Schoology fails, post manually:
+5. **Schoology Posting** — Both periods:
    - Period B: `node scripts/post-to-schoology.mjs --unit U --lesson L --auto-urls --with-videos --no-prompt`
    - Period E: `node scripts/post-to-schoology.mjs --unit U --lesson L --auto-urls --with-videos --course 7945275798 --no-prompt --create-folder "Topic U.L"`
-3. If render fails, use `cd C:/Users/ColsonR/lrsl-driller && python render_batch.py --lesson NN`
-4. Re-run animation upload with `node scripts/batch-upload-animations.mjs`
-5. No `build-roadmap-data.mjs` step is needed. Poster writes to Supabase live.
+   - Requires Edge debug instance with Schoology login
+
+6. **Registry** — Update `state/lesson-registry.json` with drills deep link URL
+   - Format: `?c=CARTRIDGE_ID&level=FIRST_LEVEL_ID`
+   - The poster doesn't resolve deep links from the manifest on this machine (wrong CARTRIDGES_DIR)
+   - Registry fallback was added but only works if the URL is already saved with `&level=`
+
+7. **Supabase Sync** — `node scripts/sync-schedule-to-supabase.mjs --execute`
+
+8. **Commit & Push** — Both repos: `Agent` and `not-school/lrsl-driller`
+
+## Fixes shipped this session
+
+- `aistudio-ingest.mjs`: rate-limit false positive fix — skip check for responses >2000 chars, changed "capacity" to "server capacity"
+- `course-metadata.mjs`: registry fallback for `resolveDrillsLink` when manifest not found locally
+- `course-metadata.mjs`: added Unit 9 to CARTRIDGE_MAP
+- `upload-animations.mjs` (lrsl-driller): added Units 8 and 9 to CARTRIDGE_MAP
+- Agent `.env`: added SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
+
+## Key paths (home machine)
+
+- Agent repo: `C:/Users/rober/Downloads/Projects/Agent`
+- lrsl-driller: `C:/Users/rober/Downloads/Projects/not-school/lrsl-driller`
+- Worksheet output: `C:/Users/rober/Downloads/Projects/school/follow-alongs/`
+- Ingest output: `C:/Users/rober/Downloads/Projects/school/follow-alongs/u9/`
+- U8 cartridge: `not-school/lrsl-driller/cartridges/apstats-u8-unexpected-results/`
+- U9 cartridge: `not-school/lrsl-driller/cartridges/apstats-u9-regression-slopes/`
+- ffmpeg: `C:/Users/rober/scoop/shims/ffmpeg`
+- Manim CE: v0.19.2
 
 ## Known issues
 
-- Gemini rate limit is now closer to 5 prompts per session, not the earlier 8-10 estimate.
-- `8.3` drills are incomplete. The cartridge under `cartridges/apstats-u8-unexpected-results/` still only covers `8.1-8.2`.
-- `8.3` has 4 new scene source files, but only 3 uploaded animation files are recorded.
-- `--auto` flag bug still exists.
-- Duplicate Schoology links still need manual cleanup for `8.1`:
-  - Period B: `work-ahead/future > Week 28 > Monday 4/6/26`
-  - Period E: `work-ahead/future > Week 28 > Friday 4/10/26`
-- `ffmpeg` is not on PATH. Use `render_batch.py`.
-- Close all Edge windows before launching the debug instance.
-
-## Key files
-
-- Shared metadata: `scripts/lib/course-metadata.mjs`
-- Pipeline: `scripts/lesson-prep.mjs`
-- Registry: `state/lesson-registry.json`
-- Poster: `scripts/post-to-schoology.mjs`
-- Drills cartridge: `C:/Users/ColsonR/lrsl-driller/cartridges/apstats-u8-unexpected-results/`
-- Worksheet repo: `C:/Users/ColsonR/apstats-live-worksheet/`
-- Drive index: `config/drive-video-index.json`
+- `--auto` flag bug still exists in lesson-prep.mjs
+- Gemini rate limit ~5 prompts per session; 3-video lessons often stall on video 3
+- Schoology poster doesn't resolve drills deep links (CARTRIDGES_DIR points to wrong repo on this machine). Must manually update drills links in Schoology after posting.
+- Close all Edge windows before launching the debug instance
+- Codex drills generation always times out — build drills manually
 
 ## Environment
 
-- Windows 11
+- Windows 11 (home machine)
 - Node v22.19.0
-- Codex CLI v0.114.0
+- Manim CE v0.19.2
 - Schoology B: `7945275782`
 - Schoology E: `7945275798`
 - Supabase: `https://hgvnytaqmuybzbotosyj.supabase.co`
-- Manim CE v0.18.1
-- Python: `C:/Users/ColsonR/AppData/Local/Programs/Python/Python312/python.exe`
