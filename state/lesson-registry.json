@@ -1625,10 +1625,10 @@
       "videos": []
     },
     "status": {
-      "ingest": "failed",
-      "worksheet": "pending",
-      "drills": "pending",
-      "blooketCsv": "pending",
+      "ingest": "done",
+      "worksheet": "running",
+      "drills": "failed",
+      "blooketCsv": "done",
       "blooketUpload": "pending",
       "animations": "pending",
       "animationUpload": "pending",
@@ -1641,7 +1641,41 @@
     "schoology": {},
     "timestamps": {
       "created": "2026-03-25T14:38:28.134Z",
-      "lastUpdated": "2026-03-26T04:07:01.903Z"
+      "lastUpdated": "2026-03-26T11:52:52.631Z"
+    }
+  },
+  "9.5": {
+    "unit": 9,
+    "lesson": 5,
+    "topic": "Topic 9.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson5_live.html",
+      "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-regression-slopes",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=4",
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "failed",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-03-26T11:57:33.405Z",
+      "lastUpdated": "2026-03-26T12:25:54.261Z"
     }
   }
 }

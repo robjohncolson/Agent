@@ -6,20 +6,25 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ## What to do NOW
 
-Resume Unit 9.4 ingest — video 2 still needs transcription and slides (Gemini rate-limited on 2026-03-26). The script skips already-saved files, so just re-run:
+Both 9.4 and 9.5 have completed ingest, worksheet, blooket, and drills. The remaining pipeline steps for both are:
 
-```bash
-node scripts/lesson-prep.mjs --unit 9 --lesson 4 \
-  --drive-ids 1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M
-```
+1. **Animations** — Write 4 manim scenes each for 9.4 and 9.5
+2. **Blooket Upload** — `node scripts/upload-blooket.mjs --unit 9 --lesson 4` then `--lesson 5`
+3. **Schoology Posting** — Both periods for both lessons
+4. **Registry** — Update `state/lesson-registry.json` with drills deep link URLs for 9.4 and 9.5
+5. **Supabase Sync** — `node scripts/sync-schedule-to-supabase.mjs --execute`
+6. **Commit & Push** — Both repos
 
-Once 9.4 ingest completes, continue through the full pipeline (worksheet → blooket → drills → animations → Schoology → registry → Supabase sync → commit).
+### 9.4 Drills cartridge
+- `apstats-u9-setting-up-slope-tests` — 4 modes (state H0, choose Ha, identify t-test, check conditions)
+- Created by Codex; registered in registry.json
 
-Then proceed to 9.5:
-```bash
-node scripts/lesson-prep.mjs --unit 9 --lesson 5 \
-  --drive-ids 1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz
-```
+### 9.5 Drills cartridge
+- `apstats-u9-carrying-out-slope-tests` — 5 modes (calculate test statistic, set up p-value, interpret p-value, state conclusion, compare evidence strength)
+- Created by Codex; registered in registry.json
+
+### 9.5 Worksheet note
+- The Codex-generated 9.5 worksheet (`u9_lesson5_live.html`) and grading file (`ai-grading-prompts-u9-l5.js`) should be spot-checked for accuracy before use.
 
 Do not use `--auto`. It still overwrites explicit `--unit` / `--lesson` values with calendar detection.
 
@@ -50,12 +55,13 @@ All 6 lessons fully shipped: ingest, worksheet, blooket, drills, animations, Sch
 | 9.1 | Do Those Points Align? | full | `1aMPs1uK5H7dvYoVaGh2TQLkdJGBAjoPd` |
 | 9.2 | Confidence Intervals for Slope | full | `18e3wAS58P1SW1ok8tv3mtFPhmM3pCRwN 1LLyG6B71f0kAoo6QHxQPb1JGQ4hVwkKq 1UkOJyY-qEovCHQANK5jtZhzNNpa4iHbK` |
 | 9.3 | Justifying a Claim About Slope | full | `1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT` |
-| 9.4 | Setting Up a Test for Slope | partial (v1 transcript + v1 slides done; v2 transcript + slides missing — Gemini rate-limited 2026-03-26) | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
-| 9.5 | Carrying Out a Test for Slope | not started | `1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz` |
+| 9.4 | Setting Up a Test for Slope | ingest+worksheet+blooket+drills done; needs animations, Schoology, upload | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
+| 9.5 | Carrying Out a Test for Slope | ingest+worksheet+blooket+drills done; needs animations, Schoology, upload | `1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz` |
 
-- Cartridge: `apstats-u9-regression-slopes` — 8 levels so far (l01-l08 covering 9.1-9.2)
-- Cartridge: `apstats-u9-justify-slope-claims-ci` — 4 modes (9.3 standalone)
-- 9.3 drills created as separate cartridge since pipeline couldn't find the existing U9 cartridge directory
+- Cartridge: `apstats-u9-regression-slopes` — 8 levels (9.1-9.2)
+- Cartridge: `apstats-u9-justify-slope-claims-ci` — 4 modes (9.3)
+- Cartridge: `apstats-u9-setting-up-slope-tests` — 4 modes (9.4)
+- Cartridge: `apstats-u9-carrying-out-slope-tests` — 5 modes (9.5)
 
 ## Established Workflow
 
@@ -122,7 +128,8 @@ Each lesson follows this pipeline:
 - Gemini rate limit ~5 prompts per session; 3-video lessons often stall on video 3
 - Schoology poster doesn't resolve drills deep links (CARTRIDGES_DIR points to wrong repo on this machine). Must manually update drills links in Schoology after posting.
 - Close all Edge windows before launching the debug instance
-- Codex drills generation always times out — build drills manually
+- Codex drills generation sometimes times out at the 20min limit, but usually writes the files before validation fails
+- Codex worksheet generation can hit Windows command-length limits on file writes; may need manual completion
 
 ## Environment
 
