@@ -30,9 +30,9 @@
       "name": "Phase 1",
       "id": "phase-1",
       "status": "completed",
-      "completed_at": "2026-03-03T05:11:38Z",
-      "thread_id": "019cb21a-85dd-7ee2-86ba-222702eaeb02",
-      "project": "grid-bot-v3"
+      "completed_at": "2026-03-25T21:15:33Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4"
     }
   ],
   "untracked_completions": [
@@ -280,7 +280,245 @@
       "project": "grid-bot-v3",
       "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
       "message_excerpt": "Partially verified. The fix for the `--pull-weights` caveat is real. In [main_belief.py#L962](C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/main_belief.py#L962), `_pu..."
+    },
+    {
+      "completed_at": "2026-03-15T18:49:35Z",
+      "thread_id": "019cf26f-8308-7330-be9c-8afa29aaa360",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "Verified. The extraction is real: - `_post_execute_calibration()` exists at [main_belief.py#L173](C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/main_belief.py#L173) -..."
+    },
+    {
+      "completed_at": "2026-03-15T19:15:18Z",
+      "thread_id": "019cf26f-8308-7330-be9c-8afa29aaa360",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "Mostly accurate. Verified: - `HEAD` is `cf0c599`, `origin/master` is `a1a5ff1`, so the branch is exactly 1 commit ahead. - `cf0c599` contains the intended 8 session files and do..."
+    },
+    {
+      "completed_at": "2026-03-15T21:52:19Z",
+      "thread_id": "019cf2eb-ee35-7c90-a832-5e1ea690f399",
+      "project": "bike",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\bike",
+      "message_excerpt": "I rebuilt [kilo-tt-ebike-build.html](C:/Users/rober/Downloads/Projects/not-school/bike/kilo-tt-ebike-build.html) as a report-aligned build bible instead of patching the old vers..."
+    },
+    {
+      "completed_at": "2026-03-17T10:59:07Z",
+      "thread_id": "019cfb6d-2075-7822-8de0-53753105476a",
+      "project": "ai_autoresearch_mirofish",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\ai_autoresearch_mirofish",
+      "message_excerpt": "Implemented the report-driven changes. - MCQ generation is no longer hard-coded to `5` tokens. Provider settings now flow end to end through the student/cohort/loop paths, and t..."
+    },
+    {
+      "completed_at": "2026-03-22T17:45:32Z",
+      "thread_id": "019d16a3-3112-72a0-a1e8-2e87aec53ad5",
+      "project": "Projects",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects",
+      "message_excerpt": "The startup error is fixed. I removed the unsupported `PreCommit` event from [settings.json](C:/Users/rober/Downloads/Projects/.claude/settings.json), which was the reason Claud..."
+    },
+    {
+      "completed_at": "2026-03-22T18:03:47Z",
+      "thread_id": "019d16a3-3112-72a0-a1e8-2e87aec53ad5",
+      "project": "Projects",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects",
+      "message_excerpt": "Yes. The useful way to read that report is: **1. The \u201cnot cloned locally\u201d section is noisy** - Its stated total, `26 repos`, does not add up to the entries shown. - The table it..."
+    },
+    {
+      "completed_at": "2026-03-22T18:17:34Z",
+      "thread_id": "019d16a3-3112-72a0-a1e8-2e87aec53ad5",
+      "project": "Projects",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects",
+      "message_excerpt": "Yes. The next move should be: 1. Resolve `lrsl-driller` first. Inference: [not-school/lrsl-driller](C:/Users/rober/Downloads/Projects/not-school/lrsl-driller) is probably the ac..."
+    },
+    {
+      "completed_at": "2026-03-22T18:30:10Z",
+      "thread_id": "019d16a3-3112-72a0-a1e8-2e87aec53ad5",
+      "project": "Projects",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects",
+      "message_excerpt": "My call: make [not-school/lrsl-driller](C:/Users/rober/Downloads/Projects/not-school/lrsl-driller) the only active clone, and retire [school/lrsl-driller](C:/Users/rober/Downloa..."
+    },
+    {
+      "completed_at": "2026-03-22T18:34:25Z",
+      "thread_id": "019d16a3-3112-72a0-a1e8-2e87aec53ad5",
+      "project": "Projects",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects",
+      "message_excerpt": "Then the answer is simple: only `algebra2` is worth cloning from that list right now. I would leave `curriculum_render_v2` alone if you don\u2019t recognize it, and skip `grid-bot-v2..."
+    },
+    {
+      "completed_at": "2026-03-22T19:21:09Z",
+      "thread_id": "019d16fa-895f-7693-a80e-af3537597f3e",
+      "project": "Agent",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent",
+      "message_excerpt": "The failure was coming from your global Claude `SessionStart` hook in [settings.json](/C:/Users/rober/.claude/settings.json#L17). Claude was launching Git Bash without `/usr/bin..."
+    },
+    {
+      "completed_at": "2026-03-22T19:49:22Z",
+      "thread_id": "019d16fa-895f-7693-a80e-af3537597f3e",
+      "project": "Agent",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\Agent",
+      "message_excerpt": "I found the actual cause. In [settings.json](/C:/Users/rober/.claude/settings.json), the hook commands were written like: ```text C:/PROGRA~1/Git/usr/bin/bash.exe C:/Users/rober..."
+    },
+    {
+      "completed_at": "2026-03-22T21:58:30Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "**Findings** 1. The synthesis treats the live V3 loop as \u201cask 3 LLMs every cycle,\u201d but the deployed autonomous path does not do that. Railway runs `scheduler.py`, which invokes ..."
+    },
+    {
+      "completed_at": "2026-03-22T22:27:18Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "**Findings** 1. `Change A` is conceptually right but placed in the wrong layer. `detect_edges()` is portfolio-blind and is reused in both scan/briefing and execute flows, so put..."
+    },
+    {
+      "completed_at": "2026-03-22T22:54:04Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "**Changes** - [main_belief.py#L173](/C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/main_belief.py#L173) adds the belief-order helpers for passive limit pricing, fill ..."
+    },
+    {
+      "completed_at": "2026-03-22T22:58:12Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "Start with `#2`. It is the cheapest and cleanest experiment: low execution risk, likely low blast radius, and it tests the herd-convergence hypothesis before we change trade adm..."
+    },
+    {
+      "completed_at": "2026-03-22T23:19:28Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "Implemented `#2` across the prompt paths. Prompt de-anchoring is now in [belief_engine.py#L60](/C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/trading/belief_engine.py..."
+    },
+    {
+      "completed_at": "2026-03-23T00:01:39Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "Implemented `#3` locally; nothing has been pushed. In [main_belief.py#L392](/C:/Users/rober/Downloads/Projects/not-school/grid-bot-v3/main_belief.py#L392) I added `_candidate_di..."
+    },
+    {
+      "completed_at": "2026-03-23T00:56:23Z",
+      "thread_id": "019d182e-6429-73e0-b9ca-c318f66382cd",
+      "project": "follow-alongs",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\follow-alongs",
+      "message_excerpt": "Created [u8_l4_blooket.csv](C:\\Users\\rober\\Downloads\\Projects\\school\\follow-alongs\\u8_l4_blooket.csv). Validated: 28 question rows, 26 columns per row, ASCII-only content, and n..."
+    },
+    {
+      "completed_at": "2026-03-23T00:58:12Z",
+      "thread_id": "019d182e-6493-7e93-a822-337ca0c30323",
+      "project": "lrsl-driller",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\lrsl-driller",
+      "message_excerpt": "Created a new cartridge at [manifest.json](C:/Users/rober/Downloads/Projects/school/lrsl-driller/cartridges/apstats-u8-expected-counts-two-way-tables/manifest.json) with matchin..."
+    },
+    {
+      "completed_at": "2026-03-23T01:12:29Z",
+      "thread_id": "019d1786-dedf-79c0-acd7-075d8387bb8a",
+      "project": "grid-bot-v3",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\not-school\\grid-bot-v3",
+      "message_excerpt": "This is a reasonable emergency fix. `PortfolioManager.can_open()` is the enforcement point for `_portfolio_risk`, and it now gates on `RiskLimits.mc_risk_gate_enabled` first, so..."
+    },
+    {
+      "completed_at": "2026-03-23T02:01:42Z",
+      "thread_id": "019d186a-9c18-7951-a683-fae5038786b1",
+      "project": "follow-alongs",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\follow-alongs",
+      "message_excerpt": "Created [u8_l5_blooket.csv](C:\\Users\\rober\\Downloads\\Projects\\school\\follow-alongs\\u8_l5_blooket.csv). It contains 28 AP Statistics Topic 8.5 questions in the required Blooket i..."
+    },
+    {
+      "completed_at": "2026-03-23T02:10:10Z",
+      "thread_id": "019d186a-9d48-7c00-b98f-8bacb15d3f5f",
+      "project": "lrsl-driller",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\lrsl-driller",
+      "message_excerpt": "Created a new cartridge at [cartridges/apstats-u8-chi-square-homogeneity-independence/manifest.json](C:/Users/rober/Downloads/Projects/school/lrsl-driller/cartridges/apstats-u8-..."
+    },
+    {
+      "completed_at": "2026-03-23T02:14:05Z",
+      "thread_id": "019d186a-9c03-78c2-91f9-2ac85dd6f658",
+      "project": "lrsl-driller",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\lrsl-driller",
+      "message_excerpt": "Created the Topic 8.5 cartridge at [manifest.json](C:/Users/rober/Downloads/Projects/school/lrsl-driller/cartridges/apstats-u8-chi-square-homogeneity-independence/manifest.json)..."
+    },
+    {
+      "completed_at": "2026-03-25T12:44:04Z",
+      "thread_id": "019d2500-b95d-7f30-a1c1-4dba212dc32d",
+      "project": "follow-alongs",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\follow-alongs",
+      "message_excerpt": "Created [u9_l1_blooket.csv](C:\\Users\\rober\\Downloads\\Projects\\school\\follow-alongs\\u9_l1_blooket.csv). Verified: 30 questions, exact 26-column Blooket template shape, ASCII-only..."
+    },
+    {
+      "completed_at": "2026-03-25T12:45:15Z",
+      "thread_id": "019d2500-bb70-7752-9471-568f8e2cdc2d",
+      "project": "lrsl-driller",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\lrsl-driller",
+      "message_excerpt": "Created the new cartridge `apstats-u9-do-those-points-align` with the required `manifest.json`, `generator.js`, `grading-rules.js`, and `ai-grader-prompt.txt` under [manifest.js..."
+    },
+    {
+      "completed_at": "2026-03-25T14:06:06Z",
+      "thread_id": "019d254a-5e17-7bb0-a03d-c7ee4b5e69b9",
+      "project": "lrsl-driller",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\school\\lrsl-driller",
+      "message_excerpt": "Created the new 9.3 cartridge at [manifest.json](C:/Users/rober/Downloads/Projects/school/lrsl-driller/cartridges/apstats-u9-justify-slope-claims-ci/manifest.json), [generator.j..."
+    },
+    {
+      "completed_at": "2026-03-25T17:51:06Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "I verified the current workspace without changing code. The reported changes are present in the main touchpoints: [`core/types.py:183`](/C:/Users/rober/Downloads/Projects/kraken..."
+    },
+    {
+      "completed_at": "2026-03-25T18:11:28Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "That closes the two runtime gaps. The fill path now reaches the reducer through [`runtime_loop.py`](/C:/Users/rober/Downloads/Projects/kraken-bot-v4/runtime_loop.py) and [`sched..."
+    },
+    {
+      "completed_at": "2026-03-25T18:13:57Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "Yes, with one correction: nothing is staged right now. The worktree has the expected 8 modified files, but [`AGENTS.md`](/C:/Users/rober/Downloads/Projects/kraken-bot-v4/AGENTS...."
+    },
+    {
+      "completed_at": "2026-03-25T18:24:51Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "Commit `2ec30ea` is in place with the reducer/scheduler/runtime integration changes, and the GitNexus index was refreshed afterward. The commit scope looks clean: 6 implementati..."
+    },
+    {
+      "completed_at": "2026-03-25T19:32:21Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "That leaves the codebase in the right state. `2ec30ea` puts the reducer/scheduler/runtime spine in place, and `c4771b6` updates the handoff so the next session starts from the r..."
+    },
+    {
+      "completed_at": "2026-03-25T20:32:46Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "Yes. The current uncommitted belief-pipeline delta is in [`main.py`](/C:/Users/rober/Downloads/Projects/kraken-bot-v4/main.py), [`runtime_loop.py`](/C:/Users/rober/Downloads/Pro..."
+    },
+    {
+      "completed_at": "2026-03-25T20:45:00Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "The current state is coherent: `a516332` wires the live belief path from [`exchange/ohlcv.py`](/C:/Users/rober/Downloads/Projects/kraken-bot-v4/exchange/ohlcv.py) through [`beli..."
+    },
+    {
+      "completed_at": "2026-03-25T21:03:05Z",
+      "thread_id": "019d261a-0745-7532-9dc4-9408af36b157",
+      "project": "kraken-bot-v4",
+      "cwd": "C:\\Users\\rober\\Downloads\\Projects\\kraken-bot-v4",
+      "message_excerpt": "Yes, but frame it correctly: this is not a short. It is spot inventory management. If you already hold DOGE and the belief turns bearish, the next useful behavior is: - sell som..."
     }
   ],
-  "last_event_at": "2026-03-15T18:10:46Z"
+  "last_event_at": "2026-03-25T21:15:33Z"
 }

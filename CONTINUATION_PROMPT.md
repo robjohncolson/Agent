@@ -6,16 +6,31 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ## What to do NOW
 
-Resume Unit 9 ingest starting with `9.3`. Lessons 9.1 and 9.2 are fully shipped. The pipeline workflow is well-established — see the workflow section below.
+Resume Unit 9.4 ingest — video 2 still needs transcription and slides (Gemini rate-limited on 2026-03-26). The script skips already-saved files, so just re-run:
 
 ```bash
-node scripts/lesson-prep.mjs --unit 9 --lesson 3 \
-  --drive-ids 1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT
+node scripts/lesson-prep.mjs --unit 9 --lesson 4 \
+  --drive-ids 1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M
+```
+
+Once 9.4 ingest completes, continue through the full pipeline (worksheet → blooket → drills → animations → Schoology → registry → Supabase sync → commit).
+
+Then proceed to 9.5:
+```bash
+node scripts/lesson-prep.mjs --unit 9 --lesson 5 \
+  --drive-ids 1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz
 ```
 
 Do not use `--auto`. It still overwrites explicit `--unit` / `--lesson` values with calendar detection.
 
 When passing multiple drive IDs, do NOT quote them as a single string. Pass them as separate space-separated arguments after `--drive-ids`.
+
+## Side Task: Algebra 2 Polynomial Division Blooket
+
+A 30-card Blooket CSV for polynomial division drills was created at:
+`school/algebra2/a2t3l4/blooket_polynomial_division_drills.csv`
+
+Covers: coefficient extraction (with 0-placeholders), finding *a* from the divisor (sign-flip drill), naked signed arithmetic (multiply/add), writing the top row, and reading the bottom row (quotient + remainder + factor check). Ready to import into Blooket — has not been uploaded yet.
 
 ## Unit 8 Status — COMPLETE
 
@@ -34,11 +49,13 @@ All 6 lessons fully shipped: ingest, worksheet, blooket, drills, animations, Sch
 |--------|-------|--------|-----------|
 | 9.1 | Do Those Points Align? | full | `1aMPs1uK5H7dvYoVaGh2TQLkdJGBAjoPd` |
 | 9.2 | Confidence Intervals for Slope | full | `18e3wAS58P1SW1ok8tv3mtFPhmM3pCRwN 1LLyG6B71f0kAoo6QHxQPb1JGQ4hVwkKq 1UkOJyY-qEovCHQANK5jtZhzNNpa4iHbK` |
-| 9.3 | Justifying a Claim About Slope | not started | `1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT` |
-| 9.4 | Setting Up a Test for Slope | not started | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
+| 9.3 | Justifying a Claim About Slope | full | `1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT` |
+| 9.4 | Setting Up a Test for Slope | partial (v1 transcript + v1 slides done; v2 transcript + slides missing — Gemini rate-limited 2026-03-26) | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
 | 9.5 | Carrying Out a Test for Slope | not started | `1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz` |
 
 - Cartridge: `apstats-u9-regression-slopes` — 8 levels so far (l01-l08 covering 9.1-9.2)
+- Cartridge: `apstats-u9-justify-slope-claims-ci` — 4 modes (9.3 standalone)
+- 9.3 drills created as separate cartridge since pipeline couldn't find the existing U9 cartridge directory
 
 ## Established Workflow
 

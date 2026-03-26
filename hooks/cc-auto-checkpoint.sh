@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Claude launches Git Bash without /usr/bin on PATH in this Windows setup.
+PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+
 set -u
 
 AGENT_DIR="${AGENT_REPO:-C:/Users/rober/Downloads/Projects/Agent}"
