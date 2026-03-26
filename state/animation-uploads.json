@@ -1,26 +1,33 @@
 {
-  "unit": "8",
-  "lesson": "3",
+  "unit": "9",
+  "lesson": "5",
   "files": {
-    "ChiSquareContributionContext.mp4": {
+    "Apstat95_CompleteTestWalkthrough.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/ChiSquareContributionContext.mp4",
-      "uploaded_at": "2026-03-16T15:19:33.929Z",
-      "size_bytes": 435770,
+      "url": "animations/apstats-u9-regression-slopes/Apstat95_CompleteTestWalkthrough.mp4",
+      "uploaded_at": "2026-03-26T15:42:38.431Z",
+      "size_bytes": 697297,
       "retries": 0
     },
-    "ChiSquareLargestContribution.mp4": {
+    "Apstat95_DrawingConclusion.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/ChiSquareLargestContribution.mp4",
-      "uploaded_at": "2026-03-16T15:19:35.242Z",
-      "size_bytes": 294232,
+      "url": "animations/apstats-u9-regression-slopes/Apstat95_DrawingConclusion.mp4",
+      "uploaded_at": "2026-03-26T15:42:39.735Z",
+      "size_bytes": 322955,
       "retries": 0
     },
-    "ChiSquarePValueInterpretation.mp4": {
+    "Apstat95_FindingPValue.mp4": {
       "status": "uploaded",
-      "url": "animations/apstats-u8-unexpected-results/ChiSquarePValueInterpretation.mp4",
-      "uploaded_at": "2026-03-16T15:19:36.762Z",
-      "size_bytes": 248797,
+      "url": "animations/apstats-u9-regression-slopes/Apstat95_FindingPValue.mp4",
+      "uploaded_at": "2026-03-26T15:42:40.734Z",
+      "size_bytes": 207423,
+      "retries": 0
+    },
+    "Apstat95_TestStatisticFormula.mp4": {
+      "status": "uploaded",
+      "url": "animations/apstats-u9-regression-slopes/Apstat95_TestStatisticFormula.mp4",
+      "uploaded_at": "2026-03-26T15:42:41.888Z",
+      "size_bytes": 347569,
       "retries": 0
     }
   }

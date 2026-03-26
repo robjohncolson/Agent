@@ -6,25 +6,13 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ## What to do NOW
 
-Both 9.4 and 9.5 have completed ingest, worksheet, blooket, and drills. The remaining pipeline steps for both are:
+Unit 9 is COMPLETE. All 5 lessons (9.1-9.5) fully shipped.
 
-1. **Animations** — Write 4 manim scenes each for 9.4 and 9.5
-2. **Blooket Upload** — `node scripts/upload-blooket.mjs --unit 9 --lesson 4` then `--lesson 5`
-3. **Schoology Posting** — Both periods for both lessons
-4. **Registry** — Update `state/lesson-registry.json` with drills deep link URLs for 9.4 and 9.5
-5. **Supabase Sync** — `node scripts/sync-schedule-to-supabase.mjs --execute`
-6. **Commit & Push** — Both repos
-
-### 9.4 Drills cartridge
-- `apstats-u9-setting-up-slope-tests` — 4 modes (state H0, choose Ha, identify t-test, check conditions)
-- Created by Codex; registered in registry.json
-
-### 9.5 Drills cartridge
-- `apstats-u9-carrying-out-slope-tests` — 5 modes (calculate test statistic, set up p-value, interpret p-value, state conclusion, compare evidence strength)
-- Created by Codex; registered in registry.json
-
-### 9.5 Worksheet note
-- The Codex-generated 9.5 worksheet (`u9_lesson5_live.html`) and grading file (`ai-grading-prompts-u9-l5.js`) should be spot-checked for accuracy before use.
+Remaining loose ends:
+- Drills deep links in Schoology need manual update for 9.4 and 9.5 (poster used cartridge root URL, not deep links)
+  - 9.4 correct URL: `?c=apstats-u9-setting-up-slope-tests&level=l94-state-null-hypothesis`
+  - 9.5 correct URL: `?c=apstats-u9-carrying-out-slope-tests&level=l95-calculate-test-statistic`
+- The Codex-generated 9.5 worksheet and grading file should be spot-checked for accuracy
 
 Do not use `--auto`. It still overwrites explicit `--unit` / `--lesson` values with calendar detection.
 
@@ -55,8 +43,8 @@ All 6 lessons fully shipped: ingest, worksheet, blooket, drills, animations, Sch
 | 9.1 | Do Those Points Align? | full | `1aMPs1uK5H7dvYoVaGh2TQLkdJGBAjoPd` |
 | 9.2 | Confidence Intervals for Slope | full | `18e3wAS58P1SW1ok8tv3mtFPhmM3pCRwN 1LLyG6B71f0kAoo6QHxQPb1JGQ4hVwkKq 1UkOJyY-qEovCHQANK5jtZhzNNpa4iHbK` |
 | 9.3 | Justifying a Claim About Slope | full | `1yWqjcF-IyHImRwTBV3cEIt13u0infZzI 1GqvcUy_AJRnTgDORWQkAVHSWjKpRxTaT` |
-| 9.4 | Setting Up a Test for Slope | ingest+worksheet+blooket+drills done; needs animations, Schoology, upload | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
-| 9.5 | Carrying Out a Test for Slope | ingest+worksheet+blooket+drills done; needs animations, Schoology, upload | `1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz` |
+| 9.4 | Setting Up a Test for Slope | full | `1LKHmLObjf3Nnszvk833XeLgH5JJ9F0_g 1EBPBsC-oJXGaxn7jp1Q92IWetvaPNl1M` |
+| 9.5 | Carrying Out a Test for Slope | full | `1aggJHSL5dJcEBYuo4Z7M_lvsoLvx4RYY 1vct7foAM_sxXzRy4rviUox0DkQMm7Yf- 1h5OJH_mC6MUqmKbW_K-Xqx7IN3bjOscz` |
 
 - Cartridge: `apstats-u9-regression-slopes` — 8 levels (9.1-9.2)
 - Cartridge: `apstats-u9-justify-slope-claims-ci` — 4 modes (9.3)

@@ -26,7 +26,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED ??= '0';
 
 // ── Config ──────────────────────────────────────────────────────────────────
 
-const DRILLER_DIR = "C:/Users/ColsonR/lrsl-driller";
+const DRILLER_DIR = process.env.DRILLER_DIR || "C:/Users/ColsonR/lrsl-driller";
 const MEDIA_DIR = path.join(DRILLER_DIR, "media", "videos");
 const BUCKET = "videos";
 const QUALITY_PREFERENCE = ["720p30", "480p15", "1080p60"];
