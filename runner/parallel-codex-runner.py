@@ -12,10 +12,12 @@ import pathlib
 import re
 import shlex
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
 import threading
+import time
 from datetime import datetime, timezone
 from typing import Any
 
@@ -152,6 +154,53 @@ def read_json(path: pathlib.Path) -> dict[str, Any]:
 
 class RunnerError(RuntimeError):
     """Custom runner error."""
+
+
+def _force_remove_dir(
+    target: pathlib.Path,
+    log_handle: Any | None = None,
+    max_retries: int = 4,
+    retry_delay: float = 1.0,
+) -> None:
+    """Remove a directory tree, retrying past transient Windows cleanup errors."""
+    if not target.exists():
+        return
+
+    attempt_limit = max(1, max_retries)
+
+    def _on_rmtree_error(func: Any, path: str, exc_info: Any) -> None:
+        try:
+            if os.path.exists(path):
+                os.chmod(path, os.stat(path).st_mode | stat.S_IWRITE)
+            func(path)
+        except Exception as inner_exc:  # noqa: BLE001
+            original_exc = exc_info[1]
+            if isinstance(original_exc, BaseException):
+                raise original_exc from inner_exc
+            raise inner_exc
+
+    last_exc: OSError | None = None
+    for attempt in range(1, attempt_limit + 1):
+        try:
+            shutil.rmtree(target, onerror=_on_rmtree_error)
+            return
+        except FileNotFoundError:
+            return
+        except OSError as exc:
+            last_exc = exc
+            if log_handle is not None:
+                log_handle.write(
+                    "[cleanup] failed to remove stale worktree "
+                    f"{target} (attempt {attempt}/{attempt_limit}): {exc}\n"
+                )
+            if attempt < attempt_limit:
+                time.sleep(retry_delay)
+
+    assert last_exc is not None
+    raise RunnerError(
+        "Failed to remove stale worktree directory "
+        f"{target}: {last_exc}. Manual cleanup required: remove '{target}'."
+    ) from last_exc
 
 
 class ParallelCodexRunner:
@@ -668,7 +717,7 @@ class ParallelCodexRunner:
                 check=False,
             )
             if worktree_dir.exists():
-                shutil.rmtree(worktree_dir, ignore_errors=True)
+                _force_remove_dir(worktree_dir, log_handle=log_handle)
 
         start_ref = self._resolve_start_ref(agent)
         add_cmd = [
