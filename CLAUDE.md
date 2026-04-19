@@ -3,6 +3,14 @@
 Data-gathering repo that profiles LLM characteristics from observed workflows.
 Goal: build structured routing knowledge that will eventually automate message dispatch.
 
+## Wiki Knowledge Base
+
+Path: `C:/Users/rober/Downloads/Projects/obsidian-wiki`. This project is heavily covered — design docs, roadmap, routing observations, fan-out patterns all live there.
+
+**Always read `wiki/hot.md` first** (≤800 words, includes a routing table). If user mentions any of: animations/upload-animations, Agent Hub v1/v2/v4, Blooket CDP, Lesson Prep / Catch-Up, Cross-Agent, DeepSeek validation, Disable Game Modes, routing observations, or fan-out review — the relevant wiki page is named in the `hot.md` routing table. Drill into `wiki/index.md` only if the routing table misses.
+
+Do NOT read the wiki for general coding questions or things already in this repo's files.
+
 ## Phase: Data Gathering + Persistent Context
 
 User narrates their multi-LLM workflow. We capture:

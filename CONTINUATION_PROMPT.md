@@ -4,6 +4,16 @@ Paste this into a new Claude Code session in the `Agent` directory.
 
 ---
 
+## Wiki Context (read first)
+
+This repo is covered in depth by the wiki at `C:/Users/rober/Downloads/Projects/obsidian-wiki`. Before answering anything about Agent Hub, animation uploads, Blooket, Lesson Prep / Catch-Up, Cross-Agent, DeepSeek validation, Disable Game Modes, routing observations, or fan-out patterns:
+
+1. Read `wiki/hot.md` (≤800 words, topic → page routing table at top).
+2. If the routing table misses, fall back to `wiki/index.md`.
+3. Do NOT read the wiki for general coding questions or things already in this repo.
+
+---
+
 ## What to do NOW
 
 Two tracks of work are ready:
