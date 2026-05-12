@@ -1993,5 +1993,1643 @@
       "created": "2026-03-26T11:57:33.405Z",
       "lastUpdated": "2026-03-26T15:38:12.922Z"
     }
+  },
+  "3.6": {
+    "unit": 3,
+    "lesson": 6,
+    "topic": null,
+    "date": "2026-01-16",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson6-7_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.469Z",
+      "lastUpdated": "2026-05-12T23:45:57.469Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-16",
+      "E": null
+    }
+  },
+  "3.7": {
+    "unit": 3,
+    "lesson": 7,
+    "topic": null,
+    "date": "2026-01-21",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson6-7_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.471Z",
+      "lastUpdated": "2026-05-12T23:45:57.471Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-21",
+      "E": null
+    }
+  },
+  "4.1": {
+    "unit": 4,
+    "lesson": 1,
+    "topic": null,
+    "date": "2026-01-23",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson1-2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.473Z",
+      "lastUpdated": "2026-05-12T23:45:57.473Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-23",
+      "E": null
+    }
+  },
+  "4.2": {
+    "unit": 4,
+    "lesson": 2,
+    "topic": null,
+    "date": "2026-01-23",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson1-2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.475Z",
+      "lastUpdated": "2026-05-12T23:45:57.475Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-23",
+      "E": null
+    }
+  },
+  "4.3": {
+    "unit": 4,
+    "lesson": 3,
+    "topic": null,
+    "date": "2026-01-26",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3-4-5_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.476Z",
+      "lastUpdated": "2026-05-12T23:45:57.476Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-26",
+      "E": null
+    }
+  },
+  "4.4": {
+    "unit": 4,
+    "lesson": 4,
+    "topic": null,
+    "date": "2026-01-26",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3-4-5_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.478Z",
+      "lastUpdated": "2026-05-12T23:45:57.478Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-26",
+      "E": null
+    }
+  },
+  "4.5": {
+    "unit": 4,
+    "lesson": 5,
+    "topic": null,
+    "date": "2026-01-28",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3-4-5_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.479Z",
+      "lastUpdated": "2026-05-12T23:45:57.479Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-28",
+      "E": null
+    }
+  },
+  "4.6": {
+    "unit": 4,
+    "lesson": 6,
+    "topic": null,
+    "date": "2026-01-28",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson6_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.480Z",
+      "lastUpdated": "2026-05-12T23:45:57.480Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-28",
+      "E": null
+    }
+  },
+  "4.7": {
+    "unit": 4,
+    "lesson": 7,
+    "topic": null,
+    "date": "2026-01-30",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson7-8_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.481Z",
+      "lastUpdated": "2026-05-12T23:45:57.481Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-30",
+      "E": null
+    }
+  },
+  "4.8": {
+    "unit": 4,
+    "lesson": 8,
+    "topic": null,
+    "date": "2026-01-30",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson7-8_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.483Z",
+      "lastUpdated": "2026-05-12T23:45:57.483Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-01-30",
+      "E": null
+    }
+  },
+  "4.9": {
+    "unit": 4,
+    "lesson": 9,
+    "topic": null,
+    "date": "2026-02-02",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson9_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.484Z",
+      "lastUpdated": "2026-05-12T23:45:57.484Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-02",
+      "E": null
+    }
+  },
+  "4.10": {
+    "unit": 4,
+    "lesson": 10,
+    "topic": null,
+    "date": "2026-02-04",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson10-12_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.486Z",
+      "lastUpdated": "2026-05-12T23:45:57.486Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-04",
+      "E": null
+    }
+  },
+  "4.11": {
+    "unit": 4,
+    "lesson": 11,
+    "topic": null,
+    "date": "2026-02-06",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson10-12_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.487Z",
+      "lastUpdated": "2026-05-12T23:45:57.487Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-06",
+      "E": null
+    }
+  },
+  "4.12": {
+    "unit": 4,
+    "lesson": 12,
+    "topic": null,
+    "date": "2026-02-09",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson10-12_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.488Z",
+      "lastUpdated": "2026-05-12T23:45:57.488Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-09",
+      "E": null
+    }
+  },
+  "5.1": {
+    "unit": 5,
+    "lesson": 1,
+    "topic": null,
+    "date": "2026-02-11",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson1-2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.490Z",
+      "lastUpdated": "2026-05-12T23:45:57.490Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-11",
+      "E": null
+    }
+  },
+  "5.2": {
+    "unit": 5,
+    "lesson": 2,
+    "topic": null,
+    "date": "2026-02-11",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson1-2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.491Z",
+      "lastUpdated": "2026-05-12T23:45:57.491Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-11",
+      "E": null
+    }
+  },
+  "5.3": {
+    "unit": 5,
+    "lesson": 3,
+    "topic": null,
+    "date": "2026-02-13",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson3_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.493Z",
+      "lastUpdated": "2026-05-12T23:45:57.493Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-13",
+      "E": null
+    }
+  },
+  "5.4": {
+    "unit": 5,
+    "lesson": 4,
+    "topic": null,
+    "date": "2026-02-18",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson4_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.494Z",
+      "lastUpdated": "2026-05-12T23:45:57.494Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-18",
+      "E": null
+    }
+  },
+  "5.5": {
+    "unit": 5,
+    "lesson": 5,
+    "topic": null,
+    "date": "2026-02-20",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson5_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.495Z",
+      "lastUpdated": "2026-05-12T23:45:57.495Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-20",
+      "E": null
+    }
+  },
+  "5.6": {
+    "unit": 5,
+    "lesson": 6,
+    "topic": null,
+    "date": "2026-02-23",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson6_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.497Z",
+      "lastUpdated": "2026-05-12T23:45:57.497Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-23",
+      "E": null
+    }
+  },
+  "5.7": {
+    "unit": 5,
+    "lesson": 7,
+    "topic": null,
+    "date": "2026-02-25",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson7_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.498Z",
+      "lastUpdated": "2026-05-12T23:45:57.498Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-25",
+      "E": null
+    }
+  },
+  "5.8": {
+    "unit": 5,
+    "lesson": 8,
+    "topic": null,
+    "date": "2026-02-27",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson8_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.500Z",
+      "lastUpdated": "2026-05-12T23:45:57.500Z"
+    },
+    "dateSource": "override",
+    "pacing": {
+      "B": "2026-02-27",
+      "E": null
+    }
+  },
+  "6.1": {
+    "unit": 6,
+    "lesson": 1,
+    "topic": null,
+    "date": "2026-03-02",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.501Z",
+      "lastUpdated": "2026-05-12T23:45:57.501Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-02",
+      "E": "2026-03-06"
+    }
+  },
+  "6.2": {
+    "unit": 6,
+    "lesson": 2,
+    "topic": null,
+    "date": "2026-03-02",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "pending",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.503Z",
+      "lastUpdated": "2026-05-12T23:45:57.503Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-02",
+      "E": "2026-03-06"
+    }
+  },
+  "6.3": {
+    "unit": 6,
+    "lesson": 3,
+    "topic": null,
+    "date": "2026-03-03",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson3_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.504Z",
+      "lastUpdated": "2026-05-12T23:45:57.504Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-03",
+      "E": "2026-03-09"
+    }
+  },
+  "6.4": {
+    "unit": 6,
+    "lesson": 4,
+    "topic": null,
+    "date": "2026-03-05",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson4_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.505Z",
+      "lastUpdated": "2026-05-12T23:45:57.505Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-05",
+      "E": "2026-03-11"
+    }
+  },
+  "6.5": {
+    "unit": 6,
+    "lesson": 5,
+    "topic": null,
+    "date": "2026-03-06",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson5_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.507Z",
+      "lastUpdated": "2026-05-12T23:45:57.507Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-06",
+      "E": "2026-03-11"
+    }
+  },
+  "6.6": {
+    "unit": 6,
+    "lesson": 6,
+    "topic": null,
+    "date": "2026-03-09",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson6_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.508Z",
+      "lastUpdated": "2026-05-12T23:45:57.508Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-09",
+      "E": "2026-03-13"
+    }
+  },
+  "6.7": {
+    "unit": 6,
+    "lesson": 7,
+    "topic": null,
+    "date": "2026-03-10",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson7_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.510Z",
+      "lastUpdated": "2026-05-12T23:45:57.510Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-10",
+      "E": "2026-03-16"
+    }
+  },
+  "6.8": {
+    "unit": 6,
+    "lesson": 8,
+    "topic": null,
+    "date": "2026-03-12",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson8_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.511Z",
+      "lastUpdated": "2026-05-12T23:45:57.511Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-12",
+      "E": "2026-03-18"
+    }
+  },
+  "6.9": {
+    "unit": 6,
+    "lesson": 9,
+    "topic": null,
+    "date": "2026-03-13",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson9_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.512Z",
+      "lastUpdated": "2026-05-12T23:45:57.512Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-13",
+      "E": "2026-03-18"
+    }
+  },
+  "6.10": {
+    "unit": 6,
+    "lesson": 10,
+    "topic": null,
+    "date": "2026-03-16",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson10_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.514Z",
+      "lastUpdated": "2026-05-12T23:45:57.514Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-16",
+      "E": "2026-03-20"
+    }
+  },
+  "6.11": {
+    "unit": 6,
+    "lesson": 11,
+    "topic": null,
+    "date": "2026-03-17",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson11_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.515Z",
+      "lastUpdated": "2026-05-12T23:45:57.515Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-17",
+      "E": "2026-03-23"
+    }
+  },
+  "7.1": {
+    "unit": 7,
+    "lesson": 1,
+    "topic": null,
+    "date": "2026-03-19",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson1_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.517Z",
+      "lastUpdated": "2026-05-12T23:45:57.517Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-19",
+      "E": "2026-03-25"
+    }
+  },
+  "7.2": {
+    "unit": 7,
+    "lesson": 2,
+    "topic": null,
+    "date": "2026-03-20",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson2_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.519Z",
+      "lastUpdated": "2026-05-12T23:45:57.519Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-20",
+      "E": "2026-03-25"
+    }
+  },
+  "7.3": {
+    "unit": 7,
+    "lesson": 3,
+    "topic": null,
+    "date": "2026-03-23",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson3_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.520Z",
+      "lastUpdated": "2026-05-12T23:45:57.520Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-23",
+      "E": "2026-03-27"
+    }
+  },
+  "7.4": {
+    "unit": 7,
+    "lesson": 4,
+    "topic": null,
+    "date": "2026-03-24",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson4_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.522Z",
+      "lastUpdated": "2026-05-12T23:45:57.522Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-24",
+      "E": "2026-03-30"
+    }
+  },
+  "7.5": {
+    "unit": 7,
+    "lesson": 5,
+    "topic": null,
+    "date": "2026-03-26",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson5_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.524Z",
+      "lastUpdated": "2026-05-12T23:45:57.524Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-26",
+      "E": "2026-04-01"
+    }
+  },
+  "7.6": {
+    "unit": 7,
+    "lesson": 6,
+    "topic": null,
+    "date": "2026-03-27",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson6_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.527Z",
+      "lastUpdated": "2026-05-12T23:45:57.527Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-27",
+      "E": "2026-04-01"
+    }
+  },
+  "7.7": {
+    "unit": 7,
+    "lesson": 7,
+    "topic": null,
+    "date": "2026-03-30",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson7_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.529Z",
+      "lastUpdated": "2026-05-12T23:45:57.529Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-30",
+      "E": "2026-04-06"
+    }
+  },
+  "7.8": {
+    "unit": 7,
+    "lesson": 8,
+    "topic": null,
+    "date": "2026-03-31",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson8_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.532Z",
+      "lastUpdated": "2026-05-12T23:45:57.532Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-03-31",
+      "E": "2026-04-08"
+    }
+  },
+  "7.9": {
+    "unit": 7,
+    "lesson": 9,
+    "topic": null,
+    "date": "2026-04-02",
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson9_live.html",
+      "drills": null,
+      "quiz": null,
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "pending",
+      "blooketCsv": "done",
+      "blooketUpload": "pending",
+      "animations": "pending",
+      "animationUpload": "pending",
+      "schoology": "pending",
+      "schoologyVerified": "pending",
+      "urlsGenerated": "pending",
+      "registryExported": "pending",
+      "committed": "pending"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-12T23:45:57.534Z",
+      "lastUpdated": "2026-05-12T23:45:57.534Z"
+    },
+    "dateSource": "schedule-B",
+    "pacing": {
+      "B": "2026-04-02",
+      "E": "2026-04-08"
+    }
   }
 }

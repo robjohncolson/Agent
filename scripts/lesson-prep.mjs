@@ -64,6 +64,7 @@ import {
 import { runPipeline } from "./lib/task-runner.mjs";
 import { resolveFolderPath, determineSchoolWeek as sharedDetermineSchoolWeek } from './lib/resolve-folder-path.mjs';
 import { loadVideoLinks } from './lib/load-video-links.mjs';
+import { upsertLessonUrls } from './lib/supabase-schedule.mjs';
 
 
 
@@ -2135,6 +2136,39 @@ async function main() {
     console.log("Registry sidecar exported successfully.\n");
   } catch (e) {
     console.warn("Registry sidecar export failed (non-fatal):", e.message, "\n");
+  }
+
+  // Step 7.6: Re-bake roadmap snapshot (offline fallback for the calendar).
+  // Without this, BAKED_REGISTRY in ap_stats_roadmap_square_mode.html drifts
+  // until someone manually rebuilds it from pipeline-commander.
+  try {
+    const buildScript = path.join(AGENT_ROOT, "scripts", "build-roadmap-data.mjs");
+    execSync(`node "${buildScript}"`, { stdio: "inherit" });
+    console.log("Roadmap snapshot re-baked.\n");
+  } catch (e) {
+    console.warn("Roadmap re-bake failed (non-fatal):", e.message, "\n");
+  }
+
+  // Step 7.7: Upsert URLs to Supabase lesson_urls table. The calendar fetches
+  // this at runtime and merges over BAKED_REGISTRY, so this is what makes the
+  // new lesson visible to students before the next deploy.
+  try {
+    const entry = getLesson(unit, lesson);
+    const urls = entry?.urls;
+    if (urls) {
+      const result = await upsertLessonUrls(`${unit}.${lesson}`, {
+        worksheetUrl: urls.worksheet ?? undefined,
+        drillsUrl:    urls.drills    ?? undefined,
+        quizUrl:      urls.quiz      ?? undefined,
+        blooketUrl:   urls.blooket   ?? undefined,
+      });
+      if (result.ok) console.log(`Supabase lesson_urls upserted for ${unit}.${lesson}.\n`);
+      else            console.warn(`Supabase lesson_urls upsert returned error (non-fatal): ${result.error}\n`);
+    } else {
+      console.warn(`No urls in registry for ${unit}.${lesson} — skipping Supabase upsert.\n`);
+    }
+  } catch (e) {
+    console.warn("Supabase lesson_urls upsert threw (non-fatal):", e.message, "\n");
   }
 
   // Step 8: Commit and push downstream repos
