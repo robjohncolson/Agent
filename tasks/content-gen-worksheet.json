@@ -19,5 +19,5 @@
   "on_failure": {
     "strategy": "fail"
   },
-  "timeout_minutes": 20
+  "timeout_minutes": 35
 }

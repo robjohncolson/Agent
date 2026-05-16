@@ -3971,5 +3971,39 @@
       "created": "2026-05-16T07:00:02.303Z",
       "lastUpdated": "2026-05-16T19:48:17.034Z"
     }
+  },
+  "2.2": {
+    "unit": 2,
+    "lesson": 2,
+    "topic": "Topic 2.2",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson2_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=1",
+      "blooket": "https://dashboard.blooket.com/set/6a08db6793e4e9542dfc8989",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-16T20:27:01.677Z",
+      "lastUpdated": "2026-05-16T21:04:01.966Z"
+    }
   }
 }
