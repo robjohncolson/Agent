@@ -82,6 +82,8 @@ function parseArgs(argv) {
   let skipUpload = false;
   let skipBlooket = false;
   let skipSchoology = false;
+  let skipDrills = false;
+  let skipCommit = false;
   let targetDate = null;
   let noFolder = false;
   let force = false;
@@ -112,6 +114,10 @@ function parseArgs(argv) {
       skipBlooket = true;
     } else if (arg === "--skip-schoology") {
       skipSchoology = true;
+    } else if (arg === "--skip-drills") {
+      skipDrills = true;
+    } else if (arg === "--skip-commit") {
+      skipCommit = true;
     } else if ((arg === "--unit" || arg === "-u") && args[i + 1]) {
       unit = parseInt(args[++i], 10);
     } else if ((arg === "--lesson" || arg === "-l") && args[i + 1]) {
@@ -153,7 +159,9 @@ function parseArgs(argv) {
         "  --skip-render       Skip Step 3 (Manim rendering)\n" +
         "  --skip-upload       Skip Step 4 (Supabase animation upload)\n" +
         "  --skip-blooket      Skip Step 5 (Blooket upload)\n" +
-        "  --skip-schoology    Skip Step 6 (Schoology posting)\n" +
+        "  --skip-schoology    Skip Step 6 (Schoology posting + verify)\n" +
+        "  --skip-drills       Skip drills cartridge + animation render/upload\n" +
+        "  --skip-commit       Skip Step 8 (git commit + push downstream repos)\n" +
         "  --date YYYY-MM-DD   Target date for calendar lookup and folder creation\n" +
         "  --no-folder         Skip Schoology folder creation (post links at top level)\n" +
         "  --force             Re-run all steps even if registry shows them as done\n" +
@@ -166,7 +174,7 @@ function parseArgs(argv) {
     process.exit(1);
   }
 
-  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, targetDate, noFolder, force, forceSteps, strictLlm, skipLlm, useTaskRunner };
+  return { unit, lesson, driveIds, auto, autoPush, skipIngest, skipRender, skipUpload, skipBlooket, skipSchoology, skipDrills, skipCommit, targetDate, noFolder, force, forceSteps, strictLlm, skipLlm, useTaskRunner };
 }
 
 // ── Resume helpers ───────────────────────────────────────────────────────────
@@ -1354,8 +1362,13 @@ function step7_lessonUrls(unit, lesson) {
 
 // ── Step 8: Commit and push downstream repos ─────────────────────────────────
 
-function commitAndPushRepos(unit, lesson, autoPush) {
+function commitAndPushRepos(unit, lesson, autoPush, skipCommit) {
   console.log("=== Step 8: Commit and push downstream repos ===\n");
+
+  if (skipCommit) {
+    console.log("  --skip-commit set: leaving downstream repos untouched (no git add/commit/push).");
+    return [{ name: "all", action: "skipped-by-flag" }];
+  }
 
   const repos = DOWNSTREAM_REPOS;
 
@@ -1529,6 +1542,8 @@ function step9_summary(unit, lesson, results) {
         skipped.push(`Step 8: ${rc.name} — no matching files to stage`);
       } else if (rc.action === "error") {
         failed.push(`Step 8: ${rc.name} — ${rc.error}`);
+      } else if (rc.action === "skipped-by-flag") {
+        skipped.push("Step 8: skipped (--skip-commit)");
       }
     }
   }
@@ -1736,7 +1751,9 @@ async function main() {
     if (opts.skipRender)    skipSteps.add('render-animations');
     if (opts.skipUpload)    skipSteps.add('upload-animations');
     if (opts.skipBlooket)   skipSteps.add('upload-blooket');
-    if (opts.skipSchoology) skipSteps.add('schoology-post');
+    if (opts.skipSchoology) { skipSteps.add('schoology-post'); skipSteps.add('verify-schoology'); }
+    if (opts.skipDrills)    { skipSteps.add('content-gen-drills'); skipSteps.add('render-animations'); skipSteps.add('upload-animations'); }
+    if (opts.skipCommit)    skipSteps.add('commit-push');
 
     const { results: taskResults, success } = await runPipeline(pipelinePath, { unit, lesson }, {
       force: opts.force,
@@ -2174,7 +2191,7 @@ async function main() {
   // Step 8: Commit and push downstream repos
   const step8Start = Date.now();
   pipelineEvents.stepStarted('lesson-prep', 'commit-push');
-  results.repoCommits = commitAndPushRepos(unit, lesson, opts.autoPush);
+  results.repoCommits = commitAndPushRepos(unit, lesson, opts.autoPush, opts.skipCommit);
   pipelineEvents.stepCompleted('lesson-prep', 'commit-push', Date.now() - step8Start);
 
   // Step 9: Print summary

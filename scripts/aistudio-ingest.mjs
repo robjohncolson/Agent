@@ -159,7 +159,10 @@ async function waitForResponse(page, turnCountBefore = 0) {
   const startTime = Date.now();
 
   while (Date.now() < turnDeadline) {
-    // Check if model is still generating (Stop button visible)
+    // Check if model is still generating (Stop button visible). Also pull the
+    // last turn's TEXT (truncated) so we can short-circuit on transient error
+    // toasts like "An internal error has occurred. (500)" instead of polling
+    // until the 5-minute deadline.
     const status = await page.evaluate((prevCount) => {
       const btn = document.querySelector("button.ctrl-enter-submits");
       const isGenerating = btn && btn.innerText.includes("Stop");
@@ -167,14 +170,16 @@ async function waitForResponse(page, turnCountBefore = 0) {
       const turns = document.querySelectorAll("ms-chat-turn, .chat-turn");
       const totalTurns = turns.length;
 
-      // Get the LAST turn's length (the most recent response)
       let lastTurnLen = 0;
+      let lastTurnText = "";
       if (turns.length > 0) {
-        lastTurnLen = turns[turns.length - 1].innerText.length;
+        const last = turns[turns.length - 1];
+        lastTurnLen = last.innerText.length;
+        lastTurnText = last.innerText.slice(0, 400);
       }
 
-      return { isGenerating, lastTurnLen, totalTurns };
-    }, turnCountBefore).catch(() => ({ isGenerating: false, lastTurnLen: 0, totalTurns: 0 }));
+      return { isGenerating, lastTurnLen, lastTurnText, totalTurns };
+    }, turnCountBefore).catch(() => ({ isGenerating: false, lastTurnLen: 0, lastTurnText: "", totalTurns: 0 }));
 
     const elapsed = Math.round((Date.now() - startTime) / 1000);
 
@@ -183,6 +188,24 @@ async function waitForResponse(page, turnCountBefore = 0) {
     if (!status.isGenerating && status.lastTurnLen > 500 && status.totalTurns > turnCountBefore) {
       process.stdout.write("\n");
       console.log(`    Model response complete. (${status.lastTurnLen} chars, ${elapsed}s)`);
+      responseReady = true;
+      break;
+    }
+
+    // Short-response error short-circuit: a NEW turn appeared, generation has
+    // stopped, the response is small, and the text matches either a known
+    // transient failure (500, rate limit) OR a "no video attached" failure.
+    // Return whatever text we have so the caller's retry/intervention loop
+    // can act on it instead of polling until the 5-minute deadline.
+    if (
+      !status.isGenerating &&
+      status.totalTurns > turnCountBefore &&
+      status.lastTurnLen > 0 &&
+      status.lastTurnLen < 500 &&
+      (isRateLimited(status.lastTurnText) || isMissingAttachmentError(status.lastTurnText))
+    ) {
+      process.stdout.write("\n");
+      console.log(`    Detected transient error response (${status.lastTurnLen} chars): ${status.lastTurnText.replace(/\s+/g, " ").slice(0, 120)}`);
       responseReady = true;
       break;
     }
@@ -406,8 +429,10 @@ async function waitForMediaReady(page) {
 
     const elapsed = Math.round((Date.now() - startTime) / 1000);
 
-    // Require at least 10 seconds of wait — video processing takes time
-    if (!status.hasSpinner && status.runBtnEnabled && elapsed >= 10) {
+    // Require at least 25 seconds of wait — Gemini's "ready" signal flips
+    // before the file is server-side processed, leading to 500s on the first
+    // prompt. The 10s minimum we used to ship was too aggressive.
+    if (!status.hasSpinner && status.runBtnEnabled && elapsed >= 25) {
       console.log(`    Video ready! (${elapsed}s)`);
       return;
     }
@@ -452,211 +477,89 @@ function getFilenameForDriveId(driveId) {
  */
 async function attachDriveFile(page, driveId) {
   console.log(`    Attaching Drive file: ${driveId}`);
-  const filename = getFilenameForDriveId(driveId);
-  if (filename) console.log(`    Filename: ${filename}`);
 
-  // Step 1: Click paperclip / attach button
-  const attachSelectors = [
-    'button[aria-label*="Insert images"]',
-    'button[aria-label*="Add"]',
-    'button[aria-label*="file"]',
-    'button[aria-label*="Upload"]',
-    'button[aria-label*="Attach"]',
-    'button[aria-label*="Insert"]',
-    'button[aria-label*="media"]',
-  ];
+  // The Google Picker search box accepts a pasted Drive URL. Resolving by URL
+  // is unambiguous — it sidesteps filename guessing, "Copy of" prefixes, and
+  // duplicate names owned by other people. (The old filename-search path never
+  // produced the picker's "1 selected" state, so its Insert click was a no-op
+  // and Gemini never received the video.)
+  const fileUrl = `https://drive.google.com/file/d/${driveId}/view`;
 
-  let clicked = false;
-  for (const sel of attachSelectors) {
-    try {
-      const btn = await page.$(sel);
-      if (btn) {
-        await btn.click();
-        console.log(`    Clicked attach button.`);
-        clicked = true;
-        await page.waitForTimeout(1500);
-        break;
-      }
-    } catch { /* try next */ }
+  // Step 1: open the attach menu
+  const addBtn = await page.$(
+    'button[aria-label*="Insert images" i], button[aria-label*="Insert" i], ' +
+    'button[aria-label*="Add" i], button[aria-label*="media" i]'
+  );
+  if (!addBtn) throw new Error("Could not find the attach/insert button in AI Studio.");
+  await addBtn.click();
+  await page.waitForTimeout(1500);
+
+  // Step 2: click the "Google Drive" menu option
+  const driveItem = await page.$(
+    'button:has-text("Drive"), [role="menuitem"]:has-text("Drive"), mat-option:has-text("Drive")'
+  );
+  if (!driveItem) throw new Error("Could not find the Google Drive option in the attach menu.");
+  await driveItem.click();
+  await page.waitForTimeout(6000);
+
+  // Step 3: locate the cross-origin Google Picker iframe
+  let picker = null;
+  for (let i = 0; i < 10 && !picker; i++) {
+    picker = page.frames().find((f) => f.url().includes("docs.google.com/picker"));
+    if (!picker) await page.waitForTimeout(1000);
   }
+  if (!picker) throw new Error("Google Drive picker iframe did not appear.");
 
-  if (!clicked) {
-    const allButtons = await page.$$("button");
-    for (const btn of allButtons) {
-      try {
-        const label = (await btn.getAttribute("aria-label") || "").toLowerCase();
-        const tooltip = (await btn.getAttribute("mattooltip") || "").toLowerCase();
-        if (label.includes("insert") || label.includes("media") || label.includes("add") ||
-            tooltip.includes("file") || tooltip.includes("media")) {
-          await btn.click();
-          console.log(`    Clicked attach button (broad match).`);
-          clicked = true;
-          await page.waitForTimeout(1500);
-          break;
-        }
-      } catch { /* continue */ }
+  // Step 4: paste the Drive file URL into the picker search box
+  const search = await picker.waitForSelector('input[type="text"], input[type="search"]', { timeout: 15000 });
+  await search.click();
+  await search.fill(fileUrl);
+  await page.waitForTimeout(800);
+  await search.press("Enter");
+  await page.waitForTimeout(5000);
+
+  // Step 5: click the resolved row so the picker registers a selection
+  // (this is the step the old code skipped — without it there is no
+  // "1 selected" state and the Insert button does nothing)
+  const row = await picker.waitForSelector(
+    '[role="row"], .picker-dataview-row, div[data-id]', { timeout: 15000 }
+  );
+  await row.click();
+  await page.waitForTimeout(1500);
+
+  // Step 6: commit via the Insert/Select button
+  let inserted = false;
+  for (const label of ["Insert", "Select", "Add", "Choose", "Done"]) {
+    const b = await picker.$(`button:has-text("${label}")`);
+    if (b && (await b.isVisible().catch(() => false))) {
+      await b.click();
+      console.log(`    Picker: clicked "${label}".`);
+      inserted = true;
+      break;
     }
   }
-
-  // Step 2: Click "Google Drive" option
-  if (clicked) {
-    const menuItems = await page.$$("button, a, li, div[role='menuitem'], mat-option, span[role='menuitem']");
-    for (const item of menuItems) {
-      try {
-        const text = (await item.innerText() || "").toLowerCase();
-        if (text.includes("drive") && text.length < 30) {
-          await item.click();
-          console.log(`    Clicked "Google Drive" option.`);
-          await page.waitForTimeout(3000);
-          break;
-        }
-      } catch { /* continue */ }
-    }
+  if (!inserted) {
+    await row.dblclick();
+    console.log("    Picker: fallback double-click on row.");
   }
 
-  // Step 3: Find and interact with the Drive picker iframe
-  let pickerAutomated = false;
-  // Use the full filename for exact matching — stripping only "Copy of" prefix
-  // Keep the .mp4 extension to make the search more specific and avoid fuzzy mismatches
-  const searchName = filename ? filename.replace(/^Copy of (Copy of )?/i, "") : null;
-
-  if (searchName) {
-    console.log(`    Searching picker for: "${searchName}"`);
-
-    // Wait for picker iframe to appear
-    await page.waitForTimeout(2000);
-
-    // Try accessing picker frames
-    const frames = page.frames();
-    for (const frame of frames) {
-      const url = frame.url();
-      if (!url.includes("picker") && !url.includes("drive")) continue;
-
-      try {
-        // Look for search input in the picker
-        const searchInput = await frame.$('input[type="text"], input[aria-label*="Search"], input[placeholder*="Search"]');
-        if (searchInput) {
-          console.log(`    Found picker search box.`);
-          await searchInput.click();
-          await searchInput.fill(searchName);
-          await frame.waitForTimeout(2000);
-
-          // Press Enter to search
-          await searchInput.press("Enter");
-          await frame.waitForTimeout(3000);
-
-          // Click the first result
-          const resultSelectors = [
-            'div[data-id]',
-            'tr[data-id]',
-            '.picker-item',
-            '.a-s-zd-qa',
-            '[role="option"]',
-            '[role="gridcell"]',
-          ];
-
-          for (const sel of resultSelectors) {
-            const results = await frame.$$(sel);
-            if (results.length > 0) {
-              // Verify the first result matches our expected filename
-              let bestResult = results[0];
-              const expectedBase = searchName.replace(/\.mp4$/i, "");
-
-              for (const r of results) {
-                const rText = (await r.innerText().catch(() => "")).toLowerCase();
-                if (rText.includes(expectedBase.toLowerCase())) {
-                  bestResult = r;
-                  console.log(`    Verified match: "${rText.substring(0, 60)}"`);
-                  break;
-                }
-              }
-
-              await bestResult.click();
-              console.log(`    Selected file in picker.`);
-              await frame.waitForTimeout(1000);
-
-              // Double-click or click Select/Insert button
-              const selectBtns = await frame.$$('button');
-              for (const btn of selectBtns) {
-                const text = (await btn.innerText().catch(() => "")).toLowerCase();
-                if (text.includes("select") || text.includes("insert") || text.includes("open")) {
-                  await btn.click();
-                  console.log(`    Confirmed selection.`);
-                  pickerAutomated = true;
-                  break;
-                }
-              }
-
-              if (!pickerAutomated) {
-                // Try double-click on the result
-                await bestResult.dblclick();
-                console.log(`    Double-clicked to select.`);
-                pickerAutomated = true;
-              }
-              break;
-            }
-          }
-          break;
-        }
-      } catch (e) {
-        console.log(`    Picker frame interaction failed: ${e.message}`);
-      }
+  // Step 7: wait for the picker to close AND the attachment chip to appear
+  await page.waitForTimeout(4000);
+  const startTime = Date.now();
+  while (Date.now() - startTime < 30000) {
+    const stillOpen = page.frames().some((f) => f.url().includes("docs.google.com/picker"));
+    const hasChip = await page.evaluate(() => {
+      const t = document.body.innerText.toLowerCase();
+      return t.includes(".mp4") || t.includes("processing") || t.includes("uploading");
+    }).catch(() => false);
+    if (!stillOpen && hasChip) {
+      console.log("    File attached.");
+      await page.waitForTimeout(2000);
+      return true;
     }
-
-    // If frame access didn't work, try keyboard navigation
-    if (!pickerAutomated) {
-      console.log(`    Trying keyboard navigation in picker...`);
-      try {
-        // Type in search — the picker might have focus
-        await page.keyboard.type(searchName, { delay: 50 });
-        await page.waitForTimeout(2000);
-        await page.keyboard.press("Enter");
-        await page.waitForTimeout(3000);
-        // Try Enter again to select the first result
-        await page.keyboard.press("Enter");
-        await page.waitForTimeout(2000);
-        pickerAutomated = true;
-        console.log(`    Submitted via keyboard.`);
-      } catch (e) {
-        console.log(`    Keyboard navigation failed: ${e.message}`);
-      }
-    }
+    await page.waitForTimeout(1500);
   }
-
-  // Step 4: Wait for attachment to appear
-  if (pickerAutomated || clicked) {
-    console.log(`    Waiting for attachment to appear...`);
-    const maxWait = 30000;
-    const startTime = Date.now();
-
-    while (Date.now() - startTime < maxWait) {
-      await page.waitForTimeout(1500);
-
-      const hasFile = await page.evaluate(() => {
-        const body = document.body.innerText.toLowerCase();
-        return body.includes(".mp4") || body.includes("tokens") ||
-               body.includes("video") || body.includes("processing") ||
-               body.includes("uploading");
-      }).catch(() => false);
-
-      if (hasFile) {
-        console.log(`    File attached!`);
-        await page.waitForTimeout(2000);
-        return true;
-      }
-    }
-  }
-
-  // Fallback: manual
-  if (!pickerAutomated) {
-    console.log("");
-    console.log(`    >> Pick the video in the Drive picker.`);
-    if (filename) console.log(`    >> Look for: "${filename}"`);
-    console.log(`    >> Press Enter when attached.`);
-    await waitForUserInput();
-  }
-
-  await page.waitForTimeout(3000);
+  console.log("    WARNING: could not confirm attachment chip; continuing anyway.");
   return true;
 }
 
@@ -769,10 +672,19 @@ async function attachLocalFile(page, filePath) {
 }
 
 /**
- * Wait for user to press Enter in the terminal.
+ * Wait for user to press Enter in the terminal. When invoked from a
+ * non-interactive parent (e.g. lesson-prep.mjs spawning us via execSync, or
+ * a CI/background runner) stdin is not a TTY — blocking on it would deadlock
+ * the parent. In that case we log a warning and resolve immediately, letting
+ * the surrounding error-detection / retry logic do its job instead of hanging.
  */
 function waitForUserInput() {
   return new Promise((resolve) => {
+    if (!process.stdin.isTTY) {
+      console.log("    (non-interactive — skipping prompt and continuing)");
+      resolve();
+      return;
+    }
     process.stdin.setRawMode?.(false);
     process.stdout.write("    Press Enter to continue...");
     process.stdin.once("data", () => {
@@ -783,13 +695,45 @@ function waitForUserInput() {
 }
 
 /**
+ * Dismiss any modal dialog or banner that may be blocking interaction.
+ * AI Studio injects new prompts (terms updates, model-switch confirmations,
+ * "what's new" toasts) on a rolling basis — running this defensively after
+ * navigation AND after attachment keeps the flow unblocked even when the UI
+ * surfaces something we've never seen before.
+ */
+async function dismissDialogs(page) {
+  const dismissSelectors = [
+    'button:has-text("Got it")',
+    'button:has-text("Dismiss")',
+    'button:has-text("Close")',
+    'button:has-text("Accept")',
+    'button:has-text("OK")',
+    'button:has-text("Continue")',
+    'button:has-text("No thanks")',
+    'button[aria-label="Close"]',
+    'button[aria-label="Dismiss"]',
+    'mat-dialog-container button.mat-primary',
+  ];
+  for (const sel of dismissSelectors) {
+    try {
+      const btn = await page.$(sel);
+      if (btn && await btn.isVisible()) {
+        await btn.click().catch(() => {});
+        await page.waitForTimeout(400);
+      }
+    } catch { /* continue */ }
+  }
+}
+
+/**
  * Check if a Gemini response indicates a rate limit error.
  * Returns true if the response text or page contains rate limit indicators.
  */
 function isRateLimited(responseText) {
   if (!responseText) return false;
   // Long successful responses (>2000 chars) are almost certainly real content,
-  // not error messages. Rate-limit errors are short.
+  // not error messages. Rate-limit and transient-failure responses are short
+  // (typically < 200 chars: "An internal error has occurred. (500)" etc.)
   if (responseText.trim().length > 2000) return false;
   const lower = responseText.toLowerCase();
   const patterns = [
@@ -803,6 +747,51 @@ function isRateLimited(responseText) {
     "overloaded",
     "server capacity",
     "temporarily unavailable",
+    // Transient server failures — AI Studio surfaces these as short toasts in
+    // the chat turn instead of throwing, so we treat them as retry-eligible.
+    "internal error",
+    "error has occurred",
+    "something went wrong",
+    "(500)",
+    "500 ",
+    "503",
+    "an error occurred",
+  ];
+  return patterns.some((p) => lower.includes(p));
+}
+
+/**
+ * Detect a "no media attached" response from Gemini. Distinct from rate-limit
+ * because retrying with the same broken picker won't help — surface this as a
+ * structural failure that needs user intervention.
+ */
+function isMissingAttachmentError(responseText) {
+  if (!responseText) return false;
+  if (responseText.trim().length > 2000) return false;
+  const lower = responseText.toLowerCase();
+  const patterns = [
+    "forgot to attach",
+    "forgot to link",
+    "upload the video",
+    "upload the file",
+    "upload the audio",
+    "share the audio",
+    "share the video",
+    "provide a link",
+    "no video",
+    "no audio",
+    "no file",
+    "i don't see",
+    "i do not see",
+    "i can't see",
+    "cannot see any",
+    "haven't attached",
+    "haven't uploaded",
+    "haven't shared",
+    "didn't attach",
+    "did not attach",
+    "no video file or link was provided",
+    "appears to be no",
   ];
   return patterns.some((p) => lower.includes(p));
 }
@@ -830,28 +819,8 @@ async function navigateToNewChat(page) {
   await page.goto(AI_STUDIO_URL, { waitUntil: "domcontentloaded", timeout: 60_000 });
   await page.waitForTimeout(3000);
 
-  // Dismiss any welcome dialogs or cookie banners
-  const dismissSelectors = [
-    'button:has-text("Got it")',
-    'button:has-text("Dismiss")',
-    'button:has-text("Close")',
-    'button:has-text("Accept")',
-    'button[aria-label="Close"]',
-    'button[aria-label="Dismiss"]',
-  ];
-
-  for (const sel of dismissSelectors) {
-    try {
-      const btn = await page.$(sel);
-      if (btn && await btn.isVisible()) {
-        await btn.click();
-        await page.waitForTimeout(500);
-      }
-    } catch {
-      // continue
-    }
-  }
-
+  // Dismiss any welcome dialogs / cookie banners / new feature toasts
+  await dismissDialogs(page);
   await page.waitForTimeout(1000);
 }
 
@@ -974,6 +943,10 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
       // Wait for media to finish processing before submitting
       console.log("    Waiting for video to finish processing...");
       await waitForMediaReady(page);
+      // AI Studio occasionally injects a dialog (terms update, model switch
+      // confirmation) right after attachment — dismiss before submitting so
+      // we don't fire Ctrl+Enter into a modal-blocked form.
+      await dismissDialogs(page);
       isFirstPrompt = false;
       needsNewChat = false;
     } else {
@@ -1005,6 +978,40 @@ async function processVideo(page, opts, videoIdentifier, videoNum, isDriveId) {
 
       // Wait for the response — pass turn count so it waits for a NEW turn
       responseText = await waitForResponse(page, turnCountBefore);
+
+      // Structural failure: Gemini reported it never saw the video. The
+      // picker click "looked" successful but didn't actually attach. Retrying
+      // with the same broken picker won't help — break out and let the
+      // operator (or the next layer up) intervene.
+      if (isMissingAttachmentError(responseText)) {
+        console.log("");
+        console.log("    ATTACHMENT MISSING — Gemini did not see a video in the chat.");
+        console.log(`    Response excerpt: "${responseText.replace(/\s+/g, " ").slice(0, 160)}"`);
+        try {
+          const shotPath = path.join(OUTPUT_BASE, `u${unit}`, `attach-failure-u${unit}l${lesson}-v${videoNum}.png`);
+          await page.screenshot({ path: shotPath, fullPage: false });
+          console.log(`    Screenshot saved: ${shotPath}`);
+        } catch (e) {
+          console.log(`    (screenshot failed: ${e.message})`);
+        }
+        if (process.stdin.isTTY) {
+          console.log("    Manually attach the video in the AI Studio tab and submit the prompt yourself.");
+          console.log("    Press Enter once Gemini's REAL transcription response is complete...");
+          await waitForUserInput();
+          // Re-read the response after manual intervention
+          const newTurnCount = await page.evaluate(() => {
+            return document.querySelectorAll("ms-chat-turn, .chat-turn").length;
+          }).catch(() => 0);
+          responseText = await waitForResponse(page, newTurnCount - 1);
+        } else {
+          throw new Error(
+            `Gemini did not receive the attached video for U${unit}.${lesson} (drive_id ${videoIdentifier}). ` +
+            `The Drive picker selected a row but did not commit the attachment. ` +
+            `See screenshot in ${path.join(OUTPUT_BASE, "u" + unit)}. Re-run interactively to fix manually.`
+          );
+        }
+        break; // exit retry loop — manual intervention is one-shot
+      }
 
       // Check for rate limit in response text or page
       const rateLimited = isRateLimited(responseText) || await checkPageForRateLimit(page);

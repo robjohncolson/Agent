@@ -3631,5 +3631,39 @@
       "B": "2026-04-02",
       "E": "2026-04-08"
     }
+  },
+  "1.3": {
+    "unit": 1,
+    "lesson": 3,
+    "topic": "Topic 1.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=2",
+      "blooket": null,
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-13T00:52:23.182Z",
+      "lastUpdated": "2026-05-16T03:03:52.739Z"
+    }
   }
 }
