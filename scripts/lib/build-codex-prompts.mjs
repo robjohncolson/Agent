@@ -45,8 +45,12 @@ function extractFrameworkSection(unit, lesson) {
   }
 
   const framework = readFileSync(frameworkPath, "utf-8");
+  // Header format varies across framework files: some use markdown-bold
+  // `## **TOPIC 1.3**`, others plain `## TOPIC 1.3:`. Tolerate 0-2 leading
+  // asterisks on both the section header and the lookahead so extraction
+  // works for every unit (silently returned null for U1/U3/U8 before).
   const sectionPattern = new RegExp(
-    `## \\*\\*TOPIC ${escapeRegExp(unit)}\\.${escapeRegExp(lesson)}\\b[\\s\\S]*?(?=## \\*\\*TOPIC|$)`,
+    `## \\*{0,2}TOPIC ${escapeRegExp(unit)}\\.${escapeRegExp(lesson)}\\b[\\s\\S]*?(?=## \\*{0,2}TOPIC|$)`,
     "i"
   );
   const match = framework.match(sectionPattern);
