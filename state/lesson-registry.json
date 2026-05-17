@@ -3954,7 +3954,7 @@
     },
     "status": {
       "ingest": "done",
-      "worksheet": "failed",
+      "worksheet": "done",
       "drills": "skipped",
       "blooketCsv": "done",
       "blooketUpload": "skipped",
@@ -3969,7 +3969,7 @@
     "schoology": {},
     "timestamps": {
       "created": "2026-05-16T07:00:02.303Z",
-      "lastUpdated": "2026-05-16T19:48:17.034Z"
+      "lastUpdated": "2026-05-17T03:32:07.112Z"
     }
   },
   "2.2": {
@@ -4004,6 +4004,448 @@
     "timestamps": {
       "created": "2026-05-16T20:27:01.677Z",
       "lastUpdated": "2026-05-16T21:04:01.966Z"
+    }
+  },
+  "2.1": {
+    "unit": 2,
+    "lesson": 1,
+    "topic": "Topic 2.1",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson1_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=PC",
+      "blooket": "https://dashboard.blooket.com/set/6a08ee78753b45cd2933cf1b",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-16T22:10:02.299Z",
+      "lastUpdated": "2026-05-16T22:24:46.519Z"
+    }
+  },
+  "2.3": {
+    "unit": 2,
+    "lesson": 3,
+    "topic": "Topic 2.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=2",
+      "blooket": "https://dashboard.blooket.com/set/6a08f201753b45cd2933cf97",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-16T22:24:50.879Z",
+      "lastUpdated": "2026-05-16T22:39:59.808Z"
+    }
+  },
+  "2.4": {
+    "unit": 2,
+    "lesson": 4,
+    "topic": "Topic 2.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson4_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=3",
+      "blooket": "https://dashboard.blooket.com/set/6a08f5db93e4e9542dfc8c96",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-16T22:40:03.156Z",
+      "lastUpdated": "2026-05-16T22:56:23.677Z"
+    }
+  },
+  "2.5": {
+    "unit": 2,
+    "lesson": 5,
+    "topic": "Topic 2.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson5_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=4",
+      "blooket": "https://dashboard.blooket.com/set/6a09008c753b45cd2933d12a",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-16T23:27:27.234Z",
+      "lastUpdated": "2026-05-16T23:41:59.492Z"
+    }
+  },
+  "2.6": {
+    "unit": 2,
+    "lesson": 6,
+    "topic": "Topic 2.6",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson6_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=5",
+      "blooket": "https://dashboard.blooket.com/set/6a090556753b45cd2933d1d2",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-16T23:42:03.512Z",
+      "lastUpdated": "2026-05-17T00:02:34.148Z"
+    }
+  },
+  "2.7": {
+    "unit": 2,
+    "lesson": 7,
+    "topic": "Topic 2.7",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson7_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=6",
+      "blooket": "https://dashboard.blooket.com/set/6a0915cb753b45cd2933d3d4",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T00:53:06.150Z",
+      "lastUpdated": "2026-05-17T01:12:54.245Z"
+    }
+  },
+  "2.8": {
+    "unit": 2,
+    "lesson": 8,
+    "topic": "Topic 2.8",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson8_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=7",
+      "blooket": "https://dashboard.blooket.com/set/6a09199d93e4e9542dfc90a6",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T01:12:58.003Z",
+      "lastUpdated": "2026-05-17T01:28:56.545Z"
+    }
+  },
+  "2.9": {
+    "unit": 2,
+    "lesson": 9,
+    "topic": "Topic 2.9",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson9_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=8",
+      "blooket": "https://dashboard.blooket.com/set/6a091d2293e4e9542dfc910c",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T01:29:00.874Z",
+      "lastUpdated": "2026-05-17T01:43:59.199Z"
+    }
+  },
+  "3.1": {
+    "unit": 3,
+    "lesson": 1,
+    "topic": "Topic 3.1",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson1_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=PC",
+      "blooket": "https://dashboard.blooket.com/set/6a09234354234f801d61dc71",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T01:54:31.179Z",
+      "lastUpdated": "2026-05-17T02:10:17.824Z"
+    }
+  },
+  "3.2": {
+    "unit": 3,
+    "lesson": 2,
+    "topic": "Topic 3.2",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson2_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=1",
+      "blooket": "https://dashboard.blooket.com/set/6a09269d93e4e9542dfc921f",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T02:10:22.112Z",
+      "lastUpdated": "2026-05-17T02:24:16.662Z"
+    }
+  },
+  "3.3": {
+    "unit": 3,
+    "lesson": 3,
+    "topic": "Topic 3.3",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson3_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=2",
+      "blooket": "https://dashboard.blooket.com/set/6a092a4293e4e9542dfc9273",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T02:24:20.256Z",
+      "lastUpdated": "2026-05-17T02:40:08.398Z"
+    }
+  },
+  "3.4": {
+    "unit": 3,
+    "lesson": 4,
+    "topic": "Topic 3.4",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson4_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=3",
+      "blooket": "https://dashboard.blooket.com/set/6a092ead753b45cd2933d677",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T02:42:41.188Z",
+      "lastUpdated": "2026-05-17T02:58:46.444Z"
+    }
+  },
+  "3.5": {
+    "unit": 3,
+    "lesson": 5,
+    "topic": "Topic 3.5",
+    "date": null,
+    "period": null,
+    "urls": {
+      "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson5_live.html",
+      "drills": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=4",
+      "blooket": "https://dashboard.blooket.com/set/6a0932d7753b45cd2933d6e0",
+      "schoologyFolder": null,
+      "videos": []
+    },
+    "status": {
+      "ingest": "done",
+      "worksheet": "done",
+      "drills": "skipped",
+      "blooketCsv": "done",
+      "blooketUpload": "skipped",
+      "animations": "skipped",
+      "animationUpload": "skipped",
+      "schoology": "skipped",
+      "schoologyVerified": "skipped",
+      "urlsGenerated": "done",
+      "registryExported": "done",
+      "committed": "done"
+    },
+    "schoology": {},
+    "timestamps": {
+      "created": "2026-05-17T02:58:50.354Z",
+      "lastUpdated": "2026-05-17T03:16:37.757Z"
     }
   }
 }
