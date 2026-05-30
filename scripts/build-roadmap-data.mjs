@@ -96,12 +96,34 @@ function buildPeriodInfo(key, entry, period, sched) {
   return { date, schoologyFolder: folderUrl, posted, verified };
 }
 
+// ── Preserve schedule overlays not derived from the registry ─────────────────
+// progressChecks + posters are top-level maps written by the worksheet-side
+// pack-left scheduler (s121); they are NOT derived from lesson-registry.json.
+// A naive rebuild would DROP them, so carry them forward from the existing
+// roadmap-data.json — this makes a rebake non-destructive to the PC/Poster
+// calendar entries. (s122 schema coordination — see GRADING_MODEL_V3_BUILD.md.)
+let preservedProgressChecks = {};
+let preservedPosters = {};
+try {
+  const existing = JSON.parse(readFileSync(ROADMAP_JSON, "utf-8"));
+  if (existing && existing.progressChecks && typeof existing.progressChecks === "object") {
+    preservedProgressChecks = existing.progressChecks;
+  }
+  if (existing && existing.posters && typeof existing.posters === "object") {
+    preservedPosters = existing.posters;
+  }
+} catch {
+  // First build (no existing file) — emit empty overlays so the schema is stable.
+}
+
 // ── Write roadmap-data.json ─────────────────────────────────────────────────
 
 const output = {
   generatedAt: new Date().toISOString(),
   registryVersion,
   lessons,
+  progressChecks: preservedProgressChecks,
+  posters: preservedPosters,
 };
 
 const outputJson = JSON.stringify(output, null, 2);
