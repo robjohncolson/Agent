@@ -8,7 +8,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson1_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l01-topic-8-1-observed-vs-expected",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=9",
+      "quiz": null,
       "blooket": "https://dashboard.blooket.com/set/69b6cdd37e3edc6f469fe78d",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987745452",
       "videos": [],
@@ -130,7 +130,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson2_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l06-chi-square-gof-procedure",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=1",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=2",
       "blooket": "https://dashboard.blooket.com/set/69b783b70641400d44478430",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=987876008",
       "videos": [],
@@ -332,7 +332,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson3_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l10-expected-from-proportions",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=2",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=3",
       "blooket": "https://dashboard.blooket.com/set/69b81f452209798f94f22801",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=988059802",
       "videos": [],
@@ -474,7 +474,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson4_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l15-two-way-table-totals",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=3",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=4",
       "blooket": "https://dashboard.blooket.com/set/69c098310774a12931de3d19",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989165947",
       "videos": [],
@@ -692,7 +692,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson5_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l19-identify-test-type",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=4",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=5",
       "blooket": "https://dashboard.blooket.com/set/69c0a4560774a12931de3f76",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989177841",
       "videos": [],
@@ -874,7 +874,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u8_lesson6_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u8-unexpected-results&level=l23-chi-square-twoway",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=5",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=6",
       "blooket": "https://dashboard.blooket.com/set/69c35c8f0774a12931df155c",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989911631",
       "videos": [],
@@ -1073,7 +1073,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson1_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-regression-slopes&level=l01-population-vs-sample",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=8&l=PC",
+      "quiz": null,
       "blooket": "https://dashboard.blooket.com/set/69c3da020e37da3c048cccf4",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989947170",
       "videos": [],
@@ -1235,7 +1235,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson2_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-regression-slopes&level=l05-conditions-for-inference",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=1",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=2",
       "blooket": "https://dashboard.blooket.com/set/69c3e33a0e37da3c048cd1ab",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989969199",
       "videos": [],
@@ -1437,7 +1437,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson3_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-justify-slope-claims-ci&level=l93-interpret-slope-ci",
-      "quiz": "",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=3",
       "blooket": "https://dashboard.blooket.com/set/69c3f1c846f993a1257e896d",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=989987878",
       "videos": [],
@@ -1619,7 +1619,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson4_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-setting-up-slope-tests&level=l94-state-null-hypothesis",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=3",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=4",
       "blooket": "https://dashboard.blooket.com/set/69c550b73930eb3d0972b753",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=990208247",
       "videos": [],
@@ -1801,7 +1801,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u9_lesson5_live.html",
       "drills": "https://lrsl-driller.vercel.app/platform/app.html?c=apstats-u9-carrying-out-slope-tests&level=l95-calculate-test-statistic",
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=4",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=9&l=5",
       "blooket": "https://dashboard.blooket.com/set/69c550daa37834f1b9c642d8",
       "schoologyFolder": "https://lynnschools.schoology.com/course/7945275782/materials?f=990209566",
       "videos": [],
@@ -2003,7 +2003,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson6-7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=6",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2042,7 +2042,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson6-7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=7",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2120,7 +2120,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson1-2_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=2",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2159,7 +2159,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3-4-5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=3",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2198,7 +2198,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3-4-5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=4",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2237,7 +2237,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson3-4-5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=5",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2276,7 +2276,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=6",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2315,7 +2315,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson7-8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=7",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2354,7 +2354,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson7-8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=8",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2393,7 +2393,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson9_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=9",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2432,7 +2432,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson10-12_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=10",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2471,7 +2471,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson10-12_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=11",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2510,7 +2510,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u4_lesson10-12_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=4&l=12",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2588,7 +2588,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson1-2_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=2",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2627,7 +2627,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson3_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=3",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2666,7 +2666,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson4_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=4",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2705,7 +2705,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=5",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2744,7 +2744,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=6",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2783,7 +2783,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=7",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2822,7 +2822,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u5_lesson8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=5&l=8",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2900,7 +2900,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson1-2_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=2",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2939,7 +2939,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson3_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=3",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -2978,7 +2978,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson4_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=4",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3017,7 +3017,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=5",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3056,7 +3056,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=6",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3095,7 +3095,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=7",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3134,7 +3134,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=8",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3173,7 +3173,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson9_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=9",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3212,7 +3212,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson10_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=10",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3251,7 +3251,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u6_lesson11_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=6&l=11",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3329,7 +3329,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson2_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=2",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3368,7 +3368,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson3_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=3",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3407,7 +3407,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson4_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=4",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3446,7 +3446,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson5_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=5",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3485,7 +3485,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson6_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=6",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3524,7 +3524,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson7_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=7",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3563,7 +3563,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson8_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=8",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3602,7 +3602,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u7_lesson9_live.html",
       "drills": null,
-      "quiz": null,
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=7&l=9",
       "blooket": null,
       "schoologyFolder": null,
       "videos": []
@@ -3641,7 +3641,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson3_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=2",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=3",
       "blooket": "https://dashboard.blooket.com/set/6a08aa2b93e4e9542dfc8365",
       "schoologyFolder": null,
       "videos": []
@@ -3709,7 +3709,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson2_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=1",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=2",
       "blooket": "https://dashboard.blooket.com/set/6a08a5ec93e4e9542dfc82d6",
       "schoologyFolder": null,
       "videos": []
@@ -3743,7 +3743,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson4_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=3",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=4",
       "blooket": "https://dashboard.blooket.com/set/6a08ae0554234f801d61cea6",
       "schoologyFolder": null,
       "videos": []
@@ -3777,7 +3777,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson5_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=4",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=5",
       "blooket": "https://dashboard.blooket.com/set/6a08b14254234f801d61cf15",
       "schoologyFolder": null,
       "videos": []
@@ -3811,7 +3811,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson6_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=5",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=6",
       "blooket": "https://dashboard.blooket.com/set/6a08b8e854234f801d61d014",
       "schoologyFolder": null,
       "videos": []
@@ -3845,7 +3845,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson8_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=7",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=8",
       "blooket": "https://dashboard.blooket.com/set/6a08c14654234f801d61d13b",
       "schoologyFolder": null,
       "videos": []
@@ -3879,7 +3879,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson7_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=6",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=7",
       "blooket": "https://dashboard.blooket.com/set/6a08bd35753b45cd2933c8eb",
       "schoologyFolder": null,
       "videos": []
@@ -3913,7 +3913,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson9_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=8",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=9",
       "blooket": "https://dashboard.blooket.com/set/6a08c51a54234f801d61d1d3",
       "schoologyFolder": null,
       "videos": []
@@ -3947,7 +3947,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u1_lesson10_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=9",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=10",
       "blooket": "https://dashboard.blooket.com/set/6a081a2954234f801d61c07c",
       "schoologyFolder": null,
       "videos": []
@@ -3981,7 +3981,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson2_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=1",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=2",
       "blooket": "https://dashboard.blooket.com/set/6a08db6793e4e9542dfc8989",
       "schoologyFolder": null,
       "videos": []
@@ -4015,7 +4015,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson1_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=1&l=PC",
+      "quiz": null,
       "blooket": "https://dashboard.blooket.com/set/6a08ee78753b45cd2933cf1b",
       "schoologyFolder": null,
       "videos": []
@@ -4049,7 +4049,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson3_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=2",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=3",
       "blooket": "https://dashboard.blooket.com/set/6a08f201753b45cd2933cf97",
       "schoologyFolder": null,
       "videos": []
@@ -4083,7 +4083,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson4_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=3",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=4",
       "blooket": "https://dashboard.blooket.com/set/6a08f5db93e4e9542dfc8c96",
       "schoologyFolder": null,
       "videos": []
@@ -4117,7 +4117,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson5_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=4",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=5",
       "blooket": "https://dashboard.blooket.com/set/6a09008c753b45cd2933d12a",
       "schoologyFolder": null,
       "videos": []
@@ -4151,7 +4151,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson6_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=5",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=6",
       "blooket": "https://dashboard.blooket.com/set/6a090556753b45cd2933d1d2",
       "schoologyFolder": null,
       "videos": []
@@ -4185,7 +4185,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson7_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=6",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=7",
       "blooket": "https://dashboard.blooket.com/set/6a0915cb753b45cd2933d3d4",
       "schoologyFolder": null,
       "videos": []
@@ -4219,7 +4219,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson8_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=7",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=8",
       "blooket": "https://dashboard.blooket.com/set/6a09199d93e4e9542dfc90a6",
       "schoologyFolder": null,
       "videos": []
@@ -4253,7 +4253,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u2_lesson9_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=8",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=9",
       "blooket": "https://dashboard.blooket.com/set/6a091d2293e4e9542dfc910c",
       "schoologyFolder": null,
       "videos": []
@@ -4287,7 +4287,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson1_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=2&l=PC",
+      "quiz": null,
       "blooket": "https://dashboard.blooket.com/set/6a09234354234f801d61dc71",
       "schoologyFolder": null,
       "videos": []
@@ -4321,7 +4321,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson2_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=1",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=2",
       "blooket": "https://dashboard.blooket.com/set/6a09269d93e4e9542dfc921f",
       "schoologyFolder": null,
       "videos": []
@@ -4355,7 +4355,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson3_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=2",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=3",
       "blooket": "https://dashboard.blooket.com/set/6a092a4293e4e9542dfc9273",
       "schoologyFolder": null,
       "videos": []
@@ -4389,7 +4389,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson4_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=3",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=4",
       "blooket": "https://dashboard.blooket.com/set/6a092ead753b45cd2933d677",
       "schoologyFolder": null,
       "videos": []
@@ -4423,7 +4423,7 @@
     "urls": {
       "worksheet": "https://robjohncolson.github.io/apstats-live-worksheet/u3_lesson5_live.html",
       "drills": null,
-      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=4",
+      "quiz": "https://robjohncolson.github.io/curriculum_render/?u=3&l=5",
       "blooket": "https://dashboard.blooket.com/set/6a0932d7753b45cd2933d6e0",
       "schoologyFolder": null,
       "videos": []

@@ -126,12 +126,11 @@ export function computeQuizUrl(unit, lesson) {
   const unitNum = toPositiveInt(unit, "unit");
   const lessonNum = toPositiveInt(lesson, "lesson");
 
+  // Each topic links to its OWN quiz: cr renders topic X.N's quiz at
+  // ?u=X&l=N. cr has no L1 quiz for any unit, so unit-opener topics (X.1)
+  // have no quiz of their own and return null.
   if (lessonNum > 1) {
-    return `https://robjohncolson.github.io/curriculum_render/?u=${unitNum}&l=${lessonNum - 1}`;
-  }
-
-  if (unitNum > 1) {
-    return `https://robjohncolson.github.io/curriculum_render/?u=${unitNum - 1}&l=PC`;
+    return `https://robjohncolson.github.io/curriculum_render/?u=${unitNum}&l=${lessonNum}`;
   }
 
   return null;
@@ -141,12 +140,9 @@ export function computeQuizTitle(unit, lesson) {
   const unitNum = toPositiveInt(unit, "unit");
   const lessonNum = toPositiveInt(lesson, "lesson");
 
+  // Mirrors computeQuizUrl: each topic's own quiz; openers have none.
   if (lessonNum > 1) {
-    return `Quiz ${unitNum}.${lessonNum - 1}`;
-  }
-
-  if (unitNum > 1) {
-    return `Unit ${unitNum - 1} Progress Check`;
+    return `Quiz ${unitNum}.${lessonNum}`;
   }
 
   return null;
