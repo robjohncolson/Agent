@@ -27,6 +27,17 @@ const registryRaw = readFileSync(REGISTRY_PATH, "utf-8");
 const registry = JSON.parse(registryRaw);
 const schedule = JSON.parse(readFileSync(SCHEDULE_PATH, "utf-8"));
 
+// Fall 2026 CED overlay (EK-verified crosswalk). ADDITIVE per-lesson `ced2026`
+// object {status core|bonus, newUnit, newTopic, newLabel, bonusUnit}; leaves the
+// existing `status` field (ready/partial/pending) untouched. Absent → null.
+const CROSSWALK_PATH = join(WORKSHEET_REPO, "2026-crosswalk.json");
+let cedCrosswalk = {};
+try {
+  cedCrosswalk = JSON.parse(readFileSync(CROSSWALK_PATH, "utf-8")).map || {};
+} catch {
+  console.warn("WARNING: 2026-crosswalk.json not found — ced2026 overlay skipped");
+}
+
 // ── Registry version (content hash) ─────────────────────────────────────────
 
 const registryVersion = createHash("sha256")
@@ -72,6 +83,7 @@ for (const [key, entry] of Object.entries(registry)) {
     urls,
     status,
     periods: { B: periodB, E: periodE },
+    ced2026: cedCrosswalk[key] || null,   // Fall 2026 CED overlay (additive)
   };
 }
 
