@@ -1,0 +1,31 @@
+Grok — TWO scoped increments, TWO separate local commits, NO push (standing policy: nothing pushes without a harvested green + user sign-off). You implement; Codex reviews; Fable orchestrates. Repo: school/follow-alongs.
+
+━━━ TASK 1 (priority) — fix(summer): Do-Now card summer guard ━━━
+CONFIRMED BUG (seamlessness gate): during summer, three surfaces disagree for a student who finished old 1.1–1.9. The calendar next-up (has a summer guard) and the summer banner both say 1.10; the Do-Now card says "Do Now: U1 3.1 — worksheet" because renderDoNow() renders the server /donow nextTask verbatim with NO summer guard. (P2 reordered the manifest to CED order, so the server's earliest-incomplete after 1.9 is 3.1.)
+
+Fix in ap_stats_roadmap_square_mode.html, renderDoNow(): mirror the calendar's existing summer guard. Before showing the server nextTask, if summer is active AND the summer track has an incomplete lesson, show that instead and return; else fall through unchanged.
+- Reuse the calendar's exact signals (see ~L7892): _summerActive = !!document.querySelector('#cg .dc[data-summer=\"1\"]'), summerNextUp = calNextUpTopic(_orderedSummerTopics(), marks).
+- typeof-guard EVERYTHING (renderDoNow has DN3a vm tests that don't load those helpers — match the file's existing typeof-guard style).
+- Mind paint order: renderDoNow can run before rCal renders summer cells; the existing local-done branch already reads _calNextUp (set by rCal) — study it and keep behavior consistent on first paint (a wrong-but-momentary first paint that corrects on rCal is acceptable only if that's the existing pattern; say what you chose).
+- Display-only. No server, manifest, grade, or id changes.
+
+Verify (seamlessness gate — report each): simulate ledger states against the card logic (jsdom or vm, your call):
+(1) done 1.1–1.9 → card shows Topic 1.10 (now agrees with calendar + banner);
+(2) done 1.1–1.10 (summer track complete → summerNextUp null) → falls through to server task (U1 3.1) — correct, matches "Summer Foundations complete";
+(3) done 1.1–1.5 → 1.6 (unchanged);
+(4) fresh student → 1.1 (unchanged);
+(5) school-year mode (no summer cells) → guard inert, server task shown (unchanged);
+(6) existing DN3a/donow tests pass; zero new page errors.
+Commit 1 message prefix: "fix(summer):". List every visible delta in the packet — user sign-off is required before push.
+
+━━━ TASK 2 — W2: formula entry points -> Formula Lab primary ━━━
+Locked G3: Lab primary; Formula Defense stays reachable only as labeled "legacy review" (until W13).
+Hard facts from W0: working URL is https://tmux-trainer.vercel.app/formula-lab.html (bare /formula-lab 404s). Stale target being replaced: https://tmux-trainer.vercel.app/#deck=ap-stats-formulas.
+1. index.html "Equation Trainer" card (~L308): repoint to the Lab URL; rename/re-describe honestly (production-practice workbench). Any retained Defense link = "legacy review", visually secondary.
+2. Desk (ap_stats_roadmap_square_mode.html): find the Apps-menu/app-registry formula entry (grep #deck=ap-stats-formulas / "Equation Trainer") and repoint the same way. Display/link-target only.
+3. Sweep the repo for other student-facing launchers still targeting the deck URL (start-here.html, mobile-home.html, TOC.html, offline pack) — repoint or list-and-defer with reason.
+4. Verify in roster-server code that 'formula-lab' is allowlisted for grade recording; if env-gated on Railway and unverifiable from code, say so explicitly.
+Verify: Lab URL 200s live; browser smoke shows both entry points resolve to formula-lab.html with no dead controls and zero NEW page errors (ignore the pre-existing "process is not defined"); grep shows no remaining student-facing PRIMARY launcher on the deck URL; related tests pass.
+Commit 2 message prefix: "W2:".
+
+Reply in this pane with one review packet covering both commits: hashes, diff summaries, verification tables, visible-delta list, deferrals. Fable harvests and routes to Codex.

@@ -1,0 +1,15 @@
+Codex — adversarial review of grade-substrate-ced2026-fix-spec.md (W4, in school/follow-alongs). This spec gates the M2 grade-truth wave; tear it apart before we implement. Read the spec AND verify its recon claims against the actual code — the spec's §3 makes five falsifiable claims:
+
+1. Quarters are date-driven; quarters[q].units arrays serve ONLY the PC track + null-date fallback (grade-config.js). Verify by reading how grade.js consumes quarterOfDate vs quarterOfUnit — is there ANY other consumer of the units arrays the spec missed (teacher.js, lesson-grade.js, Desk client code, start-here calculators)?
+2. lesson-schedule.json dual copies have drifted (data/ vs roster-server/data/). Diff them: is the drift meaningful (different dates/lessons) or cosmetic (whitespace/generatedAt)? Which copy does the server actually load?
+3. PC path: source:'pc' rows re-scored per unit key; P_quarter = mean over band units with PC data. Verify the exact unit-key format of PC rows (answer-key ids? U{n}-PC-...?) and answer the spec's D4 investigation item: would SY2627 PCs recorded under new U1-U5 keys COLLIDE with SY2526 PC history under a year-versioned config, or do date windows disambiguate cleanly?
+4. Config retro-fixes history at rollup time — confirm this means in-place band edits would reinterpret SY2526 grades (the motivation for D1 versioning).
+5. blooket-lessons.json feeds a required-completion denominator in grade.js including bonus ids. Verify the exact mechanism + whether flashcard combined-CSV resolution is really broken for bare topic ids.
+
+Then stress-test the DESIGN:
+- D1 year-versioned config: is date-based resolution sound given rows can arrive late (a summer 2026 row dated before Q1's 2026-09-09 start — which year's config catches it? is there a gap between SY2526 Q4 end and SY2627 Q1 start where quarterOfDate returns null)?
+- D2 provisional bands Q1:[1] Q2:[2] Q3:[3] Q4:[4,5] — sane vs the live provisional pacing?
+- D3 single-Period-X schedule: anything in grade.js/lesson-grade.js that assumes periods.B/periods.E exist per lesson and would break on a Period-X-shaped schedule?
+- Anything the spec MISSES that touches grades (drills? posters scoring? wallet? receipts referencing quarter labels?).
+
+Verdict: APPROVE (implement as specced) / CORRECTIONS (list, with file:line evidence) / REJECT (design flaw). Write findings to the result file as structured JSON with a per-claim table.

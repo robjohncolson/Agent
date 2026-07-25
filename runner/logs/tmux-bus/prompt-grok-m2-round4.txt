@@ -1,0 +1,14 @@
+Grok — M2 round 4, the LAST two residuals. Codex round-3: M2a 01b2cac = GREEN (untouchable — do not churn it); M2b a6e1a46 = OPEN on exactly two narrow items (evidence: the newest state/cross-agent/*.result.json, findings 2_fail_loud and 6 goldens). Findings 1/3/4/5 CLOSED — leave that code alone. Amend a6e1a46 or add one commit, local only, NO push.
+
+FIX 1 — strict freeze validators + prod-safe test hook (grade-contexts.js):
+(a) Blooket freeze: require topics.length===77 AND requiredTopics/allTopics consistent with the pre-M2a shape it snapshots (or explicitly presence=required=77 as the freeze stores) — one topic must NOT pass.
+(b) Config freeze: require the FULL contract — C, useV3 present (boolean), quarters with Q1-Q4 each having units[] + start/end + pcAnchor, and the weight/gate knobs computeGrade reads. {C:85} must throw.
+(c) Schedule freeze: require lessons to be a non-array object with the expected 77 lesson keys (or at minimum >=70 keys each having periods) — {lessons:[]} must throw.
+(d) GRADE_FREEZE_DIR must be TEST-ONLY: honor it only when process.env.VITEST or NODE_ENV==='test'; in production it is ignored (or throws if set). The committed freeze dir is the only production source.
+
+FIX 2 — harden the goldens (tests/grade-contexts.test.js + m2b-grade-invariance):
+(a) fail-loud coverage for ALL THREE freezes x ALL THREE failure classes where meaningful: missing, malformed JSON, structurally invalid (use the new validators: config missing quarters; schedule lessons:[]; blooket 1 topic).
+(b) pin the FULL frozen config in the SY2526 golden (deep-equal against grade-config.sy2526-freeze.json, not selected fields).
+(c) a test asserting GRADE_FREEZE_DIR is ignored/throws outside test env (simulate by clearing VITEST markers if feasible, else assert the gating branch directly).
+
+Deliver: hash(es), the validator rules implemented, test results (all suites incl. the new cases + the 23-test bundle parity), confirmation M2a untouched. No push. This should close M2b — Fable verifies, Codex confirms closure, user signs off, both commits ship together.

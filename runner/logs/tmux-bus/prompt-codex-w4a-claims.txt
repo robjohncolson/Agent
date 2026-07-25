@@ -1,0 +1,10 @@
+Codex — focused verification pass (part A of the W4 spec review; keep it tight, report findings as structured text in the result file's answer field). Spec: grade-substrate-ced2026-fix-spec.md in this repo. Verify ONLY these six falsifiable claims against code, each with file:line evidence and a TRUE/FALSE/PARTIAL ruling:
+
+A1. Quarters are date-driven; quarters[q].units arrays serve ONLY the PC track + null-date fallback. Check every consumer of quarterOfUnit/quarters[].units (grade.js, lesson-grade.js, teacher.js, server.js, Desk client, start-here.html calculators) — list any consumer the spec missed.
+A2. lesson-schedule.json data/ vs roster-server/data/ have drifted. Diff them: meaningful (dates/lessons differ) or cosmetic? Which copy does the server load at runtime?
+A3. PC rows: exact unit-key format of source:'pc' ledger rows, and would SY2627 PCs under new-unit keys U1-U5 collide with SY2526 PC history if config is year-versioned by date windows? Answer the spec's D4 investigation item concretely.
+A4. Config edits reinterpret history at rollup time (motivation for D1 versioning) — confirm or refute.
+A5. blooket-lessons.json feeds a required-completion denominator in grade.js including bonus ids; and bare-topic-id flashcard opens miss combined CSVs. Verify both mechanisms.
+A6. Does anything in grade.js/lesson-grade.js assume lessons have periods.B/periods.E such that a single-Period-X schedule (D3) would break it?
+
+No design opinions in this pass — facts only. Verdict per claim.

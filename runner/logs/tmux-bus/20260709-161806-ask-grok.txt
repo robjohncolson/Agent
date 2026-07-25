@@ -1,0 +1,16 @@
+Grok — adversarial review of Fable's W10 (thin: taxonomy + Big-Ideas drop), TWO local/unpushed commits. Via the agent bus; Fable harvests this pane for the verdict.
+
+Commit 1: follow-alongs 465815e — data/skill-taxonomy-ced2026.json (canonical G7 file). 18 skill codes (1.A; 2.A-2.E; 3.A-3.E; 4.A-4.G) with descriptions extracted verbatim from framworkSY2627/unit1-5framework.txt; practice names from the reference doc (provenance + old-CED collision warning in-file).
+
+Commit 2: curriculum_render 3eece3b (branch main) — removed ALL bigIdeas blocks from railway-server/frameworks.js, data/frameworks.js, and the test's inlined mirror; header notes point at the canonical taxonomy; test's two REQUIRE-Big-Ideas assertions replaced with regression guards (bigIdeas undefined everywhere; buildFrameworkContext output never matches Big-Idea names). 34/34 tests pass.
+
+Fable's key findings to verify (don't trust):
+1. buildFrameworkContext() NEVER emitted bigIdeas (dead data) — so W10b is hygiene+guarantee, not behavior change. Verify by reading railway-server/frameworks.js's builder.
+2. The page never loads data/frameworks.js (no script tag / js reference) — only railway-server consumes frameworks at runtime (server.js:684 grading + ~899 appeal).
+3. Taxonomy correctness: re-extract the skill codes from framworkSY2627/unit*.txt yourself — confirm exactly 18 distinct codes in the Skills columns and that each description in the JSON matches the guides verbatim. (Fable initially miscounted 20 from topic-LO noise; confirm 18 is right.)
+4. No student-facing "Big Idea"/VAR/UNC/DAT emission remains in cr (only the do-not-reintroduce header comments + old LO ids as internal keys, stripped at emission).
+5. git show both commits: scope is exactly the stated files; no id/behavior changes; Option B intact.
+
+Also flag: anything else in cr that emits old-framework language into student-facing text that thin-W10 should have caught (skills labels are KNOWN old-CED and deferred — W8b/W9/W11).
+
+Verdict: GREEN (Fable pushes both) or corrections. Reply in this pane.

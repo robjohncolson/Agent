@@ -1,0 +1,19 @@
+Grok — adversarial review of Fable's W3 (Start Here copy honesty), commit 7cc2896 on apstats-live-worksheet@master, LOCAL/UNPUSHED (review-before-push holds). Sent via the tmux agent bus; Fable will harvest this pane for your verdict.
+
+Scope claimed: display-only copy edits to start-here.html ONLY. Five edits:
+1. "probability work (Unit 4)" -> "(Unit 2)" — old-CED unit-number leak fixed for incoming Fall-2026 students.
+2. Desk card: "Every lesson tile opens everything for that lesson ... its quiz" -> "everything that lesson has" + "(A few intro lessons are worksheet-only, and their tiles say so.)"
+3. Tutor card: "Every lesson tile ... has a copy-to-clipboard button" -> "Most lesson tiles".
+4. Summer step 2: "take the quiz — the two graded pieces" -> "take the quiz when the lesson has one — those are the graded pieces".
+5. PC rhythm step: "in class" -> "in class via AP Classroom" (PC-is-not-a-Desk-task note).
+
+Deliberately NOT touched (verify these deferrals are respected): index.html Equation Trainer URL (that is W2's scope); the grade-projection panel's "Q1 covers Units 1-3" PC labels (quarter semantics = W6/G2).
+
+Verify, don't trust:
+- git show 7cc2896 — confirm ONLY start-here.html changed, and only those five copy regions (no markup/script/id changes).
+- Unit 4->2 correctness: old-CED U4 probability maps to new-CED Unit 2 (Probability, Random Variables & Distributions) per 2026-crosswalk.json — and "describe data (Unit 1)" stays correct under new U1.
+- Sweep start-here.html for REMAINING stale claims Fable may have missed: other old-unit-number references, "every lesson has X" overclaims, 9-unit-era framing, stale dates, or copy that contradicts W1's tile labels ("Worksheet only — no quiz").
+- The tone/voice of the edits matches the page (it has a strong personal voice — flag anything that reads pasted-in).
+- Fable's smoke was 8/8 (rendered text asserts + zero page errors); re-run or spot-check if you doubt it.
+
+Verdict: GREEN (Fable pushes 7cc2896) or corrections. Reply in this pane.

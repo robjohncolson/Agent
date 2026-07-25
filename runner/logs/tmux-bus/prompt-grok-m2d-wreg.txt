@@ -1,0 +1,17 @@
+Grok — TWO small independent increments, TWO local commits, NO push. Repo: school/follow-alongs. RESYNC: M2a+M2b shipped to origin (01b2cac, bb5cc6a — required=67 core, presence=77, year-versioned grade contexts with fail-loud SY2526 freezes, atomic resolver bundle to all 7 mounts). Specs: grade-substrate-ced2026-fix-spec.md (M2d = §D5'/increment table) + student-facing-surface-implementation-plan.md (W-reg).
+
+━━━ Increment 1 — M2d: teacher dashboard bonus/core labeling ━━━
+Teacher-facing surfaces must distinguish bonus from core so bonus never READS as required:
+1. Wherever teacher views render per-lesson/per-topic status (gradebook-grid columns, class/teacher dashboards, Desk teacher panels), topics in BLOOKET_BONUS/crosswalk status:"bonus" (2.9, 4.9, 4.12, 8.2, 8.3, 9.1-9.5) show a visible "bonus" tag/style and are excluded from any required-completion percentage already driven by required(67) — verify the percentages actually use required post-M2a, and label what students see as enrichment.
+2. Old ids untouched; display-only + any tiny server field needed to carry the bonus flag to the client (prefer deriving client-side from data already served — check what lessonsArray/gradebook payloads already contain before adding fields).
+3. Verify: existing teacher/gradebook tests pass; new test asserting a bonus topic renders labeled and excluded from required counts; a core topic unchanged. Screenshot-free (server-rendered assertions fine); note any surface where the label is genuinely student-visible (should be none — teacher views only).
+Commit prefix "M2d:".
+
+━━━ Increment 2 — W-reg: manifest/CED-builder regression gate ━━━
+Purpose: the 9-unit builder must never silently clobber the 5-unit live Do-Now again (plan H10/W-reg; the hardening exists — this adds the TEST that keeps it true):
+1. New test suite asserting: (a) both work-manifest.json copies byte-identical; (b) live manifest is the 5-unit CED shape (U1-U5, no pc fields, 2644 index entries, no bonus lesson ids); (c) build-work-manifest.mjs writes ONLY the frozen 9-unit source (scripts/fixtures/work-manifest-9unit-source.json), never the live paths — assert its output path constants; (d) build-work-manifest-ced.mjs --deploy reproduces both live copies byte-identically from the frozen source (run it against a temp copy, compare).
+2. Also assert the frozen source itself is intact: 9 units, 3402 itemIds, has pc blocks.
+3. No production file changes — tests + (if needed) tiny testability exports only.
+Commit prefix "W-reg:".
+
+Deliver: two hashes, what each asserts/changed, test results. No push. Fable verifies -> Codex review -> sign-off.

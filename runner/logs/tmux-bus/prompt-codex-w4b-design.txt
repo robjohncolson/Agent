@@ -1,0 +1,7 @@
+Codex — focused design stress-test (part B of the W4 spec review; findings as structured text in the result answer). Spec: grade-substrate-ced2026-fix-spec.md in this repo. Assume its §3 recon is broadly right (part A verifies it separately). Attack the DESIGN:
+
+B1. D1 year-versioned config with date-window resolution: find the failure modes — a row dated in the gap between SY2526 Q4 end and SY2627 Q1 start (2026-09-09); summer-2026 work dated July/Aug (which year's config?); late-arriving rows; quarterOfDate returning null. What does the CURRENT code do with null-quarter rows, and does versioning make it worse?
+B2. D2 provisional SY2627 bands Q1:[1] Q2:[2] Q3:[3] Q4:[4,5] (new-CED units) — sane against the live provisional pacing in SCHEDULE_DEFS SY26-27 (ap_stats_roadmap_square_mode.html ~L9490)? Any quarter left PC-less or double-PC'd?
+B3. D3 regenerated single-Period-X lesson-schedule: what consumes lesson-schedule.json besides grade paths (teacher dashboards, exports, Desk)? List consumers + breakage risk.
+B4. What grade-adjacent surfaces does the spec MISS entirely (drills scoring, posters, wallet/receipts referencing quarter labels, start-here grade calculator PC inputs U1/U2/U3, exports)?
+B5. Verdict: APPROVE / CORRECTIONS (numbered list) / REJECT, for the design as specced.

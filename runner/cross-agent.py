@@ -277,7 +277,16 @@ def invoke_subagent(
 
     try:
         if direction == "cc-to-codex":
-            command = cli_cmd + ["exec", "--full-auto", "-"]
+            # Model pin (user directive 2026-07-09): gpt-5.6-sol at xhigh reasoning.
+            # Codex's role is adversarial review / fact-checking — max reasoning
+            # effort is where that role earns its spend.
+            command = cli_cmd + [
+                "exec",
+                "--full-auto",
+                "-m", "gpt-5.6-sol",
+                "-c", 'model_reasoning_effort="xhigh"',
+                "-",
+            ]
             process = subprocess.Popen(
                 command,
                 cwd=working_dir,

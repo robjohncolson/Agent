@@ -1,0 +1,22 @@
+Grok — TWO scoped increments (M2a, M2b'), TWO separate local commits, NO push (a pre-push hook now BLOCKS all pushes without the orchestrator's sentinel — if your push fails, that's correct behavior; report hashes instead). Repo: school/follow-alongs. Spec: grade-substrate-ced2026-fix-spec.md (v2, incl. §8 user decisions). Codex's verification evidence with file:line receipts: state/cross-agent/635c25f0a131.result.json (read it — it maps every consumer).
+
+RESYNC (state since your last turn): af1a2cd was Codex-reviewed → view-as bug found → fixed+amended as 1416525 → user-signed → pushed. W2 bf3d52d = KEEP. M1 complete. W4 spec v2 pushed (b5ca2d3). Grading horizon (user): the scheme must be fully faithful only through Q1 (~Nov 2026); 2nd semester = teacher-curved A's. So: Q1 fidelity + history persistence are the targets — do NOT gold-plate Q2-Q4 mechanics.
+
+━━━ M2a — Blooket denominator core-67 + mobile CSV fallback ━━━
+1. Split roster-server/data/blooket-lessons.json's topics into core (67) vs bonus (10: 2.9, 4.9, 4.12, 8.2, 8.3, 9.1-9.5 per 2026-crosswalk.json status:"bonus") — keep the file shape backward-compatible (e.g. add bonusTopics or a flag; grade.js:42-55 loads it, computeQuarterV3 counts blooketDue at lesson-grade.js:990-1032 — the denominator bites ONLY on the env-gated useV3 branch per Codex A5).
+2. Required denominator = core only. Bonus stays reachable, never required (G4). Report whether USE_V3_GRADING appears enabled in code defaults; Railway env is unverifiable from code — say so, don't guess.
+3. Mobile ID-only flashcard fallback (mobile-home.html:935-941): bare topic ids like 3.6 resolve to u3_l6_blooket.csv but the real deck is u3_l6_l7_blooket.csv. Fix ONLY this fallback path (normal Desk/mobile worksheet-URL resolution already works — Codex A5 — don't churn it): resolve via a topic→csv map derived from lessons-index worksheet names (or the CSV inventory), explicit "no deck" state otherwise.
+Verify: denominator counts exactly 67 core (no bonus id required anywhere); bonus reachable; jsdom test for the fallback (3.6 → u3_l6_l7_blooket.csv; unknown topic → explicit no-deck, no silent empty); existing flashcards/grade tests pass; core grade outputs unchanged for ledgers with no bonus rows (invariance sample).
+Commit 1 prefix: "M2a:".
+
+━━━ M2b' — grade-context registry + resolver (ZERO behavior change) ━━━
+Build the scaffold ONLY — behavior must be byte-identical before/after:
+1. New module roster-server/grade-contexts.js: an immutable GRADE_CONTEXTS registry keyed by school year. SY2526 = frozen snapshot reproducing TODAY'S exact semantics (today's PHASE3_CONFIG values + today's roster-server/data/lesson-schedule.json + today's full 77-topic blooket list). SY2627 = initially aliases the same values (real divergence lands in M2c' later).
+2. A resolver getGradeContext(year=ACTIVE_SCHOOL_YEAR) returning ONE concrete {config, lessonSchedule, blooketTopics} — the config keeps its current concrete shape (server.js:920-934 shallow-spreads it; consumers expect config.C/config.quarters — Codex B1.1: do NOT turn the runtime config argument into the registry). ACTIVE_SCHOOL_YEAR = 'SY2627' constant (user G8: summer kids ARE the SY2627 cohort; their rows persist under it). Do NOT key anything off recorded_at (Codex B1.4).
+3. Wire server.js to obtain its gradeConfig/schedule through the resolver — with SY2627 aliasing today's values, every output is unchanged.
+4. Archive the drifted public copy: data/lesson-schedule.json is stale (null/spring dates; server loads roster-server/data per server.js:1148-1165) — copy it to data/lesson-schedule.sy2526-public-archive.json and leave the live loading order untouched.
+5. DEFERRED (do not build): PC year-partitioning (waits for the new-PC-material pass), any SY2627-specific bands/schedule (M2c').
+Verify (the hard gate): capture computeGrade outputs for representative ledgers (fresh, summer 1.1-1.5, 1.1-1.9, one with PC rows from SY2526) BEFORE your change, replay AFTER — byte-identical JSON. All existing roster-server tests pass. grep: no consumer bypasses the resolver for config/schedule (list any that legitimately still read PHASE3_CONFIG directly and why).
+Commit 2 prefix: "M2b:".
+
+Reply in this pane with one review packet: hashes, diff summaries, the invariance evidence (before/after byte-comparison result), verification tables, anything deferred. Fable harvests, routes to Codex (gpt-5.6-sol), pushes after green + user sign-off.

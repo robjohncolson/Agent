@@ -1,0 +1,30 @@
+Codex — extraction + verification task: the OFFICIAL Fall-2026 AP Statistics Unit 1 Progress Check material. Source file(s): <<PATH-TO-MATERIAL — user fills this in>>. Working repo: school/follow-alongs (write the output here, NOT into curriculum_render's live data yet).
+
+CONTEXT (read first):
+- grade-substrate-ced2026-fix-spec.md §8: the PC replacement is its own pass; new PC ids MUST use a namespace that cannot collide with SY2526's U{n}-PC-MCQ-{A-D}-Q{nn} / U{n}-PC-FRQ-Q{nn} families (your own A3 finding: ledger identity is (student,source,item_id,attempt) — no year; aggregate keys collide).
+- data/skill-taxonomy-ced2026.json: the canonical 18-code skill taxonomy — tag items ONLY from this file.
+- 2026-crosswalk.json: new-CED Unit 1 topics are 1.1–1.13 (old 1.1–1.9 + old 3.1–3.7 content).
+- This is data authoring only: nothing student-facing changes; legacy quiz/PC banks stay frozen (audit H7 policy).
+
+TASK — produce ONE new file: data/pc-ced2026/unit1-pc-bank.json
+For every item in the material, extract VERBATIM (no paraphrase, no invented rationale):
+{
+  "id": "U1-PC26-MCQ-Q01" style (namespace PC26; FRQs "U1-PC26-FRQ-Q01"; if the material has multiple MCQ forms/parts A/B, preserve them: "U1-PC26-MCQ-A-Q01"),
+  "type": "mcq"|"frq",
+  "stem": full question text incl. any data/table values (describe charts/images in [chart: ...] brackets if not textual),
+  "choices": {"A":..., ...} for MCQs,
+  "answer": the keyed correct choice (MCQ) — only if the material includes the key; NEVER infer or solve for it yourself; omit the field with "answer": null and flag it if absent,
+  "frqScoring": for FRQs, the scoring guideline/rubric parts verbatim if present (the new format is 10-point analytic — capture part structure),
+  "cedTopic": "1.x" from the new Unit 1 topics,
+  "skill": one code from skill-taxonomy-ced2026.json if the material states it; if you're INFERRING the skill, put it in "skillInferred" instead — never mix stated and inferred,
+  "flags": ["illegible", "chart-not-extractable", "no-key", "ambiguous-topic", ...] as needed
+}
+Top-level metadata: {source: exact document title/ids from the material, extractedAt: null, itemCounts: {mcq, frq, parts}, claimedCounts: whatever the document itself states, namespace: "PC26", note: "official Fall-2026 CB material — do not publish to public Pages without user decision"}.
+
+FIDELITY RULES (this is why you, not the implementer, get this task):
+- Verbatim or flagged — never smoothed. Math notation: preserve as typed (use ^ and sqrt() plainly).
+- Reconcile counts: your extracted item count vs the document's own claimed count — report any mismatch prominently.
+- If the file format defeats you (binary PDF you can't parse, images), STOP and say exactly that in the result — do not produce a partial bank silently. Fable can pre-extract text/PDF pages and re-dispatch.
+- Do not modify: any existing answer-key.json, blooket data, curriculum_render files, or anything with old ids.
+
+REPORT in the result answer: item counts (yours vs claimed), topics covered vs 1.1–1.13 (any topic with zero items?), skills distribution, every flag raised, and a 3-item verbatim sample so Fable can eyeball fidelity against the source.
