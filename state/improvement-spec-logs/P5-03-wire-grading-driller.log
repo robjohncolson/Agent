@@ -793,7 +793,7 @@ GEMINI_API_KEY=AIza...
 GROQ_API_KEY=gsk_...
  succeeded in 1.46s:
 SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
  succeeded in 1.45s:
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
@@ -5492,7 +5492,7 @@ The route swap is in. I’m updating the environment files next so the proxy URL
 file update
 M C:/Users/ColsonR/lrsl-driller/.env
 @@ -2 +2,2 @@
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 M C:/Users/ColsonR/lrsl-driller/railway-server/.env.example
 @@ -7,9 +7,6 @@
@@ -5526,7 +5526,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -6203,7 +6203,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -6942,7 +6942,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -7666,7 +7666,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -8378,7 +8378,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -9081,7 +9081,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -9816,7 +9816,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -10536,7 +10536,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -11258,7 +11258,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -11967,7 +11967,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18
@@ -12676,7 +12676,7 @@ index a0f56a39fd3bbdfa8b103a5dac323e505082bb48..d0cfa226931bc80bb582175d8deb6038
 +++ b/.env
 @@ -1,2 +1,3 @@
  SUPABASE_URL=https://hgvnytaqmuybzbotosyj.supabase.co
- SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhndm55dGFxbXV5Ynpib3Rvc3lqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTE1MTkxMywiZXhwIjoyMDgwNzI3OTEzfQ.XgrRwxSnUCoOtjjaYYm4KMacAW_wSIHnFEMPGNTF-oA
+ SUPABASE_SERVICE_ROLE_KEY=<redacted:service_role_key>
 +GRADING_PROXY_URL=https://shared-grading-proxy-production.up.railway.app
 diff --git a/.env.example b/.env.example
 index 4146a0b702e6832a67bc7f16a939f871d2ce5d55..177973d9e798c8daa0efc74d591b15acc69e4c18

@@ -40,7 +40,7 @@ A single student-facing platform ("The Desk") that unifies all classroom tools â
 | Deploy | Railway (server) + GitHub Pages (frontend) |
 | Auth | Fruit_Animal username/password |
 | AI grading | Groq llama-3.3-70b â†’ **migrate to DeepSeek v4** |
-| DeepSeek key | `curriculum_render` key already exists (sk-aa750...3611) |
+| DeepSeek key | `curriculum_render` key already exists (<redacted>) |
 
 **What we're taking**: The quiz engine, FRQ grading, consensus view. Adding inline TI-84 widget and granular completion tracking.
 
@@ -235,7 +235,7 @@ Replace Groq/Gemini across all apps with DeepSeek v4.
 
 | App | Current | New |
 |-----|---------|-----|
-| curriculum_render | Groq (llama-3.3-70b) | DeepSeek v4 (existing key sk-aa750...3611) |
+| curriculum_render | Groq (llama-3.3-70b) | DeepSeek v4 (existing key <redacted>) |
 | lrsl-driller | Groq + Gemini dual-grading | DeepSeek v4 |
 | follow-alongs worksheets | Groq | DeepSeek v4 |
 
