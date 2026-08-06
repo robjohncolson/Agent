@@ -1,0 +1,17 @@
+; Repo-tracked copy of the systemd user unit. Install with:
+;   cp tools/preview-server/repo-preview.service ~/.config/systemd/user/
+;   systemctl --user daemon-reload
+;   systemctl --user enable --now repo-preview.service
+;
+; Node's absolute path is required: systemd user units do not source the
+; shell profile, so nvm's PATH entry is not available.
+[Unit]
+Description=Repo preview static file server (127.0.0.1:8123)
+
+[Service]
+ExecStart=/home/mrcolson/.nvm/versions/node/v24.16.0/bin/node /home/mrcolson/repos/Agent/tools/preview-server/server.mjs
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
