@@ -80,16 +80,24 @@ function readFromRegistry() {
 // ── Machine resolution (registry first, hardcoded MACHINES as fallback) ──────
 
 let machine;
+let registryError = null;
 try {
   machine = readFromRegistry();
-} catch {
+} catch (err) {
+  registryError = err;
+  // The MACHINES fallback only holds Windows profiles keyed by Windows
+  // usernames, so on any other platform it can never match — say so plainly
+  // instead of reporting an "unknown user".
   const username = os.userInfo().username;
-  machine = MACHINES[username];
+  machine = process.platform === "win32" ? MACHINES[username] : undefined;
   if (!machine) {
-    const known = Object.keys(MACHINES).join(", ");
     console.error(
-      `[paths.mjs] Unknown user "${username}". Known: ${known}. ` +
-      `Add a profile or configure registry.`
+      `[paths.mjs] Could not resolve this machine: ${registryError.message}\n` +
+      `Set up the registry:\n` +
+      `  1. echo <machine-id> > ${join(AGENT_ROOT, ".machine-id")}\n` +
+      `  2. create registry/machine-paths/<machine-id>.json with a "repos" map\n` +
+      `  3. add a <machine-id> entry to registry/machines.json\n` +
+      `(or export AGENT_MACHINE=<machine-id> to override the .machine-id file)`
     );
     process.exit(1);
   }

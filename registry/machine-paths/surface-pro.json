@@ -1,0 +1,15 @@
+{
+  "machine": "surface-pro",
+  "base_path": "/home/mrcolson",
+  "repos": {
+    "apstats-live-worksheet": "/home/mrcolson/repos/apstats-live-worksheet",
+    "lrsl-driller": "/home/mrcolson/repos/lrsl-driller",
+    "curriculum-render": "/home/mrcolson/repos/curriculum_render",
+    "agent": "/home/mrcolson/repos/Agent",
+    "lesson-planning": "/home/mrcolson/repos/Lesson_planning",
+    "algebra2-platform": "/home/mrcolson/repos/algebra2-platform",
+    "jetson": "/home/mrcolson/repos/jetson",
+    "connect": "/home/mrcolson/repos/connect",
+    "kraken-bot-v4": "/home/mrcolson/repos/kraken-bot-v4"
+  }
+}

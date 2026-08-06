@@ -6,5 +6,13 @@
     "python": "C:/Users/ColsonR/AppData/Local/Programs/Python/Python312",
     "node": "v22.19.0",
     "shell": "bash (git bash)"
+  },
+  "surface-pro": {
+    "hostname": "surface-pro",
+    "os": "linux",
+    "platform_notes": "Surface Pro 7+, Ubuntu 22.04.5 LTS, 4 cores / 7.6 GiB. Daily driver. No ffmpeg and no local LaTeX — tasks needing them must run elsewhere or call the Railway TeX build service. No Microsoft Edge, so CDP-dependent tasks (Blooket upload, Schoology posting, AI Studio ingest) cannot run here; use Chrome or defer to a Windows machine.",
+    "python": "/usr/bin",
+    "node": "v24.16.0",
+    "shell": "bash"
   }
 }
