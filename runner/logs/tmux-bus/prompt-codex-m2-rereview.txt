@@ -1,0 +1,14 @@
+Codex — RE-REVIEW of Grok's reworked M2 commits after your CORRECTIONS/REJECT verdicts (your findings: state/cross-agent/04512363bbdf.result.json). Repo: school/follow-alongs. Commits (local): M2a d86b8a0, M2b 77b0ae1. Fable already ran the suites (all green, 50/50 on the new+core grade tests) — you verify STRUCTURE and closure of your own findings, not test execution.
+
+For each of your original findings, rule CLOSED / PARTIAL / OPEN with evidence:
+A. gen-blooket-lessons.mjs now emits+validates 77/67/10 and a rerun is byte-identical (read the generator; check its validation actually refuses bad accounting).
+B. Presence(77) vs required(67) split: verify EACH consumer you listed routes to the correct list (grade.js BLOOKET_PRESENCE/REQUIRED, offline-inputs, answer-key, schoology_components.py, hasBlooket path, gradebook columns, Desk status lines) — bonus lessons must still SHOW Blooket presence while never being required.
+C. Mobile static map: verify _fcTopicCsvMapStaticLoaded actually prevents the rebuild-poisons-fetch bug you found, the static∪derived merge is sound, and the rewritten test executes the REAL inline helper under real boot ordering (would it have caught the original bug?).
+D. Freeze durability: grade-contexts.js loads blooket-lessons.sy2526-freeze.json / grade-config.sy2526-freeze.json / lesson-schedule.sy2526-freeze.json via readFileSync + nested deepFreeze — verify the snapshot CONTENTS are right (blooket=pre-M2a 77 as required; schedule=the SERVER copy semantics, 1.1 B=2026-09-09; config=true SY2526 knobs) and there's no silent fallback to live values if a freeze file is missing (what does loadJson||-chain do on missing file? fail loud or quiet?).
+E. Resolver honesty: resolveProductionGradeInputs('SY2526') returns frozen values (verified structurally by Fable; confirm no path returns live for a non-active year).
+F. Loader priority: loadLessonScheduleWithPriority honors env LESSON_SCHEDULE_PATH -> bundled -> repo-root for SY2627; SY2526 freeze ignores env. Check the env-override golden actually exercises this.
+G. Mount threading: all seven mounts (grade, offline-inputs, answer-key, transcript, class, teacher, review) receive the resolved bundle; transcript hashes the denominator it uses; no mount silently on module defaults.
+H. Goldens: are the committed fixtures + harness genuinely re-runnable and non-tautological (resolver path, env case, artHash coverage)? Would they catch a future fake-freeze regression?
+Plus: any NEW defect the rework introduced (esp. the grade.js/class/teacher/review signature changes in G — breaking callers/tests you can see).
+
+Verdict per commit: GREEN-pending-signoff / CORRECTIONS / REJECT.

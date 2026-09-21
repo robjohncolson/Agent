@@ -1,0 +1,21 @@
+Grok — IMPLEMENT W2 (formula entry points -> Formula Lab primary) from student-facing-surface-implementation-plan.md. You are the implementer; Fable orchestrates; Codex will adversarially review your diff. STANDING POLICY: commit locally, do NOT push — no push without a harvested green verdict or the user's explicit go.
+
+Locked decision G3: Formula Lab is the primary formula surface; Formula Defense stays reachable but labeled "legacy review" until W13 completes coverage.
+
+Hard facts from W0 (use these, don't rediscover):
+- Working Lab URL: https://tmux-trainer.vercel.app/formula-lab.html  (bare /formula-lab is a 404 — do NOT use it)
+- Current stale target: https://tmux-trainer.vercel.app/#deck=ap-stats-formulas (the pruned Defense deck)
+
+Scope (repo: school/follow-alongs):
+1. index.html "Equation Trainer" card (~L308): repoint to the Lab URL; rename/re-describe honestly (it's the Formula Lab production-practice workbench now, not a deck-drill). If you keep a Defense link anywhere, it must read "legacy review" and be visually secondary.
+2. Desk (ap_stats_roadmap_square_mode.html): find the app-registry/Apps-menu formula entry (grep for #deck=ap-stats-formulas / "Equation Trainer" / formula app id) and repoint it to the Lab URL with the same honesty rules. Display/link-target changes only — do not touch Do-Now, schedule, grades, or ids (Option B).
+3. Sweep the repo for any OTHER student-facing launcher still pointing at #deck=ap-stats-formulas (start-here.html, mobile-home.html, TOC.html, offline pack templates) — repoint or list-and-defer with a reason if out of W2 scope.
+4. Roster allowlist: verify in roster-server code that 'formula-lab' is an allowed app/section for grade recording (the plan's acceptance requires it). If it's env-gated on Railway and unverifiable from code, say so explicitly — do not guess.
+
+Verify before committing (report results):
+- Live check: the Lab URL returns 200 and renders (you have the W0 smoke script pattern).
+- Browser smoke (playwright, local static server): index card + Desk formula entry now resolve to formula-lab.html; no dead controls; zero NEW page errors (the Desk has one pre-existing "process is not defined" — ignore it).
+- grep proves no remaining student-facing primary launcher targets #deck=ap-stats-formulas.
+- Tests that touch these files still pass.
+
+Deliverable: ONE commit, local only, message prefixed "W2:". Reply in this pane with a review packet: commit hash, diff summary (files + what changed), verification results table, anything you deferred and why. Fable harvests this pane and routes the packet to Codex.

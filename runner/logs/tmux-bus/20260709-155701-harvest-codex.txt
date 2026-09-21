@@ -1,0 +1,560 @@
+      - Bare /formula-lab → 404
+      - W2 must use /formula-lab.html.
+
+  Corrections To Make
+
+  - Patch the W0 doc/script claim that origins are “resolved from
+    code.” They are hardcoded in the script.
+
+  - Consider expanding the script’s media check from one mp4 to all
+    lessons-index.json media paths, since W7 depends on that claim.
+
+  - Note explicitly that the source comment in mobile-home.html is
+    stale: it says lessons-index.json is not published to Pages, but it
+    is published and is exactly why mobile-web takes the broken
+    relative quiz path.
+
+  No app code was edited.
+
+─ Worked for 2m 23s ───────────────────────────────────────────────────
+
+
+› Codex — adversarially review Grok's e0eed68 (W0 corrections) +
+  6ebf6c6 (H0 mobile-web quiz fix) before push. Live mobile surface —
+  verify,   don't trust the summary.
+  The crux — is window.OFFLINE_MODE a correct and reliable web-vs-APK
+  signal? This is load-bearing; if it's wrong, the fix either does
+  nothing or breaks offline. Verify precisely:
+  1. What sets OFFLINE_MODE, and where is offline-config.js loaded?
+  Confirm it's present only in the APK/offline pack (so OFFLINE_MODE
+  is      truthy only there) and is not shipped to GH Pages. Grep the
+  build-offline-pack script + mobile-home.html's script tags.
+  2. Semantics: does OFFLINE_MODE mean specifically "APK bundled
+  pack," or "offline in general"? If a web PWA/service-worker offline
+  state     can also set it truthy, then an offline web user gets the
+  relative quiz/… → 404. Nail down exactly what flips it.
+  3. Timing: is OFFLINE_MODE set synchronously before
+  resolveQuizHref() runs at render? If offline-config.js loads async/
+  after the launcher    renders, the first paint could resolve with
+  the wrong branch. Confirm the load order.
+  4. Default on web: confirm undefined → falsy → web/CR branch.
+  The dangerous failure mode — APK offline regression. Prove the APK
+  context still yields the relative bundled quiz/index.html?u=&l= (not
+  the  absolute CR URL). An APK that gets the absolute CR link =
+  broken offline quizzes. Grok tested this with OFFLINE_MODE=true in
+  jsdom;          confirm that reflects the real pack behavior.
+  resolveQuizHref() correctness + coverage:
+  - Handles: relative quiz (→ CR absolute on web), already-absolute
+  quiz URL (passes through, no double-prefix/mangling), null quiz (no
+  crash), ?u=&l= params preserved verbatim, any #hash/extra query
+  intact.
+  - Coverage: is this the only place mobile-home builds a quiz link?
+  Grep for every quiz-href construction site and confirm the fix
+  covers     all of them (not just the one button).
+  Confirm the boundaries: Desk path truly unchanged (only mobile-
+  home.html touched); no lessons-index.json mutation; no id changes;
+  tests/mobile-home-flashcards.test.js still 6/6.
+  Part 1 (e0eed68) checks: the smoke script's runMediaSweep() actually
+  HEADs all 140 unique paths (not a hardcoded 140) and reports all404;
+  the doc's "resolved from code" overclaim is fixed; the stale-comment
+  finding is documented.
+  Smoke sufficiency: Grok verified the href logic in jsdom + CR 200
+  live. Decide whether that's enough or whether a real playwright-core
+  browser smoke is warranted (mobile-home renders on a Pages-like
+  host, quiz button gets the CR href, no new console errors). If you
+  think     jsdom leaves a gap, say what browser check to add.
+  Verdict: green to push (fix correct, signal reliable, APK non-
+  regressing, coverage complete) or concrete corrections. Flag any way
+  OFFLINE_MODE could misfire in a real web/APK/PWA context.
+  ---
+  The one I'd watch hardest is check #2 — whether OFFLINE_MODE is APK-
+  specific or a general offline flag. If it's the latter, the fix has
+  a    subtle web-offline hole worth catching before this goes live.
+  Want me to add anything, or send as-is?
+
+  ✻ Churned for 1m 7s
+
+
+• I’ll review this as a pre-push code review: first the diffs, then the
+  offline-pack signal, then actual rendered href behavior. The key
+  question is whether OFFLINE_MODE is APK-pack specific and set before
+  mobile-home renders.
+
+• Ran git show --name-only --format=fuller e0eed68 && git show
+  │ --name-only --format=fuller 6ebf6c6
+  └ commit e0eed68ce76d528bd09f600d3c51934bfabb9d1c
+    Author:     bobby <robjohncolson@protonmail.com>
+    … +27 lines (ctrl + t to view transcript)
+
+    mobile-home.html
+
+• Ran git status --short -- mobile-home.html scripts/
+  │ smoke-student-host-matrix.mjs
+  │ student-host-matrix-and-quiz-packaging.md tests/
+  │ … +1 lines
+  └ (no output)
+
+• Ran git show --stat --oneline e0eed68 && git show --stat --oneline
+  │ 6ebf6c6
+  └ 6ebf6c6 fix(H0): mobile-web quiz links use absolute CR origin; APK
+    keeps relative
+     mobile-home.html | 52 ++++++++++++++++++++++++++++++++++++++
+    ++------------
+     1 file changed, 40 insertions(+), 12 deletions(-)
+
+───────────────────────────────────────────────────────────────────────
+
+• The two commits are cleanly scoped: W0 doc/script plus mobile-
+  home.html only. I’m drilling into OFFLINE_MODE now, because that
+  decides whether the mobile fix is safe for the APK pack.
+
+• Ran git show --color=never --unified=100 6ebf6c6 -- mobile-home.html
+  └ commit 6ebf6c6b2ec899a0cc5432d90dfd4a04f34fcb60
+    Author: bobby <robjohncolson@protonmail.com>
+    … +399 lines (ctrl + t to view transcript)
+     </body>
+     </html>
+
+• Ran git show --color=never --unified=80 e0eed68 -- scripts/
+  │ smoke-student-host-matrix.mjs
+  │ student-host-matrix-and-quiz-packaging.md
+  └ commit e0eed68ce76d528bd09f600d3c51934bfabb9d1c
+    Author: bobby <robjohncolson@protonmail.com>
+    … +766 lines (ctrl + t to view transcript)
+     | **Codex / review** | Sanity-check G1 before any W7/W9 code keys
+    off it |
+
+• Explored
+  └ Search OFFLINE_MODE|offline-config|resolveQuizHref|quiz/index|
+           curriculum_render|lesson\.quiz|href=.*quiz|open.*quiz|
+           data-.*quiz in .
+
+───────────────────────────────────────────────────────────────────────
+
+• The rg sweep hit large fixture files, so I’m stopping that noisy
+  search and rerunning it narrowly on the relevant files only. The
+  useful part already shows the build script owns OFFLINE_MODE
+  injection.
+
+↳ Interacted with background terminal · rg -n "OFFLINE_MODE|offline-
+config|resolveQuizHref|quiz/index|curriculum_render|lesson\.quiz|
+href=.*quiz|open.*quiz|data-.*quiz" . android-app/www scripts tests -g
+'!node_modules'
+  └
+
+• Explored
+  └ Search OFFLINE_MODE|offline-config|resolveQuizHref|quiz/index|
+           curriculum_render|lesson\.quiz|href=.*quiz|open.*quiz|
+           data-.*quiz in .
+
+───────────────────────────────────────────────────────────────────────
+
+• OFFLINE_MODE appears generated by scripts/build-offline-pack.mjs, and
+  the committed APK www tree already has offline-config.js injected
+  into mobile-home.html. I’m verifying the exact pack injection order
+  and whether any web/PWA code can set the same flag.
+
+• Explored
+  └ Read build-offline-pack.mjs, offline-config.js, build-offline-
+         pack.test.js
+
+• Ran rg -n "OFFLINE_MODE|offline-config\.js|PLAY_BUILD|MEDIA_BASE_URL"
+  │ mobile-home.html index.html sw.js manifest.json scripts/
+  │ build-offline-pack.mjs tests/build-offline-pack.test.js
+  │ … +3 lines
+  └ android-app/www/offline-config.js:1:// offline-config.js —
+    GENERATED by build-offline-pack.mjs. Do not hand-edit.
+    … +68 lines (ctrl + t to view transcript)
+    mobile-home.html:1211:  function isOfflinePack() { return
+    window.OFFLINE_MODE === true; }
+
+• Ran git log --oneline -5 && sed -n '1,125p' mobile-home.html && sed
+  │ -n '1,125p' android-app/www/mobile-home.html
+  └ 6ebf6c6 fix(H0): mobile-web quiz links use absolute CR origin; APK
+    keeps relative
+    … +257 lines (ctrl + t to view transcript)
+    who.username || 'student');
+          if (b) b.textContent = '⇄ Switch student';
+
+───────────────────────────────────────────────────────────────────────
+
+• The signal is not a generic “browser is offline” flag. It is
+  generated by the offline pack builder and injected as a blocking
+  script before app code. Root mobile-home.html also includes the
+  script tag, but the file is absent on Pages, so web gets undefined.
+  I’m verifying that live 404/default branch and then I’ll run the
+  mobile tests plus a browser check on the patched file.
+
+• Ran printf 'root offline-config exists? '; test -f offline-config.js;
+  │ echo $?; printf 'android offline-config exists? '; test -f
+  │ android-app/www/offline-config.js; echo $?; curl -sS -L -o
+  │ … +6 lines
+  └ live_status=404 final=https://robjohncolson.github.io/
+    apstats-live-worksheet/offline-config.js?codex=1 type=text/html;
+    charset=utf-8 size=9379
+    <!DOCTYPE html> <html>   <head>     <meta http-equiv="Content-type"
+    content="text/html; charset=utf-8">     <meta http-e
+
+• Explored
+  └ Read mobile-home.html
+    Search OFFLINE_MODE\s*= in .
+
+• Ran node scripts/smoke-student-host-matrix.mjs --http-only --out /
+  │ tmp/w0-after-corrections.json
+  └ W0 student host matrix smoke
+    Origins are hardcoded from verified code constants (see ORIGINS
+    … +50 lines (ctrl + t to view transcript)
+    media sweep: 140 unique paths, ok=0, fail=140, all404=true
+    Wrote /tmp/w0-after-corrections.json
+
+───────────────────────────────────────────────────────────────────────
+
+• OFFLINE_MODE is APK/offline-pack specific in this repo: root Pages
+  has no offline-config.js and live fetch returns 404; the generated
+  pack writes window.OFFLINE_MODE = true. I’m now testing the resolver
+  edge cases and doing a real browser smoke on the patched mobile-
+  home.html served locally, since jsdom alone would miss script-load
+  timing and anchor resolution.
+
+• Ran node - <<'NODE'
+  │ function makeResolver(offline) {
+  │   const window = { OFFLINE_MODE: offline };
+  │ … +47 lines
+  └ PASS "quiz/index.html?u=1&l=2" web=
+    https://robjohncolson.github.io/curriculum_render/?u=1&l=2 apk=
+    … +13 lines (ctrl + t to view transcript)
+    PASS null web= null apk= null
+    PASS "worksheet.html" web= worksheet.html apk= worksheet.html
+
+• Ran node - <<'NODE'
+  │ const fs=require('fs');
+  │ const html=fs.readFileSync('mobile-home.html','utf8');
+  │ … +8 lines
+  └ quiz refs count 37
+    ---
+    … +91 lines (ctrl + t to view transcript)
+    hosts / sparse packs).\n  // Strip WS_BASE so worksheet links are
+    ORIGIN-RELATIVE (G
+
+───────────────────────────────────────────────────────────────────────
+
+• The resolver preserves query/hash and passes absolute/null through
+  correctly in both web and APK branches. The only quiz-link
+  construction site in mobile-home.html is the lessonCard() anchor
+  assignment through resolveQuizHref(). I’m waiting on the test process
+  and then I’ll run the browser smoke.
+
+• Ran npx vitest run tests/mobile-home-flashcards.test.js tests/
+  │ build-offline-pack.test.js --reporter=verbose
+  └
+     RUN  v1.6.1 /mnt/c/Users/rober/Downloads/Projects/school/
+    … +23 lines (ctrl + t to view transcript)
+    tests 44.34s, environment 9.05s, prepare 3.70s)
+
+
+───────────────────────────────────────────────────────────────────────
+
+• Static tests pass, including the pack injection contract. For the APK
+  branch I’m not going to trust the stale checked-in android-app/www/
+  mobile-home.html; I’m checking the actual packaging path so the
+  patched launcher plus generated offline-config.js would be evaluated
+  together.
+
+• Explored
+  └ Search mobile-home\.html|android-app/www|build-android|offline-
+  config|
+           build-offline-pack in scripts
+
+• Ran node -e "try{require.resolve('playwright-core');
+  │ console.log('playwright-core yes')}catch(e)
+  │ {console.log('playwright-core no'); process.exit(1)}"
+  └ playwright-core yes
+
+• Explored
+  └ Search mobile-home\.html|android-app/www|build-android|offline-
+  config|
+           build-offline-pack in scripts
+    Read build-android.mjs
+
+• Ran node - <<'NODE'
+  │ const { chromium } = require('playwright-core');
+  │ (async()=>{
+  │ … +33 lines
+  └ {
+      "httpStatus": 200,
+    … +15 lines (ctrl + t to view transcript)
+      ]
+    }
+
+───────────────────────────────────────────────────────────────────────
+
+• The browser smoke on a Pages-like local host passed: offline-
+  config.js 404s, OFFLINE_MODE remains falsy, and the quiz anchor
+  resolves to the CR URL. I accidentally invoked build-android.mjs with
+  a nonexistent --skip-gradle flag; I’m stopping it rather than letting
+  Gradle run, then I’ll inspect any generated changes it made.
+
+↳ Interacted with background terminal · rm -rf state/
+_codex_android_pack && node scripts/build-android.mjs --no-media
+--skip-gradle >/tmp/build-android-codex.log 2>&1; status=$?; echo
+status=$status; tail -80 /tmp/build-android-codex.log; printf
+'\nInjected mobile/index checks:\n'; sed -n '75,88p' android-app/www/
+mobile-home.html; printf '\n'; sed -n '75,88p' android-app/www/
+index.html; printf '\ncontains resolver? '; rg -q "function
+resolveQuizHref" android-app/www/mobile-home.html; echo $?; printf
+'offline config contains? '; grep -q "window.OFFLINE_MODE = true"
+android-app/www/offline-config.js; echo $?
+  └
+
+• Ran rm -rf state/_codex_android_pack && node scripts/
+  │ build-android.mjs --no-media --skip-gradle >/tmp/
+  │ build-android-codex.log 2>&1; status=$?; echo status=$status;
+  │ … +7 lines
+  └ (no output)
+
+───────────────────────────────────────────────────────────────────────
+
+• The Android build command was interrupted before any review result
+  depends on it. I’m checking the worktree now; if it only generated
+  files from my accidental command, I’ll report that and avoid mixing
+  it into the review.
+
+• Ran git diff --name-only -- android-app/www mobile-home.html scripts/
+  │ smoke-student-host-matrix.mjs
+  │ student-host-matrix-and-quiz-packaging.md android-app | sed -n
+  │ … +1 lines
+  └ (no output)
+
+• Ran git status --short -- android-app/www mobile-home.html scripts/
+  │ smoke-student-host-matrix.mjs
+  │ student-host-matrix-and-quiz-packaging.md android-app
+  └ (no output)
+
+───────────────────────────────────────────────────────────────────────
+
+• No tracked diff was left by the interrupted Android command. Since
+  the checked-in android-app/www can be a stale pack snapshot, I’m
+  simulating the next APK pack in /tmp from the patched mobile-
+  home.html plus generated offline-config.js and lessons-index.json,
+  then checking the actual rendered anchor under OFFLINE_MODE=true.
+
+• Ran node - <<'NODE'
+  │ const { chromium } = require('playwright-core');
+  │ (async()=>{
+  │ … +26 lines
+  └ {
+      "source": "checked-in android-app/www snapshot",
+    … +8 lines (ctrl + t to view transcript)
+      "failed": []
+    }
+
+───────────────────────────────────────────────────────────────────────
+
+• The current checked-in APK snapshot keeps relative quiz/index.html
+  under OFFLINE_MODE=true, so it is not regressed. I’m also checking
+  the next-pack simulation from the patched source to confirm the new
+  resolver preserves that behavior after rebuild.
+
+• Ran node - <<'NODE'
+  │ const { chromium } = require('playwright-core');
+  │ (async()=>{
+  │ … +28 lines
+  └ {
+      "source": "next-pack simulation from patched mobile-home",
+    … +14 lines (ctrl + t to view transcript)
+      ]
+    }
+
+• Searching the web
+
+• Searched the web
+
+───────────────────────────────────────────────────────────────────────
+
+• That first “pack simulation” was invalid: I created /tmp/codex-apk-
+  sim but served the repo root, so offline-config.js 404ed and it took
+  the web branch. I caught it; restarting the temp server from the
+  correct directory now.
+
+↳ Interacted with background terminal · rm -rf /tmp/codex-apk-sim &&
+mkdir -p /tmp/codex-apk-sim && cp mobile-home.html /tmp/codex-apk-sim/
+mobile-home.html && cp lessons-index.json /tmp/codex-apk-sim/lessons-
+index.json && printf '%s\n' '// generated pack simulation'
+'window.OFFLINE_MODE = true;' > /tmp/codex-apk-sim/offline-config.js &&
+python3 -m http.server 8769 --bind 127.0.0.1
+  └
+
+• Ran rm -rf /tmp/codex-apk-sim && mkdir -p /tmp/codex-apk-sim && cp
+  │ mobile-home.html /tmp/codex-apk-sim/mobile-home.html && cp
+  │ lessons-index.json /tmp/codex-apk-sim/lessons-index.json &&
+  │ … +3 lines
+  └ 127.0.0.1 - - [09/Jul/2026 14:22:26] "GET /mobile-home.html
+    HTTP/1.1" 200 -
+    … +26 lines (ctrl + t to view transcript)
+
+    Keyboard interrupt received, exiting.
+
+───────────────────────────────────────────────────────────────────────
+
+• Now rerunning the pack simulation from the correct /tmp directory.
+  This is the one that matters for the post-rebuild APK behavior.
+
+• Explored
+  └ List codex-apk-sim
+    Read offline-config.js
+
+───────────────────────────────────────────────────────────────────────
+
+• The temp pack has offline-config.js and the patched launcher. I’m
+  checking its rendered quiz link now.
+
+• Ran node - <<'NODE'
+  │ const { chromium } = require('playwright-core');
+  │ (async()=>{
+  │ … +28 lines
+  └ {
+      "source": "next-pack simulation from patched mobile-home",
+    … +9 lines (ctrl + t to view transcript)
+      "failed": []
+    }
+
+───────────────────────────────────────────────────────────────────────
+
+• The correct pack simulation passes: with OFFLINE_MODE=true, the quiz
+  link stays relative. I’m stopping the local test servers and then
+  I’ll give the review verdict with any caveats.
+
+↳ Interacted with background terminal · python3 -m http.server 8767
+--bind 127.0.0.1
+  └
+
+↳ Interacted with background terminal · python3 -m http.server 8768
+--bind 127.0.0.1
+  └
+
+↳ Interacted with background terminal · python3 -m http.server 8769
+--bind 127.0.0.1
+  └
+
+• Ran python3 -m http.server 8767 --bind 127.0.0.1
+  └ 127.0.0.1 - - [09/Jul/2026 14:21:00] "GET /mobile-home.html
+    HTTP/1.1" 200 -
+    … +26 lines (ctrl + t to view transcript)
+
+    Keyboard interrupt received, exiting.
+
+• Ran python3 -m http.server 8768 --bind 127.0.0.1
+  └ 127.0.0.1 - - [09/Jul/2026 14:22:14] "GET /mobile-home.html
+    HTTP/1.1" 200 -
+    … +26 lines (ctrl + t to view transcript)
+
+    Keyboard interrupt received, exiting.
+
+• Ran python3 -m http.server 8769 --bind 127.0.0.1
+  └ 127.0.0.1 - - [09/Jul/2026 14:22:54] "GET /mobile-home.html
+    HTTP/1.1" 200 -
+    … +41 lines (ctrl + t to view transcript)
+
+    Keyboard interrupt received, exiting.
+
+───────────────────────────────────────────────────────────────────────
+
+• All local test servers are stopped. I’m doing one final status check
+  so the review doesn’t leave behind repo changes.
+
+• Ran git diff --stat -- mobile-home.html scripts/
+  │ smoke-student-host-matrix.mjs
+  │ student-host-matrix-and-quiz-packaging.md android-app/www
+  └ (no output)
+
+• Ran git status --short -- mobile-home.html scripts/
+  │ smoke-student-host-matrix.mjs
+  │ student-host-matrix-and-quiz-packaging.md android-app/www
+  └ (no output)
+
+───────────────────────────────────────────────────────────────────────
+
+• The review left no worktree changes. One subtle non-blocker to keep
+  in mind: resolveQuizHref() treats only boolean true as pack mode,
+  while some other code accepts '1' too. The actual generated pack uses
+  boolean true, so it is safe for this deploy.
+
+• Explored
+  └ Read sw.js
+    Search offline-config|OFFLINE_MODE|respondWith|fetch|navigate|
+    PRECACHE|
+           CACHE in sw.js
+
+───────────────────────────────────────────────────────────────────────
+
+• Verdict: green to push.
+
+  I don’t see a blocker in e0eed68 or 6ebf6c6.
+
+  Key Checks
+
+  - OFFLINE_MODE is pack-specific here. It is generated by scripts/
+    build-offline-pack.mjs as window.OFFLINE_MODE = true; root GH Pages
+    has no offline-config.js and live fetch returns 404.
+
+  - Timing is safe: mobile-home.html loads offline-config.js as a
+    normal blocking script before the main inline launcher code. On APK
+    it sets OFFLINE_MODE before render; on web it 404s and remains
+    falsy.
+
+  - Web branch works in browser smoke: local Pages-like host rendered
+    mobile-home with OFFLINE_MODE undefined and first quiz href became
+    https://robjohncolson.github.io/curriculum_render/?u=1&l=2.
+
+  - APK branch does not regress: checked-in APK snapshot and a next-
+    pack simulation with OFFLINE_MODE=true both kept quiz/index.html?
+    u=1&l=2 relative.
+
+  - resolveQuizHref() covers relative quiz, absolute quiz, null, query
+    strings, and hash fragments. The only mobile quiz anchor
+    construction goes through lessonCard() and now calls
+    resolveQuizHref(l.quiz).
+
+  - Desk path is untouched; only mobile-home.html changed in 6ebf6c6.
+  - lessons-index.json was not mutated; ids unchanged.
+
+  W0 Corrections
+
+  - e0eed68 fixes the prior overclaim: origins are now documented as
+    hardcoded from verified constants, not runtime-parsed.
+
+  - runMediaSweep() fetches live lessons-index.json, dedupes media
+    paths, and HEADs all unique paths. It reported 140 unique paths, 0
+    OK, 140 fail, all404=true.
+
+  - The stale mobile-home.html comment is documented.
+
+  Verification Run
+
+  - node scripts/smoke-student-host-matrix.mjs --http-only: passed;
+    media sweep 140/140 404.
+
+  - npx vitest run tests/mobile-home-flashcards.test.js tests/build-
+    offline-pack.test.js --reporter=verbose: 12/12 passed.
+
+  - Playwright local web smoke: quiz href is absolute CR; no page
+    errors.
+
+  - Playwright APK/pack smoke: quiz href remains relative; no page
+    errors.
+
+  Non-Blocking Caveat
+  resolveQuizHref() checks window.OFFLINE_MODE === true, while offline-
+  queue.js accepts true or '1'. The real generator emits boolean true,
+  so this is safe. If another pack builder ever writes '1', the quiz
+  resolver would take the web branch. Not blocking, but aligning
+  truthiness later would be harmless.
+
+─ Worked for 5m 43s ───────────────────────────────────────────────────
+
+  1 background terminal running · /ps to view · /stop to close
+
+
+› Implement {feature}
+
+  gpt-5.5 xhigh · /mnt/c/Users/rober/Downloads/Projects/tmux-trainer

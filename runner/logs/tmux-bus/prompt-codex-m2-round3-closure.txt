@@ -1,0 +1,11 @@
+Codex — ROUND-3 CLOSURE CHECK on Grok's M2 rework (your round-2 findings: state/cross-agent/777d472bd1d5.result.json). Commits (local): M2a 01b2cac, M2b a6e1a46. Fable already ran all suites green (94/94 incl. the 23-test bundle-parity drift check and 7 fail-loud tests) — you rule on STRUCTURE ONLY. For each of your six round-2 findings, rule CLOSED or OPEN with file:line evidence:
+
+1. OFFLINE ENGINE: offline-inputs + answer-key expose blooketPresence AND blooketRequired (legacy field = presence); Desk re-derive (~8331) passes both; regenerated grade-engine.bundle.js uses REQUIRED for the V3 denominator and PRESENCE for buildLessonsArray (check the actual bundle code paths, not just the source); build-grade-engine.mjs emits that contract.
+2. FAIL-LOUD: loadFreezeJsonOrThrow covers missing/malformed/invalid for ALL THREE freeze files; NO residual silent live fallback anywhere in grade-contexts.js; GRADE_FREEZE_DIR test hook can't weaken production (what happens if GRADE_FREEZE_DIR is set in prod env — acceptable?).
+3. useV3 FROZEN: loadConfigSy2526 takes the freeze file's useV3; no env/PHASE3_CONFIG import into SY2526 anywhere.
+4. ATOMIC BUNDLE: server.js has 4 textual occurrences of resolveProductionGradeInputs — verify it's ONE actual resolution shared by all seven mounts (grade, offline-inputs, answer-key, transcript, class, teacher, review), with the boot-injected _prodGrade path coherent. If any mount still resolves independently or misses required/presence, OPEN.
+5. TRANSCRIPT HASH: artifactHash and computeGrade both derive lists via the same resolveBlooketLists; the legacy-blooketLessons fallback can no longer hash different lists than it grades with.
+6. GOLDENS: fail-loud tests actually delete/corrupt each freeze file; SY2526 golden pins full frozen config INCL. useV3; env-override golden goes through the resolver itself; hasBlooketSample uses lessonKey and is non-empty (covers a core + a bonus topic); artifactHash asserted via the real transcript export.
+Plus: any NEW defect this rework introduced (bundle regeneration is the biggest new surface — client/server parity, module default changes breaking any non-server consumer of grade.js exports).
+
+Verdict per commit: GREEN-pending-signoff / OPEN items list.

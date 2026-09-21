@@ -1,0 +1,13 @@
+Codex — focused adversarial review of TWO local commits in school/follow-alongs (M2 wave from grade-substrate-ced2026-fix-spec.md v2 §8). Keep tight; findings in the result answer field; verdict per commit KEEP-pending-signoff / CORRECTIONS / REJECT.
+
+M2a 96a509b — Blooket core-67 denominator + mobile CSV fallback (data/blooket-topic-csv.json, blooket-lessons.json topics=67 +bonusTopics+allTopics, grade.js notes/export, mobile-home ID-only fallback + new test).
+M2b d3c7e37 — grade-context registry (grade-contexts.js: GRADE_CONTEXTS/getGradeContext/resolveProductionGradeInputs/ACTIVE_SCHOOL_YEAR='SY2627'; server.js mounts through resolver; archives sy2526-public schedule + config freeze; new tests). Claims: ZERO behavior change, invariance IDENTICAL on 4 ledgers, 116/116 + 4/4 + 12/12 tests.
+
+Pointed checks:
+1. blooket-lessons.json shape change (topics 77→67): find EVERY consumer of .topics beyond grade.js:42-55 (teacher views, class.js, Desk/mobile, scripts, tests) — anything assuming 77 or iterating topics for non-denominator purposes now silently loses the 10 bonus ids?
+2. SY2526 frozen context: does it reference the OLD 77-topic list (allTopics) or the new 67? If SY2526 context resolves with 67, historical V3 recomputation (if ever enabled) shifts — the freeze must snapshot 77. Verify grade-contexts.js wiring.
+3. resolveProductionGradeInputs: confirm every live mount (grade, class, teacher, transcript, review, offline-inputs, answer-key) gets config/schedule/blooket through it; list any missed mount still on raw PHASE3_CONFIG/loadLessonSchedule.
+4. Invariance evidence: is Grok's before/after comparison methodologically sound (same ledger inputs, same answer key, actual byte compare)? Re-run one yourself if cheap.
+5. Mobile fallback map data/blooket-topic-csv.json: spot-check 3 combined mappings against actual CSV files on disk (u3_l6_l7, u4_l1_l2, u5_l1_l2 or equivalents); confirm unknown-topic → explicit no-deck (no invented filename).
+6. The archive files: placed where nothing loads them at runtime (loading order server.js:1148-1165 unchanged)?
+7. Any id/receipt/history mutation anywhere (must be none).

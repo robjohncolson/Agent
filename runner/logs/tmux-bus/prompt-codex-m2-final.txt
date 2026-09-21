@@ -1,0 +1,8 @@
+Codex — FINAL closure check, M2b only (M2a 01b2cac already GREEN and untouched — verify only that its hash/content is genuinely unchanged). M2b amended to b905f87. Your two OPEN residuals from round 3 (newest prior result file): shallow freeze validators + GRADE_FREEZE_DIR prod redirect; golden gaps. Fable ran suites green (28 + 5 + 23).
+
+Rule CLOSED/OPEN, tight scope:
+1. validateBlooketFreeze / validateConfigFreeze / validateScheduleFreeze (grade-contexts.js ~127/164/257): would {C:85}, {lessons:[]}, and a 1-topic blooket each THROW? Does the config validator cover the knobs computeGrade actually reads (quarters Q1-Q4 units/start/end/pcAnchor, useV3, weights, gates)? Any knob computeGrade reads that the validator misses?
+2. GRADE_FREEZE_DIR: honored ONLY under isTestEnv() (VITEST/NODE_ENV=test), THROWS if set in prod (~59-80). Any bypass?
+3. Goldens: 3 freezes x missing/malformed/invalid all covered; SY2526 golden deep-equals the FULL freeze config; prod-gating test exists and actually exercises the gate.
+4. Any new defect from the amendment (exported validators changing module surface; test-env detection false-positives in real prod runtimes).
+Verdict: GREEN-pending-signoff or the exact remaining lines.

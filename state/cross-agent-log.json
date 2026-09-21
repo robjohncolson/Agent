@@ -486,15 +486,62 @@
       "timestamp": "2026-03-13T19:28:25Z",
       "files_changed": [],
       "depth": 0
+    },
+    {
+      "call_id": "de07f0bb4144",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "Implement Spec 13: parallel runner stale worktree cleanup robustness.\n\nREQUIRED READING (do this fir",
+      "status": "completed",
+      "duration_seconds": 241.535,
+      "timestamp": "2026-04-12T17:21:52Z",
+      "files_changed": [
+        "runner/parallel-codex-runner.py",
+        "runner/test_parallel_runner_cleanup.py"
+      ],
+      "depth": 0
+    },
+    {
+      "call_id": "76729ee0f737",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "You are extracting the semantic content of a source file into a compact markdown extract for an Obsi",
+      "status": "completed",
+      "duration_seconds": 139.383,
+      "timestamp": "2026-04-18T19:41:32Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "ef4e734addab",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "You are extracting the semantic content of a source file into a compact markdown extract for an Obsi",
+      "status": "timeout",
+      "duration_seconds": 180.064,
+      "timestamp": "2026-04-18T19:44:32Z",
+      "files_changed": [],
+      "depth": 0
+    },
+    {
+      "call_id": "63404a11723b",
+      "direction": "cc-to-codex",
+      "task_type": "implement",
+      "prompt_summary": "You are extracting the semantic content of a source file into a compact markdown extract for an Obsi",
+      "status": "timeout",
+      "duration_seconds": 180.061,
+      "timestamp": "2026-04-18T19:47:32Z",
+      "files_changed": [],
+      "depth": 0
     }
   ],
   "summary": {
-    "total_calls": 42,
-    "cc_to_codex": 39,
+    "total_calls": 46,
+    "cc_to_codex": 43,
     "codex_to_cc": 3,
-    "completed": 13,
-    "failed": 28,
+    "completed": 15,
+    "failed": 30,
     "refused": 1,
-    "avg_duration_seconds": 124.894
+    "avg_duration_seconds": 130.144
   }
 }

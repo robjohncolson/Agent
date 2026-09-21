@@ -1,0 +1,15 @@
+Grok — M2d round 2. Codex verdicts: W-reg 8bf5b4c = GREEN (do not touch). M2d 34db175 = CORRECTIONS, two findings (evidence: newest state/cross-agent/*.result.json). USER RULING on finding 1: option (a) — the student-visible "(bonus)" label is ACCEPTED deliberately (consistent with the migration's honest-labeling philosophy: launcher + Desk already show "Beyond the Exam" to students). Amend 34db175 (W-reg 8bf5b4c sits on top — rebase/reorder as needed, or amend via rebase; keep both commits' content coherent), local only, NO push.
+
+FIX 1 — accept + codify the student-visible label:
+(a) Keep the shared column.title "(bonus)" suffix exactly as implemented — no teacher-only split.
+(b) UPDATE the commit message: the label IS student-visible by design (My Gradebook + My Ledger render the shared title) — remove the false "no student-visible label" claim, state the user-approved intent.
+(c) Add a test asserting the student-facing gradebook payload carries the "(bonus)" title for a bonus-only Blooket column (this is now a CONTRACT, not a leak).
+
+FIX 2 — offline parity for the new field (Codex finding 2):
+(a) /grade/offline-inputs (grade-offline-inputs.js ~111-118, 165-172) returns blooketBonusTopics alongside presence/required; same for grade-answer-key.js if it feeds the offline engine.
+(b) Desk offline re-derive (ap_stats_roadmap_square_mode.html ~8338-8345) passes blooketBonusTopics into bundled computeGrade opts.
+(c) build-grade-engine.mjs: the bundle's empty-array default for BLOOKET_BONUS_TOPICS is fine ONLY because opts now supply it — assert that in the parity suite.
+(d) Parity fixture (roster-server/tests/fixtures/sim-world.js): extend the schedule/world to include at least one REAL bonus topic (e.g. 2.9 — its schedule stops at 2.2 today, bonus starts at 2.9) so deep parity actually exercises blooketBonus stamping online vs offline.
+(e) Regenerate grade-engine.bundle.js; parity + drift suites must pass.
+
+Deliver: amended/new hashes for BOTH commits (state the final stack order), per-fix table, test results (incl. the new student-label contract test + parity with bonus topic + W-reg suite still green). No push. Fable verifies -> Codex micro-confirm -> user sign-off -> both ship.

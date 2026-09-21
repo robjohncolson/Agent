@@ -1,0 +1,20 @@
+Codex — TAKE OVER refinement of the Fall-2026 Unit 1 Progress Check question bank. You are working in C:/Users/rober/Downloads/Projects/school/apstatsy2627u1pc (NOT a git repo — official CB secure material, never to be published; write outputs here only).
+
+INPUTS (all in ./extracted/):
+- TB_*.txt = test-booklet text dumps (stimulus/stems/choices, clean, no answers): MCQPartA, MCQPartB, MCQPartC, FRQ
+- SG_*.txt = scoring-guide dumps (same items + "Answer X" + "Correct." rationales; FRQ has the full rubric)
+- unit1-pc-bank.draft.json = Fable's first-pass parse: 44 MCQs (A:18, B:14, C:12), PC26-namespace ids, with KNOWN WEAKNESSES you are fixing.
+- Page images can NOT be read by you — that is the one boundary. The PDFs' inline math rendered as images and DROPPED from the text dumps; 13 items are flagged. You must NOT guess or reconstruct missing math values — keep/extend the flags (Fable patches them visually afterward).
+Reference (read-only, outside workdir): C:/Users/rober/Downloads/Projects/school/follow-alongs/data/skill-taxonomy-ced2026.json (the 18 canonical codes) and 2026-crosswalk.json (new Unit 1 topics = 1.1-1.13).
+
+TASK — write ./extracted/unit1-pc-bank.v2.json (leave the draft untouched for diffing):
+1. CROSS-PARSE: rebuild every item using TB text as the authority for stimulus/stem/choices and SG text ONLY for answer + rationale. This eliminates the draft's known stimulus/rationale bleed (draft rationales may have swallowed the NEXT item's stimulus — verify each against TB).
+2. RECONCILE: TB item count vs SG item count vs draft count per part — report any mismatch prominently. Verify every draft answer letter against the SG text independently.
+3. FRQ: extract from TB_FRQ + SG_FRQ — question parts verbatim, the 10-point analytic rubric structure (parts, point allocations, scoring notes) as faithfully as the text allows; flag vision-needed spots (charts/tables that dropped).
+4. TAGS: cedTopic (1.1-1.13) per item — the SG/TB text may state topic/skill alignment somewhere (check ends of documents); if stated, use "skill"/"cedTopic"; if you are inferring from content, use "skillInferred"/"cedTopicInferred" — NEVER mix stated and inferred.
+5. FLAGS: preserve all 13 math-gap flags (verify each is real), add any you find (empty choices, artifacts like the "botanistscientist" popup-text merge in A-Q03, truncated tables), each with sourcePages so the visual pass is targeted.
+6. SCHEMA: keep the draft's shape (id/type/stimulus/stem/choices/answer/rationaleCorrect/sourcePages/flags) + top-level itemCounts {mcqA,mcqB,mcqC,frq} and a "visionQueue" array listing every item+page needing Fable's visual pass.
+
+FIDELITY RULES: verbatim or flagged — never smoothed, never solved-for. If TB and SG texts disagree on a stem/choice, flag "tb-sg-mismatch" with both versions rather than picking one.
+
+REPORT in your result answer: counts table (TB vs SG vs draft vs v2 per part), answers changed vs draft (list), bleed fixes made, FRQ structure summary, visionQueue size, and your top-3 residual concerns.

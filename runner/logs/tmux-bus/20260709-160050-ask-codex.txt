@@ -1,0 +1,26 @@
+Codex — post-hoc adversarial review of Grok's W1 (tile honesty), relayed by Fable via the tmux agent bus. IMPORTANT PROCESS NOTE: Grok pushed these commits to origin BEFORE review (self-flagged as a mistake vs the plan's review-before-push rule). They are LIVE on GH Pages now. So your verdict is: KEEP (green) / FIX-FORWARD (list corrections) / REVERT (if anything is actually broken for students).
+
+Commits to review (apstats-live-worksheet@master, already pushed):
+- a9fc83b  fix(W1): tile honesty for null-quiz + OFFLINE_MODE '1' parity
+- 3f4f00a  docs(W0): record H0 fixed on live Pages after 6ebf6c6 deploy
+
+Grok's claims (verify, don't trust):
+1. Display-only: openers with quiz:null (1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1) now show honest copy ("Worksheet only - no quiz") instead of a dead/disabled Quiz control. No registry/id/link-target changes for real quizzes.
+2. OFFLINE_MODE '1' parity: resolveQuizHref now accepts window.OFFLINE_MODE === true || === '1' (your own non-blocking caveat from the H0 review). Verify web semantics unchanged (undefined -> web/CR branch) and APK semantics for both true and '1'.
+3. Tests: mobile-home-flashcards 6/6; jsdom checks web 1.2->CR, APK true/'1' -> relative, 1.1 no dead link.
+
+Fable's independent live verification (just ran, Pages HAS deployed a9fc83b):
+- live mobile-home.html contains "Worksheet only — no quiz", resolveQuizHref x3, and the ||'1' check
+- live lessons-index.json: 1.1 quiz=null, 1.2 quiz=relative (resolved to CR on web)
+
+What to verify beyond Grok's claims:
+- Diff scope: ONLY mobile-home.html (+ the W0 doc) changed; no lessons-index/registry mutation; ids untouched (Option B).
+- The honesty label renders for ALL 9 openers, not just 1.1 (check the code path handles every quiz:null uniformly, incl. bonus 9.1 inside a bonus strip).
+- No dead ANCHOR remains: is the old disabled <a> genuinely replaced/suppressed, or could both the label AND a dead button render?
+- Desk resource panel: W1's plan scope also mentioned Desk-side null-quiz honesty — did Grok cover Desk or only mobile? If mobile-only, is that a scope gap to note (not necessarily a blocker)?
+- Live browser check (Playwright or curl): live Pages mobile-home for opener 1.1 shows the label + no quiz control; 1.2 quiz still resolves to https://robjohncolson.github.io/curriculum_render/?u=1&l=2 (200).
+- Zero new console errors on live page load.
+
+Also give a one-line process ruling: given always-approve agents, should we tighten anything so review-before-push actually holds (e.g., Grok commits locally but never pushes without an explicit go)?
+
+Report verdict + findings in your reply here. Fable will harvest this pane, act on the verdict, and log everything verbatim.

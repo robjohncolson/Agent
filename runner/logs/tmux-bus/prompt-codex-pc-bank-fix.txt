@@ -1,0 +1,13 @@
+Codex — your unit1-pc-bank.v2.json write was TRUNCATED: the file on disk is well-formed JSON but parts contains ONLY MCQ-A with 15 of 18 items — no MCQ-B, no MCQ-C, no FRQ — while your itemCounts claims 18/14/12/3. Your report tables were correct; the artifact write failed partway (likely an apply-patch size limit). Fix by writing SMALLER FILES. Workdir: C:/Users/rober/Downloads/Projects/school/apstatsy2627u1pc.
+
+Write FIVE files in ./extracted/ (do NOT attempt one big file again):
+- unit1-pc-bank.v2.meta.json  — the top-level metadata only (source, namespace, status, note, itemCounts, countReconciliation, answerVerification, visionQueue, residualConcerns)
+- unit1-pc-bank.v2.MCQ-A.json — {"part":"MCQ-A","items":[ all 18 ]}
+- unit1-pc-bank.v2.MCQ-B.json — all 14
+- unit1-pc-bank.v2.MCQ-C.json — all 12
+- unit1-pc-bank.v2.FRQ.json   — the 3 composite FRQs
+Same item schema and content as your (correct) analysis: TB-authoritative stimulus/stem/choices, SG answers/rationales with your 33 bleed cuts applied, flags + skillInferred/cedTopicInferred, sourcePages.
+
+MANDATORY SELF-CHECK before you write your result: run a small node/python one-liner that json.loads EVERY file and prints the item count per part; include that output in your answer. If any file fails to write completely, split it further (e.g., MCQ-A into two halves) — never report complete without the self-check passing 18/14/12/3.
+
+Do not re-derive anything you already verified — this is a re-serialization of work you've already done. Fable will merge the five files and run the visual pass.
